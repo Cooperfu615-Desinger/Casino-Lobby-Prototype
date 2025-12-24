@@ -6,7 +6,11 @@ import {
     MessageCircle
 } from 'lucide-react';
 
+// Context
+import { AuthProvider, useAuth } from './context/AuthContext';
+
 // Components
+import LoginScreen from './components/LoginScreen';
 import GameCard from './components/GameCard';
 import NavButton from './components/NavButton';
 import FloatingWidget from './components/FloatingWidget';
@@ -27,7 +31,9 @@ import { GAMES } from './data/mockData';
 
 type ActiveTab = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' | 'club';
 
-function App() {
+// Internal Component: The Original Casino Lobby
+function CasinoLandscape() {
+    const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ActiveTab>('games');
     const [isSaleOpen, setSaleOpen] = useState(false);
     const [isTournamentOpen, setTournamentOpen] = useState(false);
@@ -117,7 +123,7 @@ function App() {
                     >
                         <div className="relative group">
                             <div className="w-16 h-16 rounded-full border-2 border-[#FFD700] overflow-hidden bg-slate-800 shadow-[0_0_15px_#FFD700]">
-                                <div className="w-full h-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                                <div className={`w-full h-full ${user?.avatar || 'bg-slate-600'} flex items-center justify-center`}>
                                     <UserIcon className="text-white" size={36} />
                                 </div>
                             </div>
@@ -130,8 +136,10 @@ function App() {
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <span className="text-white font-bold text-lg drop-shadow-md tracking-wide">奧黛麗一本123456789</span>
-                            <span className="text-[#FFD700] text-sm font-mono font-bold">VIP 7</span>
+                            <span className="text-white font-bold text-lg drop-shadow-md tracking-wide truncate max-w-[200px]">
+                                {user?.name || 'Loading...'}
+                            </span>
+                            <span className="text-[#FFD700] text-sm font-mono font-bold">VIP {user?.vipLevel || 0}</span>
                         </div>
                     </div>
 
@@ -145,7 +153,9 @@ function App() {
                     <div className="pointer-events-auto flex items-center justify-end gap-4 w-[350px]">
                         <div className="bg-black/60 border border-[#FFD700]/50 rounded-full pl-4 pr-1 py-1.5 flex items-center gap-3 shadow-lg">
                             <Coins className="text-[#FFD700] fill-current" size={20} />
-                            <span className="text-white font-mono font-bold text-xl tracking-wide">1,234,567,890</span>
+                            <span className="text-white font-mono font-bold text-xl tracking-wide">
+                                {user?.balance.toLocaleString() || '0'}
+                            </span>
                             <button
                                 onClick={() => setActiveTab('bank')}
                                 className="bg-gradient-to-b from-green-400 to-green-600 rounded-full p-1.5 hover:brightness-110 active:scale-95 transition-all shadow-lg border border-white/20"
@@ -232,6 +242,20 @@ function App() {
                 </nav>
             </div>
         </div>
+    );
+}
+
+// Wrapper component to handle routing based on auth state
+const MainContent = () => {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? <CasinoLandscape /> : <LoginScreen />;
+};
+
+function App() {
+    return (
+        <AuthProvider>
+            <MainContent />
+        </AuthProvider>
     );
 }
 

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const SettingsMenu = () => {
     const [music, setMusic] = useState(true);
     const [sound, setSound] = useState(true);
     const [push, setPush] = useState(true);
+    const { logout } = useAuth();
 
     return (
         <div className="absolute top-[80px] right-4 z-50 w-64 bg-[#1a0b2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-5 duration-200">
@@ -53,7 +55,10 @@ const SettingsMenu = () => {
                 <div className="h-px bg-white/10 my-2 mx-2"></div>
 
                 {/* Logout */}
-                <button className="w-full px-4 py-3 flex items-center gap-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-colors text-left mb-2">
+                <button
+                    onClick={logout}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-colors text-left mb-2"
+                >
                     <LogOut size={18} />
                     <span className="text-sm font-bold">登出帳號</span>
                 </button>
