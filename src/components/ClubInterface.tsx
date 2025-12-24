@@ -3,10 +3,12 @@ import {
     X, Crown, Users, LogIn, PlusCircle, ChevronRight,
     MessageCircle, Trophy, Gamepad2, Delete, Gem, Lock, LogOut
 } from 'lucide-react';
+import ClubChat from './ClubChat';
 
 const ClubInterface = () => {
     const [clubModal, setClubModal] = useState<'join' | 'create' | null>(null);
     const [clubView, setClubView] = useState<'initial' | 'dashboard'>('initial');
+    const [activeView, setActiveView] = useState<'dashboard' | 'chat'>('dashboard');
     const [joinCode, setJoinCode] = useState('');
 
     const handleDigitClick = (digit: string) => {
@@ -55,7 +57,10 @@ const ClubInterface = () => {
             </div>
 
             <div className="flex-1 p-8 flex items-center justify-center gap-6">
-                <button className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-blue-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2">
+                <button
+                    onClick={() => setActiveView('chat')}
+                    className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-blue-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                >
                     <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                         <MessageCircle size={40} className="text-blue-400" />
                     </div>
@@ -135,8 +140,8 @@ const ClubInterface = () => {
                     onClick={handleJoinSubmit}
                     disabled={joinCode.length !== 6}
                     className={`w-full font-bold py-3 rounded-xl shadow-lg transition-all ${joinCode.length === 6
-                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-blue-500/30 active:scale-95'
-                            : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-blue-500/30 active:scale-95'
+                        : 'bg-slate-700 text-slate-500 cursor-not-allowed'
                         }`}
                 >
                     確認加入
@@ -231,7 +236,11 @@ const ClubInterface = () => {
             {clubModal === 'create' && <ClubCreateModal />}
 
             {clubView === 'dashboard' ? (
-                <ClubDashboard />
+                activeView === 'chat' ? (
+                    <ClubChat onBack={() => setActiveView('dashboard')} />
+                ) : (
+                    <ClubDashboard />
+                )
             ) : (
                 <div className="flex-1 flex items-center justify-center bg-[#160b29] relative p-8">
                     <div className="grid grid-cols-2 gap-8 w-full max-w-2xl px-8">

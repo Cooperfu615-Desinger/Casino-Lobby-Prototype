@@ -181,3 +181,22 @@ export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251218-007', date: '2025-12-18 14:20', type: 'Deposit', amount: '.99', status: 'Success', method: 'Credit Card' },
     { id: 'TX-20251215-008', date: '2025-12-15 08:00', type: 'Deposit', amount: '.99', status: 'Success', method: 'App Store' },
 ];
+
+export interface ClubChatMessage {
+    id: number;
+    sender: string;
+    text: string;
+    isMe: boolean;
+    time: string;
+    role: 'member' | 'leader' | 'admin';
+}
+
+export const CLUB_CHAT_HISTORY: ClubChatMessage[] = [
+    { id: 1, sender: 'GodOfGamblers', text: '各位戰友早安！昨晚戰績不錯喔！', isMe: false, time: '09:00', role: 'leader' },
+    { id: 2, sender: 'DragonSlayer', text: '會長早，今天晚上打公會戰嗎？', isMe: false, time: '09:05', role: 'admin' },
+    { id: 3, sender: 'Me', text: '大家早！昨天我在雷神贏了5000倍！', isMe: true, time: '09:10', role: 'member' },
+    { id: 4, sender: 'GodOfGamblers', text: '太強了吧！截圖發到群組給大家沾沾喜氣', isMe: false, time: '09:12', role: 'leader' },
+    { id: 5, sender: 'SlotQueen', text: '恭喜恭喜！分紅分紅 😂', isMe: false, time: '09:15', role: 'member' },
+    { id: 6, sender: 'Me', text: '沒問題，等等發紅包 🧧', isMe: true, time: '09:16', role: 'member' },
+    { id: 7, sender: 'RichMan99', text: '坐等紅包', isMe: false, time: '09:18', role: 'member' },
+];
