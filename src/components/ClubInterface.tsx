@@ -4,11 +4,12 @@ import {
     MessageCircle, Trophy, Gamepad2, Delete, Gem, Lock, LogOut
 } from 'lucide-react';
 import ClubChat from './ClubChat';
+import ClubRewards from './ClubRewards';
 
 const ClubInterface = () => {
     const [clubModal, setClubModal] = useState<'join' | 'create' | null>(null);
     const [clubView, setClubView] = useState<'initial' | 'dashboard'>('initial');
-    const [activeView, setActiveView] = useState<'dashboard' | 'chat'>('dashboard');
+    const [activeView, setActiveView] = useState<'dashboard' | 'chat' | 'rewards'>('dashboard');
     const [joinCode, setJoinCode] = useState('');
 
     const handleDigitClick = (digit: string) => {
@@ -68,7 +69,10 @@ const ClubInterface = () => {
                     <p className="text-xs text-slate-400 text-center">與成員交流戰術<br />分享中獎喜悅</p>
                 </button>
 
-                <button className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-[#FFD700]/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2">
+                <button
+                    onClick={() => setActiveView('rewards')}
+                    className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-[#FFD700]/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                >
                     <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(234,179,8,0.3)]">
                         <Trophy size={40} className="text-[#FFD700]" />
                     </div>
@@ -238,6 +242,8 @@ const ClubInterface = () => {
             {clubView === 'dashboard' ? (
                 activeView === 'chat' ? (
                     <ClubChat onBack={() => setActiveView('dashboard')} />
+                ) : activeView === 'rewards' ? (
+                    <ClubRewards onBack={() => setActiveView('dashboard')} />
                 ) : (
                     <ClubDashboard />
                 )

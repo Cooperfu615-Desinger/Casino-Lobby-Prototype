@@ -200,3 +200,31 @@ export const CLUB_CHAT_HISTORY: ClubChatMessage[] = [
     { id: 6, sender: 'Me', text: '沒問題，等等發紅包 🧧', isMe: true, time: '09:16', role: 'member' },
     { id: 7, sender: 'RichMan99', text: '坐等紅包', isMe: false, time: '09:18', role: 'member' },
 ];
+
+export interface ClubRewardItem {
+    id: number;
+    title: string;
+    cost: number;
+    icon: any; // We will use generic render or handle in component
+    type: 'Bonus' | 'Cash' | 'Frame' | 'Prop';
+    stock?: number;
+}
+
+export const CLUB_REWARDS_ITEMS: ClubRewardItem[] = [
+    { id: 1, title: '50 Free Spins', cost: 1000, icon: 'Spin', type: 'Bonus' },
+    { id: 2, title: ' Bonus Cash', cost: 2500, icon: 'Cash', type: 'Cash' },
+    { id: 3, title: '俱樂部專屬頭像框', cost: 5000, icon: 'Frame', type: 'Frame' },
+    { id: 4, title: '2小時 雙倍經驗卡', cost: 800, icon: 'Exp', type: 'Prop', stock: 5 },
+    { id: 5, title: ' Bonus Cash', cost: 10000, icon: 'Cash', type: 'Cash' },
+    { id: 6, title: '限量傳奇徽章', cost: 50000, icon: 'Badge', type: 'Frame', stock: 1 },
+];
+
+export interface UserClubStats {
+    currentPoints: number;
+    totalContribution: number;
+}
+
+export const USER_CLUB_STATS: UserClubStats = {
+    currentPoints: 3450,
+    totalContribution: 15000
+};
