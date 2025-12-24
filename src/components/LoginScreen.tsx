@@ -37,12 +37,9 @@ const LoginScreen = () => {
                 <div className="relative z-10 w-96 bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
 
                     <div className="text-center mb-8">
-                        <div className="inline-flex justify-center items-center w-20 h-20 rounded-full bg-gradient-to-br from-[#FFD700] to-[#B8860B] shadow-[0_0_30px_#FFD700] mb-4">
-                            <span className="text-4xl">🎰</span>
-                        </div>
                         <h1 className="text-3xl font-black text-white italic tracking-wide">
-                            GOLDEN BET
-                            <span className="block text-sm font-normal text-[#FFD700] tracking-[0.3em] mt-1">CASINO LOBBY</span>
+                            YOTA
+                            <span className="block text-sm font-normal text-[#FFD700] tracking-[0.3em] mt-1">PROTOTYPE</span>
                         </h1>
                     </div>
 
