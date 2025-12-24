@@ -228,3 +228,55 @@ export const USER_CLUB_STATS: UserClubStats = {
     currentPoints: 3450,
     totalContribution: 15000
 };
+
+export interface ClubEvent {
+    id: number;
+    title: string;
+    prizePool: number;
+    status: 'active' | 'upcoming' | 'ended';
+    timeLeft: string;
+    participants: number;
+    description: string;
+    leaderboard: { name: string; score: number; rank: number }[];
+}
+
+export const CLUB_EVENTS_DATA: ClubEvent[] = [
+    {
+        id: 1,
+        title: "週末老虎機爭霸戰",
+        prizePool: 1000000,
+        status: "active",
+        timeLeft: "02:14:59",
+        participants: 128,
+        description: "在活動期間內，累積贏分最高的玩家將獨得所有獎金！本週加碼，前三名額外獲得限量頭像框。",
+        leaderboard: [
+            { name: "GodOfGamblers", score: 885000, rank: 1 },
+            { name: "LuckyStar", score: 720000, rank: 2 },
+            { name: "SlotMachinePro", score: 650000, rank: 3 }
+        ]
+    },
+    {
+        id: 2,
+        title: "百家樂連勝挑戰",
+        prizePool: 500000,
+        status: "upcoming",
+        timeLeft: "12:00:00",
+        participants: 56,
+        description: "連續獲勝局數最多的玩家獲勝。中斷連勝則重新計算。",
+        leaderboard: []
+    },
+    {
+        id: 3,
+        title: "捕魚達人競賽",
+        prizePool: 300000,
+        status: "ended",
+        timeLeft: "00:00:00",
+        participants: 245,
+        description: "累積捕獲魚種價值最高的玩家獲勝。",
+        leaderboard: [
+            { name: "FisherMan99", score: 1200000, rank: 1 },
+            { name: "DeepBlue", score: 980000, rank: 2 },
+            { name: "SharkHunter", score: 850000, rank: 3 }
+        ]
+    }
+];

@@ -5,11 +5,12 @@ import {
 } from 'lucide-react';
 import ClubChat from './ClubChat';
 import ClubRewards from './ClubRewards';
+import ClubEvents from './ClubEvents';
 
 const ClubInterface = () => {
     const [clubModal, setClubModal] = useState<'join' | 'create' | null>(null);
     const [clubView, setClubView] = useState<'initial' | 'dashboard'>('initial');
-    const [activeView, setActiveView] = useState<'dashboard' | 'chat' | 'rewards'>('dashboard');
+    const [activeView, setActiveView] = useState<'dashboard' | 'chat' | 'rewards' | 'events'>('dashboard');
     const [joinCode, setJoinCode] = useState('');
 
     const handleDigitClick = (digit: string) => {
@@ -81,7 +82,10 @@ const ClubInterface = () => {
                     <div className="absolute top-4 right-4 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-sm"></div>
                 </button>
 
-                <button className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-red-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2">
+                <button
+                    onClick={() => setActiveView('events')}
+                    className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-red-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                >
                     <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(239,68,68,0.3)]">
                         <Gamepad2 size={40} className="text-red-400" />
                     </div>
@@ -244,6 +248,8 @@ const ClubInterface = () => {
                     <ClubChat onBack={() => setActiveView('dashboard')} />
                 ) : activeView === 'rewards' ? (
                     <ClubRewards onBack={() => setActiveView('dashboard')} />
+                ) : activeView === 'events' ? (
+                    <ClubEvents onBack={() => setActiveView('dashboard')} />
                 ) : (
                     <ClubDashboard />
                 )
