@@ -1,7 +1,13 @@
-import { Landmark, Gem } from 'lucide-react';
-import { PACKAGES } from '../data/mockData';
+import { useState } from 'react';
+import { Landmark, Gem, FileText } from 'lucide-react';
+import { PACKAGES, Package } from '../data/mockData';
+import PaymentModal from './PaymentModal';
+import HistoryModal from './HistoryModal';
 
 const BankInterface = () => {
+    const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+    const [showHistory, setShowHistory] = useState(false);
+
     return (
         <div className="absolute top-[130px] bottom-[90px] left-0 right-0 z-20 bg-[#120822]/95 border-t border-white/10 animate-in fade-in zoom-in-95 duration-300 overflow-y-auto p-8">
             <header className="flex items-center justify-between mb-6">
@@ -9,14 +15,24 @@ const BankInterface = () => {
                     <Landmark size={24} className="text-[#FFD700]" />
                     <h2 className="text-2xl font-bold text-white">銀行中心</h2>
                 </div>
-                <div className="text-xs text-slate-400">
-                    安全支付保護 | 24H 快速到帳
-                </div>
+
+                {/* History Button */}
+                <button
+                    onClick={() => setShowHistory(true)}
+                    className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white px-4 py-2 rounded-full transition-all border border-white/5 active:scale-95"
+                >
+                    <FileText size={16} />
+                    <span className="text-sm font-bold">儲值紀錄</span>
+                </button>
             </header>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {PACKAGES.map(pkg => (
-                    <div key={pkg.id} className="relative group bg-[#0f061e] border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-between hover:border-[#FFD700] hover:bg-white/5 transition-all cursor-pointer shadow-lg hover:shadow-[#FFD700]/20 hover:-translate-y-1">
+                    <div
+                        key={pkg.id}
+                        onClick={() => setSelectedPackage(pkg)}
+                        className="relative group bg-[#0f061e] border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-between hover:border-[#FFD700] hover:bg-white/5 transition-all cursor-pointer shadow-lg hover:shadow-[#FFD700]/20 hover:-translate-y-1"
+                    >
                         {pkg.best && (
                             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/20 whitespace-nowrap z-10">
                                 BEST VALUE
@@ -40,6 +56,18 @@ const BankInterface = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Modals */}
+            {selectedPackage && (
+                <PaymentModal
+                    packageInfo={selectedPackage}
+                    onClose={() => setSelectedPackage(null)}
+                />
+            )}
+
+            {showHistory && (
+                <HistoryModal onClose={() => setShowHistory(false)} />
+            )}
         </div>
     );
 };

@@ -144,8 +144,8 @@ export const SALE_PACKAGES: SalePackage[] = [
 
 export const EVENTS_LIST: EventItem[] = [
     { id: 1, type: 'sale', title: '限時儲值優惠', desc: '全場 200% 回饋，僅剩 3 小時！', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to- orange - 900 / 50', border: 'border - red - 500 / 50' },
-  { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to- amber - 900 / 50', border: 'border - yellow - 500 / 50' },
-  { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '升級 VIP 5 即可獲得專屬經理服務。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to- indigo - 900 / 50', border: 'border - purple - 500 / 50' },
+    { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to- amber - 900 / 50', border: 'border - yellow - 500 / 50' },
+    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '升級 VIP 5 即可獲得專屬經理服務。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to- indigo - 900 / 50', border: 'border - purple - 500 / 50' },
 ];
 
 export const INBOX_MESSAGES: InboxMessage[] = [
@@ -156,8 +156,28 @@ export const INBOX_MESSAGES: InboxMessage[] = [
 ];
 
 export const GIFT_ITEMS: GiftItem[] = [
-    { id: 1, title: '每日登入獎勵', amount: '10,000 金幣', icon: <Coins className="text-[#FFD700]" size = { 40} />, expire: '23小時後過期', claimed: false },
-    { id: 2, title: 'VIP 7 晉升禮包', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size = { 40} />, expire: '永久有效', claimed: false },
-    { id: 3, title: '維護補償', amount: '50,000 金幣', icon: <Wrench className="text-slate-400" size = { 40} />, expire: '6天後過期', claimed: true },
-    { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size = { 40} />, expire: '2天後過期', claimed: false },
+    { id: 1, title: '每日登入獎勵', amount: '10,000 金幣', icon: <Coins className="text-[#FFD700]" size={40} />, expire: '23小時後過期', claimed: false },
+    { id: 2, title: 'VIP 7 晉升禮包', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false },
+    { id: 3, title: '維護補償', amount: '50,000 金幣', icon: <Wrench className="text-slate-400" size={40} />, expire: '6天後過期', claimed: true },
+    { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size={40} />, expire: '2天後過期', claimed: false },
+];
+
+export interface Transaction {
+    id: string;
+    date: string;
+    type: 'Deposit' | 'Withdraw';
+    amount: string;
+    status: 'Success' | 'Pending';
+    method: 'Apple Pay' | 'Credit Card' | 'PayPal' | 'App Store';
+}
+
+export const TRANSACTION_HISTORY: Transaction[] = [
+    { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'Deposit', amount: '.99', status: 'Success', method: 'Apple Pay' },
+    { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'Deposit', amount: '.99', status: 'Pending', method: 'Credit Card' },
+    { id: 'TX-20251223-003', date: '2025-12-23 21:00', type: 'Withdraw', amount: '.00', status: 'Success', method: 'PayPal' },
+    { id: 'TX-20251222-004', date: '2025-12-22 10:05', type: 'Deposit', amount: '.99', status: 'Success', method: 'Apple Pay' },
+    { id: 'TX-20251220-005', date: '2025-12-20 09:30', type: 'Deposit', amount: '.99', status: 'Success', method: 'App Store' },
+    { id: 'TX-20251219-006', date: '2025-12-19 18:45', type: 'Deposit', amount: '.99', status: 'Success', method: 'Apple Pay' },
+    { id: 'TX-20251218-007', date: '2025-12-18 14:20', type: 'Deposit', amount: '.99', status: 'Success', method: 'Credit Card' },
+    { id: 'TX-20251215-008', date: '2025-12-15 08:00', type: 'Deposit', amount: '.99', status: 'Success', method: 'App Store' },
 ];
