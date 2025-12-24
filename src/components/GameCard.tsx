@@ -2,10 +2,11 @@ import { Game } from '../data/mockData';
 
 interface GameCardProps {
     game: Game;
+    onClick?: () => void;
 }
 
-const GameCard = ({ game }: GameCardProps) => (
-    <div className="relative group w-[180px] h-[180px] flex-shrink-0 cursor-pointer transform transition-all hover:scale-105 active:scale-95">
+const GameCard = ({ game, onClick }: GameCardProps) => (
+    <div onClick={onClick} className="relative group w-[180px] h-[180px] flex-shrink-0 cursor-pointer transform transition-all hover:scale-105 active:scale-95">
         {/* Card Frame (Glossy Gold Border) */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#FFD700] via-[#B8860B] to-[#8B4513] rounded-xl p-[3px] shadow-lg">
             <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent opacity-50 rounded-xl pointer-events-none"></div>

@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Components
 import LoginScreen from './components/LoginScreen';
+import GameRoom from './components/GameRoom';
 import GameCard from './components/GameCard';
 import NavButton from './components/NavButton';
 import FloatingWidget from './components/FloatingWidget';
@@ -27,12 +28,16 @@ import InboxInterface from './components/InboxInterface';
 import GiftsInterface from './components/GiftsInterface';
 
 // Data
-import { GAMES } from './data/mockData';
+import { GAMES, Game } from './data/mockData';
 
 type ActiveTab = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' | 'club';
 
 // Internal Component: The Original Casino Lobby
-function CasinoLandscape() {
+interface CasinoLandscapeProps {
+    onPlayGame: (game: Game) => void;
+}
+
+function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ActiveTab>('games');
     const [isSaleOpen, setSaleOpen] = useState(false);
@@ -63,7 +68,7 @@ function CasinoLandscape() {
                         </div>
                         <div className="grid grid-rows-2 grid-flow-col gap-6 py-4 px-8 auto-cols-max mx-auto">
                             {GAMES.map(game => (
-                                <GameCard key={game.id} game={game} />
+                                <GameCard key={game.id} game={game} onClick={() => onPlayGame(game)} />
                             ))}
                         </div>
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
@@ -248,7 +253,15 @@ function CasinoLandscape() {
 // Wrapper component to handle routing based on auth state
 const MainContent = () => {
     const { isAuthenticated } = useAuth();
-    return isAuthenticated ? <CasinoLandscape /> : <LoginScreen />;
+    const [activeGame, setActiveGame] = useState<Game | null>(null);
+
+    if (!isAuthenticated) return <LoginScreen />;
+
+    if (activeGame) {
+        return <GameRoom game={activeGame} onExit={() => setActiveGame(null)} />;
+    }
+
+    return <CasinoLandscape onPlayGame={setActiveGame} />;
 };
 
 function App() {
