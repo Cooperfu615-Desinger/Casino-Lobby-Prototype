@@ -5,8 +5,8 @@ import {
 } from 'lucide-react';
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY } from '../data/mockData';
 
-const ChatInterface = () => {
-    const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>('chat');
+const ChatInterface = ({ initialTab }: { initialTab?: 'public' | 'chat' | 'support' }) => {
+    const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
     const selectedFriend = FRIENDS.find(f => f.id === selectedFriendId)!;
 

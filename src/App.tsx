@@ -40,6 +40,7 @@ interface CasinoLandscapeProps {
 function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ActiveTab>('games');
+    const [chatInitialTab, setChatInitialTab] = useState<'public' | 'chat' | 'support'>('chat');
     const [isSaleOpen, setSaleOpen] = useState(false);
     const [isTournamentOpen, setTournamentOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -47,7 +48,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
 
     const renderContent = () => {
         switch (activeTab) {
-            case 'chat': return <ChatInterface />;
+            case 'chat': return <ChatInterface key={chatInitialTab} initialTab={chatInitialTab} />;
             case 'inbox': return <InboxInterface />;
             case 'gifts': return <GiftsInterface />;
             case 'bank': return <BankInterface />;
@@ -95,7 +96,13 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     </FloatingWidget>
 
                     <FloatingWidget side="bottom-right">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 border-4 border-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
+                        <div
+                            onClick={() => {
+                                setChatInitialTab('support');
+                                setActiveTab('chat');
+                            }}
+                            className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 border-4 border-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+                        >
                             <Headphones size={36} className="text-white" />
                         </div>
                     </FloatingWidget>
@@ -211,7 +218,10 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                             label="Chat"
                             active={activeTab === 'chat'}
                             colorTheme="from-blue-400 to-blue-600"
-                            onClick={() => setActiveTab('chat')}
+                            onClick={() => {
+                                setChatInitialTab('chat');
+                                setActiveTab('chat');
+                            }}
                         />
                         <NavButton
                             icon={Calendar}
