@@ -6,11 +6,12 @@ import {
 import ClubChat from './ClubChat';
 import ClubRewards from './ClubRewards';
 import ClubEvents from './ClubEvents';
+import ClubAdminEvents from './ClubAdminEvents';
 
 const ClubInterface = () => {
     const [clubModal, setClubModal] = useState<'join' | 'create' | null>(null);
     const [clubView, setClubView] = useState<'initial' | 'dashboard'>('initial');
-    const [activeView, setActiveView] = useState<'dashboard' | 'chat' | 'rewards' | 'events'>('dashboard');
+    const [activeView, setActiveView] = useState<'dashboard' | 'chat' | 'rewards' | 'events' | 'leader'>('dashboard');
     const [joinCode, setJoinCode] = useState('');
 
     const handleDigitClick = (digit: string) => {
@@ -58,40 +59,53 @@ const ClubInterface = () => {
                 </button>
             </div>
 
-            <div className="flex-1 p-8 flex items-center justify-center gap-6">
-                <button
-                    onClick={() => setActiveView('chat')}
-                    className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-blue-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
-                >
-                    <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                        <MessageCircle size={40} className="text-blue-400" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">俱樂部聊天</h3>
-                    <p className="text-xs text-slate-400 text-center">與成員交流戰術<br />分享中獎喜悅</p>
-                </button>
+            <div className="flex-1 p-8 flex items-center justify-center">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+                    <button
+                        onClick={() => setActiveView('chat')}
+                        className="group relative h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-blue-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                    >
+                        <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                            <MessageCircle size={40} className="text-blue-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">俱樂部聊天</h3>
+                        <p className="text-xs text-slate-400 text-center">與成員交流戰術<br />分享中獎喜悅</p>
+                    </button>
 
-                <button
-                    onClick={() => setActiveView('rewards')}
-                    className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-[#FFD700]/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
-                >
-                    <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(234,179,8,0.3)]">
-                        <Trophy size={40} className="text-[#FFD700]" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">俱樂部獎勵</h3>
-                    <p className="text-xs text-slate-400 text-center">領取每日津貼<br />賽季結算獎勵</p>
-                    <div className="absolute top-4 right-4 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-sm"></div>
-                </button>
+                    <button
+                        onClick={() => setActiveView('rewards')}
+                        className="group relative h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-[#FFD700]/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                    >
+                        <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(234,179,8,0.3)]">
+                            <Trophy size={40} className="text-[#FFD700]" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">俱樂部獎勵</h3>
+                        <p className="text-xs text-slate-400 text-center">領取每日津貼<br />賽季結算獎勵</p>
+                        <div className="absolute top-4 right-4 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-sm"></div>
+                    </button>
 
-                <button
-                    onClick={() => setActiveView('events')}
-                    className="group relative w-48 h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-red-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
-                >
-                    <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(239,68,68,0.3)]">
-                        <Gamepad2 size={40} className="text-red-400" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">俱樂部活動</h3>
-                    <p className="text-xs text-slate-400 text-center">參與團體競賽<br />爭奪最強榮耀</p>
-                </button>
+                    <button
+                        onClick={() => setActiveView('events')}
+                        className="group relative h-64 bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-red-500/50 rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                    >
+                        <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                            <Gamepad2 size={40} className="text-red-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">俱樂部活動</h3>
+                        <p className="text-xs text-slate-400 text-center">參與團體競賽<br />爭奪最強榮耀</p>
+                    </button>
+
+                    <button
+                        onClick={() => setActiveView('leader')}
+                        className="group relative h-64 bg-gradient-to-b from-[#2a1b42] to-[#1a0b2e] hover:from-[#342252] hover:to-[#221038] border border-[#FFD700]/30 hover:border-[#FFD700] rounded-3xl p-6 flex flex-col items-center justify-center transition-all shadow-xl hover:-translate-y-2"
+                    >
+                        <div className="w-20 h-20 bg-[#FFD700]/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(234,179,8,0.4)]">
+                            <Crown size={40} className="text-[#FFD700]" />
+                        </div>
+                        <h3 className="text-xl font-bold text-[#FFD700] mb-2">會長專區</h3>
+                        <p className="text-xs text-[#FFD700]/70 text-center">管理俱樂部事務<br />發布專屬活動</p>
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -250,6 +264,8 @@ const ClubInterface = () => {
                     <ClubRewards onBack={() => setActiveView('dashboard')} />
                 ) : activeView === 'events' ? (
                     <ClubEvents onBack={() => setActiveView('dashboard')} />
+                ) : activeView === 'leader' ? (
+                    <ClubAdminEvents onBack={() => setActiveView('dashboard')} />
                 ) : (
                     <ClubDashboard />
                 )

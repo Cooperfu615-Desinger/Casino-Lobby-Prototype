@@ -303,3 +303,9 @@ export const CLUB_EVENTS_DATA: ClubEvent[] = [
         ]
     }
 ];
+
+export const EVENT_TEMPLATES = [
+    { id: 'tournament', name: '老虎機爭霸戰 (Tournament)' },
+    { id: 'mission', name: '全員達成任務 (Co-op Mission)' },
+    { id: 'login', name: '登入簽到獎勵 (Login Bonus)' }
+];
