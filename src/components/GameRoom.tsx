@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LogOut, Loader2, Sparkles, Wifi } from 'lucide-react';
+import { LogOut, Sparkles, Wifi } from 'lucide-react';
 import { Game } from '../data/mockData';
 
 interface GameRoomProps {
@@ -95,15 +95,11 @@ const GameRoom = ({ game, onExit }: GameRoomProps) => {
                 {/* Background Ambient */}
                 <div className={`absolute inset-0 opacity-10 bg-gradient-to-br from-purple-900 to-black`}></div>
 
-                <div className="text-center z-10 p-8 border border-white/10 rounded-3xl bg-white/5 backdrop-blur-sm shadow-2xl">
-                    <div className="text-6xl mb-6 opacity-80">{game.icon}</div>
-                    <Loader2 size={48} className="text-[#FFD700] animate-spin mx-auto mb-6" />
-                    <h2 className="text-2xl font-bold text-white mb-2">Connecting to Game Provider</h2>
-                    <p className="text-slate-400 text-sm">Please wait while we establish a secure session.</p>
-                    <div className="mt-8 px-4 py-2 bg-black/40 rounded-lg text-xs font-mono text-slate-500 border border-white/5">
-                        Session ID: {Math.random().toString(36).substring(7).toUpperCase()}-{game.id}
-                    </div>
-                </div>
+                <img
+                    src="/slot_demo.jpg"
+                    alt="Slot Game Demo"
+                    className="w-full h-full object-cover"
+                />
             </div>
 
             {/* Exit FAB */}
