@@ -25,52 +25,48 @@ const JackpotTicker = () => {
     };
 
     useEffect(() => {
-        const runCycle = () => {
-            // 1. Show Label Phase
+        let isCancelled = false;
+
+        const runPhase = async () => {
+            if (isCancelled) return;
+
+            // Phase A: Show Label (2 seconds)
             setDisplayMode('LABEL');
+            await new Promise(r => { cycleTimeoutRef.current = setTimeout(r, 2000); });
 
-            // Set timeout to switch to Value
-            cycleTimeoutRef.current = setTimeout(() => {
-                // 2. Show Value Phase
-                setDisplayMode('VALUE');
+            if (isCancelled) return;
 
-                // Start rolling effect
-                // Reset value to base + some accumulated "live" amount simulator
-                // For simplicity, we just continue from base for this demo, 
-                // but realistically it should be fetched or simulated from a "live" state.
-                // Let's just simulate rolling from the base value of the current level.
-                const level = JACKPOT_LEVELS[levelIndex];
-                setCurrentValue(level.baseValue);
+            // Phase B: Show Value (5 seconds) with Rolling Effect
+            setDisplayMode('VALUE');
 
-                rollingIntervalRef.current = setInterval(() => {
-                    setCurrentValue(prev => prev + Math.random() * 100); // Add random small amount
-                }, 100);
+            // Reset base value from config
+            let val = JACKPOT_LEVELS[levelIndex].baseValue;
+            setCurrentValue(val);
 
-                // Set timeout to switch to Next Level Label
-                cycleTimeoutRef.current = setTimeout(() => {
-                    // Stop rolling
-                    if (rollingIntervalRef.current) clearInterval(rollingIntervalRef.current);
+            // Start rolling (add random amount every 100ms)
+            rollingIntervalRef.current = setInterval(() => {
+                val += Math.random() * 100;
+                setCurrentValue(val);
+            }, 100);
 
-                    // Move to next level
-                    setLevelIndex(prev => (prev + 1) % JACKPOT_LEVELS.length);
-                    // Cycle continues because levelIndex changes, triggering this effect? 
-                    // No, we need to be careful with dependency loops.
-                    // Better approach: One main orchestrator loop.
-                }, 5000); // Value stays for 5 seconds
+            await new Promise(r => { cycleTimeoutRef.current = setTimeout(r, 5000); });
 
-            }, 2000); // Label stays for 2 seconds
+            // Stop rolling
+            if (rollingIntervalRef.current) {
+                clearInterval(rollingIntervalRef.current);
+                rollingIntervalRef.current = null;
+            }
+
+            if (isCancelled) return;
+
+            // Move to next level and loop
+            setLevelIndex(prev => (prev + 1) % JACKPOT_LEVELS.length);
         };
 
-        // Note: The structure above with recursive timeouts or dependency changes can be tricky.
-        // Let's use a cleaner approach with a single simple effect that reacts to 'step' changes if we had a complex state machine,
-        // or just a self-contained sequence.
-
-        // Actually, since we need to wait for state updates (levelIndex), 
-        // using useEffect on levelIndex is a good "trigger" for the next cycle.
-
-        runCycle();
+        runPhase();
 
         return () => {
+            isCancelled = true;
             if (cycleTimeoutRef.current) clearTimeout(cycleTimeoutRef.current);
             if (rollingIntervalRef.current) clearInterval(rollingIntervalRef.current);
         };
@@ -79,14 +75,14 @@ const JackpotTicker = () => {
     const currentLevel = JACKPOT_LEVELS[levelIndex];
 
     return (
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-30 w-[90%]">
-            <div className="bg-gradient-to-r from-yellow-600 via-red-600 to-yellow-600 border border-yellow-400 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+        <div className="absolute -top-4 left-0 right-0 z-20 flex justify-center pointer-events-none">
+            <div className="bg-gradient-to-r from-yellow-600 via-red-600 to-yellow-600 border border-yellow-400 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.8)] px-1 py-0.5 w-[90%] max-w-[240px]">
                 <div className="bg-black/20 rounded-full px-3 py-1 flex items-center justify-center min-h-[28px]">
-                    <span className="text-white font-bold text-xs tracking-wider animate-pulse whitespace-nowrap drop-shadow-md">
+                    <span className="text-white font-bold text-xs tracking-wider whitespace-nowrap drop-shadow-md">
                         {displayMode === 'LABEL' ? (
-                            <span className="text-[#FFD700]">{currentLevel.label} JACKPOT</span>
+                            <span className="text-[#FFD700] animate-pulse">{currentLevel.label} JACKPOT</span>
                         ) : (
-                            <span className="font-mono text-white">
+                            <span className="font-mono text-white tracking-widest">
                                 ${formatCurrency(currentValue)}
                             </span>
                         )}
