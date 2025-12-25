@@ -66,9 +66,14 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
                             <ChevronLeft className="text-white/40 drop-shadow-lg" size={48} />
                         </div>
-                        <div className="grid grid-rows-2 grid-flow-col gap-6 py-4 px-8 auto-cols-max mx-auto">
+                        <div className="grid grid-rows-2 grid-flow-col gap-4 py-4 px-8 overflow-x-auto no-scrollbar w-full h-full items-center">
                             {GAMES.map(game => (
-                                <GameCard key={game.id} game={game} onClick={() => onPlayGame(game)} />
+                                <GameCard
+                                    key={game.id}
+                                    game={game}
+                                    onClick={() => onPlayGame(game)}
+                                    className={`${game.size === 'large' ? 'row-span-2' : ''}`}
+                                />
                             ))}
                         </div>
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">

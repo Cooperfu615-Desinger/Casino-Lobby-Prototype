@@ -8,6 +8,7 @@ export interface Game {
     category: 'card' | 'slot' | 'fish';
     image: string;
     icon: string;
+    size?: 'standard' | 'large';
 }
 
 export interface Friend {
@@ -81,8 +82,8 @@ export interface GiftItem {
 
 // --- Mock Data ---
 export const GAMES: Game[] = [
-    { id: 1, title: 'Ace Blackjack', category: 'card', image: 'bg-red-900', icon: '♠️' },
-    { id: 2, title: 'Gates of Olympus', category: 'slot', image: 'bg-purple-800', icon: '⚡' },
+    { id: 1, title: 'Ace Blackjack', category: 'card', image: 'bg-red-900', icon: '♠️', size: 'large' },
+    { id: 2, title: 'Gates of Olympus', category: 'slot', image: 'bg-purple-800', icon: '⚡', size: 'large' },
     { id: 3, title: 'Mystic Genie', category: 'slot', image: 'bg-indigo-800', icon: '🧞' },
     { id: 4, title: 'Lucky Tiger Rush', category: 'slot', image: 'bg-orange-700', icon: '🐯' },
     { id: 5, title: "Captain's Treasure", category: 'slot', image: 'bg-blue-800', icon: '🏴‍☠️' },
@@ -93,6 +94,17 @@ export const GAMES: Game[] = [
     { id: 10, title: 'Fortune Expedition', category: 'slot', image: 'bg-yellow-800', icon: '🧭' },
     { id: 11, title: 'Golden Empire', category: 'slot', image: 'bg-amber-700', icon: '🏛️' },
     { id: 12, title: 'Super Ace', category: 'card', image: 'bg-emerald-800', icon: '🃏' },
+    // New additions (id 13-22)
+    { id: 13, title: 'Neon Nights', category: 'slot', image: 'bg-fuchsia-900', icon: '🌃' },
+    { id: 14, title: "Dragon's Gold", category: 'slot', image: 'bg-red-950', icon: '🐉' },
+    { id: 15, title: 'Space Odyssey', category: 'slot', image: 'bg-slate-900', icon: '🚀' },
+    { id: 16, title: "Vampire's Ball", category: 'slot', image: 'bg-rose-950', icon: '🦇' },
+    { id: 17, title: 'Jungle King', category: 'slot', image: 'bg-green-900', icon: '🦍' },
+    { id: 18, title: 'Arctic Freeze', category: 'slot', image: 'bg-sky-800', icon: '❄️' },
+    { id: 19, title: 'Pharaoh\'s Tomb', category: 'slot', image: 'bg-amber-900', icon: '⚰️' },
+    { id: 20, title: 'Cyber City', category: 'slot', image: 'bg-cyan-900', icon: '🤖' },
+    { id: 21, title: 'Cowboy Duel', category: 'card', image: 'bg-orange-950', icon: '🤠' },
+    { id: 22, title: 'Deep Sea Pearl', category: 'fish', image: 'bg-blue-950', icon: '🐚' },
 ];
 
 export const FRIENDS: Friend[] = [
