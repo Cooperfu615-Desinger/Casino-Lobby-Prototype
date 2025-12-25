@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LogOut, Sparkles, Wifi } from 'lucide-react';
 import { Game } from '../data/mockData';
+import slotBg from '../assets/slot_demo.jpg';
 
 interface GameRoomProps {
     game: Game;
@@ -96,7 +97,7 @@ const GameRoom = ({ game, onExit }: GameRoomProps) => {
                 <div className={`absolute inset-0 opacity-10 bg-gradient-to-br from-purple-900 to-black`}></div>
 
                 <img
-                    src="/slot_demo.jpg"
+                    src={slotBg}
                     alt="Slot Game Demo"
                     className="w-full h-full object-cover"
                 />
