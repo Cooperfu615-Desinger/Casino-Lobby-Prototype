@@ -12,8 +12,8 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
 
     // Size classes: Standard is fixed w/h, Large is wider and full height
     const sizeClasses = isLarge
-        ? "w-[300px] h-full"
-        : "w-[200px] h-[200px]";
+        ? "w-[280px] h-[376px]"
+        : "w-[180px] h-[180px]";
 
     return (
         <div
