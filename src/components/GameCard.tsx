@@ -11,8 +11,8 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
 
     // Size classes: Standard is fixed w/h, Large is wider and full height
     const sizeClasses = isLarge
-        ? "w-[260px] h-full"
-        : "w-[180px] h-[180px]";
+        ? "w-[300px] h-full"
+        : "w-[200px] h-[200px]";
 
     return (
         <div
@@ -28,13 +28,6 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
             <div className={`absolute inset-[3px] rounded-[9px] ${game.image} flex flex-col items-center justify-center overflow-hidden border border-black/50`}>
                 {/* Glossy Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
-
-                {/* Center Icon/Text Dynamic Scaling */}
-                <div className="flex flex-col items-center justify-center z-10 transform transition-transform group-hover:scale-110">
-                    <span className={`drop-shadow-lg ${isLarge ? 'text-7xl mb-4' : 'text-5xl mb-2'}`}>
-                        {game.icon}
-                    </span>
-                </div>
 
                 <div className={`absolute bottom-0 left-0 right-0 bg-black/60 ${isLarge ? 'py-4' : 'py-3'} px-2 backdrop-blur-[2px]`}>
                     <p className={`text-white text-center font-bold truncate leading-tight tracking-wide drop-shadow-md ${isLarge ? 'text-lg' : 'text-sm'}`}>
