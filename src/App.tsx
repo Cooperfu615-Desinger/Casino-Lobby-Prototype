@@ -60,7 +60,6 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
             case 'chat': return <ChatInterface key={chatInitialTab} initialTab={chatInitialTab} />;
             case 'inbox': return <InboxInterface />;
             case 'gifts': return <GiftsInterface />;
-            case 'gifts': return <GiftsInterface />;
             case 'bank': return (
                 <BankInterface
                     onSelectPackage={setSelectedPackage}
