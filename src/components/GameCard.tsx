@@ -1,4 +1,5 @@
 import { Game } from '../data/mockData';
+import JackpotTicker from './JackpotTicker';
 
 interface GameCardProps {
     game: Game;
@@ -19,6 +20,9 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
             onClick={onClick}
             className={`relative group ${sizeClasses} flex-shrink-0 cursor-pointer transform transition-all hover:scale-[1.02] active:scale-95 ${className || ''}`}
         >
+            {/* Jackpot Ticker */}
+            {game.hasJackpot && <JackpotTicker />}
+
             {/* Card Frame (Glossy Gold Border) */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#FFD700] via-[#B8860B] to-[#8B4513] rounded-xl p-[3px] shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent opacity-50 rounded-xl pointer-events-none"></div>
