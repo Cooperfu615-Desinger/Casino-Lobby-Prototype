@@ -23,17 +23,19 @@ const PaymentModal = ({ packageInfo, onClose }: PaymentModalProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose}></div>
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
 
             {/* Modal */}
-            <div className="relative bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+            <div className="relative w-[90%] max-w-md bg-[#1a0b2e] border border-[#FFD700] rounded-2xl shadow-[0_0_50px_rgba(255,215,0,0.3)] overflow-hidden flex flex-col">
 
                 {/* Header */}
                 <div className="bg-white/5 px-6 py-4 flex justify-between items-center border-b border-white/5">
                     <span className="text-white font-bold">App Store</span>
-                    <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
+                    <button
+                        onClick={onClose}
+                        className="text-slate-400 hover:text-white transition-colors"
+                        aria-label="Close"
+                    >
                         <X size={20} />
                     </button>
                 </div>
@@ -109,7 +111,7 @@ const PaymentModal = ({ packageInfo, onClose }: PaymentModalProps) => {
 
             {/* Toast Notification */}
             {showToast && (
-                <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white/90 text-black px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 animate-in slide-in-from-top-5 duration-300 backdrop-blur">
+                <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white/90 text-black px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 animate-in slide-in-from-top-5 duration-300 backdrop-blur z-[70]">
                     <div className="bg-green-500 text-white rounded-full p-0.5">
                         <Check size={14} />
                     </div>
