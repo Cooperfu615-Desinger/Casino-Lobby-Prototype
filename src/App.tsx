@@ -21,6 +21,8 @@ import SaleModal from './components/SaleModal';
 import TournamentModal from './components/TournamentModal';
 import UserModal from './components/UserModal';
 import EventsInterface from './components/EventsInterface';
+import PaymentModal from './components/PaymentModal';
+import HistoryModal from './components/HistoryModal';
 import BankInterface from './components/BankInterface';
 import ChatInterface from './components/ChatInterface';
 import ClubInterface from './components/ClubInterface';
@@ -29,7 +31,8 @@ import GiftsInterface from './components/GiftsInterface';
 import LanguageModal from './components/LanguageModal';
 
 // Data
-import { GAMES, Game } from './data/mockData';
+// Data
+import { GAMES, Game, Package } from './data/mockData';
 
 type ActiveTab = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' | 'club';
 
@@ -48,12 +51,22 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
 
+    // Hoisted Modal State
+    const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+    const [isHistoryOpen, setHistoryOpen] = useState(false);
+
     const renderContent = () => {
         switch (activeTab) {
             case 'chat': return <ChatInterface key={chatInitialTab} initialTab={chatInitialTab} />;
             case 'inbox': return <InboxInterface />;
             case 'gifts': return <GiftsInterface />;
-            case 'bank': return <BankInterface />;
+            case 'gifts': return <GiftsInterface />;
+            case 'bank': return (
+                <BankInterface
+                    onSelectPackage={setSelectedPackage}
+                    onOpenHistory={() => setHistoryOpen(true)}
+                />
+            );
             case 'club': return <ClubInterface />;
             case 'events':
                 return (
@@ -132,6 +145,8 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                 {isSettingsOpen && <SettingsMenu onOpenLanguage={() => setLangModalOpen(true)} />}
                 {isUserModalOpen && <UserModal onClose={() => setUserModalOpen(false)} />}
                 {isLangModalOpen && <LanguageModal onClose={() => setLangModalOpen(false)} />}
+                {selectedPackage && <PaymentModal packageInfo={selectedPackage} onClose={() => setSelectedPackage(null)} />}
+                {isHistoryOpen && <HistoryModal onClose={() => setHistoryOpen(false)} />}
 
                 {/* Header */}
                 <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">

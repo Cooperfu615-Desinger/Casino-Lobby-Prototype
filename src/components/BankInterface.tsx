@@ -1,12 +1,13 @@
-import { useState } from 'react';
 import { Landmark, Gem, FileText } from 'lucide-react';
 import { PACKAGES, Package } from '../data/mockData';
-import PaymentModal from './PaymentModal';
-import HistoryModal from './HistoryModal';
 
-const BankInterface = () => {
-    const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-    const [showHistory, setShowHistory] = useState(false);
+interface BankInterfaceProps {
+    onSelectPackage: (pkg: Package) => void;
+    onOpenHistory: () => void;
+}
+
+const BankInterface = ({ onSelectPackage, onOpenHistory }: BankInterfaceProps) => {
+
 
     return (
         <div className="absolute top-[130px] bottom-[90px] left-0 right-0 z-20 bg-[#120822]/95 border-t border-white/10 animate-in fade-in zoom-in-95 duration-300 overflow-y-auto p-8">
@@ -18,7 +19,7 @@ const BankInterface = () => {
 
                 {/* History Button */}
                 <button
-                    onClick={() => setShowHistory(true)}
+                    onClick={onOpenHistory}
                     className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white px-4 py-2 rounded-full transition-all border border-white/5 active:scale-95"
                 >
                     <FileText size={16} />
@@ -30,7 +31,7 @@ const BankInterface = () => {
                 {PACKAGES.map(pkg => (
                     <div
                         key={pkg.id}
-                        onClick={() => setSelectedPackage(pkg)}
+                        onClick={() => onSelectPackage(pkg)}
                         className="relative group bg-[#0f061e] border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-between hover:border-[#FFD700] hover:bg-white/5 transition-all cursor-pointer shadow-lg hover:shadow-[#FFD700]/20 hover:-translate-y-1"
                     >
                         {pkg.best && (
@@ -57,17 +58,6 @@ const BankInterface = () => {
                 ))}
             </div>
 
-            {/* Modals */}
-            {selectedPackage && (
-                <PaymentModal
-                    packageInfo={selectedPackage}
-                    onClose={() => setSelectedPackage(null)}
-                />
-            )}
-
-            {showHistory && (
-                <HistoryModal onClose={() => setShowHistory(false)} />
-            )}
         </div>
     );
 };
