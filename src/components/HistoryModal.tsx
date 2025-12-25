@@ -7,12 +7,9 @@ interface HistoryModalProps {
 
 const HistoryModal = ({ onClose }: HistoryModalProps) => {
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
-
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
             {/* Modal */}
-            <div className="relative bg-[#1a0b2e] border border-[#FFD700]/30 rounded-3xl w-full max-w-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-300 flex flex-col max-h-[80vh]">
+            <div className="relative w-[90%] max-w-4xl bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
 
                 {/* Header */}
                 <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 px-6 py-5 flex justify-between items-center border-b border-white/10">
@@ -22,7 +19,11 @@ const HistoryModal = ({ onClose }: HistoryModalProps) => {
                         </div>
                         <h2 className="text-2xl font-bold text-white tracking-wide">帳戶交易明細</h2>
                     </div>
-                    <button onClick={onClose} className="text-slate-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition-all">
+                    <button
+                        onClick={onClose}
+                        className="text-slate-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition-all"
+                        aria-label="Close"
+                    >
                         <X size={24} />
                     </button>
                 </div>
@@ -63,8 +64,8 @@ const HistoryModal = ({ onClose }: HistoryModalProps) => {
                                     </td>
                                     <td className="py-4 pr-2 text-right">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tx.status === 'Success'
-                                                ? 'bg-green-500/10 text-green-500 border border-green-500/20'
-                                                : 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
+                                            ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                            : 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
                                             }`}>
                                             {tx.status === 'Success' ? '成功' : '處理中'}
                                         </span>
