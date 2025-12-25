@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, Swords, Crown, Coins, Wrench, Star } from 'lucide-react';
+import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
 // --- Types ---
 export interface Game {
@@ -61,6 +61,9 @@ export interface EventItem {
     icon: React.ReactNode;
     bg: string;
     border: string;
+    startTime: string;
+    endTime: string;
+    status: 'upcoming' | 'active' | 'ending';
 }
 
 export interface InboxMessage {
@@ -156,9 +159,16 @@ export const SALE_PACKAGES: SalePackage[] = [
 ];
 
 export const EVENTS_LIST: EventItem[] = [
-    { id: 1, type: 'sale', title: '限時儲值優惠', desc: '全場 200% 回饋，僅剩 3 小時！', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to- orange - 900 / 50', border: 'border - red - 500 / 50' },
-    { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to- amber - 900 / 50', border: 'border - yellow - 500 / 50' },
-    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '升級 VIP 5 即可獲得專屬經理服務。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to- indigo - 900 / 50', border: 'border - purple - 500 / 50' },
+    { id: 1, type: 'sale', title: '限時儲值優惠', desc: '全場 200% 回饋，僅剩 3 小時！', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to-orange-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2025/11/01 12:00', endTime: '2025/11/01 15:00' },
+    { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to-amber-900/50', border: 'border-yellow-500/50', status: 'active', startTime: '2025/11/01 00:00', endTime: '2025/11/07 23:59' },
+    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '升級 VIP 5 即可獲得專屬經理服務。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to-indigo-900/50', border: 'border-purple-500/50', status: 'active', startTime: '2025/10/01 00:00', endTime: '2025/12/31 23:59' },
+    { id: 4, type: 'tournament', title: '深海捕魚祭', desc: '捕獲特殊魚種積分翻倍！', icon: <Swords className="text-cyan-400" />, bg: 'from-cyan-900/50 to-blue-900/50', border: 'border-cyan-500/50', status: 'active', startTime: '2025/11/02 10:00', endTime: '2025/11/05 10:00' },
+    { id: 5, type: 'sale', title: '週末狂歡包', desc: '週末限定，買一送一！', icon: <Flame className="text-pink-500" />, bg: 'from-pink-900/50 to-rose-900/50', border: 'border-pink-500/50', status: 'upcoming', startTime: '2025/11/08 00:00', endTime: '2025/11/09 23:59' },
+    { id: 6, type: 'vip', title: '黑卡會員邀請', desc: '僅限 VIP 7 以上玩家參與。', icon: <Crown className="text-slate-400" />, bg: 'from-slate-900/50 to-gray-900/50', border: 'border-slate-500/50', status: 'upcoming', startTime: '2025/11/15 12:00', endTime: '2025/11/20 12:00' },
+    { id: 7, type: 'tournament', title: '百家樂連勝王', desc: '挑戰最高連勝紀錄，奪取獎金。', icon: <Swords className="text-emerald-400" />, bg: 'from-emerald-900/50 to-green-900/50', border: 'border-emerald-500/50', status: 'ending', startTime: '2025/10/28 12:00', endTime: '2025/11/01 18:00' },
+    { id: 8, type: 'sale', title: '幸運輪盤加碼', desc: '每日登入免費轉一次！', icon: <Stars className="text-yellow-300" />, bg: 'from-orange-900/50 to-yellow-900/50', border: 'border-orange-500/50', status: 'active', startTime: '2025/11/01 00:00', endTime: '2025/11/30 23:59' },
+    { id: 9, type: 'tournament', title: '新手衝等賽', desc: '新註冊玩家專屬，快速升級。', icon: <Swords className="text-blue-400" />, bg: 'from-blue-900/50 to-sky-900/50', border: 'border-blue-500/50', status: 'upcoming', startTime: '2025/11/10 00:00', endTime: '2025/11/17 23:59' },
+    { id: 10, type: 'vip', title: '生日禮金加倍', desc: '本月壽星儲值回饋 300%。', icon: <Crown className="text-red-400" />, bg: 'from-red-900/50 to-pink-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2025/10/01 00:00', endTime: '2025/11/01 23:59' },
 ];
 
 export const INBOX_MESSAGES: InboxMessage[] = [
