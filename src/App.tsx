@@ -26,6 +26,7 @@ import ChatInterface from './components/ChatInterface';
 import ClubInterface from './components/ClubInterface';
 import InboxInterface from './components/InboxInterface';
 import GiftsInterface from './components/GiftsInterface';
+import LanguageModal from './components/LanguageModal';
 
 // Data
 import { GAMES, Game } from './data/mockData';
@@ -45,6 +46,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const [isTournamentOpen, setTournamentOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
+    const [isLangModalOpen, setLangModalOpen] = useState(false);
 
     const renderContent = () => {
         switch (activeTab) {
@@ -127,8 +129,9 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                 {/* Modal Overlays */}
                 {isSaleOpen && <SaleModal onClose={() => setSaleOpen(false)} />}
                 {isTournamentOpen && <TournamentModal onClose={() => setTournamentOpen(false)} />}
-                {isSettingsOpen && <SettingsMenu />}
+                {isSettingsOpen && <SettingsMenu onOpenLanguage={() => setLangModalOpen(true)} />}
                 {isUserModalOpen && <UserModal onClose={() => setUserModalOpen(false)} />}
+                {isLangModalOpen && <LanguageModal onClose={() => setLangModalOpen(false)} />}
 
                 {/* Header */}
                 <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">

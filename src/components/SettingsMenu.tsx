@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const SettingsMenu = () => {
+interface SettingsMenuProps {
+    onOpenLanguage: () => void;
+}
+
+const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
     const [music, setMusic] = useState(true);
     const [sound, setSound] = useState(true);
     const [push, setPush] = useState(true);
@@ -43,6 +47,13 @@ const SettingsMenu = () => {
                 <div className="h-px bg-white/10 my-2 mx-2"></div>
 
                 {/* Links */}
+                <button
+                    onClick={onOpenLanguage}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left"
+                >
+                    <Globe size={18} />
+                    <span className="text-sm">切換語系</span>
+                </button>
                 <button className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left">
                     <FileText size={18} />
                     <span className="text-sm">使用者規章</span>
