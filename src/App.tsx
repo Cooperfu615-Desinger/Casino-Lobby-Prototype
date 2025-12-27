@@ -296,7 +296,12 @@ const MainContent = () => {
     return <CasinoLandscape onPlayGame={setActiveGame} />;
 };
 
+import { useAudioSystem } from './hooks/useAudioSystem';
+
 function App() {
+    // Initialize Global Audio System
+    useAudioSystem();
+
     return (
         <AuthProvider>
             <MainContent />
