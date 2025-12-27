@@ -23,7 +23,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         // BGM Setup
         const bgm = new Audio(bgmUrl);
         bgm.loop = true;
-        bgm.volume = 0.5;
+        bgm.volume = 0.4;
         bgmRef.current = bgm;
 
         // SFX Setup
@@ -74,6 +74,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
             if (interactive && sfxRef.current) {
                 sfxRef.current.currentTime = 0;
+                sfxRef.current.volume = 1.0;
                 sfxRef.current.play().catch(() => {
                     // Ignore errors for SFX (e.g. rapid clicking)
                 });
