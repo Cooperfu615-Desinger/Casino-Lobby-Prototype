@@ -188,21 +188,31 @@ export const GIFT_ITEMS: GiftItem[] = [
 export interface Transaction {
     id: string;
     date: string;
-    type: 'Deposit' | 'Withdraw';
+    type: 'deposit' | 'withdraw' | 'rebate';
     amount: string;
-    status: 'Success' | 'Pending';
-    method: 'Apple Pay' | 'Credit Card' | 'PayPal' | 'App Store';
+    status: 'success' | 'processing' | 'failed';
+    method: string;
 }
 
 export const TRANSACTION_HISTORY: Transaction[] = [
-    { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'Deposit', amount: '.99', status: 'Success', method: 'Apple Pay' },
-    { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'Deposit', amount: '.99', status: 'Pending', method: 'Credit Card' },
-    { id: 'TX-20251223-003', date: '2025-12-23 21:00', type: 'Withdraw', amount: '.00', status: 'Success', method: 'PayPal' },
-    { id: 'TX-20251222-004', date: '2025-12-22 10:05', type: 'Deposit', amount: '.99', status: 'Success', method: 'Apple Pay' },
-    { id: 'TX-20251220-005', date: '2025-12-20 09:30', type: 'Deposit', amount: '.99', status: 'Success', method: 'App Store' },
-    { id: 'TX-20251219-006', date: '2025-12-19 18:45', type: 'Deposit', amount: '.99', status: 'Success', method: 'Apple Pay' },
-    { id: 'TX-20251218-007', date: '2025-12-18 14:20', type: 'Deposit', amount: '.99', status: 'Success', method: 'Credit Card' },
-    { id: 'TX-20251215-008', date: '2025-12-15 08:00', type: 'Deposit', amount: '.99', status: 'Success', method: 'App Store' },
+    { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '$9.99', status: 'processing', method: 'Credit Card' },
+    { id: 'TX-20251223-003', date: '2025-12-23 21:00', type: 'withdraw', amount: '$50.00', status: 'success', method: 'USDT-TRC20' },
+    { id: 'TX-20251222-004', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
+    { id: 'TX-20251221-005', date: '2025-12-21 23:30', type: 'rebate', amount: '$12.50', status: 'success', method: 'Weekly Rebate' },
+    { id: 'TX-20251220-006', date: '2025-12-20 09:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'App Store' },
+    { id: 'TX-20251219-007', date: '2025-12-19 18:45', type: 'deposit', amount: '$99.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251218-008', date: '2025-12-18 14:20', type: 'withdraw', amount: '$200.00', status: 'processing', method: 'USDT-TRC20' },
+    { id: 'TX-20251217-009', date: '2025-12-17 08:00', type: 'rebate', amount: '$5.00', status: 'success', method: 'Daily Bonus' },
+    { id: 'TX-20251216-010', date: '2025-12-16 12:45', type: 'deposit', amount: '$49.99', status: 'success', method: 'Google Play' },
+    { id: 'TX-20251215-011', date: '2025-12-15 16:20', type: 'withdraw', amount: '$100.00', status: 'failed', method: 'Bank Transfer' },
+    { id: 'TX-20251214-012', date: '2025-12-14 09:10', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251213-013', date: '2025-12-13 22:15', type: 'rebate', amount: '$25.00', status: 'success', method: 'Level Up Bonus' },
+    { id: 'TX-20251212-014', date: '2025-12-12 11:30', type: 'deposit', amount: '$19.99', status: 'processing', method: 'Credit Card' },
+    { id: 'TX-20251211-015', date: '2025-12-11 14:50', type: 'withdraw', amount: '$150.00', status: 'success', method: 'USDT-TRC20' },
+    { id: 'TX-20251210-016', date: '2025-12-10 10:00', type: 'deposit', amount: '$9.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251209-017', date: '2025-12-09 19:40', type: 'rebate', amount: '$8.88', status: 'success', method: 'Weekly Rebate' },
+    { id: 'TX-20251208-018', date: '2025-12-08 13:25', type: 'withdraw', amount: '$300.00', status: 'processing', method: 'USDT-ERC20' },
 ];
 
 export interface ClubChatMessage {
