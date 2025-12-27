@@ -296,16 +296,15 @@ const MainContent = () => {
     return <CasinoLandscape onPlayGame={setActiveGame} />;
 };
 
-import { useAudioSystem } from './hooks/useAudioSystem';
+import { AudioProvider } from './context/AudioContext';
 
 function App() {
-    // Initialize Global Audio System
-    useAudioSystem();
-
     return (
-        <AuthProvider>
-            <MainContent />
-        </AuthProvider>
+        <AudioProvider>
+            <AuthProvider>
+                <MainContent />
+            </AuthProvider>
+        </AudioProvider>
     );
 }
 

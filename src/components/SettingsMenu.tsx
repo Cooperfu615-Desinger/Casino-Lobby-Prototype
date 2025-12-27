@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useAudio } from '../context/AudioContext';
 
 interface SettingsMenuProps {
     onOpenLanguage: () => void;
 }
 
 const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
-    const [music, setMusic] = useState(true);
-    const [sound, setSound] = useState(true);
+    const { isMusicEnabled, isSoundEnabled, toggleMusic, toggleSound } = useAudio();
     const [push, setPush] = useState(true);
     const { logout } = useAuth();
 
@@ -21,8 +21,8 @@ const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
                         <Music size={18} className="text-[#FFD700]" />
                         <span className="text-sm font-bold">背景音樂</span>
                     </div>
-                    <button onClick={() => setMusic(!music)} className="text-[#FFD700] hover:scale-110 transition-transform">
-                        {music ? <ToggleRight size={32} fill="currentColor" /> : <ToggleLeft size={32} className="text-slate-500" />}
+                    <button onClick={toggleMusic} className="text-[#FFD700] hover:scale-110 transition-transform">
+                        {isMusicEnabled ? <ToggleRight size={32} fill="currentColor" /> : <ToggleLeft size={32} className="text-slate-500" />}
                     </button>
                 </div>
                 <div className="px-4 py-3 flex items-center justify-between hover:bg-white/5 rounded-xl transition-colors">
@@ -30,8 +30,8 @@ const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
                         <Volume2 size={18} className="text-[#FFD700]" />
                         <span className="text-sm font-bold">遊戲音效</span>
                     </div>
-                    <button onClick={() => setSound(!sound)} className="text-[#FFD700] hover:scale-110 transition-transform">
-                        {sound ? <ToggleRight size={32} fill="currentColor" /> : <ToggleLeft size={32} className="text-slate-500" />}
+                    <button onClick={toggleSound} className="text-[#FFD700] hover:scale-110 transition-transform">
+                        {isSoundEnabled ? <ToggleRight size={32} fill="currentColor" /> : <ToggleLeft size={32} className="text-slate-500" />}
                     </button>
                 </div>
                 <div className="px-4 py-3 flex items-center justify-between hover:bg-white/5 rounded-xl transition-colors">
