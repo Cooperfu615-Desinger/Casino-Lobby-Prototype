@@ -46,36 +46,23 @@ const LoginScreen = () => {
                 {/* Login Buttons Area */}
                 <div className="absolute bottom-24 left-0 right-0 w-full px-12 z-10 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 flex flex-col items-center">
 
-                    {/* Row 1: Primary Login (Account & Guest) */}
-                    <div className="flex gap-[16px] justify-center mb-[16px]">
+                    <div className="flex gap-[16px] justify-center">
                         {/* Account Login */}
                         <button
                             onClick={() => setShowLoginInput(true)}
-                            className="w-[196px] h-[80px] rounded-2xl shadow-lg flex flex-row items-center justify-center gap-3 hover:scale-105 transition-transform duration-200 bg-gradient-to-br from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 text-white group"
+                            className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-gradient-to-br from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 text-white group"
                         >
-                            <User size={28} className="text-indigo-100 group-hover:text-white transition-colors" />
-                            <span className="text-base font-bold tracking-wide">帳號登入</span>
+                            <User size={24} className="text-indigo-100 group-hover:text-white transition-colors" />
+                            <span className="text-[10px] font-bold tracking-wide">帳號</span>
                         </button>
 
-                        {/* Guest Login */}
-                        <button
-                            onClick={loginAsGuest}
-                            className="w-[196px] h-[80px] rounded-2xl shadow-lg flex flex-row items-center justify-center gap-3 hover:scale-105 transition-transform duration-200 bg-amber-500 hover:bg-amber-400 text-white group"
-                        >
-                            <UserCircle2 size={28} className="text-amber-100 group-hover:text-white transition-colors" />
-                            <span className="text-base font-bold tracking-wide">遊客遊玩</span>
-                        </button>
-                    </div>
-
-                    {/* Row 2: Third Party Login */}
-                    <div className="flex gap-[16px] justify-center">
                         {/* Phone Login */}
                         <button
                             onClick={comingSoon}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-emerald-600 hover:bg-emerald-500 text-white group"
                         >
                             <Smartphone size={24} className="text-emerald-100 group-hover:text-white transition-colors" />
-                            <span className="text-[10px] font-bold tracking-wide">手機登入</span>
+                            <span className="text-[10px] font-bold tracking-wide">手機</span>
                         </button>
 
                         {/* Facebook */}
@@ -105,6 +92,15 @@ const LoginScreen = () => {
                                 <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.45-1.15 4.09-.64 1.8.55 2.91 1.77 3.48 2.65-3.05 1.57-2.48 5.67.65 6.94-.9 2.14-2.18 4.25-3.3 5.28zM14.99 4.26c.7-1.33 2.13-2.16 3.6-2.26.17 1.6-1.12 3.23-2.41 3.73-1.07.45-2.24-.04-2.61-1.46.46 0 .96.02 1.42-.01z" />
                             </svg>
                             <span className="text-[10px] font-bold tracking-wide">Apple</span>
+                        </button>
+
+                        {/* Guest Login */}
+                        <button
+                            onClick={loginAsGuest}
+                            className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-amber-500 hover:bg-amber-400 text-white group"
+                        >
+                            <UserCircle2 size={24} className="text-amber-100 group-hover:text-white transition-colors" />
+                            <span className="text-[10px] font-bold tracking-wide">遊客</span>
                         </button>
                     </div>
                 </div>
