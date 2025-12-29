@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import PhoneLoginModal from './PhoneLoginModal';
+import FacebookLoginModal from './FacebookLoginModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();
@@ -10,6 +11,7 @@ const LoginScreen = () => {
     const [loading, setLoading] = useState(false);
     const [showLoginInput, setShowLoginInput] = useState(false);
     const [showPhoneLogin, setShowPhoneLogin] = useState(false);
+    const [showFBLogin, setShowFBLogin] = useState(false);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,6 +26,11 @@ const LoginScreen = () => {
     const handlePhoneLoginSuccess = () => {
         // Trigger the auth context login with a dummy phone user
         login('Phone User', 'otp-verified');
+    };
+
+    const handleFBLoginSuccess = () => {
+        // Trigger the auth context login with a dummy FB user
+        login('Facebook User', 'fb-token');
     };
 
     const comingSoon = () => {
@@ -74,7 +81,7 @@ const LoginScreen = () => {
 
                         {/* Facebook */}
                         <button
-                            onClick={comingSoon}
+                            onClick={() => setShowFBLogin(true)}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#1877F2] hover:bg-[#1877F2]/90 text-white group"
                         >
                             <Facebook size={24} className="text-blue-100 group-hover:text-white transition-colors" />
@@ -190,6 +197,14 @@ const LoginScreen = () => {
                     <PhoneLoginModal
                         onClose={() => setShowPhoneLogin(false)}
                         onLogin={handlePhoneLoginSuccess}
+                    />
+                )}
+
+                {/* Facebook Login Modal */}
+                {showFBLogin && (
+                    <FacebookLoginModal
+                        onClose={() => setShowFBLogin(false)}
+                        onLogin={handleFBLoginSuccess}
                     />
                 )}
 
