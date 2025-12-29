@@ -78,7 +78,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     </div>
                 </main>
 
-                <div className="absolute bottom-8 left-12 z-40 flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-left scale-150">
+                <div className="absolute bottom-12 left-12 z-[60] flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-left scale-150">
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-4 border-white shadow-[0_0_20px_#FF69B4] flex items-center justify-center relative transform hover:rotate-12 transition-transform">
                         <PiggyBank size={40} className="text-white drop-shadow-md" />
                         <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full border border-white shadow-sm">X2</div>
@@ -88,7 +88,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     </div>
                 </div>
 
-                <div className="absolute bottom-8 right-12 z-40 flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-right scale-150">
+                <div className="absolute bottom-12 right-12 z-[60] flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-right scale-150">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-b from-red-500 to-red-800 border-2 border-[#FFD700] shadow-xl flex items-center justify-center transform rotate-6 hover:rotate-0 transition-transform">
                         <Gift size={32} className="text-[#FFD700]" />
                     </div>
@@ -223,7 +223,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
 
             {/* Bottom Navigation Bar */}
             <nav className="absolute bottom-0 left-0 right-0 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center">
-                <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 px-6 shadow-2xl justify-center gap-2">
+                <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 px-6 shadow-2xl justify-center gap-6">
                     <NavButton
                         icon={MessageCircle}
                         label="Chat"
