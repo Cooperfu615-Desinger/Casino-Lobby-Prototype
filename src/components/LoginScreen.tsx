@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import PhoneLoginModal from './PhoneLoginModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();
@@ -8,6 +9,7 @@ const LoginScreen = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showLoginInput, setShowLoginInput] = useState(false);
+    const [showPhoneLogin, setShowPhoneLogin] = useState(false);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,6 +19,11 @@ const LoginScreen = () => {
             login(username || undefined, password);
             setLoading(false);
         }, 800);
+    };
+
+    const handlePhoneLoginSuccess = () => {
+        // Trigger the auth context login with a dummy phone user
+        login('Phone User', 'otp-verified');
     };
 
     const comingSoon = () => {
@@ -58,7 +65,7 @@ const LoginScreen = () => {
 
                         {/* Phone Login */}
                         <button
-                            onClick={comingSoon}
+                            onClick={() => setShowPhoneLogin(true)}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-emerald-600 hover:bg-emerald-500 text-white group"
                         >
                             <Smartphone size={24} className="text-emerald-100 group-hover:text-white transition-colors" />
@@ -176,6 +183,14 @@ const LoginScreen = () => {
                             </form>
                         </div>
                     </div>
+                )}
+
+                {/* Phone Login Modal */}
+                {showPhoneLogin && (
+                    <PhoneLoginModal
+                        onClose={() => setShowPhoneLogin(false)}
+                        onLogin={handlePhoneLoginSuccess}
+                    />
                 )}
 
             </div>
