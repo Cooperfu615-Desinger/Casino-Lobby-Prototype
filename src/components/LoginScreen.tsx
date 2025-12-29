@@ -47,7 +47,7 @@ const LoginScreen = () => {
 
                 {/* Version */}
                 <div className="absolute top-6 right-6 text-white/50 text-sm font-mono tracking-wider">
-                    v1.000.00
+                    v1.000.02
                 </div>
 
                 {/* Main Logo */}
