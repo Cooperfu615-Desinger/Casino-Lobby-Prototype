@@ -297,8 +297,15 @@ const MainContent = () => {
 };
 
 import { AudioProvider } from './context/AudioContext';
+import BrandLoading from './components/BrandLoading';
 
 function App() {
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+    if (isInitialLoad) {
+        return <BrandLoading onFinished={() => setIsInitialLoad(false)} />;
+    }
+
     return (
         <AudioProvider>
             <AuthProvider>
