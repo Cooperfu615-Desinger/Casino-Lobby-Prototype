@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import {
     X, Crown, Users, LogIn, PlusCircle, ChevronRight,
@@ -8,7 +9,11 @@ import ClubRewards from './ClubRewards';
 import ClubEvents from './ClubEvents';
 import ClubAdminEvents from './ClubAdminEvents';
 
-const ClubInterface = () => {
+interface ClubInterfaceProps {
+    onClose: () => void;
+}
+
+const ClubInterface = ({ onClose }: ClubInterfaceProps) => {
     const [clubModal, setClubModal] = useState<'join' | 'create' | null>(null);
     const [clubView, setClubView] = useState<'initial' | 'dashboard'>('initial');
     const [activeView, setActiveView] = useState<'dashboard' | 'chat' | 'rewards' | 'events' | 'leader'>('dashboard');
@@ -38,7 +43,7 @@ const ClubInterface = () => {
 
     const ClubDashboard = () => (
         <div className="flex-1 flex flex-col h-full bg-[#160b29] animate-in fade-in duration-300">
-            <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-[#1a0b2e]">
+            <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-[#1a0b2e] pr-16">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center border border-white/20 shadow-lg">
                         <Crown size={20} className="text-white" />
@@ -52,7 +57,7 @@ const ClubInterface = () => {
                 </div>
                 <button
                     onClick={() => setClubView('initial')}
-                    className="p-2 text-slate-500 hover:text-red-400 transition-colors"
+                    className="p-2 text-slate-500 hover:text-red-400 transition-colors mr-2"
                     title="離開俱樂部"
                 >
                     <LogOut size={20} />
@@ -253,56 +258,68 @@ const ClubInterface = () => {
     );
 
     return (
-        <div className="absolute top-[130px] bottom-[90px] left-0 right-0 z-20 flex bg-[#120822] border-t border-white/10 animate-in fade-in zoom-in-95 duration-300">
-            {clubModal === 'join' && <ClubJoinModal />}
-            {clubModal === 'create' && <ClubCreateModal />}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            {/* Modal Container */}
+            <div className="relative w-[90%] max-w-[1150px] h-[650px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
 
-            {clubView === 'dashboard' ? (
-                activeView === 'chat' ? (
-                    <ClubChat onBack={() => setActiveView('dashboard')} />
-                ) : activeView === 'rewards' ? (
-                    <ClubRewards onBack={() => setActiveView('dashboard')} />
-                ) : activeView === 'events' ? (
-                    <ClubEvents onBack={() => setActiveView('dashboard')} />
-                ) : activeView === 'leader' ? (
-                    <ClubAdminEvents onBack={() => setActiveView('dashboard')} />
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 z-50 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+                >
+                    <X size={20} />
+                </button>
+
+                {clubModal === 'join' && <ClubJoinModal />}
+                {clubModal === 'create' && <ClubCreateModal />}
+
+                {clubView === 'dashboard' ? (
+                    activeView === 'chat' ? (
+                        <ClubChat onBack={() => setActiveView('dashboard')} />
+                    ) : activeView === 'rewards' ? (
+                        <ClubRewards onBack={() => setActiveView('dashboard')} />
+                    ) : activeView === 'events' ? (
+                        <ClubEvents onBack={() => setActiveView('dashboard')} />
+                    ) : activeView === 'leader' ? (
+                        <ClubAdminEvents onBack={() => setActiveView('dashboard')} />
+                    ) : (
+                        <ClubDashboard />
+                    )
                 ) : (
-                    <ClubDashboard />
-                )
-            ) : (
-                <div className="flex-1 flex items-center justify-center bg-[#160b29] relative p-8">
-                    <div className="grid grid-cols-2 gap-8 w-full max-w-2xl px-8">
-                        <div
-                            onClick={() => {
-                                setClubModal('join');
-                                setJoinCode('');
-                            }}
-                            className="group bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-blue-500/50 rounded-3xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all shadow-xl hover:-translate-y-2 h-72"
-                        >
-                            <div className="w-24 h-24 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                                <LogIn size={48} className="text-blue-400" />
+                    <div className="flex-1 flex items-center justify-center bg-[#160b29] relative p-8">
+                        <div className="grid grid-cols-2 gap-8 w-full max-w-2xl px-8">
+                            <div
+                                onClick={() => {
+                                    setClubModal('join');
+                                    setJoinCode('');
+                                }}
+                                className="group bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-blue-500/50 rounded-3xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all shadow-xl hover:-translate-y-2 h-72"
+                            >
+                                <div className="w-24 h-24 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+                                    <LogIn size={48} className="text-blue-400" />
+                                </div>
+                                <h3 className="text-3xl font-black text-white mb-3 italic tracking-wide">加入俱樂部</h3>
+                                <p className="text-base text-slate-400 text-center leading-relaxed">
+                                    輸入邀請碼<br />與好友一起並肩作戰
+                                </p>
                             </div>
-                            <h3 className="text-3xl font-black text-white mb-3 italic tracking-wide">加入俱樂部</h3>
-                            <p className="text-base text-slate-400 text-center leading-relaxed">
-                                輸入邀請碼<br />與好友一起並肩作戰
-                            </p>
-                        </div>
 
-                        <div
-                            onClick={() => setClubModal('create')}
-                            className="group bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-green-500/50 rounded-3xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all shadow-xl hover:-translate-y-2 h-72"
-                        >
-                            <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-                                <PlusCircle size={48} className="text-green-400" />
+                            <div
+                                onClick={() => setClubModal('create')}
+                                className="group bg-[#2a1b42] hover:bg-[#342252] border border-white/10 hover:border-green-500/50 rounded-3xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all shadow-xl hover:-translate-y-2 h-72"
+                            >
+                                <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+                                    <PlusCircle size={48} className="text-green-400" />
+                                </div>
+                                <h3 className="text-3xl font-black text-white mb-3 italic tracking-wide">創建俱樂部</h3>
+                                <p className="text-base text-slate-400 text-center leading-relaxed">
+                                    建立屬於你的王國<br />招募夥伴共享榮耀
+                                </p>
                             </div>
-                            <h3 className="text-3xl font-black text-white mb-3 italic tracking-wide">創建俱樂部</h3>
-                            <p className="text-base text-slate-400 text-center leading-relaxed">
-                                建立屬於你的王國<br />招募夥伴共享榮耀
-                            </p>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

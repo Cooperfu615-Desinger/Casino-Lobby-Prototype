@@ -57,8 +57,6 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
 
     const renderMainContent = () => {
         // Full page overrides
-        if (activeTab === 'club') return <ClubInterface />;
-
         // Default: Lobby (Games) + Overlays
         return (
             <>
@@ -133,6 +131,9 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                         onOpenHistory={() => setHistoryOpen(true)}
                         onClose={() => setActiveTab('games')}
                     />
+                )}
+                {activeTab === 'club' && (
+                    <ClubInterface onClose={() => setActiveTab('games')} />
                 )}
             </>
         );
