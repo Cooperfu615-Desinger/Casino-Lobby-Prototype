@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, Ghost, X } from 'lucide-react';
+import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const LoginScreen = () => {
@@ -37,23 +37,23 @@ const LoginScreen = () => {
                 </div>
 
                 {/* Main Logo */}
-                <div className="mt-[6%] text-center animate-in fade-in zoom-in duration-1000">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center animate-in fade-in zoom-in duration-1000">
                     <h1 className="text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-[0_0_25px_rgba(255,255,255,0.5)]">
                         YOTA
                     </h1>
                 </div>
 
                 {/* Login Buttons Area */}
-                <div className="mt-12 w-full max-w-4xl px-12 z-10 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 flex flex-col items-center">
+                <div className="absolute bottom-24 left-0 right-0 w-full px-12 z-10 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 flex flex-col items-center">
 
                     {/* Row 1: Primary Login (Account & Guest) */}
                     <div className="flex gap-6 justify-center mb-6">
                         {/* Account Login */}
                         <button
                             onClick={() => setShowLoginInput(true)}
-                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-indigo-600 hover:bg-indigo-500 text-white group"
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-gradient-to-br from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 text-white group"
                         >
-                            <User size={32} className="text-indigo-100 group-hover:text-white transition-colors" />
+                            <User size={40} className="text-indigo-100 group-hover:text-white transition-colors" />
                             <span className="text-sm font-bold tracking-wide">帳號登入</span>
                         </button>
 
@@ -62,7 +62,7 @@ const LoginScreen = () => {
                             onClick={loginAsGuest}
                             className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-amber-500 hover:bg-amber-400 text-white group"
                         >
-                            <UserCircle2 size={32} className="text-amber-100 group-hover:text-white transition-colors" />
+                            <UserCircle2 size={40} className="text-amber-100 group-hover:text-white transition-colors" />
                             <span className="text-sm font-bold tracking-wide">遊客遊玩</span>
                         </button>
                     </div>
@@ -74,7 +74,7 @@ const LoginScreen = () => {
                             onClick={comingSoon}
                             className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-emerald-600 hover:bg-emerald-500 text-white group"
                         >
-                            <Smartphone size={32} className="text-emerald-100 group-hover:text-white transition-colors" />
+                            <Smartphone size={40} className="text-emerald-100 group-hover:text-white transition-colors" />
                             <span className="text-sm font-bold tracking-wide">手機登入</span>
                         </button>
 
@@ -83,7 +83,7 @@ const LoginScreen = () => {
                             onClick={comingSoon}
                             className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-[#1877F2] hover:bg-[#1877F2]/90 text-white group"
                         >
-                            <Facebook size={32} className="text-blue-100 group-hover:text-white transition-colors" />
+                            <Facebook size={40} className="text-blue-100 group-hover:text-white transition-colors" />
                             <span className="text-sm font-bold tracking-wide">Facebook</span>
                         </button>
 
@@ -92,7 +92,7 @@ const LoginScreen = () => {
                             onClick={comingSoon}
                             className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-[#06C755] hover:bg-[#06C755]/90 text-white group"
                         >
-                            <MessageCircle size={32} className="text-green-100 group-hover:text-white transition-colors" />
+                            <MessageCircle size={40} className="text-green-100 group-hover:text-white transition-colors" />
                             <span className="text-sm font-bold tracking-wide">LINE</span>
                         </button>
 
@@ -101,7 +101,9 @@ const LoginScreen = () => {
                             onClick={comingSoon}
                             className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-white hover:bg-gray-200 text-black group"
                         >
-                            <Ghost size={32} className="text-slate-700 group-hover:text-black transition-colors" />
+                            <svg className="w-10 h-10 fill-current text-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.45-1.15 4.09-.64 1.8.55 2.91 1.77 3.48 2.65-3.05 1.57-2.48 5.67.65 6.94-.9 2.14-2.18 4.25-3.3 5.28zM14.99 4.26c.7-1.33 2.13-2.16 3.6-2.26.17 1.6-1.12 3.23-2.41 3.73-1.07.45-2.24-.04-2.61-1.46.46 0 .96.02 1.42-.01z" />
+                            </svg>
                             <span className="text-sm font-bold tracking-wide">Apple</span>
                         </button>
                     </div>
