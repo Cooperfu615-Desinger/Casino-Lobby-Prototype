@@ -18,12 +18,12 @@ const NavButton = ({ icon: Icon, label, active, onClick, colorTheme }: NavButton
   >
     {/* Icon Container */}
     <div className={`
-      p-4 rounded-2xl mb-1 transition-all duration-300 shadow-lg border-2
+      p-2 rounded-2xl mb-1 transition-all duration-300 shadow-lg border-2
       ${active
         ? `bg-gradient-to-b ${colorTheme} text-white scale-125 border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.3)]`
         : 'bg-transparent border-transparent text-slate-400 group-hover:text-slate-200'}
     `}>
-      <Icon size={32} strokeWidth={active ? 2.5 : 2} />
+      <Icon size={64} strokeWidth={active ? 2.5 : 2} />
     </div>
 
     {/* Label */}
