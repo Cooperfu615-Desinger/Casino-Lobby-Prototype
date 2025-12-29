@@ -192,7 +192,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
             {/* Modal Container */}
-            <div className="relative w-[90%] max-w-5xl h-[85vh] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex animate-in zoom-in-95 duration-200">
+            <div className="relative w-[90%] max-w-[1100px] h-[650px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex animate-in zoom-in-95 duration-200">
 
                 {/* Close Button */}
                 <button
