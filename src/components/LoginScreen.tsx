@@ -43,62 +43,68 @@ const LoginScreen = () => {
                     </h1>
                 </div>
 
-                {/* Login Buttons Grid */}
-                <div className="mt-12 grid grid-cols-3 gap-6 w-full max-w-4xl px-12 z-10 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300">
-                    {/* Account Login */}
-                    <button
-                        onClick={() => setShowLoginInput(true)}
-                        className="flex flex-col items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#FFD700] rounded-2xl p-6 transition-all group backdrop-blur-sm h-36 active:scale-95"
-                    >
-                        <User size={36} className="text-slate-300 group-hover:text-[#FFD700] transition-colors" />
-                        <span className="text-slate-200 font-bold tracking-wide text-lg">帳號登入</span>
-                    </button>
+                {/* Login Buttons Area */}
+                <div className="mt-12 w-full max-w-4xl px-12 z-10 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 flex flex-col items-center">
 
-                    {/* Guest Login */}
-                    <button
-                        onClick={loginAsGuest}
-                        className="flex flex-col items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#FFD700] rounded-2xl p-6 transition-all group backdrop-blur-sm h-36 active:scale-95"
-                    >
-                        <UserCircle2 size={36} className="text-slate-300 group-hover:text-[#FFD700] transition-colors" />
-                        <span className="text-slate-200 font-bold tracking-wide text-lg">遊客遊玩</span>
-                    </button>
+                    {/* Row 1: Primary Login (Account & Guest) */}
+                    <div className="flex gap-6 justify-center mb-6">
+                        {/* Account Login */}
+                        <button
+                            onClick={() => setShowLoginInput(true)}
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-indigo-600 hover:bg-indigo-500 text-white group"
+                        >
+                            <User size={32} className="text-indigo-100 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold tracking-wide">帳號登入</span>
+                        </button>
 
-                    {/* Phone Login */}
-                    <button
-                        onClick={comingSoon}
-                        className="flex flex-col items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#FFD700] rounded-2xl p-6 transition-all group backdrop-blur-sm h-36 active:scale-95"
-                    >
-                        <Smartphone size={36} className="text-slate-300 group-hover:text-[#FFD700] transition-colors" />
-                        <span className="text-slate-200 font-bold tracking-wide text-lg">手機登入</span>
-                    </button>
+                        {/* Guest Login */}
+                        <button
+                            onClick={loginAsGuest}
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-amber-500 hover:bg-amber-400 text-white group"
+                        >
+                            <UserCircle2 size={32} className="text-amber-100 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold tracking-wide">遊客遊玩</span>
+                        </button>
+                    </div>
 
-                    {/* Facebook */}
-                    <button
-                        onClick={comingSoon}
-                        className="flex flex-col items-center justify-center gap-3 bg-[#1877F2]/20 hover:bg-[#1877F2]/40 border border-[#1877F2]/30 hover:border-[#1877F2] rounded-2xl p-6 transition-all group backdrop-blur-sm h-36 active:scale-95"
-                    >
-                        <Facebook size={36} className="text-[#1877F2] group-hover:text-white transition-colors" />
-                        <span className="text-blue-100 font-bold tracking-wide text-lg">Facebook</span>
-                    </button>
+                    {/* Row 2: Third Party Login */}
+                    <div className="flex gap-4 justify-center">
+                        {/* Phone Login */}
+                        <button
+                            onClick={comingSoon}
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-emerald-600 hover:bg-emerald-500 text-white group"
+                        >
+                            <Smartphone size={32} className="text-emerald-100 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold tracking-wide">手機登入</span>
+                        </button>
 
-                    {/* LINE */}
-                    <button
-                        onClick={comingSoon}
-                        className="flex flex-col items-center justify-center gap-3 bg-[#00B900]/20 hover:bg-[#00B900]/40 border border-[#00B900]/30 hover:border-[#00B900] rounded-2xl p-6 transition-all group backdrop-blur-sm h-36 active:scale-95"
-                    >
-                        <MessageCircle size={36} className="text-[#00B900] group-hover:text-white transition-colors" />
-                        <span className="text-green-100 font-bold tracking-wide text-lg">LINE</span>
-                    </button>
+                        {/* Facebook */}
+                        <button
+                            onClick={comingSoon}
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-[#1877F2] hover:bg-[#1877F2]/90 text-white group"
+                        >
+                            <Facebook size={32} className="text-blue-100 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold tracking-wide">Facebook</span>
+                        </button>
 
-                    {/* Apple */}
-                    <button
-                        onClick={comingSoon}
-                        className="flex flex-col items-center justify-center gap-3 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white rounded-2xl p-6 transition-all group backdrop-blur-sm h-36 active:scale-95"
-                    >
-                        {/* Ghost as placeholder for Apple or generic icon */}
-                        <Ghost size={36} className="text-slate-300 group-hover:text-white transition-colors" />
-                        <span className="text-slate-200 font-bold tracking-wide text-lg">Apple</span>
-                    </button>
+                        {/* LINE */}
+                        <button
+                            onClick={comingSoon}
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-[#06C755] hover:bg-[#06C755]/90 text-white group"
+                        >
+                            <MessageCircle size={32} className="text-green-100 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold tracking-wide">LINE</span>
+                        </button>
+
+                        {/* Apple */}
+                        <button
+                            onClick={comingSoon}
+                            className="w-28 h-28 aspect-square rounded-2xl shadow-lg flex flex-col items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 bg-white hover:bg-gray-200 text-black group"
+                        >
+                            <Ghost size={32} className="text-slate-700 group-hover:text-black transition-colors" />
+                            <span className="text-sm font-bold tracking-wide">Apple</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Footer Links */}
