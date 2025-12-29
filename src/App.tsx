@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import {
     Menu, Plus, Crown, User as UserIcon, Megaphone,
-    Gift, Coins, ChevronLeft, ChevronRight, Headphones,
-    PiggyBank, Gamepad2, Calendar, Mail, Landmark, Shield,
+    Gift, Coins, ChevronLeft, ChevronRight,
+    PiggyBank, Calendar, Mail, Landmark, Shield,
     MessageCircle
 } from 'lucide-react';
 
@@ -14,7 +14,6 @@ import LoginScreen from './components/LoginScreen';
 import GameRoom from './components/GameRoom';
 import GameCard from './components/GameCard';
 import NavButton from './components/NavButton';
-import FloatingWidget from './components/FloatingWidget';
 import ActionButton from './components/ActionButton';
 import SettingsMenu from './components/SettingsMenu';
 import SaleModal from './components/SaleModal';
@@ -79,30 +78,24 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     </div>
                 </main>
 
-                <FloatingWidget side="left" label="豬幫出動!" color="bg-pink-600">
+                <div className="absolute bottom-8 left-12 z-40 flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-left scale-150">
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-4 border-white shadow-[0_0_20px_#FF69B4] flex items-center justify-center relative transform hover:rotate-12 transition-transform">
                         <PiggyBank size={40} className="text-white drop-shadow-md" />
                         <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full border border-white shadow-sm">X2</div>
                     </div>
-                </FloatingWidget>
+                    <div className="bg-pink-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md mt-2 border border-white/20">
+                        豬幫出動!
+                    </div>
+                </div>
 
-                <FloatingWidget side="right" label="首儲好禮">
+                <div className="absolute bottom-8 right-12 z-40 flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-right scale-150">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-b from-red-500 to-red-800 border-2 border-[#FFD700] shadow-xl flex items-center justify-center transform rotate-6 hover:rotate-0 transition-transform">
                         <Gift size={32} className="text-[#FFD700]" />
                     </div>
-                </FloatingWidget>
-
-                <FloatingWidget side="bottom-right">
-                    <div
-                        onClick={() => {
-                            setChatInitialTab('support');
-                            setActiveTab('chat');
-                        }}
-                        className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 border-4 border-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
-                    >
-                        <Headphones size={36} className="text-white" />
+                    <div className="bg-red-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md mt-2 border border-white/20">
+                        首儲好禮
                     </div>
-                </FloatingWidget>
+                </div>
 
                 {/* Overlays */}
                 {activeTab === 'chat' && (
@@ -230,14 +223,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
 
             {/* Bottom Navigation Bar */}
             <nav className="absolute bottom-0 left-0 right-0 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center">
-                <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 px-4 shadow-2xl w-full max-w-4xl justify-between gap-1">
-                    <NavButton
-                        icon={Gamepad2}
-                        label="Games"
-                        active={activeTab === 'games'}
-                        colorTheme="from-purple-500 to-indigo-500"
-                        onClick={() => setActiveTab('games')}
-                    />
+                <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 px-6 shadow-2xl justify-center gap-2">
                     <NavButton
                         icon={MessageCircle}
                         label="Chat"
