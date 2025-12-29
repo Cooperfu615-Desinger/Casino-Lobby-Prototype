@@ -13,7 +13,7 @@ const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
     const { logout } = useAuth();
 
     return (
-        <div className="absolute top-[80px] right-4 z-50 w-64 bg-[#1a0b2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-5 duration-200">
+        <div className="absolute top-[80px] right-4 z-[100] w-64 bg-[#1a0b2e]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-5 duration-200">
             <div className="p-2 space-y-1">
                 {/* Toggles */}
                 <div className="px-4 py-3 flex items-center justify-between hover:bg-white/5 rounded-xl transition-colors">

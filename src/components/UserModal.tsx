@@ -29,7 +29,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
     };
 
     return (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300 p-4">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300 p-4">
             <div className="w-full max-w-4xl bg-[#1a0b2e] rounded-3xl border border-white/10 shadow-2xl flex overflow-hidden max-h-[85vh]">
 
                 {/* Sidebar / Left Info */}

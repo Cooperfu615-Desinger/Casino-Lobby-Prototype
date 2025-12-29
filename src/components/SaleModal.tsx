@@ -6,7 +6,7 @@ interface SaleModalProps {
 }
 
 const SaleModal = ({ onClose }: SaleModalProps) => (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
+    <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
         <div className="w-[85%] max-w-3xl bg-gradient-to-b from-red-900 to-[#1a0b2e] rounded-3xl border-2 border-[#FFD700] shadow-[0_0_100px_rgba(255,0,0,0.4)] flex flex-col overflow-hidden relative">
 
             {/* Close Button */}
