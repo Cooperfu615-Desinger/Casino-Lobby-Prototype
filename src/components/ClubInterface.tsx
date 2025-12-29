@@ -116,7 +116,7 @@ const ClubInterface = ({ onClose }: ClubInterfaceProps) => {
     );
 
     const ClubJoinModal = () => (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
             <div className="w-full max-w-sm bg-[#1a0b2e] border-2 border-blue-500/50 rounded-3xl p-6 flex flex-col items-center relative shadow-2xl">
                 <button
                     onClick={() => {
@@ -178,7 +178,7 @@ const ClubInterface = ({ onClose }: ClubInterfaceProps) => {
     );
 
     const ClubCreateModal = () => (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
             <div className="w-full max-w-lg bg-[#1a0b2e] border-2 border-green-500/50 rounded-2xl flex flex-col relative shadow-2xl max-h-full">
                 <div className="h-16 border-b border-white/10 flex items-center justify-between px-6">
                     <h3 className="text-white font-bold text-lg flex items-center gap-2">
@@ -258,14 +258,14 @@ const ClubInterface = ({ onClose }: ClubInterfaceProps) => {
     );
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
             {/* Modal Container */}
             <div className="relative w-[90%] max-w-[1150px] h-[650px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
 
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 z-50 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+                    className="absolute top-4 right-4 z-[100] bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
                 >
                     <X size={20} />
                 </button>
