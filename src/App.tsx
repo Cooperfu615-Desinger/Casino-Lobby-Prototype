@@ -55,74 +55,82 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
     const [isHistoryOpen, setHistoryOpen] = useState(false);
 
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'chat': return <ChatInterface key={chatInitialTab} initialTab={chatInitialTab} />;
-            case 'inbox': return <InboxInterface />;
-            case 'gifts': return <GiftsInterface />;
-            case 'bank': return (
-                <BankInterface
-                    onSelectPackage={setSelectedPackage}
-                    onOpenHistory={() => setHistoryOpen(true)}
-                />
-            );
-            case 'club': return <ClubInterface />;
-            case 'events':
-                return (
+    const renderMainContent = () => {
+        // Full page overrides
+        if (activeTab === 'inbox') return <InboxInterface />;
+        if (activeTab === 'gifts') return <GiftsInterface />;
+        if (activeTab === 'bank') return (
+            <BankInterface
+                onSelectPackage={setSelectedPackage}
+                onOpenHistory={() => setHistoryOpen(true)}
+            />
+        );
+        if (activeTab === 'club') return <ClubInterface />;
+
+        // Default: Lobby (Games) + Overlays
+        return (
+            <>
+                <main className="absolute top-[130px] bottom-[90px] left-0 right-0 overflow-x-auto overflow-y-hidden flex items-center px-12 no-scrollbar">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
+                        <ChevronLeft className="text-white/40 drop-shadow-lg" size={48} />
+                    </div>
+                    <div className="grid grid-rows-[180px_180px] grid-flow-col gap-4 py-4 px-8 overflow-x-auto no-scrollbar w-full h-full content-center pt-8 auto-cols-max">
+                        {GAMES.map(game => (
+                            <GameCard
+                                key={game.id}
+                                game={game}
+                                onClick={() => onPlayGame(game)}
+                                className={`${game.size === 'large' ? 'row-span-2' : ''}`}
+                            />
+                        ))}
+                    </div>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
+                        <ChevronRight className="text-white/40 drop-shadow-lg" size={48} />
+                    </div>
+                </main>
+
+                <FloatingWidget side="left" label="豬幫出動!" color="bg-pink-600">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-4 border-white shadow-[0_0_20px_#FF69B4] flex items-center justify-center relative transform hover:rotate-12 transition-transform">
+                        <PiggyBank size={40} className="text-white drop-shadow-md" />
+                        <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full border border-white shadow-sm">X2</div>
+                    </div>
+                </FloatingWidget>
+
+                <FloatingWidget side="right" label="首儲好禮">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-b from-red-500 to-red-800 border-2 border-[#FFD700] shadow-xl flex items-center justify-center transform rotate-6 hover:rotate-0 transition-transform">
+                        <Gift size={32} className="text-[#FFD700]" />
+                    </div>
+                </FloatingWidget>
+
+                <FloatingWidget side="bottom-right">
+                    <div
+                        onClick={() => {
+                            setChatInitialTab('support');
+                            setActiveTab('chat');
+                        }}
+                        className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 border-4 border-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+                    >
+                        <Headphones size={36} className="text-white" />
+                    </div>
+                </FloatingWidget>
+
+                {/* Overlays */}
+                {activeTab === 'chat' && (
+                    <ChatInterface
+                        key={chatInitialTab}
+                        initialTab={chatInitialTab}
+                        onClose={() => setActiveTab('games')}
+                    />
+                )}
+                {activeTab === 'events' && (
                     <EventsInterface
                         onOpenSale={() => setSaleOpen(true)}
                         onOpenTournament={() => setTournamentOpen(true)}
+                        onClose={() => setActiveTab('games')}
                     />
-                );
-            case 'games':
-            default: return (
-                <>
-                    <main className="absolute top-[130px] bottom-[90px] left-0 right-0 overflow-x-auto overflow-y-hidden flex items-center px-12 no-scrollbar">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
-                            <ChevronLeft className="text-white/40 drop-shadow-lg" size={48} />
-                        </div>
-                        <div className="grid grid-rows-[180px_180px] grid-flow-col gap-4 py-4 px-8 overflow-x-auto no-scrollbar w-full h-full content-center pt-8 auto-cols-max">
-                            {GAMES.map(game => (
-                                <GameCard
-                                    key={game.id}
-                                    game={game}
-                                    onClick={() => onPlayGame(game)}
-                                    className={`${game.size === 'large' ? 'row-span-2' : ''}`}
-                                />
-                            ))}
-                        </div>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
-                            <ChevronRight className="text-white/40 drop-shadow-lg" size={48} />
-                        </div>
-                    </main>
-
-                    <FloatingWidget side="left" label="豬幫出動!" color="bg-pink-600">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-4 border-white shadow-[0_0_20px_#FF69B4] flex items-center justify-center relative transform hover:rotate-12 transition-transform">
-                            <PiggyBank size={40} className="text-white drop-shadow-md" />
-                            <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full border border-white shadow-sm">X2</div>
-                        </div>
-                    </FloatingWidget>
-
-                    <FloatingWidget side="right" label="首儲好禮">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-b from-red-500 to-red-800 border-2 border-[#FFD700] shadow-xl flex items-center justify-center transform rotate-6 hover:rotate-0 transition-transform">
-                            <Gift size={32} className="text-[#FFD700]" />
-                        </div>
-                    </FloatingWidget>
-
-                    <FloatingWidget side="bottom-right">
-                        <div
-                            onClick={() => {
-                                setChatInitialTab('support');
-                                setActiveTab('chat');
-                            }}
-                            className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 border-4 border-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
-                        >
-                            <Headphones size={36} className="text-white" />
-                        </div>
-                    </FloatingWidget>
-                </>
-            );
-        }
+                )}
+            </>
+        );
     };
 
     return (
@@ -218,7 +226,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                 </div>
 
                 {/* Dynamic Content Area */}
-                {renderContent()}
+                {renderMainContent()}
 
                 {/* Bottom Navigation Bar */}
                 <nav className="absolute bottom-0 left-0 right-0 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center">

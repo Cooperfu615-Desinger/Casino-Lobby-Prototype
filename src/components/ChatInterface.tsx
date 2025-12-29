@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import {
     Globe, MessageCircle, Headphones, Search, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X
 } from 'lucide-react';
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY } from '../data/mockData';
 
-const ChatInterface = ({ initialTab }: { initialTab?: 'public' | 'chat' | 'support' }) => {
+interface ChatInterfaceProps {
+    initialTab?: 'public' | 'chat' | 'support';
+    onClose: () => void;
+}
+
+const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
     const selectedFriend = FRIENDS.find(f => f.id === selectedFriendId)!;
@@ -185,95 +190,108 @@ const ChatInterface = ({ initialTab }: { initialTab?: 'public' | 'chat' | 'suppo
     };
 
     return (
-        <div className="absolute top-[130px] bottom-[90px] left-0 right-0 z-20 flex bg-[#120822] border-t border-white/10 animate-in fade-in zoom-in-95 duration-300">
-            <div className="w-[30%] bg-[#0f061e] border-r border-white/10 flex flex-col">
-                <div className="flex justify-between px-2 pt-2 pb-1 border-b border-white/5">
-                    <TabButton id="public" icon={Globe} label="公共頻道" />
-                    <TabButton id="chat" icon={MessageCircle} label="聊天" />
-                    <TabButton id="support" icon={Headphones} label="線上客服" />
-                </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            {/* Modal Container */}
+            <div className="relative w-[90%] max-w-5xl h-[85vh] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex animate-in zoom-in-95 duration-200">
 
-                {chatTab === 'public' && (
-                    <div className="flex-1 flex flex-col min-h-0">
-                        <div className="p-3 border-b border-white/5">
-                            <h4 className="text-white text-xs font-bold mb-2">線上玩家 ({ONLINE_PLAYERS.length})</h4>
-                        </div>
-                        <div className="flex-1 overflow-y-auto no-scrollbar">
-                            {ONLINE_PLAYERS.map(player => (
-                                <div key={player.id} className="flex items-center gap-3 p-3 hover:bg-white/5 cursor-pointer">
-                                    <div className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10`}>
-                                        <UserIcon size={14} className="text-white" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="text-slate-200 text-sm font-bold">{player.name}</div>
-                                        <div className="text-slate-500 text-[10px]">Level {player.level}</div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 z-20 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+                >
+                    <X size={20} />
+                </button>
+
+                {/* Left Panel */}
+                <div className="w-[30%] bg-[#0f061e] border-r border-white/10 flex flex-col pt-2">
+                    <div className="flex justify-between px-2 pt-2 pb-1 border-b border-white/5">
+                        <TabButton id="public" icon={Globe} label="公共頻道" />
+                        <TabButton id="chat" icon={MessageCircle} label="聊天" />
+                        <TabButton id="support" icon={Headphones} label="線上客服" />
                     </div>
-                )}
 
-                {chatTab === 'support' && (
-                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-6">
-                        <div className="bg-blue-600/20 text-blue-400 p-8 rounded-full border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.2)] animate-pulse">
-                            <Headphones size={80} />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-bold text-white mb-2">需要協助嗎？</h3>
-                            <p className="text-sm text-slate-400 leading-relaxed">
-                                我們的支援團隊隨時準備<br />為您解決任何遊戲問題。
-                            </p>
-                        </div>
-                    </div>
-                )}
-
-                {chatTab === 'chat' && (
-                    <div className="flex-1 flex flex-col min-h-0">
-                        <div className="p-4 border-b border-white/5">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="搜尋好友..."
-                                    className="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-[#FFD700] transition-colors"
-                                />
-                                <Search className="absolute left-3 top-2.5 text-slate-400" size={14} />
+                    {chatTab === 'public' && (
+                        <div className="flex-1 flex flex-col min-h-0">
+                            <div className="p-3 border-b border-white/5">
+                                <h4 className="text-white text-xs font-bold mb-2">線上玩家 ({ONLINE_PLAYERS.length})</h4>
+                            </div>
+                            <div className="flex-1 overflow-y-auto no-scrollbar">
+                                {ONLINE_PLAYERS.map(player => (
+                                    <div key={player.id} className="flex items-center gap-3 p-3 hover:bg-white/5 cursor-pointer">
+                                        <div className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10`}>
+                                            <UserIcon size={14} className="text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="text-slate-200 text-sm font-bold">{player.name}</div>
+                                            <div className="text-slate-500 text-[10px]">Level {player.level}</div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                        <div className="flex-1 overflow-y-auto no-scrollbar">
-                            {FRIENDS.map(friend => (
-                                <div
-                                    key={friend.id}
-                                    onClick={() => {
-                                        setChatTab('chat');
-                                        setSelectedFriendId(friend.id);
-                                    }}
-                                    className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
-                                >
-                                    <div className="relative">
-                                        <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
-                                            <UserIcon size={20} className="text-white/80" />
-                                        </div>
-                                        <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex justify-between items-baseline mb-0.5">
-                                            <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
-                                                {friend.name}
-                                            </span>
-                                            <span className="text-[10px] text-slate-500">10:30</span>
-                                        </div>
-                                        <p className="text-xs text-slate-400 truncate">
-                                            {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
+                    )}
+
+                    {chatTab === 'support' && (
+                        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-6">
+                            <div className="bg-blue-600/20 text-blue-400 p-8 rounded-full border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.2)] animate-pulse">
+                                <Headphones size={80} />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold text-white mb-2">需要協助嗎？</h3>
+                                <p className="text-sm text-slate-400 leading-relaxed">
+                                    我們的支援團隊隨時準備<br />為您解決任何遊戲問題。
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+
+                    {chatTab === 'chat' && (
+                        <div className="flex-1 flex flex-col min-h-0">
+                            <div className="p-4 border-b border-white/5">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="搜尋好友..."
+                                        className="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-[#FFD700] transition-colors"
+                                    />
+                                    <Search className="absolute left-3 top-2.5 text-slate-400" size={14} />
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto no-scrollbar">
+                                {FRIENDS.map(friend => (
+                                    <div
+                                        key={friend.id}
+                                        onClick={() => {
+                                            setChatTab('chat');
+                                            setSelectedFriendId(friend.id);
+                                        }}
+                                        className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
+                                    >
+                                        <div className="relative">
+                                            <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
+                                                <UserIcon size={20} className="text-white/80" />
+                                            </div>
+                                            <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex justify-between items-baseline mb-0.5">
+                                                <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
+                                                    {friend.name}
+                                                </span>
+                                                <span className="text-[10px] text-slate-500">10:30</span>
+                                            </div>
+                                            <p className="text-xs text-slate-400 truncate">
+                                                {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+                {renderRightPanel()}
             </div>
-            {renderRightPanel()}
         </div>
     );
 };
