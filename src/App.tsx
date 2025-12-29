@@ -57,14 +57,6 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
 
     const renderMainContent = () => {
         // Full page overrides
-        if (activeTab === 'inbox') return <InboxInterface />;
-        if (activeTab === 'gifts') return <GiftsInterface />;
-        if (activeTab === 'bank') return (
-            <BankInterface
-                onSelectPackage={setSelectedPackage}
-                onOpenHistory={() => setHistoryOpen(true)}
-            />
-        );
         if (activeTab === 'club') return <ClubInterface />;
 
         // Default: Lobby (Games) + Overlays
@@ -126,6 +118,19 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     <EventsInterface
                         onOpenSale={() => setSaleOpen(true)}
                         onOpenTournament={() => setTournamentOpen(true)}
+                        onClose={() => setActiveTab('games')}
+                    />
+                )}
+                {activeTab === 'inbox' && (
+                    <InboxInterface onClose={() => setActiveTab('games')} />
+                )}
+                {activeTab === 'gifts' && (
+                    <GiftsInterface onClose={() => setActiveTab('games')} />
+                )}
+                {activeTab === 'bank' && (
+                    <BankInterface
+                        onSelectPackage={setSelectedPackage}
+                        onOpenHistory={() => setHistoryOpen(true)}
                         onClose={() => setActiveTab('games')}
                     />
                 )}
