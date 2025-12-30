@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
     Globe, MessageCircle, Headphones, Search, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2
 } from 'lucide-react';
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY } from '../data/mockData';
 
@@ -16,12 +16,38 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
     const [publicMenu, setPublicMenu] = useState<{ x: number, y: number, name: string } | null>(null);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const selectedFriend = FRIENDS.find(f => f.id === selectedFriendId)!;
+    const [friends, setFriends] = useState(FRIENDS);
+    const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; friendId: number | null; friendName: string }>({
+        isOpen: false,
+        friendId: null,
+        friendName: ''
+    });
+
+    // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
+    const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
 
     const handleFriendRequest = (name: string) => {
         setPublicMenu(null);
-        setToastMessage(`已發送好友邀請給 ${name}！(Friend request sent!)`);
+        setToastMessage(`${name} 已成為好友`);
         setTimeout(() => setToastMessage(null), 3000);
+    };
+
+    const confirmDeleteFriend = (e: React.MouseEvent, friend: typeof FRIENDS[0]) => {
+        e.stopPropagation();
+        setDeleteModal({
+            isOpen: true,
+            friendId: friend.id,
+            friendName: friend.name
+        });
+    };
+
+    const handleDeleteFriend = () => {
+        if (deleteModal.friendId) {
+            setFriends(prev => prev.filter(f => f.id !== deleteModal.friendId));
+            setToastMessage(`已刪除好友 ${deleteModal.friendName}`);
+            setTimeout(() => setToastMessage(null), 3000);
+            setDeleteModal({ isOpen: false, friendId: null, friendName: '' });
+        }
     };
 
     const TabButton = ({ id, icon: Icon, label }: { id: 'public' | 'chat' | 'support'; icon: typeof Globe; label: string }) => (
@@ -219,6 +245,32 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                     </div>
                 )}
 
+
+
+                {/* Delete Confirmation Modal */}
+                {deleteModal.isOpen && (
+                    <div className="absolute inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+                        <div className="bg-[#1a0b2e] border border-white/20 p-6 rounded-xl shadow-2xl w-80 text-center animate-in zoom-in-95 duration-200">
+                            <h3 className="text-white font-bold text-lg mb-2">刪除好友</h3>
+                            <p className="text-slate-400 text-sm mb-6">是否確認刪除 {deleteModal.friendName}？</p>
+                            <div className="flex gap-3 justify-center">
+                                <button
+                                    onClick={() => setDeleteModal({ isOpen: false, friendId: null, friendName: '' })}
+                                    className="px-4 py-2 rounded-lg bg-white/5 text-slate-300 hover:bg-white/10 text-sm transition-colors"
+                                >
+                                    取消
+                                </button>
+                                <button
+                                    onClick={handleDeleteFriend}
+                                    className="px-4 py-2 rounded-lg bg-red-500/80 text-white hover:bg-red-600 text-sm transition-colors"
+                                >
+                                    確認
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* User Action Menu (Global) */}
                 {publicMenu && (
                     <>
@@ -340,7 +392,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             <div className="flex-1 overflow-y-auto no-scrollbar">
                                 {sidebarTab === 'chats' ? (
                                     /* Chat List Mode */
-                                    FRIENDS.map(friend => (
+                                    friends.map(friend => (
                                         <div
                                             key={friend.id}
                                             onClick={() => {
@@ -370,12 +422,11 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                     ))
                                 ) : (
                                     /* Friends List Mode (Simpler view) */
-                                    FRIENDS.map(friend => (
+                                    friends.map(friend => (
                                         <div
                                             key={friend.id}
                                             onClick={() => {
                                                 setSelectedFriendId(friend.id);
-                                                // Switch sidebar to chats implies starting a chat, which is fine
                                             }}
                                             className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors border-b border-white/5 ${selectedFriendId === friend.id ? 'bg-white/5' : ''}`}
                                         >
@@ -398,8 +449,11 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <button className="p-2 bg-white/5 rounded-full hover:bg-[#FFD700] hover:text-black transition-all group">
-                                                <MessageCircle size={16} />
+                                            <button
+                                                onClick={(e) => confirmDeleteFriend(e, friend)}
+                                                className="p-2 bg-transparent rounded-full text-slate-600 hover:text-red-500 hover:bg-white/5 transition-all group"
+                                            >
+                                                <Trash2 size={16} className="transform scale-90" />
                                             </button>
                                         </div>
                                     ))
