@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronRight, Clock, X, Gift, Lock, Check, SlidersHorizontal } from 'lucide-react';
+import { Calendar, ChevronRight, Clock, X, Gift, Lock, Check, SlidersHorizontal, Medal, Crown } from 'lucide-react';
 import { EVENTS_LIST } from '../data/mockData';
 
 interface EventsInterfaceProps {
@@ -11,12 +11,42 @@ interface EventsInterfaceProps {
 const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterfaceProps) => {
     const [activeTab, setActiveTab] = useState<'daily' | 'events' | 'leaderboard' | 'filter'>('daily');
     const [filter, setFilter] = useState<'all' | 'upcoming' | 'active' | 'ending'>('all');
+    const [leaderboardType, setLeaderboardType] = useState<'jackpot' | 'multiplier' | 'win' | 'rich'>('jackpot');
     const [signedIn, setSignedIn] = useState(false);
 
     const filteredList = EVENTS_LIST.filter(event => {
         if (filter === 'all') return true;
         return event.status === filter;
     });
+
+    const getLeaderboardData = () => {
+        return Array.from({ length: 20 }, (_, i) => {
+            const rank = i + 1;
+            let score = '';
+
+            switch (leaderboardType) {
+                case 'jackpot':
+                    score = `$${(1000000 - i * 40000).toLocaleString()}`;
+                    break;
+                case 'multiplier':
+                    score = `${(5000 - i * 150)}x`; // e.g. 5000x
+                    break;
+                case 'win':
+                    score = `$${(500000 - i * 20000).toLocaleString()}`;
+                    break;
+                case 'rich':
+                    score = `$${(99999999 - i * 3000000).toLocaleString()}`;
+                    break;
+            }
+
+            return {
+                rank,
+                name: `Player_${1000 + i}`,
+                avatarColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                score
+            };
+        });
+    };
 
     const handleCheckIn = () => {
         setSignedIn(true);
@@ -277,13 +307,89 @@ const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterf
                             </div>
                         )}
 
-                        {/* Coming Soon Tabs including Filter view */}
-                        {(activeTab === 'leaderboard' || activeTab === 'filter') && (
+                        {/* Leaderboard Tab */}
+                        {activeTab === 'leaderboard' && (
+                            <div className="flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-300">
+                                {/* Sub Navigation */}
+                                <div className="flex gap-2 mb-6">
+                                    {[
+                                        { id: 'jackpot', label: '彩金榜' },
+                                        { id: 'multiplier', label: '倍數榜' },
+                                        { id: 'win', label: '贏分榜' },
+                                        { id: 'rich', label: '富豪榜' }
+                                    ].map((type) => (
+                                        <button
+                                            key={type.id}
+                                            onClick={() => setLeaderboardType(type.id as any)}
+                                            className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border border-white/5 ${leaderboardType === type.id
+                                                ? 'bg-white/10 text-[#FFD700] border-[#FFD700]/50 shadow-[0_0_10px_rgba(255,215,0,0.1)]'
+                                                : 'bg-black/20 text-slate-400 hover:bg-white/5 hover:text-white'
+                                                }`}
+                                        >
+                                            {type.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* List Header */}
+                                <div className="flex items-center text-xs text-white/40 px-4 mb-2 uppercase font-bold tracking-wider">
+                                    <div className="w-16 text-center">Rank</div>
+                                    <div className="flex-1 pl-4">Player</div>
+                                    <div className="w-32 text-right">Score</div>
+                                </div>
+
+                                {/* Ranking List */}
+                                <div className="flex flex-col gap-2 pb-20">
+                                    {getLeaderboardData().map((item) => {
+                                        const isTop1 = item.rank === 1;
+                                        const isTop2 = item.rank === 2;
+                                        const isTop3 = item.rank === 3;
+
+                                        return (
+                                            <div
+                                                key={item.rank}
+                                                className={`flex items-center p-3 rounded-xl transition-all hover:bg-white/5 ${isTop1 ? 'bg-gradient-to-r from-[#FFD700]/20 to-transparent border border-[#FFD700]/30' :
+                                                    isTop2 ? 'bg-gradient-to-r from-slate-300/10 to-transparent border border-white/10' :
+                                                        isTop3 ? 'bg-gradient-to-r from-orange-700/10 to-transparent border border-white/5' :
+                                                            'bg-black/20 border border-transparent'
+                                                    }`}
+                                            >
+                                                {/* Rank Column */}
+                                                <div className="w-16 flex justify-center">
+                                                    {isTop1 ? <Crown size={24} className="text-[#FFD700] fill-[#FFD700] animate-bounce" /> :
+                                                        isTop2 ? <Medal size={24} className="text-slate-300" /> :
+                                                            isTop3 ? <Medal size={24} className="text-orange-600" /> :
+                                                                <span className="text-slate-500 font-bold font-mono text-lg">#{item.rank}</span>
+                                                    }
+                                                </div>
+
+                                                {/* Player Info */}
+                                                <div className="flex-1 flex items-center gap-3 pl-4">
+                                                    <div
+                                                        className="w-10 h-10 rounded-full border-2 border-white/10 shadow-lg"
+                                                        style={{ backgroundColor: item.avatarColor }}
+                                                    />
+                                                    <span className={`font-bold ${isTop1 ? 'text-[#FFD700]' : 'text-white'}`}>
+                                                        {item.name}
+                                                    </span>
+                                                </div>
+
+                                                {/* Score */}
+                                                <div className="w-32 text-right font-mono font-bold text-[#FFD700]">
+                                                    {item.score}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Coming Soon Tabs - Filter Only */}
+                        {activeTab === 'filter' && (
                             <div className="flex flex-col items-center justify-center h-[400px] animate-in fade-in zoom-in-95 duration-300">
                                 <div className="text-6xl mb-4 opacity-20">🚧</div>
-                                <h3 className="text-2xl font-bold text-white mb-2">
-                                    {activeTab === 'leaderboard' ? '排行榜' : '篩選'}
-                                </h3>
+                                <h3 className="text-2xl font-bold text-white mb-2">篩選</h3>
                                 <p className="text-slate-400">Coming Soon...</p>
                             </div>
                         )}
