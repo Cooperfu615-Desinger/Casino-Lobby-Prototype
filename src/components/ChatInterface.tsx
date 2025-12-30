@@ -4,6 +4,7 @@ import {
     Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift
 } from 'lucide-react';
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../data/mockData';
+import { useUI } from '../context/UIContext';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [
@@ -38,6 +39,7 @@ interface ChatInterfaceProps {
 }
 
 const ChatInterface = ({ initialTab, onClose, onOpenTransfer }: ChatInterfaceProps) => {
+    const { openModal } = useUI();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
@@ -245,9 +247,9 @@ const ChatInterface = ({ initialTab, onClose, onOpenTransfer }: ChatInterfacePro
                                 <div className="absolute bottom-16 left-3 bg-[#2a1b42] border border-white/20 rounded-xl shadow-xl p-2 w-40 animate-in fade-in zoom-in-95 duration-200">
                                     <button
                                         onClick={() => {
-                                            onOpenTransfer?.();
+                                            openModal('transfer');
                                             setShowAttachMenu(false);
-                                            console.log("[Chat] Game Points button clicked - opening TransferModal");
+                                            console.log("[Chat] Game Points button clicked - opening TransferModal via Global Stack");
                                         }}
                                         className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
                                     >

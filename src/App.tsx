@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-    Menu, Plus, Crown, User as UserIcon, Megaphone,
+    Menu, Crown, User as UserIcon, Megaphone,
     Gift, Coins, ChevronLeft, ChevronRight,
     PiggyBank, Calendar, Mail, Landmark, Shield,
     MessageCircle
@@ -16,19 +16,22 @@ import GameCard from './components/GameCard';
 import NavButton from './components/NavButton';
 import ActionButton from './components/ActionButton';
 import SettingsMenu from './components/SettingsMenu';
-import SaleModal from './components/SaleModal';
-import TournamentModal from './components/TournamentModal';
+// import SaleModal from './components/SaleModal'; // Removed, handled by ModalContainer
+// import TournamentModal from './components/TournamentModal'; // Removed, handled by ModalContainer
 import UserModal from './components/UserModal';
 import EventsInterface from './components/EventsInterface';
-import PaymentModal from './components/PaymentModal';
-import HistoryModal from './components/HistoryModal';
+// import PaymentModal from './components/PaymentModal'; // Removed, handled by ModalContainer
+// import HistoryModal from './components/HistoryModal'; // Removed, handled by ModalContainer
 import BankInterface from './components/BankInterface';
 import ChatInterface from './components/ChatInterface';
 import ClubInterface from './components/ClubInterface';
 import InboxInterface from './components/InboxInterface';
 import GiftsInterface from './components/GiftsInterface';
 import LanguageModal from './components/LanguageModal';
-import TransferModal from './components/TransferModal';
+// import TransferModal from './components/TransferModal'; // Removed, handled by ModalContainer
+
+import { UIProvider, useUI } from './context/UIContext';
+import ModalContainer from './components/ModalContainer';
 
 // Data
 // Data
@@ -45,16 +48,17 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ActiveTab>('games');
     const [chatInitialTab, setChatInitialTab] = useState<'public' | 'chat' | 'support'>('chat');
-    const [isSaleOpen, setSaleOpen] = useState(false);
-    const [isTournamentOpen, setTournamentOpen] = useState(false);
+    // const [isSaleOpen, setSaleOpen] = useState(false); // Removed legacy state
+    // const [isTournamentOpen, setTournamentOpen] = useState(false); // Removed legacy state
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
-    const [isTransferOpen, setTransferOpen] = useState(false);
+    // const [isTransferOpen, setTransferOpen] = useState(false); // Removed legacy state
+    const { openModal } = useUI();
 
     // Hoisted Modal State
-    const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-    const [isHistoryOpen, setHistoryOpen] = useState(false);
+    // const [selectedPackage, setSelectedPackage] = useState<Package | null>(null); // Removed legacy state
+    // const [isHistoryOpen, setHistoryOpen] = useState(false); // Removed legacy state
 
     const renderMainContent = () => {
         // Full page overrides
@@ -80,7 +84,10 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     </div>
                 </main>
 
-                <div className="absolute bottom-12 left-12 z-[60] flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-left scale-150">
+                <div
+                    onClick={() => openModal('tournament')}
+                    className="absolute bottom-12 left-12 z-[60] flex flex-col items-center cursor-pointer hover:scale-105 active:scale-95 transition-transform origin-bottom-left scale-150"
+                >
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-4 border-white shadow-[0_0_20px_#FF69B4] flex items-center justify-center relative transform hover:rotate-12 transition-transform">
                         <PiggyBank size={40} className="text-white drop-shadow-md" />
                         <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full border border-white shadow-sm">X2</div>
@@ -90,7 +97,10 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                     </div>
                 </div>
 
-                <div className="absolute bottom-12 right-12 z-[60] flex flex-col items-center animate-pulse-slow cursor-pointer hover:scale-105 transition-transform origin-bottom-right scale-150">
+                <div
+                    onClick={() => openModal('sale')}
+                    className="absolute bottom-12 right-12 z-[60] flex flex-col items-center cursor-pointer hover:scale-105 active:scale-95 transition-transform origin-bottom-right scale-150"
+                >
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-b from-red-500 to-red-800 border-2 border-[#FFD700] shadow-xl flex items-center justify-center transform rotate-6 hover:rotate-0 transition-transform">
                         <Gift size={32} className="text-[#FFD700]" />
                     </div>
@@ -105,13 +115,13 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                         key={chatInitialTab}
                         initialTab={chatInitialTab}
                         onClose={() => setActiveTab('games')}
-                        onOpenTransfer={() => setTransferOpen(true)} // Wired for Game Points
+                    // onOpenTransfer handled internally by ChatInterface via useUI
                     />
                 )}
                 {activeTab === 'events' && (
                     <EventsInterface
-                        onOpenSale={() => setSaleOpen(true)}
-                        onOpenTournament={() => setTournamentOpen(true)}
+                        onOpenSale={() => openModal('sale')}
+                        onOpenTournament={() => openModal('tournament')}
                         onClose={() => setActiveTab('games')}
                     />
                 )}
@@ -123,8 +133,8 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                 )}
                 {activeTab === 'bank' && (
                     <BankInterface
-                        onSelectPackage={setSelectedPackage}
-                        onOpenHistory={() => setHistoryOpen(true)}
+                        // onSelectPackage={setSelectedPackage} // Handled via useUI
+                        // onOpenHistory={() => setHistoryOpen(true)} // Handled via useUI
                         onClose={() => setActiveTab('games')}
                     />
                 )}
@@ -143,14 +153,14 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
 
             {/* Modal Overlays */}
-            {isSaleOpen && <SaleModal onClose={() => setSaleOpen(false)} />}
-            {isTournamentOpen && <TournamentModal onClose={() => setTournamentOpen(false)} />}
+            {/* {isSaleOpen && <SaleModal onClose={() => setSaleOpen(false)} />} - Handled by ModalContainer */}
+            {/* {isTournamentOpen && <TournamentModal onClose={() => setTournamentOpen(false)} />} - Handled by ModalContainer */}
             {isSettingsOpen && <SettingsMenu onOpenLanguage={() => setLangModalOpen(true)} />}
             {isUserModalOpen && <UserModal onClose={() => setUserModalOpen(false)} />}
             {isLangModalOpen && <LanguageModal onClose={() => setLangModalOpen(false)} />}
-            {selectedPackage && <PaymentModal packageInfo={selectedPackage} onClose={() => setSelectedPackage(null)} />}
-            {isHistoryOpen && <HistoryModal onClose={() => setHistoryOpen(false)} />}
-            {isTransferOpen && <TransferModal onClose={() => setTransferOpen(false)} />}
+            {/* {selectedPackage && <PaymentModal packageInfo={selectedPackage} onClose={() => setSelectedPackage(null)} />} - Handled by ModalContainer */}
+            {/* {isHistoryOpen && <HistoryModal onClose={() => setHistoryOpen(false)} />} - Handled by ModalContainer */}
+            {/* {isTransferOpen && <TransferModal onClose={() => setTransferOpen(false)} />} - Handled by ModalContainer */}
 
             {/* Header */}
             <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
@@ -185,28 +195,18 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                 {/* Center: BUY & SALE Buttons */}
                 <div className="pointer-events-auto flex items-center gap-6 transform translate-y-2">
                     <ActionButton label="BUY" type="buy" onClick={() => setActiveTab('bank')} />
-                    <ActionButton label="SALE" type="sale" onClick={() => setSaleOpen(true)} />
+                    <ActionButton label="SALE" type="sale" onClick={() => openModal('sale')} />
                 </div>
 
                 {/* Right: Currency & Menu */}
                 <div className="pointer-events-auto flex items-center justify-end gap-4 w-[350px]">
                     <div
-                        onClick={() => {
-                            console.log("點數被點擊了！");
-                            setTransferOpen(true);
-                        }}
-                        className="bg-black/60 border border-[#FFD700]/50 rounded-full pl-4 pr-1 py-1.5 flex items-center gap-3 shadow-lg cursor-pointer z-[100]"
+                        className="bg-black/60 border border-[#FFD700]/50 rounded-full px-4 py-1.5 flex items-center gap-3 shadow-lg select-none z-[100]"
                     >
                         <Coins className="text-[#FFD700] fill-current" size={20} />
                         <span className="text-white font-mono font-bold text-xl tracking-wide">
                             {user?.balance.toLocaleString() || '0'}
                         </span>
-                        <button
-                            onClick={() => setActiveTab('bank')}
-                            className="bg-gradient-to-b from-green-400 to-green-600 rounded-full p-1.5 hover:brightness-110 active:scale-95 transition-all shadow-lg border border-white/20"
-                        >
-                            <Plus size={18} className="text-white stroke-[3]" />
-                        </button>
                     </div>
 
                     <button
@@ -232,7 +232,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
             {renderMainContent()}
 
             {/* Bottom Navigation Bar */}
-            <nav className="absolute bottom-0 left-0 right-0 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center">
+            <nav className="absolute bottom-[15px] left-0 right-0 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center">
                 <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 px-6 shadow-2xl justify-center gap-6">
                     <NavButton
                         icon={MessageCircle}
@@ -331,11 +331,16 @@ function App() {
             >
                 <AudioProvider>
                     <AuthProvider>
-                        {isInitialLoad ? (
-                            <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                        ) : (
-                            <MainContent />
-                        )}
+                        <UIProvider>
+                            {isInitialLoad ? (
+                                <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                            ) : (
+                                <>
+                                    <MainContent />
+                                    <ModalContainer />
+                                </>
+                            )}
+                        </UIProvider>
                     </AuthProvider>
                 </AudioProvider>
             </div>

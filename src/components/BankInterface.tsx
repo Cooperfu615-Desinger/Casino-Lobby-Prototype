@@ -1,13 +1,13 @@
 import { Landmark, Gem, FileText, X } from 'lucide-react';
 import { PACKAGES, Package } from '../data/mockData';
+import { useUI } from '../context/UIContext';
 
 interface BankInterfaceProps {
-    onSelectPackage: (pkg: Package) => void;
-    onOpenHistory: () => void;
     onClose: () => void;
 }
 
-const BankInterface = ({ onSelectPackage, onOpenHistory, onClose }: BankInterfaceProps) => {
+const BankInterface = ({ onClose }: BankInterfaceProps) => {
+    const { openModal } = useUI();
 
 
     return (
@@ -33,7 +33,7 @@ const BankInterface = ({ onSelectPackage, onOpenHistory, onClose }: BankInterfac
                         {/* History Button */}
                         <div className="flex gap-4 mr-12">
                             <button
-                                onClick={onOpenHistory}
+                                onClick={() => openModal('history')}
                                 className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white px-4 py-2 rounded-full transition-all border border-white/5 active:scale-95"
                             >
                                 <FileText size={16} />
@@ -46,7 +46,7 @@ const BankInterface = ({ onSelectPackage, onOpenHistory, onClose }: BankInterfac
                         {PACKAGES.map(pkg => (
                             <div
                                 key={pkg.id}
-                                onClick={() => onSelectPackage(pkg)}
+                                onClick={() => openModal('payment', { packageInfo: pkg })}
                                 className="relative group bg-[#0f061e] border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-between hover:border-[#FFD700] hover:bg-white/5 transition-all cursor-pointer shadow-lg hover:shadow-[#FFD700]/20 hover:-translate-y-1"
                             >
                                 {pkg.best && (
