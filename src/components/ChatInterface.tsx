@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
     Globe, MessageCircle, Headphones, Search, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus
 } from 'lucide-react';
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY } from '../data/mockData';
 
@@ -13,7 +13,16 @@ interface ChatInterfaceProps {
 const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
+    const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
+    const [publicMenu, setPublicMenu] = useState<{ x: number, y: number, name: string } | null>(null);
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
     const selectedFriend = FRIENDS.find(f => f.id === selectedFriendId)!;
+
+    const handleFriendRequest = (name: string) => {
+        setPublicMenu(null);
+        setToastMessage(`已發送好友邀請給 ${name}！(Friend request sent!)`);
+        setTimeout(() => setToastMessage(null), 3000);
+    };
 
     const TabButton = ({ id, icon: Icon, label }: { id: 'public' | 'chat' | 'support'; icon: typeof Globe; label: string }) => (
         <button
@@ -87,14 +96,21 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-3">
                             {PUBLIC_CHAT_HISTORY.map(msg => (
-                                <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
+                                <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} relative group`}>
                                     {!msg.isSystem && !msg.isMe && (
-                                        <div className="flex flex-col items-center mr-2">
-                                            <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center border border-white/10">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                const rect = e.currentTarget.getBoundingClientRect();
+                                                setPublicMenu({ x: rect.left, y: rect.bottom, name: msg.sender });
+                                            }}
+                                            className="flex flex-col items-center mr-2 hover:opacity-80 transition-opacity"
+                                        >
+                                            <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center border border-white/10 group-hover:border-[#FFD700] transition-colors">
                                                 <UserIcon size={14} className="text-white/80" />
                                             </div>
-                                            <span className="text-[9px] text-slate-500 mt-0.5 max-w-[50px] truncate">{msg.sender}</span>
-                                        </div>
+                                            <span className="text-[9px] text-slate-500 mt-0.5 max-w-[50px] truncate group-hover:text-[#FFD700] transition-colors">{msg.sender}</span>
+                                        </button>
                                     )}
                                     {msg.isSystem ? (
                                         <div className="w-full flex justify-center my-2">
@@ -112,6 +128,37 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                     )}
                                 </div>
                             ))}
+
+                            {/* User Action Menu */}
+                            {publicMenu && (
+                                <div
+                                    className="fixed z-50 bg-[#2a1b42] border border-white/20 rounded-lg shadow-xl py-1 w-32 animate-in fade-in zoom-in-95 duration-100"
+                                    style={{ top: publicMenu.y, left: publicMenu.x }}
+                                >
+                                    <div className="px-3 py-1.5 text-xs text-white/50 border-b border-white/10 mb-1">
+                                        {publicMenu.name}
+                                    </div>
+                                    <button
+                                        onClick={() => handleFriendRequest(publicMenu.name)}
+                                        className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 flex items-center gap-2"
+                                    >
+                                        <UserPlus size={14} className="text-[#FFD700]" />
+                                        加入好友
+                                    </button>
+                                    <button
+                                        onClick={() => setPublicMenu(null)}
+                                        className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/10 flex items-center gap-2"
+                                    >
+                                        <X size={14} />
+                                        關閉
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Global Click Listener to close menu */}
+                            {publicMenu && (
+                                <div className="fixed inset-0 z-40" onClick={() => setPublicMenu(null)} />
+                            )}
                         </div>
                         <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e]">
                             <div className="flex-1 relative">
@@ -194,6 +241,14 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
             {/* Modal Container */}
             <div className="relative w-[90%] max-w-[1100px] h-[650px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex animate-in zoom-in-95 duration-200">
 
+                {/* Toast Notification */}
+                {toastMessage && (
+                    <div className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-[#FFD700] text-black px-4 py-2 rounded-full font-bold shadow-[0_0_20px_rgba(255,215,0,0.5)] animate-in slide-in-from-top-4 fade-in duration-300 flex items-center gap-2">
+                        <UserPlus size={16} />
+                        {toastMessage}
+                    </div>
+                )}
+
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -247,45 +302,101 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
 
                     {chatTab === 'chat' && (
                         <div className="flex-1 flex flex-col min-h-0">
-                            <div className="p-4 border-b border-white/5">
+                            {/* Sidebar Tabs */}
+                            <div className="p-4 pb-0">
+                                <div className="flex p-1 bg-black/40 rounded-lg mb-3">
+                                    <button
+                                        onClick={() => setSidebarTab('friends')}
+                                        className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${sidebarTab === 'friends' ? 'bg-[#FFD700] text-black shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
+                                    >
+                                        好友清單
+                                    </button>
+                                    <button
+                                        onClick={() => setSidebarTab('chats')}
+                                        className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${sidebarTab === 'chats' ? 'bg-[#FFD700] text-black shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
+                                    >
+                                        對話內容
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="px-4 pb-3 border-b border-white/5">
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        placeholder="搜尋好友..."
+                                        placeholder={sidebarTab === 'friends' ? "搜尋好友 (Search Player)" : "搜尋內容 (Search History)"}
                                         className="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-[#FFD700] transition-colors"
                                     />
                                     <Search className="absolute left-3 top-2.5 text-slate-400" size={14} />
                                 </div>
                             </div>
                             <div className="flex-1 overflow-y-auto no-scrollbar">
-                                {FRIENDS.map(friend => (
-                                    <div
-                                        key={friend.id}
-                                        onClick={() => {
-                                            setChatTab('chat');
-                                            setSelectedFriendId(friend.id);
-                                        }}
-                                        className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
-                                    >
-                                        <div className="relative">
-                                            <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
-                                                <UserIcon size={20} className="text-white/80" />
+                                {sidebarTab === 'chats' ? (
+                                    /* Chat List Mode */
+                                    FRIENDS.map(friend => (
+                                        <div
+                                            key={friend.id}
+                                            onClick={() => {
+                                                setChatTab('chat');
+                                                setSelectedFriendId(friend.id);
+                                            }}
+                                            className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
+                                        >
+                                            <div className="relative">
+                                                <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
+                                                    <UserIcon size={20} className="text-white/80" />
+                                                </div>
+                                                <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
                                             </div>
-                                            <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex justify-between items-baseline mb-0.5">
-                                                <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
-                                                    {friend.name}
-                                                </span>
-                                                <span className="text-[10px] text-slate-500">10:30</span>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex justify-between items-baseline mb-0.5">
+                                                    <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
+                                                        {friend.name}
+                                                    </span>
+                                                    <span className="text-[10px] text-slate-500">10:30</span>
+                                                </div>
+                                                <p className="text-xs text-slate-400 truncate">
+                                                    {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
+                                                </p>
                                             </div>
-                                            <p className="text-xs text-slate-400 truncate">
-                                                {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
-                                            </p>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                ) : (
+                                    /* Friends List Mode (Simpler view) */
+                                    FRIENDS.map(friend => (
+                                        <div
+                                            key={friend.id}
+                                            onClick={() => {
+                                                setSelectedFriendId(friend.id);
+                                                // Switch sidebar to chats implies starting a chat, which is fine
+                                            }}
+                                            className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors border-b border-white/5 ${selectedFriendId === friend.id ? 'bg-white/5' : ''}`}
+                                        >
+                                            <div className="relative">
+                                                <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
+                                                    <UserIcon size={20} className="text-white/80" />
+                                                </div>
+                                                <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex justify-between items-center">
+                                                    <span className={`text-sm font-bold truncate text-slate-200`}>
+                                                        {friend.name}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-1.5 mt-1">
+                                                    <span className={`w-1.5 h-1.5 rounded-full ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`} />
+                                                    <span className="text-[10px] text-slate-500 truncate">
+                                                        {friend.status === 'online' ? 'Online' : friend.status === 'playing' ? 'Playing' : 'Offline'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button className="p-2 bg-white/5 rounded-full hover:bg-[#FFD700] hover:text-black transition-all group">
+                                                <MessageCircle size={16} />
+                                            </button>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     )}
