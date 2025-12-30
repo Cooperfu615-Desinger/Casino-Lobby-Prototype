@@ -44,6 +44,9 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
         friendName: ''
     });
     const [showAttachMenu, setShowAttachMenu] = useState(false);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
+    const [messageInput, setMessageInput] = useState('');
 
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
@@ -275,12 +278,70 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             <div className="flex-1 relative z-10">
                                 <input
                                     type="text"
+                                    value={messageInput}
+                                    onChange={(e) => setMessageInput(e.target.value)}
                                     placeholder="輸入訊息..."
                                     className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700]"
                                 />
-                                <button className="absolute right-3 top-2.5 text-slate-400 hover:text-[#FFD700]">
+                                <button
+                                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                    className={`absolute right-3 top-2.5 transition-colors ${showEmojiPicker ? 'text-[#FFD700]' : 'text-slate-400 hover:text-[#FFD700]'}`}
+                                >
                                     <Smile size={20} />
                                 </button>
+
+                                {showEmojiPicker && (
+                                    <>
+                                        <div className="fixed inset-0 z-40" onClick={() => setShowEmojiPicker(false)} />
+                                        <div className="absolute bottom-full right-0 mb-3 w-64 bg-[#2a1b42] border border-white/20 rounded-xl shadow-2xl overflow-hidden z-50 animate-in zoom-in-95 duration-200">
+                                            {/* Tabs */}
+                                            <div className="flex border-b border-white/10 bg-black/20">
+                                                <button
+                                                    onClick={() => setEmojiTab('default')}
+                                                    className={`flex-1 py-2 text-xs font-medium transition-colors ${emojiTab === 'default' ? 'bg-[#FFD700]/10 text-[#FFD700] border-b-2 border-[#FFD700]' : 'text-slate-400 hover:text-slate-200'}`}
+                                                >
+                                                    預設
+                                                </button>
+                                                <button
+                                                    onClick={() => setEmojiTab('reward')}
+                                                    className={`flex-1 py-2 text-xs font-medium transition-colors ${emojiTab === 'reward' ? 'bg-[#FFD700]/10 text-[#FFD700] border-b-2 border-[#FFD700]' : 'text-slate-400 hover:text-slate-200'}`}
+                                                >
+                                                    獎勵
+                                                </button>
+                                                <button
+                                                    onClick={() => setEmojiTab('other')}
+                                                    className={`flex-1 py-2 text-xs font-medium transition-colors ${emojiTab === 'other' ? 'bg-[#FFD700]/10 text-[#FFD700] border-b-2 border-[#FFD700]' : 'text-slate-400 hover:text-slate-200'}`}
+                                                >
+                                                    其他
+                                                </button>
+                                            </div>
+
+                                            {/* Content */}
+                                            <div className="p-3 h-48 overflow-y-auto custom-scrollbar">
+                                                {emojiTab === 'default' ? (
+                                                    <div className="grid grid-cols-5 gap-2">
+                                                        {['😀', '😂', '😍', '😭', '😡', '👍', '🔥', '🎉', '💰', '🎰', '🤬', '🫣', '❤️', '💔', '👻', '💀', '💩', '🤡', '🤝', '🙌'].map(emoji => (
+                                                            <button
+                                                                key={emoji}
+                                                                onClick={() => setMessageInput(prev => prev + emoji)}
+                                                                className="w-8 h-8 flex items-center justify-center text-lg hover:bg-white/10 rounded-lg transition-colors"
+                                                            >
+                                                                {emoji}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <div className="h-full flex flex-col items-center justify-center text-slate-500 gap-2">
+                                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                                                            <Smile size={20} className="opacity-50" />
+                                                        </div>
+                                                        <span className="text-xs">尚未取得</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                             <button className="p-2.5 bg-gradient-to-r from-[#FFD700] to-[#DAA520] rounded-full text-black shadow-lg hover:scale-105 active:scale-95 transition-all">
                                 <Send size={18} fill="currentColor" />
