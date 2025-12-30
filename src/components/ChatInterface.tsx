@@ -129,36 +129,6 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                 </div>
                             ))}
 
-                            {/* User Action Menu */}
-                            {publicMenu && (
-                                <div
-                                    className="fixed z-50 bg-[#2a1b42] border border-white/20 rounded-lg shadow-xl py-1 w-32 animate-in fade-in zoom-in-95 duration-100"
-                                    style={{ top: publicMenu.y, left: publicMenu.x }}
-                                >
-                                    <div className="px-3 py-1.5 text-xs text-white/50 border-b border-white/10 mb-1">
-                                        {publicMenu.name}
-                                    </div>
-                                    <button
-                                        onClick={() => handleFriendRequest(publicMenu.name)}
-                                        className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 flex items-center gap-2"
-                                    >
-                                        <UserPlus size={14} className="text-[#FFD700]" />
-                                        加入好友
-                                    </button>
-                                    <button
-                                        onClick={() => setPublicMenu(null)}
-                                        className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/10 flex items-center gap-2"
-                                    >
-                                        <X size={14} />
-                                        關閉
-                                    </button>
-                                </div>
-                            )}
-
-                            {/* Global Click Listener to close menu */}
-                            {publicMenu && (
-                                <div className="fixed inset-0 z-40" onClick={() => setPublicMenu(null)} />
-                            )}
                         </div>
                         <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e]">
                             <div className="flex-1 relative">
@@ -249,6 +219,36 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                     </div>
                 )}
 
+                {/* User Action Menu (Global) */}
+                {publicMenu && (
+                    <>
+                        <div
+                            className="fixed z-50 bg-[#2a1b42] border border-white/20 rounded-lg shadow-xl py-1 w-32 animate-in fade-in zoom-in-95 duration-100"
+                            style={{ top: publicMenu.y, left: publicMenu.x }}
+                        >
+                            <div className="px-3 py-1.5 text-xs text-white/50 border-b border-white/10 mb-1">
+                                {publicMenu.name}
+                            </div>
+                            <button
+                                onClick={() => handleFriendRequest(publicMenu.name)}
+                                className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 flex items-center gap-2"
+                            >
+                                <UserPlus size={14} className="text-[#FFD700]" />
+                                加入好友
+                            </button>
+                            <button
+                                onClick={() => setPublicMenu(null)}
+                                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/10 flex items-center gap-2"
+                            >
+                                <X size={14} />
+                                關閉
+                            </button>
+                        </div>
+                        {/* Global Click Listener to close menu */}
+                        <div className="fixed inset-0 z-40" onClick={() => setPublicMenu(null)} />
+                    </>
+                )}
+
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -272,10 +272,17 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             </div>
                             <div className="flex-1 overflow-y-auto no-scrollbar">
                                 {ONLINE_PLAYERS.map(player => (
-                                    <div key={player.id} className="flex items-center gap-3 p-3 hover:bg-white/5 cursor-pointer">
-                                        <div className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10`}>
-                                            <UserIcon size={14} className="text-white" />
-                                        </div>
+                                    <div key={player.id} className="flex items-center gap-3 p-3 hover:bg-white/5 transition-colors">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                const rect = e.currentTarget.getBoundingClientRect();
+                                                setPublicMenu({ x: rect.left, y: rect.bottom, name: player.name });
+                                            }}
+                                            className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10 hover:scale-110 active:scale-95 transition-all shadow-md group`}
+                                        >
+                                            <UserIcon size={14} className="text-white group-hover:text-[#FFD700]" />
+                                        </button>
                                         <div className="flex-1">
                                             <div className="text-slate-200 text-sm font-bold">{player.name}</div>
                                             <div className="text-slate-500 text-[10px]">Level {player.level}</div>
