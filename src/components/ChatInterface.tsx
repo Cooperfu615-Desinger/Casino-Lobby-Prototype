@@ -104,9 +104,9 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                                 const rect = e.currentTarget.getBoundingClientRect();
                                                 setPublicMenu({ x: rect.left, y: rect.bottom, name: msg.sender });
                                             }}
-                                            className="flex flex-col items-center mr-2 hover:opacity-80 transition-opacity"
+                                            className="flex flex-col items-center mr-2 hover:opacity-80 transition-all active:scale-95 group-hover:scale-105"
                                         >
-                                            <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center border border-white/10 group-hover:border-[#FFD700] transition-colors">
+                                            <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center border border-white/10 group-hover:border-[#FFD700] transition-colors shadow-lg">
                                                 <UserIcon size={14} className="text-white/80" />
                                             </div>
                                             <span className="text-[9px] text-slate-500 mt-0.5 max-w-[50px] truncate group-hover:text-[#FFD700] transition-colors">{msg.sender}</span>
