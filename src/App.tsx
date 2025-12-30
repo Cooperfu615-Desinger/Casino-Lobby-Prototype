@@ -28,6 +28,7 @@ import ClubInterface from './components/ClubInterface';
 import InboxInterface from './components/InboxInterface';
 import GiftsInterface from './components/GiftsInterface';
 import LanguageModal from './components/LanguageModal';
+import TransferModal from './components/TransferModal';
 
 // Data
 // Data
@@ -49,6 +50,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
+    const [isTransferOpen, setTransferOpen] = useState(false);
 
     // Hoisted Modal State
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
@@ -103,6 +105,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                         key={chatInitialTab}
                         initialTab={chatInitialTab}
                         onClose={() => setActiveTab('games')}
+                        onOpenTransfer={() => setTransferOpen(true)}
                     />
                 )}
                 {activeTab === 'events' && (
@@ -147,6 +150,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
             {isLangModalOpen && <LanguageModal onClose={() => setLangModalOpen(false)} />}
             {selectedPackage && <PaymentModal packageInfo={selectedPackage} onClose={() => setSelectedPackage(null)} />}
             {isHistoryOpen && <HistoryModal onClose={() => setHistoryOpen(false)} />}
+            {isTransferOpen && <TransferModal onClose={() => setTransferOpen(false)} />}
 
             {/* Header */}
             <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
@@ -186,7 +190,13 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
 
                 {/* Right: Currency & Menu */}
                 <div className="pointer-events-auto flex items-center justify-end gap-4 w-[350px]">
-                    <div className="bg-black/60 border border-[#FFD700]/50 rounded-full pl-4 pr-1 py-1.5 flex items-center gap-3 shadow-lg">
+                    <div
+                        onClick={() => {
+                            console.log("點數被點擊了！");
+                            setTransferOpen(true);
+                        }}
+                        className="bg-black/60 border border-[#FFD700]/50 rounded-full pl-4 pr-1 py-1.5 flex items-center gap-3 shadow-lg cursor-pointer z-[100]"
+                    >
                         <Coins className="text-[#FFD700] fill-current" size={20} />
                         <span className="text-white font-mono font-bold text-xl tracking-wide">
                             {user?.balance.toLocaleString() || '0'}

@@ -34,9 +34,10 @@ const MAX_BALANCE = 500000;
 interface ChatInterfaceProps {
     initialTab?: 'public' | 'chat' | 'support';
     onClose: () => void;
+    onOpenTransfer?: () => void;
 }
 
-const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
+const ChatInterface = ({ initialTab, onClose, onOpenTransfer }: ChatInterfaceProps) => {
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
@@ -52,8 +53,6 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
     const [messageInput, setMessageInput] = useState('');
-    const [showTransferModal, setShowTransferModal] = useState(false);
-    const [transferAmount, setTransferAmount] = useState(1000);
 
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
@@ -80,14 +79,6 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
             setTimeout(() => setToastMessage(null), 3000);
             setDeleteModal({ isOpen: false, friendId: null, friendName: '' });
         }
-    };
-
-    const handleTransferConfirm = () => {
-        const tax = Math.floor(transferAmount * TAX_RATE);
-        const received = transferAmount - tax;
-        setToastMessage(`贈點完成！對方實際收到 ${received.toLocaleString()}，系統手續費 ${tax.toLocaleString()}`);
-        setTimeout(() => setToastMessage(null), 4000);
-        setShowTransferModal(false);
     };
 
     const TabButton = ({ id, icon: Icon, label }: { id: 'public' | 'chat' | 'support'; icon: typeof Globe; label: string }) => (
@@ -254,8 +245,9 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                 <div className="absolute bottom-16 left-3 bg-[#2a1b42] border border-white/20 rounded-xl shadow-xl p-2 w-40 animate-in fade-in zoom-in-95 duration-200">
                                     <button
                                         onClick={() => {
-                                            setShowTransferModal(true);
+                                            onOpenTransfer?.();
                                             setShowAttachMenu(false);
+                                            console.log("聊天室內的遊戲點數按鈕被點擊，請求開啟轉帳彈窗");
                                         }}
                                         className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
                                     >
@@ -405,87 +397,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                     </div>
                 )}
 
-                {/* Transfer Points Modal */}
-                {showTransferModal && (
-                    <div className="absolute inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-                        <div className="bg-[#1a0b2e] border border-[#FFD700]/30 p-8 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] w-[400px] text-center animate-in zoom-in-95 duration-200 relative overflow-hidden">
-                            {/* Decorative Elements */}
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent opacity-50"></div>
-                            <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#FFD700] blur-[60px] opacity-20 pointer-events-none"></div>
 
-                            <div className="w-16 h-16 rounded-full bg-[#FFD700]/10 flex items-center justify-center mx-auto mb-4 border border-[#FFD700]/30 shadow-[0_0_15px_rgba(255,215,0,0.2)]">
-                                <Coins size={32} className="text-[#FFD700]" />
-                            </div>
-
-                            <h3 className="text-white font-bold text-xl mb-1">贈送遊戲點數</h3>
-                            <p className="text-[#FFD700] text-sm mb-6 font-medium">Send Points</p>
-
-                            <div className="flex justify-between text-xs text-slate-400 mb-6 bg-white/5 p-3 rounded-lg border border-white/5">
-                                <span>當前等級: <span className="text-white font-bold">VIP {PLAYER_LEVEL}</span></span>
-                                <span>單日限額: <span className="text-white font-bold">{DAILY_LIMIT.toLocaleString()}</span></span>
-                            </div>
-
-                            <div className="mb-6 space-y-4">
-                                <div className="relative">
-                                    <input
-                                        type="number"
-                                        value={transferAmount}
-                                        onChange={(e) => {
-                                            const val = Math.min(MAX_BALANCE, Math.max(0, Number(e.target.value)));
-                                            setTransferAmount(val);
-                                        }}
-                                        className="w-full bg-black/40 text-center text-2xl font-bold text-[#FFD700] py-4 rounded-xl border border-white/10 focus:border-[#FFD700] focus:outline-none transition-colors"
-                                    />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500">POINTS</span>
-                                </div>
-
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max={MAX_BALANCE}
-                                    step="100"
-                                    value={transferAmount}
-                                    onChange={(e) => setTransferAmount(Number(e.target.value))}
-                                    className="w-full accent-[#FFD700] h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer"
-                                />
-                                <div className="flex justify-between text-[10px] text-slate-500 font-mono">
-                                    <span>0</span>
-                                    <span>{MAX_BALANCE.toLocaleString()}</span>
-                                </div>
-                            </div>
-
-                            <div className="space-y-2 mb-8 text-sm">
-                                <div className="flex justify-between text-slate-400 border-b border-white/5 pb-2">
-                                    <span>贈送金額</span>
-                                    <span className="text-white">{transferAmount.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between text-slate-400 border-b border-white/5 pb-2">
-                                    <span>系統手續費 ({TAX_RATE * 100}%)</span>
-                                    <span className="text-red-400">-{Math.floor(transferAmount * TAX_RATE).toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between text-slate-200 font-bold pt-1">
-                                    <span>對方實收</span>
-                                    <span className="text-[#FFD700]">{(transferAmount - Math.floor(transferAmount * TAX_RATE)).toLocaleString()}</span>
-                                </div>
-                            </div>
-
-                            <div className="flex gap-3 justify-center">
-                                <button
-                                    onClick={() => setShowTransferModal(false)}
-                                    className="flex-1 py-3 rounded-lg bg-white/5 text-slate-300 hover:bg-white/10 text-sm font-bold transition-colors"
-                                >
-                                    取消
-                                </button>
-                                <button
-                                    onClick={handleTransferConfirm}
-                                    className="flex-1 py-3 rounded-lg bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:opacity-90 text-sm font-bold shadow-lg transition-all active:scale-95"
-                                >
-                                    確認贈送
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {/* User Action Menu (Global) */}
                 {publicMenu && (
