@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronRight, Clock, X } from 'lucide-react';
+import { Calendar, ChevronRight, Clock, X, Gift, Lock, Check } from 'lucide-react';
 import { EVENTS_LIST } from '../data/mockData';
 
 interface EventsInterfaceProps {
@@ -104,77 +104,118 @@ const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterf
                     <div className="min-h-[300px]">
                         {/* Daily Check-in Tab */}
                         {activeTab === 'daily' && (
-                            <div className="animate-in fade-in zoom-in-95 duration-300">
-                                <div className="text-center mb-8">
-                                    <h3 className="text-3xl font-black text-white italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                                        每日簽到 <span className="text-[#FFD700]">DAILY CHECK-IN</span>
+                            <div className="h-full flex flex-col gap-6 animate-in fade-in zoom-in-95 duration-300">
+                                {/* Block A: Cumulative Progress */}
+                                <div className="flex-none bg-black/20 rounded-2xl p-6 border border-white/10 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                                        <Calendar size={100} />
+                                    </div>
+
+                                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                        <Gift className="text-[#FFD700]" size={24} />
+                                        累積簽到獎勵 <span className="text-white/40 text-sm font-normal">(Total Check-ins)</span>
                                     </h3>
-                                    <p className="text-slate-300 mt-2">累積登入領大獎！與好友一起挑戰！</p>
-                                </div>
 
-                                <div className="grid grid-cols-4 md:grid-cols-7 gap-3 mb-8">
-                                    {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-                                        const isPast = day < 3;
-                                        const isToday = day === 3;
-                                        const isLocked = day > 3;
-                                        const isBigWin = day === 7;
+                                    <div className="relative h-4 bg-white/10 rounded-full mb-8 mx-4">
+                                        <div
+                                            className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-[#FFD700] to-orange-500 rounded-full shadow-[0_0_15px_rgba(255,215,0,0.5)] transition-all duration-1000"
+                                            style={{ width: `${(12 / 30) * 100}%` }}
+                                        />
 
-                                        return (
-                                            <div
-                                                key={day}
-                                                onClick={() => isToday && !signedIn && handleCheckIn()}
-                                                className={`
-                                                    relative aspect-[3/4] rounded-xl flex flex-col items-center justify-between p-2 border-2 transition-all
-                                                    ${isPast || (isToday && signedIn)
-                                                        ? 'bg-black/40 border-white/10 opacity-60'
-                                                        : isToday
-                                                            ? 'bg-gradient-to-b from-[#FFD700]/20 to-[#FFD700]/5 border-[#FFD700] cursor-pointer hover:scale-105 shadow-[0_0_20px_rgba(255,215,0,0.2)] animate-pulse'
-                                                            : 'bg-black/20 border-white/5 opacity-40'}
-                                                `}
-                                            >
-                                                <span className="text-xs font-bold text-white/60">Day {day}</span>
-
-                                                <div className="flex-1 flex items-center justify-center">
-                                                    {isBigWin ? (
-                                                        <div className="text-4xl animate-bounce">🎁</div>
-                                                    ) : (
-                                                        <div className="text-2xl">💰</div>
-                                                    )}
+                                        {[5, 7, 10, 15, 20, 25, 30].map((milestone) => {
+                                            const isUnlocked = 12 >= milestone;
+                                            return (
+                                                <div
+                                                    key={milestone}
+                                                    className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 transform -translate-x-1/2"
+                                                    style={{ left: `${(milestone / 30) * 100}%` }}
+                                                >
+                                                    <div
+                                                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 z-10 
+                                                            ${isUnlocked
+                                                                ? 'bg-[#FFD700] border-[#FFD700] text-black shadow-lg scale-110'
+                                                                : 'bg-black/80 border-white/20 text-white/20'}`}
+                                                    >
+                                                        {isUnlocked ? <Check size={20} strokeWidth={3} /> : <Gift size={18} />}
+                                                    </div>
+                                                    <span className={`text-[10px] font-bold ${isUnlocked ? 'text-[#FFD700]' : 'text-white/30'}`}>
+                                                        {milestone}天
+                                                    </span>
                                                 </div>
-
-                                                {(isPast || (isToday && signedIn)) && (
-                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-lg">
-                                                        <span className="text-green-400 font-bold text-xl">✓</span>
-                                                    </div>
-                                                )}
-
-                                                {isLocked && (
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <span className="text-2xl opacity-50">🔒</span>
-                                                    </div>
-                                                )}
-
-                                                <span className={`text-[10px] font-bold ${isToday && !signedIn ? 'text-[#FFD700]' : 'text-white/40'}`}>
-                                                    {isBigWin ? 'Big Win' : '1000'}
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
+                                    </div>
+                                    <div className="text-right text-xs text-white/40 font-mono">
+                                        Progress: <span className="text-[#FFD700] text-base font-bold">12</span> / 30 Days
+                                    </div>
                                 </div>
 
-                                <div className="flex justify-center">
-                                    <button
-                                        onClick={handleCheckIn}
-                                        disabled={signedIn}
-                                        className={`
-                                            px-12 py-3 rounded-full font-black text-lg transition-all
-                                            ${signedIn
-                                                ? 'bg-white/10 text-white/30 cursor-not-allowed'
-                                                : 'bg-[#FFD700] text-black hover:scale-110 hover:shadow-[0_0_30px_rgba(255,215,0,0.4)]'}
-                                        `}
-                                    >
-                                        {signedIn ? '今日已簽到' : '立即簽到'}
-                                    </button>
+                                {/* Block B: Monthly Grid */}
+                                <div className="flex-1 min-h-0 bg-black/20 rounded-2xl p-6 border border-white/10 overflow-hidden flex flex-col">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-xl font-bold text-white">本月簽到 <span className="text-white/40 text-sm font-normal">(Daily Check-in)</span></h3>
+                                        <div className="flex items-center gap-2 text-xs text-white/40">
+                                            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#FFD700]" />今日</div>
+                                            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-slate-600" />已領</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
+                                        <div className="grid grid-cols-6 gap-3 pb-4">
+                                            {Array.from({ length: 30 }, (_, i) => i + 1).map((day) => {
+                                                const currentDay = 12;
+                                                const isPast = day < currentDay;
+                                                const isToday = day === currentDay;
+                                                const isLocked = day > currentDay;
+
+                                                // Specific milestones visual
+                                                const isSpecial = [5, 10, 15, 20, 25, 30].includes(day);
+
+                                                return (
+                                                    <div
+                                                        key={day}
+                                                        onClick={() => isToday && !signedIn && handleCheckIn()}
+                                                        className={`
+                                                            aspect-square rounded-xl relative flex flex-col items-center justify-center p-1 border transition-all duration-300
+                                                            ${isPast || (isToday && signedIn)
+                                                                ? 'bg-white/5 border-white/5 opacity-50'
+                                                                : isToday
+                                                                    ? 'bg-gradient-to-br from-[#FFD700]/20 to-orange-500/20 border-[#FFD700] shadow-[0_0_15px_rgba(255,215,0,0.3)] cursor-pointer hover:scale-105 animate-pulse'
+                                                                    : 'bg-black/40 border-white/5 opacity-30'}
+                                                        `}
+                                                    >
+                                                        <span className={`absolute top-1 left-2 text-[10px] font-bold ${isToday ? 'text-[#FFD700]' : 'text-white/30'}`}>
+                                                            {day}
+                                                        </span>
+
+                                                        <div className="transform scale-90">
+                                                            {isSpecial ? (
+                                                                <span className="text-2xl drop-shadow-md">🎁</span>
+                                                            ) : (
+                                                                <span className="text-xl drop-shadow-md">💰</span>
+                                                            )}
+                                                        </div>
+
+                                                        {isToday && !signedIn && (
+                                                            <div className="absolute inset-x-0 -bottom-2 flex justify-center">
+                                                                <span className="bg-[#FFD700] text-black text-[8px] font-bold px-2 py-0.5 rounded-full shadow-lg">
+                                                                    領取
+                                                                </span>
+                                                            </div>
+                                                        )}
+
+                                                        {(isPast || (isToday && signedIn)) && (
+                                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl">
+                                                                <Check className="text-green-500" size={24} strokeWidth={4} />
+                                                            </div>
+                                                        )}
+
+                                                        {isLocked && <Lock className="absolute bottom-1 right-1 text-white/10" size={12} />}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )}
