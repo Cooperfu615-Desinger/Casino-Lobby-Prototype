@@ -139,6 +139,29 @@ const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterf
                             ))}
                         </div>
                     )}
+
+                    {/* Sub Filters for Leaderboard (Conditional Render within Header to keep it fixed) */}
+                    {activeTab === 'leaderboard' && (
+                        <div className="flex gap-2 py-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                            {[
+                                { id: 'jackpot', label: '彩金榜' },
+                                { id: 'multiplier', label: '倍數榜' },
+                                { id: 'win', label: '贏分榜' },
+                                { id: 'rich', label: '富豪榜' }
+                            ].map((type) => (
+                                <button
+                                    key={type.id}
+                                    onClick={() => setLeaderboardType(type.id as any)}
+                                    className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border border-white/5 ${leaderboardType === type.id
+                                        ? 'bg-white/10 text-[#FFD700] border-[#FFD700]/50 shadow-[0_0_10px_rgba(255,215,0,0.1)]'
+                                        : 'bg-black/20 text-slate-400 hover:bg-white/5 hover:text-white'
+                                        }`}
+                                >
+                                    {type.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* Part B: Content Section (Scrollable) */}
@@ -310,26 +333,8 @@ const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterf
                         {/* Leaderboard Tab */}
                         {activeTab === 'leaderboard' && (
                             <div className="flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-300">
-                                {/* Sub Navigation */}
-                                <div className="flex gap-2 mb-6">
-                                    {[
-                                        { id: 'jackpot', label: '彩金榜' },
-                                        { id: 'multiplier', label: '倍數榜' },
-                                        { id: 'win', label: '贏分榜' },
-                                        { id: 'rich', label: '富豪榜' }
-                                    ].map((type) => (
-                                        <button
-                                            key={type.id}
-                                            onClick={() => setLeaderboardType(type.id as any)}
-                                            className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border border-white/5 ${leaderboardType === type.id
-                                                ? 'bg-white/10 text-[#FFD700] border-[#FFD700]/50 shadow-[0_0_10px_rgba(255,215,0,0.1)]'
-                                                : 'bg-black/20 text-slate-400 hover:bg-white/5 hover:text-white'
-                                                }`}
-                                        >
-                                            {type.label}
-                                        </button>
-                                    ))}
-                                </div>
+
+                                {/* List Header */}
 
                                 {/* List Header */}
                                 <div className="flex items-center text-xs text-white/40 px-4 mb-2 uppercase font-bold tracking-wider">
