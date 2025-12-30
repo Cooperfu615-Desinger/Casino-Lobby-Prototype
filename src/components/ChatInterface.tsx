@@ -1,9 +1,30 @@
 import { useState } from 'react';
 import {
-    Globe, MessageCircle, Headphones, Search, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2
+    Globe, MessageCircle, Headphones, MoreVertical,
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift
 } from 'lucide-react';
-import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY } from '../data/mockData';
+import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../data/mockData';
+
+const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
+    1: [
+        { id: 1, sender: 'Jessica_99', text: '要一起玩嗎？', isMe: false, time: '09:00' },
+        { id: 2, sender: 'Me', text: '好啊，等我五分鐘！', isMe: true, time: '09:05' },
+        { id: 3, sender: 'Jessica_99', text: '我在雷神之錘等你', isMe: false, time: '09:06' }
+    ],
+    2: CHAT_HISTORY,
+    3: [
+        { id: 1, sender: 'GM_Support', text: '您好，有什麼能幫您的？', isMe: false, time: 'yesterday' },
+        { id: 2, sender: 'Me', text: '我要回報一個 Bug', isMe: true, time: 'yesterday' },
+        { id: 3, sender: 'GM_Support', text: '請詳細說明您的問題', isMe: false, time: 'yesterday' }
+    ],
+    4: [
+        { id: 1, sender: 'David_King', text: '下次見', isMe: false, time: 'Mon' }
+    ],
+    5: [
+        { id: 1, sender: 'LuckyGirl', text: '這個機台很軟！', isMe: false, time: '10:00' },
+        { id: 2, sender: 'Me', text: '真假？我也去試試', isMe: true, time: '10:01' }
+    ]
+};
 
 interface ChatInterfaceProps {
     initialTab?: 'public' | 'chat' | 'support';
@@ -22,6 +43,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
         friendId: null,
         friendName: ''
     });
+    const [showAttachMenu, setShowAttachMenu] = useState(false);
 
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
@@ -192,7 +214,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             </button>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                            {CHAT_HISTORY.map(msg => (
+                            {(MOCK_SPECIFIC_CHATS[selectedFriendId] || CHAT_HISTORY).map(msg => (
                                 <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
                                     {!msg.isMe && (
                                         <div className={`w-8 h-8 rounded-full ${selectedFriend.avatar} flex-shrink-0 mr-2 flex items-center justify-center`}>
@@ -209,11 +231,48 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             ))}
                             <div className="text-center text-[10px] text-slate-500 my-2">今天 10:30</div>
                         </div>
-                        <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e]">
-                            <button className="p-2 text-slate-400 hover:text-[#FFD700] transition-colors bg-white/5 rounded-full">
-                                <Plus size={20} />
+                        <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e] relative">
+                            {showAttachMenu && (
+                                <div className="absolute bottom-16 left-3 bg-[#2a1b42] border border-white/20 rounded-xl shadow-xl p-2 w-40 animate-in fade-in zoom-in-95 duration-200">
+                                    <button
+                                        onClick={() => {
+                                            setToastMessage("功能開發中 (In Development)");
+                                            setTimeout(() => setToastMessage(null), 2000);
+                                            setShowAttachMenu(false);
+                                        }}
+                                        className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
+                                    >
+                                        <div className="w-8 h-8 rounded-full bg-[#FFD700]/20 flex items-center justify-center text-[#FFD700]">
+                                            <Coins size={16} />
+                                        </div>
+                                        <span>遊戲點數</span>
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setToastMessage("功能開發中 (In Development)");
+                                            setTimeout(() => setToastMessage(null), 2000);
+                                            setShowAttachMenu(false);
+                                        }}
+                                        className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
+                                    >
+                                        <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-500">
+                                            <Gift size={16} />
+                                        </div>
+                                        <span>贈送禮物</span>
+                                    </button>
+                                </div>
+                            )}
+                            {showAttachMenu && (
+                                <div className="fixed inset-0 z-0" onClick={() => setShowAttachMenu(false)} />
+                            )}
+
+                            <button
+                                onClick={() => setShowAttachMenu(!showAttachMenu)}
+                                className={`p-2 transition-colors rounded-full z-10 ${showAttachMenu ? 'bg-[#FFD700] text-black' : 'text-slate-400 hover:text-[#FFD700] bg-white/5'}`}
+                            >
+                                {showAttachMenu ? <X size={20} /> : <Plus size={20} />}
                             </button>
-                            <div className="flex-1 relative">
+                            <div className="flex-1 relative z-10">
                                 <input
                                     type="text"
                                     placeholder="輸入訊息..."
@@ -379,16 +438,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                 </div>
                             </div>
 
-                            <div className="px-4 pb-3 border-b border-white/5">
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder={sidebarTab === 'friends' ? "搜尋好友 (Search Player)" : "搜尋內容 (Search History)"}
-                                        className="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-[#FFD700] transition-colors"
-                                    />
-                                    <Search className="absolute left-3 top-2.5 text-slate-400" size={14} />
-                                </div>
-                            </div>
+
                             <div className="flex-1 overflow-y-auto no-scrollbar">
                                 {sidebarTab === 'chats' ? (
                                     /* Chat List Mode */
