@@ -247,7 +247,7 @@ const ChatInterface = ({ initialTab, onClose, onOpenTransfer }: ChatInterfacePro
                                         onClick={() => {
                                             onOpenTransfer?.();
                                             setShowAttachMenu(false);
-                                            console.log("聊天室內的遊戲點數按鈕被點擊，請求開啟轉帳彈窗");
+                                            console.log("[Chat] Game Points button clicked - opening TransferModal");
                                         }}
                                         className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
                                     >

@@ -105,7 +105,7 @@ function CasinoLandscape({ onPlayGame }: CasinoLandscapeProps) {
                         key={chatInitialTab}
                         initialTab={chatInitialTab}
                         onClose={() => setActiveTab('games')}
-                        onOpenTransfer={() => setTransferOpen(true)}
+                        onOpenTransfer={() => setTransferOpen(true)} // Wired for Game Points
                     />
                 )}
                 {activeTab === 'events' && (
