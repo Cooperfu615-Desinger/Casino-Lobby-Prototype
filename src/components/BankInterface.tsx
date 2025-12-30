@@ -1,5 +1,5 @@
 import { Landmark, Gem, FileText, X } from 'lucide-react';
-import { PACKAGES, Package } from '../data/mockData';
+import { PACKAGES } from '../data/mockData';
 import { useUI } from '../context/UIContext';
 
 interface BankInterfaceProps {

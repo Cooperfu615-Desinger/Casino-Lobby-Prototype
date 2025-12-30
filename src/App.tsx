@@ -35,7 +35,7 @@ import ModalContainer from './components/ModalContainer';
 
 // Data
 // Data
-import { GAMES, Game, Package } from './data/mockData';
+import { GAMES, Game } from './data/mockData';
 
 type ActiveTab = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' | 'club';
 

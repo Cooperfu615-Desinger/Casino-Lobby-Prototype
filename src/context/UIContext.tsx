@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 
 // Define the available modal types
 export type ModalType = 'transfer' | 'bank' | 'settings' | 'payment' | 'history' | 'sale' | 'tournament' | 'none';
@@ -22,7 +22,7 @@ const UIContext = createContext<UIContextType | undefined>(undefined);
 export const UIProvider = ({ children }: { children: ReactNode }) => {
     const [modalStack, setModalStack] = useState<ModalItem[]>([]);
 
-    const openModal = useCallback((type: ModalType, props?: any = {}) => {
+    const openModal = useCallback((type: ModalType, props: any = {}) => {
         const id = Math.random().toString(36).substring(7);
         setModalStack(prev => [...prev, { id, type, props }]);
     }, []);

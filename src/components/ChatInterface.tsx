@@ -27,18 +27,14 @@ const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     ]
 };
 
-const PLAYER_LEVEL = 5;
-const DAILY_LIMIT = 100000;
-const TAX_RATE = 0.01;
-const MAX_BALANCE = 500000;
+
 
 interface ChatInterfaceProps {
     initialTab?: 'public' | 'chat' | 'support';
     onClose: () => void;
-    onOpenTransfer?: () => void;
 }
 
-const ChatInterface = ({ initialTab, onClose, onOpenTransfer }: ChatInterfaceProps) => {
+const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const { openModal } = useUI();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);

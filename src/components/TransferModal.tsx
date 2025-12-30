@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Send, User, Coins, ArrowRight, AlertTriangle, ShieldCheck, Wallet } from 'lucide-react';
+import { X, Send, User, ArrowRight, AlertTriangle, ShieldCheck, Wallet } from 'lucide-react';
 
 interface TransferModalProps {
     onClose: () => void;
@@ -20,7 +20,7 @@ const TransferModal = ({ onClose }: TransferModalProps) => {
 
     const numericAmount = Number(amount) || 0;
     const fee = Math.floor(numericAmount * CONSTANTS.FEE_RATE);
-    const actualTotal = numericAmount + fee; // "Actual Transfer Out" usually implies Amount + Fee deducted from balance, OR Amount is total and fee is deducted from it. 
+
     // Requirement says: "Fee Preview: System Fee ... Actual Transfer Out".
     // AND in Step 2: "Actual Received: (Amount - Fee)".
     // Let's interpret: User enters Amount to SEND. Fee is deducted from that amount for the receiver.
