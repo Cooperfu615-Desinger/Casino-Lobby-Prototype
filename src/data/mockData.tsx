@@ -106,9 +106,9 @@ export const EVENTS_LIST: EventItem[] = [
 ];
 
 export const INBOX_MESSAGES: InboxMessage[] = [
-    { id: 1, type: 'system', title: '【系統公告】伺服器維護通知', date: '2025-10-30', content: '親愛的玩家您好：\n\n為了提供更優質的遊戲體驗，我們將於 2025/11/01 03:00 (GMT+8) 進行例行性維護，預計維護時間為 2 小時。維護期間將無法登入遊戲，造成不便敬請見諒。\n\n維護補償將於開機後發送至您的信箱。\n\nGolden Bet 營運團隊 敬上', read: false },
+    { id: 1, type: 'system', title: '【系統公告】伺服器維護通知', date: '2025-10-30', content: '親愛的玩家您好：\n\n為了提供更優質的遊戲體驗，我們將於 2025/11/01 03:00 (GMT+8) 進行例行性維護，預計維護時間為 2 小時。維護期間將無法登入遊戲，造成不便敬請見諒。\n\n維護補償將於開機後發送至您的信箱。\n\nGolden Bet 營運團隊 敬上', read: false, attachment: { type: 'coins', label: '維護補償', amount: '50,000 金幣' } },
     { id: 2, type: 'promo', title: '🔥 週末狂歡！儲值回饋 200%', date: '2025-10-29', content: '週末限定活動開跑！\n\n凡於本週六、日進行儲值，即可享有 200% 的金幣回饋！\n機會難得，錯過不再！快去商店查看詳情吧！', read: true },
-    { id: 3, type: 'system', title: '恭喜晉升 VIP 7！', date: '2025-10-25', content: '恭喜您！\n\n您已成功晉升為 VIP 7 會員。現在您可以享受更高的返水比例與專屬客戶經理服務。\n\n我們已發送一份晉升禮包到您的「禮物中心」，請記得去領取喔！', read: true },
+    { id: 3, type: 'system', title: '恭喜晉升 VIP 7！', date: '2025-10-25', content: '恭喜您！\n\n您已成功晉升為 VIP 7 會員。現在您可以享受更高的返水比例與專屬客戶經理服務。\n\n我們已發送一份晉升禮包到您的「禮物中心」，請記得去領取喔！', read: true, attachment: { type: 'coins', label: 'VIP 晉升禮包', amount: '1,000,000 金幣' } },
     { id: 4, type: 'personal', title: '好友邀請通知', date: '2025-10-20', content: '玩家 Tom888 邀請您加入「贏家俱樂部」公會。', read: true },
 ];
 
