@@ -27,14 +27,13 @@ const ModalContainer = () => {
                 const Component = MODAL_REGISTRY[item.type];
                 if (!Component) return null;
 
-                const zIndex = 1000 + index * 10;
+                // Force highest z-index to ensure modals appear above everything (including ChatInterface z-[100])
+                const zIndex = 9999 + index * 10;
 
                 return (
                     <div
                         key={item.id}
-                        className="fixed inset-0 pointer-events-none" // pointer-events-none ensures the wrapper doesn't block interactions if the child isn't full screen, but TransferModal IS full screen. 
-                        // Actually, if we use pointer-events-none, the child MUST have pointer-events-auto.
-                        // Safe bet: just fixed inset-0.
+                        className="fixed inset-0 pointer-events-none"
                         style={{ zIndex }}
                     >
                         {/* 
