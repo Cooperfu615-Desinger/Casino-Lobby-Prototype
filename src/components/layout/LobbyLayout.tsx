@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useUI } from '../../context/UIContext';
+import { useNavigation } from '../../hooks/useNavigation';
 
 // Layout Components
 import Header from './Header';
 import NotificationTicker from './NotificationTicker';
-import BottomNavigation, { ActiveTab } from './BottomNavigation';
+import BottomNavigation from './BottomNavigation';
 import LobbyButtons from './LobbyButtons';
 import GameGrid from './GameGrid';
 import SettingsMenu from './SettingsMenu';
@@ -29,21 +30,11 @@ interface LobbyLayoutProps {
 }
 
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
-    const [activeTab, setActiveTab] = useState<ActiveTab>('games');
-    const [chatInitialTab, setChatInitialTab] = useState<'public' | 'chat' | 'support'>('chat');
+    const { currentView, chatInitialTab, goToGames } = useNavigation();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
     const { openModal } = useUI();
-
-    const handleChatOpen = () => {
-        setChatInitialTab('chat');
-        setActiveTab('chat');
-    };
-
-    const handleTabChange = (tab: ActiveTab) => {
-        setActiveTab(tab);
-    };
 
     return (
         <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
@@ -61,7 +52,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             <Header
                 onOpenUserModal={() => setUserModalOpen(true)}
                 onOpenSettings={() => setSettingsOpen(!isSettingsOpen)}
-                onOpenBank={() => setActiveTab('bank')}
                 isSettingsOpen={isSettingsOpen}
             />
 
@@ -74,40 +64,36 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {/* Lobby Floating Buttons */}
             <LobbyButtons />
 
-            {/* Feature Overlays */}
-            {activeTab === 'chat' && (
+            {/* Feature Overlays - using NavigationContext */}
+            {currentView === 'chat' && (
                 <ChatInterface
                     key={chatInitialTab}
                     initialTab={chatInitialTab}
-                    onClose={() => setActiveTab('games')}
+                    onClose={goToGames}
                 />
             )}
-            {activeTab === 'events' && (
+            {currentView === 'events' && (
                 <EventsInterface
                     onOpenSale={() => openModal('sale')}
                     onOpenTournament={() => openModal('tournament')}
-                    onClose={() => setActiveTab('games')}
+                    onClose={goToGames}
                 />
             )}
-            {activeTab === 'inbox' && (
-                <InboxInterface onClose={() => setActiveTab('games')} />
+            {currentView === 'inbox' && (
+                <InboxInterface onClose={goToGames} />
             )}
-            {activeTab === 'gifts' && (
-                <GiftsInterface onClose={() => setActiveTab('games')} />
+            {currentView === 'gifts' && (
+                <GiftsInterface onClose={goToGames} />
             )}
-            {activeTab === 'bank' && (
-                <BankInterface onClose={() => setActiveTab('games')} />
+            {currentView === 'bank' && (
+                <BankInterface onClose={goToGames} />
             )}
-            {activeTab === 'club' && (
-                <ClubInterface onClose={() => setActiveTab('games')} />
+            {currentView === 'club' && (
+                <ClubInterface onClose={goToGames} />
             )}
 
             {/* Bottom Navigation Bar */}
-            <BottomNavigation
-                activeTab={activeTab}
-                onTabChange={handleTabChange}
-                onChatOpen={handleChatOpen}
-            />
+            <BottomNavigation />
         </div>
     );
 };

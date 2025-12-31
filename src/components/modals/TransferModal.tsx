@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Send, User, ArrowRight, AlertTriangle, ShieldCheck, Wallet } from 'lucide-react';
+import { useUI } from '../../context/UIContext';
 
 interface TransferModalProps {
     onClose: () => void;
@@ -14,6 +15,7 @@ const CONSTANTS = {
 };
 
 const TransferModal = ({ onClose }: TransferModalProps) => {
+    const { setLoading, showToast } = useUI();
     const [step, setStep] = useState<'input' | 'confirm'>('input');
     const [receiverId, setReceiverId] = useState('');
     const [amount, setAmount] = useState<number | ''>('');
@@ -40,7 +42,31 @@ const TransferModal = ({ onClose }: TransferModalProps) => {
 
     const actualReceived = Math.max(0, numericAmount - fee);
 
+    /**
+     * 處理轉帳確認
+     * 
+     * 此為模擬流程，展示全域 Loading 與 Toast 的使用方式。
+     * 
+     * @example
+     * // 在實際開發時，應替換為真實 API 呼叫：
+     * const handleConfirm = async () => {
+     *     setLoading(true);
+     *     try {
+     *         const result = await transferService.execute({
+     *             receiverId,
+     *             amount: numericAmount,
+     *         });
+     *         showToast('交易處理成功！', 'success');
+     *         onClose();
+     *     } catch (error) {
+     *         showToast(`轉帳失敗: ${error.message}`, 'error');
+     *     } finally {
+     *         setLoading(false);
+     *     }
+     * };
+     */
     const handleConfirm = () => {
+        // Log transaction details for debugging
         console.log({
             type: 'TRANSFER',
             to: receiverId,
@@ -49,7 +75,21 @@ const TransferModal = ({ onClose }: TransferModalProps) => {
             received: actualReceived,
             timestamp: new Date().toISOString()
         });
-        onClose();
+
+        // 1. 開啟全域 Loading
+        setLoading(true);
+
+        // 2. 模擬網絡延遲 (1.5秒)
+        setTimeout(() => {
+            // 關閉 Loading
+            setLoading(false);
+
+            // 3. 觸發成功反饋
+            showToast('交易處理成功！', 'success');
+
+            // 關閉視窗
+            onClose();
+        }, 1500);
     };
 
     return (

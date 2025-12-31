@@ -2,17 +2,18 @@ import { Menu, Crown, User as UserIcon, Coins } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ActionButton from '../common/ActionButton';
 import { useUI } from '../../context/UIContext';
+import { useNavigation } from '../../hooks/useNavigation';
 
 interface HeaderProps {
     onOpenUserModal: () => void;
     onOpenSettings: () => void;
-    onOpenBank: () => void;
     isSettingsOpen: boolean;
 }
 
-const Header = ({ onOpenUserModal, onOpenSettings, onOpenBank, isSettingsOpen }: HeaderProps) => {
+const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps) => {
     const { user } = useAuth();
     const { openModal } = useUI();
+    const { navigate } = useNavigation();
 
     return (
         <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
@@ -46,7 +47,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, onOpenBank, isSettingsOpen }:
 
             {/* Center: BUY & SALE Buttons */}
             <div className="pointer-events-auto flex items-center gap-6 transform translate-y-2">
-                <ActionButton label="BUY" type="buy" onClick={onOpenBank} />
+                <ActionButton label="BUY" type="buy" onClick={() => navigate('bank')} />
                 <ActionButton label="SALE" type="sale" onClick={() => openModal('sale')} />
             </div>
 
@@ -63,6 +64,8 @@ const Header = ({ onOpenUserModal, onOpenSettings, onOpenBank, isSettingsOpen }:
 
                 <button
                     onClick={onOpenSettings}
+                    title="Settings"
+                    aria-label="Open settings menu"
                     className={`bg-black/40 p-2.5 rounded-xl border border-white/10 hover:bg-white/10 active:scale-95 transition-colors ${isSettingsOpen ? 'bg-white/20 border-white/30 text-white' : 'text-slate-200'}`}
                 >
                     <Menu size={28} />

@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 
 // Context
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { UserPreferencesProvider } from './context/UserPreferencesContext';
 import { AudioProvider } from './context/AudioContext';
 import { UIProvider } from './context/UIContext';
+import { NavigationProvider } from './context/NavigationContext';
 
 // Components - Layout
 import BrandLoading from './components/layout/BrandLoading';
@@ -13,8 +15,10 @@ import LobbyLayout from './components/layout/LobbyLayout';
 import LoginScreen from './components/features/LoginScreen';
 import GameRoom from './components/features/GameRoom';
 
-// Global
+// Components - Global UI
 import ModalContainer from './components/ModalContainer';
+import ToastContainer from './components/common/ToastContainer';
+import LoadingOverlay from './components/common/LoadingOverlay';
 
 // Types
 import type { Game } from './types';
@@ -60,23 +64,33 @@ function App() {
                     transformOrigin: 'center center'
                 }}
             >
-                <AudioProvider>
-                    <AuthProvider>
-                        <UIProvider>
-                            {isInitialLoad ? (
-                                <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                            ) : (
-                                <>
-                                    <MainContent />
-                                    <ModalContainer />
-                                </>
-                            )}
-                        </UIProvider>
-                    </AuthProvider>
-                </AudioProvider>
+                {/* UserPreferencesProvider 必須在 AudioProvider 之前，因為 AudioContext 依賴偏好設定 */}
+                <UserPreferencesProvider>
+                    <AudioProvider>
+                        <AuthProvider>
+                            <UIProvider>
+                                <NavigationProvider>
+                                    {isInitialLoad ? (
+                                        <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                                    ) : (
+                                        <>
+                                            <MainContent />
+                                            <ModalContainer />
+                                        </>
+                                    )}
+                                </NavigationProvider>
+                                {/* Global UI Components - Always rendered */}
+                                <ToastContainer />
+                                <LoadingOverlay />
+                            </UIProvider>
+                        </AuthProvider>
+                    </AudioProvider>
+                </UserPreferencesProvider>
             </div>
         </div>
     );
 }
 
 export default App;
+
+

@@ -1,6 +1,22 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef } from 'react';
 import bgmUrl from '../assets/audio/bgm.mp3';
 import btnUrl from '../assets/audio/btn.mp3';
+import { useUserPreferences } from './UserPreferencesContext';
+
+// ============================================================================
+// 設計說明：AudioContext 與 UserPreferencesContext 的關係
+// ============================================================================
+//
+// AudioContext 現在從 UserPreferencesContext 讀取音效/音樂狀態：
+// - 狀態儲存：由 UserPreferencesContext 管理（含 localStorage 持久化）
+// - 音訊播放：由 AudioContext 管理（處理實際的 Audio API）
+//
+// 這樣的分離讓：
+// 1. 偏好設定可在整個應用中共享
+// 2. 音訊邏輯集中在 AudioContext
+// 3. 刷新頁面後音效設定依然保留
+//
+// ============================================================================
 
 interface AudioContextType {
     isMusicEnabled: boolean;
@@ -12,8 +28,13 @@ interface AudioContextType {
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isMusicEnabled, setIsMusicEnabled] = useState(true);
-    const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+    // 從 UserPreferencesContext 取得狀態與方法
+    const {
+        musicEnabled: isMusicEnabled,
+        soundEnabled: isSoundEnabled,
+        toggleMusic,
+        toggleSound
+    } = useUserPreferences();
 
     const bgmRef = useRef<HTMLAudioElement | null>(null);
     const sfxRef = useRef<HTMLAudioElement | null>(null);
@@ -84,9 +105,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         window.addEventListener('click', handleClick);
         return () => window.removeEventListener('click', handleClick);
     }, [isSoundEnabled]);
-
-    const toggleMusic = () => setIsMusicEnabled(prev => !prev);
-    const toggleSound = () => setIsSoundEnabled(prev => !prev);
 
     return (
         <AudioContext.Provider value={{ isMusicEnabled, isSoundEnabled, toggleMusic, toggleSound }}>
