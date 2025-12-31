@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Mail, Clock, Trash2, X } from 'lucide-react';
-import { INBOX_MESSAGES } from '../data/mockData';
+import { INBOX_MESSAGES } from '../../data/mockData';
 
 interface InboxInterfaceProps {
     onClose: () => void;

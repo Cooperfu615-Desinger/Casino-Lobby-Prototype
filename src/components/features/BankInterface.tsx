@@ -1,6 +1,6 @@
 import { Landmark, Gem, FileText, X } from 'lucide-react';
-import { PACKAGES } from '../data/mockData';
-import { useUI } from '../context/UIContext';
+import { PACKAGES } from '../../data/mockData';
+import { useUI } from '../../context/UIContext';
 
 interface BankInterfaceProps {
     onClose: () => void;

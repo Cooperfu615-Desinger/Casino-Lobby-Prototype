@@ -1,11 +1,9 @@
 import { useUI, ModalType } from '../context/UIContext';
-import TransferModal from './TransferModal';
-import PaymentModal from './PaymentModal';
-import HistoryModal from './HistoryModal';
-import SaleModal from './SaleModal';
-import TournamentModal from './TournamentModal';
-// Import other modals here as needed
-// import BankInterface from './BankInterface'; // Example if we modalize it
+import TransferModal from './modals/TransferModal';
+import PaymentModal from './modals/PaymentModal';
+import HistoryModal from './modals/HistoryModal';
+import SaleModal from './modals/SaleModal';
+import TournamentModal from './modals/TournamentModal';
 
 const MODAL_REGISTRY: Partial<Record<ModalType, React.ComponentType<any>>> = {
     transfer: TransferModal,

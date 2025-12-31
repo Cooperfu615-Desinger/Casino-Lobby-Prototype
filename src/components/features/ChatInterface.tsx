@@ -3,8 +3,8 @@ import {
     Globe, MessageCircle, Headphones, MoreVertical,
     Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift
 } from 'lucide-react';
-import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../data/mockData';
-import { useUI } from '../context/UIContext';
+import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../../data/mockData';
+import { useUI } from '../../context/UIContext';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [

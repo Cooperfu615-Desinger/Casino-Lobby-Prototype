@@ -1,4 +1,4 @@
-import { Game } from '../data/mockData';
+import { Game } from '../../data/mockData';
 import JackpotTicker from './JackpotTicker';
 
 interface GameCardProps {

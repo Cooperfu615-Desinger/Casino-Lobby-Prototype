@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { ChevronLeft, Trophy, Timer, Users, Target, Calendar, Crown, ArrowRight } from 'lucide-react';
-import { CLUB_EVENTS_DATA, ClubEvent } from '../data/mockData';
+import { ChevronLeft, Trophy, Timer, Users, Target, Calendar, Crown, Plus, X, Loader2, Coins } from 'lucide-react';
+import { CLUB_EVENTS_DATA, ClubEvent, EVENT_TEMPLATES } from '../../data/mockData';
 
-interface ClubEventsProps {
+interface ClubAdminEventsProps {
     onBack: () => void;
 }
 
-const ClubEvents = ({ onBack }: ClubEventsProps) => {
+const ClubAdminEvents = ({ onBack }: ClubAdminEventsProps) => {
     const [selectedEvent, setSelectedEvent] = useState<ClubEvent>(CLUB_EVENTS_DATA[0]);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const getStatusColor = (status: ClubEvent['status']) => {
         switch (status) {
@@ -25,19 +27,109 @@ const ClubEvents = ({ onBack }: ClubEventsProps) => {
         }
     };
 
+    const handleCreateSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        // Simulate API call
+        setTimeout(() => {
+            setIsSubmitting(false);
+            setIsCreateModalOpen(false);
+            alert('活動創建成功！(Mock)');
+        }, 1500);
+    };
+
     return (
         <div className="flex w-full h-full bg-[#120822] animate-in slide-in-from-right duration-300 relative">
 
+            {/* Create Event Modal */}
+            {isCreateModalOpen && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+                    <div className="w-full max-w-lg bg-[#1a0b2e] border-2 border-[#FFD700]/50 rounded-2xl flex flex-col relative shadow-2xl">
+                        <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-[#150923]/50">
+                            <h3 className="text-white font-bold text-lg flex items-center gap-2">
+                                <Plus className="text-[#FFD700]" size={20} />
+                                創建新活動
+                            </h3>
+                            <button
+                                onClick={() => setIsCreateModalOpen(false)}
+                                className="text-slate-400 hover:text-white"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleCreateSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
+                            <div>
+                                <label className="block text-slate-400 text-xs font-bold mb-1.5 uppercase">活動模組</label>
+                                <select className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#FFD700] appearance-none">
+                                    {EVENT_TEMPLATES.map(t => (
+                                        <option key={t.id} value={t.id} className="bg-[#1a0b2e]">{t.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-slate-400 text-xs font-bold mb-1.5 uppercase">活動名稱</label>
+                                <input required type="text" placeholder="例如：週末狂歡賽..." className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors" />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-slate-400 text-xs font-bold mb-1.5 uppercase">開始時間</label>
+                                    <input required type="datetime-local" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors" />
+                                </div>
+                                <div>
+                                    <label className="block text-slate-400 text-xs font-bold mb-1.5 uppercase">結束時間</label>
+                                    <input required type="datetime-local" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-slate-400 text-xs font-bold mb-1.5 uppercase">總獎金池</label>
+                                <div className="relative">
+                                    <input required type="number" placeholder="輸入金額..." className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#FFD700] transition-colors" />
+                                    <Coins className="absolute left-3 top-2.5 text-[#FFD700]" size={16} />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-bold py-3 rounded-xl shadow-lg hover:shadow-[#FFD700]/30 active:scale-95 transition-all mt-4 flex items-center justify-center gap-2"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader2 size={18} className="animate-spin" />
+                                        創建中...
+                                    </>
+                                ) : (
+                                    '確認創建'
+                                )}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             {/* Left Panel: Event List */}
             <div className="w-[35%] bg-[#0f061e] border-r border-white/10 flex flex-col relative z-20">
-                <div className="p-6 border-b border-white/5 flex items-center gap-3">
+                <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={onBack}
+                            className="p-2 -ml-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-colors flex items-center gap-2"
+                        >
+                            <ChevronLeft size={24} />
+                        </button>
+                        <span className="font-bold text-slate-300">Club Events</span>
+                    </div>
                     <button
-                        onClick={onBack}
-                        className="p-2 -ml-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-colors flex items-center gap-2"
+                        onClick={() => setIsCreateModalOpen(true)}
+                        className="p-2 bg-[#FFD700]/10 text-[#FFD700] rounded-full hover:bg-[#FFD700] hover:text-black transition-all"
+                        title="Create Event"
                     >
-                        <ChevronLeft size={24} />
+                        <Plus size={20} />
                     </button>
-                    <span className="font-bold text-slate-300">Club Events</span>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -46,7 +138,7 @@ const ClubEvents = ({ onBack }: ClubEventsProps) => {
                             key={event.id}
                             onClick={() => setSelectedEvent(event)}
                             className={`p-4 rounded-xl border cursor-pointer transition-all group ${selectedEvent.id === event.id
-                                ? 'bg-[#2a1b42] border-blue-500/50 shadow-lg shadow-blue-500/10'
+                                ? 'bg-[#2a1b42] border-[#FFD700]/50 shadow-lg shadow-[#FFD700]/10'
                                 : 'bg-[#1a0b2e] border-white/5 hover:bg-[#221038] hover:border-white/10'
                                 }`}
                         >
@@ -72,11 +164,10 @@ const ClubEvents = ({ onBack }: ClubEventsProps) => {
                 </div>
             </div>
 
-            {/* Right Panel: Event Details */}
+            {/* Right Panel: Event Details (Reused logic but could be "Edit" mode in future) */}
             <div className="flex-1 bg-[#160b29] flex flex-col relative overflow-hidden">
                 {/* Background Effect */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#FFD700]/5 rounded-full blur-[100px] pointer-events-none"></div>
 
                 <div className="flex-1 overflow-y-auto p-8 relative z-10 w-full">
                     <div className="max-w-3xl mx-auto w-full">
@@ -155,19 +246,9 @@ const ClubEvents = ({ onBack }: ClubEventsProps) => {
                         )}
                     </div>
                 </div>
-
-                {/* Footer Action */}
-                <div className="p-6 bg-[#1a0b2e] border-t border-white/10 flex justify-end relative z-20">
-                    <button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3 px-12 rounded-xl shadow-lg shadow-blue-500/30 active:scale-95 transition-all text-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={selectedEvent.status === 'ended'}
-                    >
-                        {selectedEvent.status === 'active' ? '立即參加 (Enter Now)' : selectedEvent.status === 'upcoming' ? '預約報名 (Register)' : '活動已結束 (Ended)'}
-                        {selectedEvent.status !== 'ended' && <ArrowRight size={20} />}
-                    </button>
-                </div>
             </div>
         </div>
     );
 };
 
-export default ClubEvents;
+export default ClubAdminEvents;

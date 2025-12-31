@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { LogOut } from 'lucide-react';
-import { Game } from '../data/mockData';
-import slotBg from '../assets/slot_demo.jpg';
-import BrandLoading from './BrandLoading';
+import { Game } from '../../data/mockData';
+import slotBg from '../../assets/slot_demo.jpg';
+import BrandLoading from '../layout/BrandLoading';
 
 interface GameRoomProps {
     game: Game;

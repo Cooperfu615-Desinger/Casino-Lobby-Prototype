@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, ChevronRight, Clock, X, Gift, Lock, Check, SlidersHorizontal, Medal, Crown } from 'lucide-react';
-import { EVENTS_LIST } from '../data/mockData';
+import { EVENTS_LIST } from '../../data/mockData';
 
 interface EventsInterfaceProps {
     onOpenSale: () => void;

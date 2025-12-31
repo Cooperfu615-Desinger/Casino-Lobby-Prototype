@@ -8,34 +8,38 @@ import {
 
 // Context
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { AudioProvider } from './context/AudioContext';
 
-// Components
-import LoginScreen from './components/LoginScreen';
-import GameRoom from './components/GameRoom';
-import GameCard from './components/GameCard';
-import NavButton from './components/NavButton';
-import ActionButton from './components/ActionButton';
-import SettingsMenu from './components/SettingsMenu';
-// import SaleModal from './components/SaleModal'; // Removed, handled by ModalContainer
-// import TournamentModal from './components/TournamentModal'; // Removed, handled by ModalContainer
-import UserModal from './components/UserModal';
-import EventsInterface from './components/EventsInterface';
-// import PaymentModal from './components/PaymentModal'; // Removed, handled by ModalContainer
-// import HistoryModal from './components/HistoryModal'; // Removed, handled by ModalContainer
-import BankInterface from './components/BankInterface';
-import ChatInterface from './components/ChatInterface';
-import ClubInterface from './components/ClubInterface';
-import InboxInterface from './components/InboxInterface';
-import GiftsInterface from './components/GiftsInterface';
-import LanguageModal from './components/LanguageModal';
-// import TransferModal from './components/TransferModal'; // Removed, handled by ModalContainer
+// Components - Layout
+import SettingsMenu from './components/layout/SettingsMenu';
+import BrandLoading from './components/layout/BrandLoading';
 
+// Components - Common
+import GameCard from './components/common/GameCard';
+import NavButton from './components/common/NavButton';
+import ActionButton from './components/common/ActionButton';
+
+// Components - Features
+import LoginScreen from './components/features/LoginScreen';
+import GameRoom from './components/features/GameRoom';
+import EventsInterface from './components/features/EventsInterface';
+import BankInterface from './components/features/BankInterface';
+import ChatInterface from './components/features/ChatInterface';
+import ClubInterface from './components/features/ClubInterface';
+import InboxInterface from './components/features/InboxInterface';
+import GiftsInterface from './components/features/GiftsInterface';
+
+// Components - Modals
+import UserModal from './components/modals/UserModal';
+import LanguageModal from './components/modals/LanguageModal';
+
+// Global
 import { UIProvider, useUI } from './context/UIContext';
 import ModalContainer from './components/ModalContainer';
 
 // Data
-// Data
-import { GAMES, Game } from './data/mockData';
+import { GAMES } from './data/mockData';
+import type { Game } from './types';
 
 type ActiveTab = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' | 'club';
 
@@ -299,8 +303,8 @@ const MainContent = () => {
     return <CasinoLandscape onPlayGame={setActiveGame} />;
 };
 
-import { AudioProvider } from './context/AudioContext';
-import BrandLoading from './components/BrandLoading';
+
+// AudioProvider already imported at top, BrandLoading moved to layout
 
 function App() {
     const [isInitialLoad, setIsInitialLoad] = useState(true);

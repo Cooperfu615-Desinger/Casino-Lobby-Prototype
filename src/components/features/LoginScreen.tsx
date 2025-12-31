@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import PhoneLoginModal from './PhoneLoginModal';
-import FacebookLoginModal from './FacebookLoginModal';
+import { useAuth } from '../../context/AuthContext';
+import PhoneLoginModal from '../modals/PhoneLoginModal';
+import FacebookLoginModal from '../modals/FacebookLoginModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();

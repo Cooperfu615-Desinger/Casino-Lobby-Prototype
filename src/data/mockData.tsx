@@ -1,88 +1,23 @@
-import React from 'react';
+// React is implicitly imported by the JSX transform
 import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
-// --- Types ---
-export interface Game {
-    id: number;
-    title: string;
-    category: 'card' | 'slot' | 'fish';
-    image: string;
-    icon: string;
-    size?: 'standard' | 'large';
-    hasJackpot?: boolean;
-}
+// Import types from dedicated type files
+import type { Game } from '../types/game';
+import type { Friend, OnlinePlayer } from '../types/user';
+import type { ChatMessage, ClubChatMessage } from '../types/chat';
+import type { Package, SalePackage, Transaction } from '../types/transaction';
+import type { EventItem, GiftItem } from '../types/event';
+import type { InboxMessage } from '../types/inbox';
+import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
 
-export interface Friend {
-    id: number;
-    name: string;
-    avatar: string;
-    status: 'online' | 'playing' | 'offline';
-    lastMsg: string;
-}
-
-export interface OnlinePlayer {
-    id: number;
-    name: string;
-    avatar: string;
-    level: number;
-}
-
-export interface ChatMessage {
-    id: number;
-    sender: string;
-    text: string;
-    isMe: boolean;
-    time: string;
-    isSystem?: boolean;
-}
-
-export interface Package {
-    id: number;
-    coins: string;
-    price: string;
-    bonus: string | null;
-    best?: boolean;
-}
-
-export interface SalePackage {
-    id: number;
-    title: string;
-    coins: string;
-    price: string;
-    original: string;
-    tag: string;
-}
-
-export interface EventItem {
-    id: number;
-    type: 'sale' | 'tournament' | 'vip';
-    title: string;
-    desc: string;
-    icon: React.ReactNode;
-    bg: string;
-    border: string;
-    startTime: string;
-    endTime: string;
-    status: 'upcoming' | 'active' | 'ending';
-}
-
-export interface InboxMessage {
-    id: number;
-    type: 'system' | 'promo' | 'personal';
-    title: string;
-    date: string;
-    content: string;
-    read: boolean;
-}
-
-export interface GiftItem {
-    id: number;
-    title: string;
-    amount: string;
-    icon: React.ReactNode;
-    expire: string;
-    claimed: boolean;
-}
+// Re-export types for backward compatibility
+export type { Game } from '../types/game';
+export type { Friend, OnlinePlayer } from '../types/user';
+export type { ChatMessage, ClubChatMessage } from '../types/chat';
+export type { Package, SalePackage, Transaction } from '../types/transaction';
+export type { EventItem, GiftItem } from '../types/event';
+export type { InboxMessage } from '../types/inbox';
+export type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
 
 // --- Mock Data ---
 export const GAMES: Game[] = [
@@ -98,7 +33,6 @@ export const GAMES: Game[] = [
     { id: 10, title: 'Fortune Expedition', category: 'slot', image: 'bg-yellow-800', icon: '🧭', hasJackpot: true },
     { id: 11, title: 'Golden Empire', category: 'slot', image: 'bg-amber-700', icon: '🏛️' },
     { id: 12, title: 'Super Ace', category: 'card', image: 'bg-emerald-800', icon: '🃏' },
-    // New additions (id 13-22)
     { id: 13, title: 'Neon Nights', category: 'slot', image: 'bg-fuchsia-900', icon: '🌃' },
     { id: 14, title: "Dragon's Gold", category: 'slot', image: 'bg-red-950', icon: '🐉', hasJackpot: true },
     { id: 15, title: 'Space Odyssey', category: 'slot', image: 'bg-slate-900', icon: '🚀' },
@@ -185,15 +119,6 @@ export const GIFT_ITEMS: GiftItem[] = [
     { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size={40} />, expire: '2天後過期', claimed: false },
 ];
 
-export interface Transaction {
-    id: string;
-    date: string;
-    type: 'deposit' | 'withdraw' | 'rebate';
-    amount: string;
-    status: 'success' | 'processing' | 'failed';
-    method: string;
-}
-
 export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
     { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '$9.99', status: 'processing', method: 'Credit Card' },
@@ -215,15 +140,6 @@ export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251208-018', date: '2025-12-08 13:25', type: 'withdraw', amount: '$300.00', status: 'processing', method: 'USDT-ERC20' },
 ];
 
-export interface ClubChatMessage {
-    id: number;
-    sender: string;
-    text: string;
-    isMe: boolean;
-    time: string;
-    role: 'member' | 'leader' | 'admin';
-}
-
 export const CLUB_CHAT_HISTORY: ClubChatMessage[] = [
     { id: 1, sender: 'GodOfGamblers', text: '各位戰友早安！昨晚戰績不錯喔！', isMe: false, time: '09:00', role: 'leader' },
     { id: 2, sender: 'DragonSlayer', text: '會長早，今天晚上打公會戰嗎？', isMe: false, time: '09:05', role: 'admin' },
@@ -234,15 +150,6 @@ export const CLUB_CHAT_HISTORY: ClubChatMessage[] = [
     { id: 7, sender: 'RichMan99', text: '坐等紅包', isMe: false, time: '09:18', role: 'member' },
 ];
 
-export interface ClubRewardItem {
-    id: number;
-    title: string;
-    cost: number;
-    icon: any; // We will use generic render or handle in component
-    type: 'Bonus' | 'Cash' | 'Frame' | 'Prop';
-    stock?: number;
-}
-
 export const CLUB_REWARDS_ITEMS: ClubRewardItem[] = [
     { id: 1, title: '50 Free Spins', cost: 1000, icon: 'Spin', type: 'Bonus' },
     { id: 2, title: ' Bonus Cash', cost: 2500, icon: 'Cash', type: 'Cash' },
@@ -252,26 +159,10 @@ export const CLUB_REWARDS_ITEMS: ClubRewardItem[] = [
     { id: 6, title: '限量傳奇徽章', cost: 50000, icon: 'Badge', type: 'Frame', stock: 1 },
 ];
 
-export interface UserClubStats {
-    currentPoints: number;
-    totalContribution: number;
-}
-
 export const USER_CLUB_STATS: UserClubStats = {
     currentPoints: 3450,
     totalContribution: 15000
 };
-
-export interface ClubEvent {
-    id: number;
-    title: string;
-    prizePool: number;
-    status: 'active' | 'upcoming' | 'ended';
-    timeLeft: string;
-    participants: number;
-    description: string;
-    leaderboard: { name: string; score: number; rank: number }[];
-}
 
 export const CLUB_EVENTS_DATA: ClubEvent[] = [
     {
@@ -314,7 +205,7 @@ export const CLUB_EVENTS_DATA: ClubEvent[] = [
     }
 ];
 
-export const EVENT_TEMPLATES = [
+export const EVENT_TEMPLATES: EventTemplate[] = [
     { id: 'tournament', name: '老虎機爭霸戰 (Tournament)' },
     { id: 'mission', name: '全員達成任務 (Co-op Mission)' },
     { id: 'login', name: '登入簽到獎勵 (Login Bonus)' }

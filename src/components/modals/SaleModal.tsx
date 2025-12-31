@@ -1,5 +1,5 @@
 import { X, Flame, Gem } from 'lucide-react';
-import { SALE_PACKAGES } from '../data/mockData';
+import { SALE_PACKAGES } from '../../data/mockData';
 
 interface SaleModalProps {
     onClose: () => void;

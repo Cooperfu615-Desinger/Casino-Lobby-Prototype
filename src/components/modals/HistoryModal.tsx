@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, FileText, ArrowUpRight, ArrowDownLeft, Filter, RefreshCw } from 'lucide-react';
-import { TRANSACTION_HISTORY } from '../data/mockData';
+import { TRANSACTION_HISTORY } from '../../data/mockData';
 
 interface HistoryModalProps {
     onClose: () => void;

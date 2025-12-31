@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, Check, Loader2, Apple } from 'lucide-react';
-import { Package, SalePackage } from '../data/mockData';
+import { Package, SalePackage } from '../../data/mockData';
 
 interface PaymentModalProps {
     packageInfo: Package | SalePackage;

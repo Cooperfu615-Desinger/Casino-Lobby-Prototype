@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight, Globe } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { useAudio } from '../context/AudioContext';
+import { useAuth } from '../../context/AuthContext';
+import { useAudio } from '../../context/AudioContext';
 
 interface SettingsMenuProps {
     onOpenLanguage: () => void;

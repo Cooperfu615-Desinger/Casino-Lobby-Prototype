@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, Send, Crown, Shield } from 'lucide-react';
-import { CLUB_CHAT_HISTORY } from '../data/mockData';
+import { CLUB_CHAT_HISTORY } from '../../data/mockData';
 
 interface ClubChatProps {
     onBack: () => void;

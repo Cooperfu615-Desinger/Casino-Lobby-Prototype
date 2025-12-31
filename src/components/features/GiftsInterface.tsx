@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Gift, Clock, CheckCircle2, X } from 'lucide-react';
-import { GIFT_ITEMS, GiftItem } from '../data/mockData';
+import { GIFT_ITEMS, GiftItem } from '../../data/mockData';
 
 interface GiftsInterfaceProps {
     onClose: () => void;

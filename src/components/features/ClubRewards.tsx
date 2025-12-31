@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, Trophy, Coins, Zap, LayoutTemplate, Banknote, Timer, Gift, CheckCircle } from 'lucide-react';
-import { CLUB_REWARDS_ITEMS, USER_CLUB_STATS, ClubRewardItem } from '../data/mockData';
+import { CLUB_REWARDS_ITEMS, USER_CLUB_STATS, ClubRewardItem } from '../../data/mockData';
 
 interface ClubRewardsProps {
     onBack: () => void;
