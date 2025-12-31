@@ -5,7 +5,7 @@ import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 import type { Game } from '../types/game';
 import type { Friend, OnlinePlayer } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
-import type { Package, SalePackage, Transaction } from '../types/transaction';
+import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 import type { EventItem, GiftItem } from '../types/event';
 import type { InboxMessage } from '../types/inbox';
 import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
@@ -14,7 +14,7 @@ import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '..
 export type { Game } from '../types/game';
 export type { Friend, OnlinePlayer } from '../types/user';
 export type { ChatMessage, ClubChatMessage } from '../types/chat';
-export type { Package, SalePackage, Transaction } from '../types/transaction';
+export type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 export type { EventItem, GiftItem } from '../types/event';
 export type { InboxMessage } from '../types/inbox';
 export type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
@@ -92,6 +92,16 @@ export const SALE_PACKAGES: SalePackage[] = [
     { id: 3, title: '破產救援', coins: '500,000', price: '$1.99', original: '$2.99', tag: 'DAILY' },
 ];
 
+/** 專屬優惠方案卡片 - 用於銀行中心「優惠」分頁 */
+export const OFFER_PACKAGES: OfferPackage[] = [
+    { id: 1, title: '新春紅包禮', description: '每日登入領取紅包金幣', coins: '888,888', price: '$1.99', original: '$9.99', tag: '限時 80% OFF', gradient: 'from-red-600 to-orange-500', expireTime: '3天後結束' },
+    { id: 2, title: 'VIP 專屬儲值', description: 'VIP 5+ 專屬加碼優惠', coins: '2,500,000', price: '$19.99', original: '$49.99', tag: 'VIP 限定', gradient: 'from-purple-600 to-indigo-500' },
+    { id: 3, title: '週末狂歡包', description: '週六日限定超值禮包', coins: '1,200,000', price: '$9.99', original: '$24.99', tag: '週末限定', gradient: 'from-pink-500 to-rose-500', expireTime: '週日 23:59 截止' },
+    { id: 4, title: '首充雙倍送', description: '首次儲值享 200% 回饋', coins: '500,000', price: '$4.99', original: '$9.99', tag: '首充限定', gradient: 'from-amber-500 to-yellow-400' },
+    { id: 5, title: '月卡尊享', description: '每日自動領取獎勵', coins: '3,000,000', price: '$29.99', original: '$99.99', tag: '-70%', gradient: 'from-cyan-500 to-blue-500' },
+    { id: 6, title: '幸運轉盤加碼', description: '購買後獲得 10 次免費轉盤', coins: '100,000', price: '$2.99', original: '$5.99', tag: '熱門', gradient: 'from-emerald-500 to-green-500', expireTime: '限量 100 份' },
+];
+
 export const EVENTS_LIST: EventItem[] = [
     { id: 1, type: 'sale', title: '限時儲值優惠', desc: '全場 200% 回饋，僅剩 3 小時！', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to-orange-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2025/11/01 12:00', endTime: '2025/11/01 15:00' },
     { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to-amber-900/50', border: 'border-yellow-500/50', status: 'active', startTime: '2025/11/01 00:00', endTime: '2025/11/07 23:59' },
@@ -122,22 +132,22 @@ export const GIFT_ITEMS: GiftItem[] = [
 export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
     { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '$9.99', status: 'processing', method: 'Credit Card' },
-    { id: 'TX-20251223-003', date: '2025-12-23 21:00', type: 'withdraw', amount: '$50.00', status: 'success', method: 'USDT-TRC20' },
-    { id: 'TX-20251222-004', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
-    { id: 'TX-20251221-005', date: '2025-12-21 23:30', type: 'rebate', amount: '$12.50', status: 'success', method: 'Weekly Rebate' },
-    { id: 'TX-20251220-006', date: '2025-12-20 09:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'App Store' },
-    { id: 'TX-20251219-007', date: '2025-12-19 18:45', type: 'deposit', amount: '$99.99', status: 'success', method: 'Apple Pay' },
-    { id: 'TX-20251218-008', date: '2025-12-18 14:20', type: 'withdraw', amount: '$200.00', status: 'processing', method: 'USDT-TRC20' },
-    { id: 'TX-20251217-009', date: '2025-12-17 08:00', type: 'rebate', amount: '$5.00', status: 'success', method: 'Daily Bonus' },
-    { id: 'TX-20251216-010', date: '2025-12-16 12:45', type: 'deposit', amount: '$49.99', status: 'success', method: 'Google Play' },
-    { id: 'TX-20251215-011', date: '2025-12-15 16:20', type: 'withdraw', amount: '$100.00', status: 'failed', method: 'Bank Transfer' },
-    { id: 'TX-20251214-012', date: '2025-12-14 09:10', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
-    { id: 'TX-20251213-013', date: '2025-12-13 22:15', type: 'rebate', amount: '$25.00', status: 'success', method: 'Level Up Bonus' },
-    { id: 'TX-20251212-014', date: '2025-12-12 11:30', type: 'deposit', amount: '$19.99', status: 'processing', method: 'Credit Card' },
-    { id: 'TX-20251211-015', date: '2025-12-11 14:50', type: 'withdraw', amount: '$150.00', status: 'success', method: 'USDT-TRC20' },
-    { id: 'TX-20251210-016', date: '2025-12-10 10:00', type: 'deposit', amount: '$9.99', status: 'success', method: 'Apple Pay' },
-    { id: 'TX-20251209-017', date: '2025-12-09 19:40', type: 'rebate', amount: '$8.88', status: 'success', method: 'Weekly Rebate' },
-    { id: 'TX-20251208-018', date: '2025-12-08 13:25', type: 'withdraw', amount: '$300.00', status: 'processing', method: 'USDT-ERC20' },
+    { id: 'TX-20251224-003', date: '2025-12-24 10:00', type: 'free_reward', amount: '10,000 金幣', status: 'success', method: '每日登入獎勵' },
+    { id: 'TX-20251223-004', date: '2025-12-23 21:00', type: 'gift_transfer', amount: '50,000 金幣', status: 'success', method: '贈送給 Tom888' },
+    { id: 'TX-20251222-005', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
+    { id: 'TX-20251221-006', date: '2025-12-21 23:30', type: 'gift_package', amount: '1,000,000 金幣', status: 'success', method: 'VIP 7 晉升禮包' },
+    { id: 'TX-20251220-007', date: '2025-12-20 09:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'App Store' },
+    { id: 'TX-20251219-008', date: '2025-12-19 18:45', type: 'free_reward', amount: '5,000 金幣', status: 'success', method: '活動獎勵' },
+    { id: 'TX-20251218-009', date: '2025-12-18 14:20', type: 'gift_transfer', amount: '100,000 金幣', status: 'success', method: '贈送給 Jessica_99' },
+    { id: 'TX-20251217-010', date: '2025-12-17 08:00', type: 'free_reward', amount: '2,000 金幣', status: 'success', method: '每日登入獎勵' },
+    { id: 'TX-20251216-011', date: '2025-12-16 12:45', type: 'deposit', amount: '$49.99', status: 'success', method: 'Google Play' },
+    { id: 'TX-20251215-012', date: '2025-12-15 16:20', type: 'gift_package', amount: '50,000 金幣', status: 'success', method: '維護補償禮包' },
+    { id: 'TX-20251214-013', date: '2025-12-14 09:10', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251213-014', date: '2025-12-13 22:15', type: 'free_reward', amount: '8,888 金幣', status: 'success', method: '新春紅包' },
+    { id: 'TX-20251212-015', date: '2025-12-12 11:30', type: 'deposit', amount: '$19.99', status: 'processing', method: 'Credit Card' },
+    { id: 'TX-20251211-016', date: '2025-12-11 14:50', type: 'gift_transfer', amount: '25,000 金幣', status: 'success', method: '贈送給 LuckyGirl' },
+    { id: 'TX-20251210-017', date: '2025-12-10 10:00', type: 'deposit', amount: '$9.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251209-018', date: '2025-12-09 19:40', type: 'gift_package', amount: '200,000 金幣', status: 'success', method: '新手禮包' },
 ];
 
 export const CLUB_CHAT_HISTORY: ClubChatMessage[] = [
