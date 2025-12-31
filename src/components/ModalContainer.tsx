@@ -4,6 +4,7 @@ import PaymentModal from './modals/PaymentModal';
 import HistoryModal from './modals/HistoryModal';
 import SaleModal from './modals/SaleModal';
 import TournamentModal from './modals/TournamentModal';
+import BankInterface from './features/BankInterface';
 
 const MODAL_REGISTRY: Partial<Record<ModalType, React.ComponentType<any>>> = {
     transfer: TransferModal,
@@ -11,7 +12,7 @@ const MODAL_REGISTRY: Partial<Record<ModalType, React.ComponentType<any>>> = {
     history: HistoryModal,
     sale: SaleModal,
     tournament: TournamentModal,
-    bank: () => null, // Placeholder
+    bank: BankInterface,
     settings: () => null, // Placeholder
     none: () => null
 };

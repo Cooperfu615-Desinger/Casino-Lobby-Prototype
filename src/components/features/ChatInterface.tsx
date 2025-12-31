@@ -243,9 +243,9 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                 <div className="absolute bottom-16 left-3 bg-[#2a1b42] border border-white/20 rounded-xl shadow-xl p-2 w-40 animate-in fade-in zoom-in-95 duration-200">
                                     <button
                                         onClick={() => {
-                                            openModal('transfer');
+                                            openModal('bank', { receiverId: selectedFriend.name });
                                             setShowAttachMenu(false);
-                                            console.log("[Chat] Game Points button clicked - opening TransferModal via Global Stack");
+                                            console.log("[Chat] Game Points button clicked - opening Bank with receiverId:", selectedFriend.name);
                                         }}
                                         className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
                                     >

@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Landmark, Gem, X, Gift, History, Sparkles, User, Wallet, Send } from 'lucide-react';
 import { PACKAGES, OFFER_PACKAGES, TRANSACTION_HISTORY } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 
 interface BankInterfaceProps {
     onClose: () => void;
+    /** 從聊天室跳轉時帶入的接收者 ID */
+    receiverId?: string;
 }
 
 type BankTab = 'deposit' | 'offers' | 'gifts' | 'records';
@@ -15,16 +17,24 @@ const CONSTANTS = {
     MOCK_BALANCE: 123456789
 };
 
-const BankInterface = ({ onClose }: BankInterfaceProps) => {
+const BankInterface = ({ onClose, receiverId: initialReceiverId }: BankInterfaceProps) => {
     const { openModal, setLoading, showToast } = useUI();
-    const [activeTab, setActiveTab] = useState<BankTab>('deposit');
+    const [activeTab, setActiveTab] = useState<BankTab>(() => initialReceiverId ? 'gifts' : 'deposit');
 
     // Gifts tab state
-    const [receiverId, setReceiverId] = useState('');
+    const [receiverId, setReceiverId] = useState(initialReceiverId || '');
     const [amount, setAmount] = useState<number | ''>('');
 
     // Records tab state
     const [recordFilter, setRecordFilter] = useState<RecordFilter>('all');
+
+    // 當從聊天室跳轉時，自動切換到贈禮並填入 ID
+    useEffect(() => {
+        if (initialReceiverId) {
+            setActiveTab('gifts');
+            setReceiverId(initialReceiverId);
+        }
+    }, [initialReceiverId]);
 
     const numericAmount = Number(amount) || 0;
     const fee = Math.floor(numericAmount * CONSTANTS.FEE_RATE);
@@ -88,8 +98,8 @@ const BankInterface = ({ onClose }: BankInterfaceProps) => {
                                 key={tab.key}
                                 onClick={() => setActiveTab(tab.key)}
                                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all ${activeTab === tab.key
-                                        ? 'bg-[#FFD700] text-black shadow-lg shadow-[#FFD700]/20'
-                                        : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
+                                    ? 'bg-[#FFD700] text-black shadow-lg shadow-[#FFD700]/20'
+                                    : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 {tab.icon}
@@ -181,57 +191,51 @@ const BankInterface = ({ onClose }: BankInterfaceProps) => {
 
                     {/* ========== 贈禮 Tab ========== */}
                     {activeTab === 'gifts' && (
-                        <div className="max-w-[500px] mx-auto space-y-6">
-                            {/* Balance Card */}
-                            <div className="bg-black/30 border border-white/5 rounded-xl p-4 flex justify-between items-center backdrop-blur-sm">
-                                <div className="flex flex-col gap-1">
-                                    <span className="text-xs text-slate-400 uppercase tracking-wider">My Balance</span>
-                                    <div className="flex items-center gap-2 text-[#FFD700] font-mono font-bold text-lg">
-                                        <Wallet size={16} />
-                                        ${CONSTANTS.MOCK_BALANCE.toLocaleString()}
-                                    </div>
+                        <div className="max-w-[500px] mx-auto h-full flex flex-col gap-3">
+                            {/* Balance Card - 縮小高度 */}
+                            <div className="bg-black/30 border border-white/5 rounded-lg p-3 flex justify-between items-center backdrop-blur-sm">
+                                <div className="flex items-center gap-2">
+                                    <Wallet size={16} className="text-[#FFD700]" />
+                                    <span className="text-slate-400 text-xs">餘額:</span>
+                                    <span className="text-[#FFD700] font-mono font-bold">${CONSTANTS.MOCK_BALANCE.toLocaleString()}</span>
                                 </div>
                             </div>
 
-                            {/* Receiver Input */}
-                            <div className="space-y-1.5">
-                                <label className="text-xs text-slate-300 ml-1 font-medium">接收者 ID (Receiver ID)</label>
+                            {/* Receiver Input - 縮小高度 */}
+                            <div className="space-y-1">
+                                <label className="text-xs text-slate-300 ml-1 font-medium">接收者 ID</label>
                                 <div className="relative group">
                                     <input
                                         type="text"
                                         value={receiverId}
                                         onChange={(e) => setReceiverId(e.target.value)}
                                         placeholder="請輸入玩家 ID"
-                                        className="w-full bg-[#0f0518] border border-white/10 rounded-xl px-4 py-3.5 pl-11 text-white placeholder:text-white/20 focus:outline-none focus:border-[#FFD700] transition-colors shadow-inner"
+                                        className="w-full bg-[#0f0518] border border-white/10 rounded-lg px-4 py-2.5 pl-10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#FFD700] transition-colors"
                                     />
-                                    <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#FFD700] transition-colors" />
+                                    <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#FFD700] transition-colors" />
                                 </div>
                             </div>
 
-                            {/* Amount Input */}
-                            <div className="space-y-1.5">
-                                <label className="text-xs text-slate-300 ml-1 font-medium">轉帳金額 (Amount)</label>
-                                <div className="bg-[#0f0518] border border-white/10 rounded-xl p-4 shadow-inner space-y-4">
-                                    <div className="relative">
-                                        <input
-                                            type="number"
-                                            value={amount}
-                                            onChange={(e) => {
-                                                const val = e.target.value === '' ? '' : Number(e.target.value);
-                                                if (val === '' || (val >= 0 && val <= CONSTANTS.MOCK_BALANCE)) {
-                                                    setAmount(val);
-                                                }
-                                            }}
-                                            placeholder="0"
-                                            className="w-full bg-transparent text-center text-3xl font-bold text-[#FFD700] placeholder:text-white/10 focus:outline-none"
-                                        />
-                                        <div className="flex justify-center mt-1">
-                                            <span className="text-[10px] text-slate-500 bg-white/5 px-2 py-0.5 rounded">MAX: {CONSTANTS.MOCK_BALANCE.toLocaleString()}</span>
-                                        </div>
-                                    </div>
+                            {/* Amount Input - 緊湊排列 */}
+                            <div className="flex-1 flex flex-col gap-2">
+                                <label className="text-xs text-slate-300 ml-1 font-medium">轉帳金額</label>
+                                <div className="bg-[#0f0518] border border-white/10 rounded-lg p-3 flex-1 flex flex-col justify-center gap-2">
+                                    <input
+                                        type="number"
+                                        value={amount}
+                                        onChange={(e) => {
+                                            const val = e.target.value === '' ? '' : Number(e.target.value);
+                                            if (val === '' || (val >= 0 && val <= CONSTANTS.MOCK_BALANCE)) {
+                                                setAmount(val);
+                                            }
+                                        }}
+                                        placeholder="0"
+                                        aria-label="轉帳金額"
+                                        className="w-full bg-transparent text-center text-2xl font-bold text-[#FFD700] placeholder:text-white/10 focus:outline-none"
+                                    />
 
                                     {/* Slider */}
-                                    <div className="px-2">
+                                    <div className="px-1">
                                         <input
                                             type="range"
                                             min="0"
@@ -239,37 +243,33 @@ const BankInterface = ({ onClose }: BankInterfaceProps) => {
                                             step="1000"
                                             value={numericAmount}
                                             onChange={(e) => setAmount(Number(e.target.value))}
+                                            aria-label="金額拉桿"
                                             className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#FFD700]"
                                         />
-                                        <div className="flex justify-between mt-2">
-                                            <button onClick={() => setAmount(0)} className="text-[10px] text-slate-500 hover:text-white transition-colors">0%</button>
-                                            <button onClick={() => setAmount(Math.floor(CONSTANTS.MOCK_BALANCE * 0.25))} className="text-[10px] text-slate-500 hover:text-white transition-colors">25%</button>
-                                            <button onClick={() => setAmount(Math.floor(CONSTANTS.MOCK_BALANCE * 0.5))} className="text-[10px] text-slate-500 hover:text-white transition-colors">50%</button>
-                                            <button onClick={() => setAmount(Math.floor(CONSTANTS.MOCK_BALANCE * 0.75))} className="text-[10px] text-slate-500 hover:text-white transition-colors">75%</button>
-                                            <button onClick={() => setAmount(CONSTANTS.MOCK_BALANCE)} className="text-[10px] text-slate-500 hover:text-white transition-colors">MAX</button>
+                                        <div className="flex justify-between mt-1">
+                                            <button type="button" onClick={() => setAmount(0)} className="text-[10px] text-slate-500 hover:text-white transition-colors">0%</button>
+                                            <button type="button" onClick={() => setAmount(Math.floor(CONSTANTS.MOCK_BALANCE * 0.25))} className="text-[10px] text-slate-500 hover:text-white transition-colors">25%</button>
+                                            <button type="button" onClick={() => setAmount(Math.floor(CONSTANTS.MOCK_BALANCE * 0.5))} className="text-[10px] text-slate-500 hover:text-white transition-colors">50%</button>
+                                            <button type="button" onClick={() => setAmount(Math.floor(CONSTANTS.MOCK_BALANCE * 0.75))} className="text-[10px] text-slate-500 hover:text-white transition-colors">75%</button>
+                                            <button type="button" onClick={() => setAmount(CONSTANTS.MOCK_BALANCE)} className="text-[10px] text-slate-500 hover:text-white transition-colors">MAX</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Fee Preview */}
-                            <div className="bg-white/5 rounded-lg p-3 space-y-2">
-                                <div className="flex justify-between text-xs text-slate-400">
-                                    <span>系統手續費 (1%)</span>
-                                    <span className="text-red-400 font-mono">-${fee.toLocaleString()}</span>
-                                </div>
-                                <div className="w-full h-px bg-white/10"></div>
-                                <div className="flex justify-between text-sm font-bold text-slate-200">
-                                    <span>對方實收</span>
-                                    <span className="text-[#FFD700] font-mono">${actualReceived.toLocaleString()}</span>
+                            {/* Fee Preview - 緊湊 */}
+                            <div className="bg-white/5 rounded-lg p-2.5 flex justify-between items-center">
+                                <div className="flex items-center gap-4 text-xs">
+                                    <span className="text-slate-400">手續費 (1%): <span className="text-red-400 font-mono">-${fee.toLocaleString()}</span></span>
+                                    <span className="text-slate-300">對方實收: <span className="text-[#FFD700] font-mono font-bold">${actualReceived.toLocaleString()}</span></span>
                                 </div>
                             </div>
 
-                            {/* Transfer Button */}
+                            {/* Transfer Button - 大按鈕 */}
                             <button
                                 onClick={handleGiftTransfer}
                                 disabled={!receiverId || numericAmount <= 0}
-                                className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-bold py-3.5 rounded-xl shadow-lg hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center justify-center gap-2"
+                                className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center justify-center gap-2"
                             >
                                 <Send size={18} />
                                 <span>確認贈送</span>
@@ -293,8 +293,8 @@ const BankInterface = ({ onClose }: BankInterfaceProps) => {
                                         key={filter.key}
                                         onClick={() => setRecordFilter(filter.key as RecordFilter)}
                                         className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${recordFilter === filter.key
-                                                ? 'bg-[#FFD700] text-black'
-                                                : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                                            ? 'bg-[#FFD700] text-black'
+                                            : 'bg-white/5 text-slate-300 hover:bg-white/10'
                                             }`}
                                     >
                                         {filter.label}
@@ -318,15 +318,15 @@ const BankInterface = ({ onClose }: BankInterfaceProps) => {
                                             </div>
                                             <div className="flex flex-col items-end gap-1">
                                                 <span className={`font-bold ${tx.type === 'deposit' ? 'text-green-400' :
-                                                        tx.type === 'gift_transfer' ? 'text-orange-400' :
-                                                            tx.type === 'free_reward' ? 'text-cyan-400' :
-                                                                'text-purple-400'
+                                                    tx.type === 'gift_transfer' ? 'text-orange-400' :
+                                                        tx.type === 'free_reward' ? 'text-cyan-400' :
+                                                            'text-purple-400'
                                                     }`}>
                                                     {tx.type === 'gift_transfer' ? '-' : '+'}{tx.amount}
                                                 </span>
                                                 <span className={`text-[10px] px-2 py-0.5 rounded ${tx.status === 'success' ? 'bg-green-500/20 text-green-400' :
-                                                        tx.status === 'processing' ? 'bg-yellow-500/20 text-yellow-400' :
-                                                            'bg-red-500/20 text-red-400'
+                                                    tx.status === 'processing' ? 'bg-yellow-500/20 text-yellow-400' :
+                                                        'bg-red-500/20 text-red-400'
                                                     }`}>
                                                     {tx.status === 'success' ? '成功' : tx.status === 'processing' ? '處理中' : '失敗'}
                                                 </span>
