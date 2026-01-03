@@ -15,6 +15,7 @@ interface AuthContextType {
     loginAsGuest: () => void;
     logout: () => void;
     updateUser: (updates: Partial<User>) => void;
+    updateBalance: (newBalance: number) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,6 +54,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(prev => prev ? { ...prev, ...updates } : null);
     };
 
+    const updateBalance = (newBalance: number) => {
+        setUser(prev => prev ? { ...prev, balance: newBalance } : null);
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -60,7 +65,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             login,
             loginAsGuest,
             logout,
-            updateUser
+            updateUser,
+            updateBalance
         }}>
             {children}
         </AuthContext.Provider>

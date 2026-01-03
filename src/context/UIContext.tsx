@@ -41,6 +41,10 @@ interface UIContextType {
     toasts: Toast[];
     showToast: (message: string, type?: ToastType) => void;
     removeToast: (id: string) => void;
+
+    // Balance Animation
+    isBalanceAnimating: boolean;
+    triggerBalanceAnimation: () => void;
 }
 
 // ============================================================================
@@ -163,6 +167,20 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     }, [toasts, removeToast]);
 
     // --------------------------------------------------------------------------
+    // Balance Animation State
+    // --------------------------------------------------------------------------
+    const [isBalanceAnimating, setIsBalanceAnimating] = useState(false);
+
+    /**
+     * 觸發餘額跳動動畫
+     * 用於領取獎勵後的視覺反饋
+     */
+    const triggerBalanceAnimation = useCallback(() => {
+        setIsBalanceAnimating(true);
+        setTimeout(() => setIsBalanceAnimating(false), 1000);
+    }, []);
+
+    // --------------------------------------------------------------------------
     // Context Value
     // --------------------------------------------------------------------------
     const value: UIContextType = {
@@ -178,6 +196,9 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
         toasts,
         showToast,
         removeToast,
+        // Balance Animation
+        isBalanceAnimating,
+        triggerBalanceAnimation,
     };
 
     return (

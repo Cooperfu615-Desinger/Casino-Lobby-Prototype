@@ -12,7 +12,7 @@ interface HeaderProps {
 
 const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps) => {
     const { user } = useAuth();
-    const { openModal } = useUI();
+    const { openModal, isBalanceAnimating } = useUI();
     const { navigate } = useNavigation();
 
     return (
@@ -54,10 +54,10 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
             {/* Right: Currency & Menu */}
             <div className="pointer-events-auto flex items-center justify-end gap-4 w-[350px]">
                 <div
-                    className="bg-black/60 border border-[#FFD700]/50 rounded-full px-4 py-1.5 flex items-center gap-3 shadow-lg select-none z-[100]"
+                    className={`bg-black/60 border border-[#FFD700]/50 rounded-full px-4 py-1.5 flex items-center gap-3 shadow-lg select-none z-[100] transition-all ${isBalanceAnimating ? 'animate-pulse scale-105 border-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.5)]' : ''}`}
                 >
                     <Coins className="text-[#FFD700] fill-current" size={20} />
-                    <span className="text-white font-mono font-bold text-xl tracking-wide">
+                    <span className={`text-white font-mono font-bold text-xl tracking-wide transition-colors ${isBalanceAnimating ? 'text-[#FFD700]' : ''}`}>
                         {user?.balance.toLocaleString() || '0'}
                     </span>
                 </div>
