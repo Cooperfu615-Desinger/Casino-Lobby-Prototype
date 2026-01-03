@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
 
 // Layout Components
@@ -34,7 +33,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
-    const { openModal } = useUI();
 
     return (
         <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
@@ -74,8 +72,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             )}
             {currentView === 'events' && (
                 <EventsInterface
-                    onOpenSale={() => openModal('sale')}
-                    onOpenTournament={() => openModal('tournament')}
                     onClose={goToGames}
                 />
             )}

@@ -5,7 +5,7 @@ import { createContext, useContext, useState, ReactNode, useCallback, useEffect 
 // ============================================================================
 
 /** Modal types available in the application */
-export type ModalType = 'transfer' | 'bank' | 'settings' | 'payment' | 'history' | 'sale' | 'tournament' | 'none';
+export type ModalType = 'transfer' | 'bank' | 'settings' | 'payment' | 'history' | 'sale' | 'tournament' | 'promotion' | 'none';
 
 /** Toast notification type variants */
 export type ToastType = 'success' | 'error' | 'info';

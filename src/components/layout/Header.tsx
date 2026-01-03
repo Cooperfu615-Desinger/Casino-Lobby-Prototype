@@ -48,7 +48,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
             {/* Center: BUY & SALE Buttons */}
             <div className="pointer-events-auto flex items-center gap-6 transform translate-y-2">
                 <ActionButton label="BUY" type="buy" onClick={() => navigate('bank')} />
-                <ActionButton label="SALE" type="sale" onClick={() => openModal('sale')} />
+                <ActionButton label="SALE" type="sale" onClick={() => openModal('promotion', { startIndex: 0 })} />
             </div>
 
             {/* Right: Currency & Menu */}

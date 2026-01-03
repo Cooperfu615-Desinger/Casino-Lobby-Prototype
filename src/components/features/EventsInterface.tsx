@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Calendar, ChevronRight, Clock, X, Gift, Lock, Check, SlidersHorizontal, Medal, Crown } from 'lucide-react';
 import { EVENTS_LIST } from '../../data/mockData';
+import { useUI } from '../../context/UIContext';
 
 interface EventsInterfaceProps {
-    onOpenSale: () => void;
-    onOpenTournament: () => void;
     onClose: () => void;
 }
 
-const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterfaceProps) => {
+const EventsInterface = ({ onClose }: EventsInterfaceProps) => {
+    const { openModal } = useUI();
     const [activeTab, setActiveTab] = useState<'daily' | 'events' | 'leaderboard' | 'filter'>('daily');
     const [filter, setFilter] = useState<'all' | 'upcoming' | 'active' | 'ending'>('all');
     const [leaderboardType, setLeaderboardType] = useState<'jackpot' | 'multiplier' | 'win' | 'rich'>('jackpot');
@@ -290,8 +290,9 @@ const EventsInterface = ({ onOpenSale, onOpenTournament, onClose }: EventsInterf
                                     <div
                                         key={event.id}
                                         onClick={() => {
-                                            if (event.type === 'sale') onOpenSale();
-                                            if (event.type === 'tournament') onOpenTournament();
+                                            // 導向新的 PromotionModal，根據活動類型定位至相應卡片
+                                            if (event.type === 'sale') openModal('promotion', { startIndex: 0 });
+                                            if (event.type === 'tournament') openModal('promotion', { startIndex: 2 });
                                         }}
                                         className={`group cursor-pointer bg-gradient-to-r ${event.bg} border ${event.border} rounded-2xl p-6 flex flex-col relative overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl min-h-[160px]`}
                                     >

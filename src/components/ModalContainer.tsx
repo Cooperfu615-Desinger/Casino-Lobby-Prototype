@@ -2,16 +2,14 @@ import { useUI, ModalType } from '../context/UIContext';
 import TransferModal from './modals/TransferModal';
 import PaymentModal from './modals/PaymentModal';
 import HistoryModal from './modals/HistoryModal';
-import SaleModal from './modals/SaleModal';
-import TournamentModal from './modals/TournamentModal';
+import PromotionModal from './modals/PromotionModal';
 import BankInterface from './features/BankInterface';
 
 const MODAL_REGISTRY: Partial<Record<ModalType, React.ComponentType<any>>> = {
     transfer: TransferModal,
     payment: PaymentModal,
     history: HistoryModal,
-    sale: SaleModal,
-    tournament: TournamentModal,
+    promotion: PromotionModal,
     bank: BankInterface,
     settings: () => null, // Placeholder
     none: () => null

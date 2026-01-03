@@ -3,11 +3,21 @@ import { X, Check, Loader2, Apple } from 'lucide-react';
 import { Package, SalePackage } from '../../data/mockData';
 
 interface PaymentModalProps {
-    packageInfo: Package | SalePackage;
+    packageInfo?: Package | SalePackage;
     onClose: () => void;
 }
 
-const PaymentModal = ({ packageInfo, onClose }: PaymentModalProps) => {
+// Default package info when called without props (e.g., from PromotionModal)
+const DEFAULT_PACKAGE_INFO: SalePackage = {
+    id: 0,
+    title: '優惠方案',
+    coins: '888,888',
+    price: '$9.99',
+    original: '$19.99',
+    tag: 'PROMO'
+};
+
+const PaymentModal = ({ packageInfo = DEFAULT_PACKAGE_INFO, onClose }: PaymentModalProps) => {
     const [step, setStep] = useState<'confirm' | 'processing' | 'success'>('confirm');
     const [showToast, setShowToast] = useState(false);
 
