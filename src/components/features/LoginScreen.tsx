@@ -4,18 +4,22 @@ import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 import PhoneLoginModal from '../modals/PhoneLoginModal';
 import FacebookLoginModal from '../modals/FacebookLoginModal';
+import LINELoginModal from '../modals/LINELoginModal';
+import AppleLoginModal from '../modals/AppleLoginModal';
 import TermsModal from '../modals/TermsModal';
 import SignupModal from '../modals/SignupModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();
-    const { showToast, setLoading: setGlobalLoading } = useUI();
+    const { showToast } = useUI();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showLoginInput, setShowLoginInput] = useState(false);
     const [showPhoneLogin, setShowPhoneLogin] = useState(false);
     const [showFBLogin, setShowFBLogin] = useState(false);
+    const [showLINELogin, setShowLINELogin] = useState(false);
+    const [showAppleLogin, setShowAppleLogin] = useState(false);
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [showSignupModal, setShowSignupModal] = useState(false);
 
@@ -54,24 +58,16 @@ const LoginScreen = () => {
         login('Facebook User', 'fb-token');
     };
 
-    // LINE Login handler with loading
-    const handleLINELogin = () => {
-        setGlobalLoading(true);
-        setTimeout(() => {
-            login('LINE User', 'line-token');
-            setGlobalLoading(false);
-            showToast('LINE 登入成功！', 'success');
-        }, 1500);
+    // LINE Login success handler with toast
+    const handleLINELoginSuccess = () => {
+        login('LINE User', 'line-token');
+        showToast('LINE 登入成功！', 'success');
     };
 
-    // Apple Login handler with loading
-    const handleAppleLogin = () => {
-        setGlobalLoading(true);
-        setTimeout(() => {
-            login('Apple User', 'apple-token');
-            setGlobalLoading(false);
-            showToast('Apple 登入成功！', 'success');
-        }, 1500);
+    // Apple Login success handler with toast
+    const handleAppleLoginSuccess = () => {
+        login('Apple User', 'apple-token');
+        showToast('Apple 登入成功！', 'success');
     };
 
     return (
@@ -127,7 +123,7 @@ const LoginScreen = () => {
 
                         {/* LINE */}
                         <button
-                            onClick={handleLINELogin}
+                            onClick={() => setShowLINELogin(true)}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#06C755] hover:bg-[#06C755]/90 text-white group"
                         >
                             <MessageCircle size={24} className="text-green-100 group-hover:text-white transition-colors" />
@@ -136,7 +132,7 @@ const LoginScreen = () => {
 
                         {/* Apple */}
                         <button
-                            onClick={handleAppleLogin}
+                            onClick={() => setShowAppleLogin(true)}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-white hover:bg-gray-200 text-black group"
                         >
                             <svg className="w-6 h-6 fill-current text-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -256,6 +252,22 @@ const LoginScreen = () => {
                     <FacebookLoginModal
                         onClose={() => setShowFBLogin(false)}
                         onLogin={handleFBLoginSuccess}
+                    />
+                )}
+
+                {/* LINE Login Modal */}
+                {showLINELogin && (
+                    <LINELoginModal
+                        onClose={() => setShowLINELogin(false)}
+                        onLogin={handleLINELoginSuccess}
+                    />
+                )}
+
+                {/* Apple Login Modal */}
+                {showAppleLogin && (
+                    <AppleLoginModal
+                        onClose={() => setShowAppleLogin(false)}
+                        onLogin={handleAppleLoginSuccess}
                     />
                 )}
 
