@@ -16,3 +16,30 @@ export interface OnlinePlayer {
 }
 
 export type FriendStatus = 'online' | 'playing' | 'offline';
+
+// User statistics for profile display
+export interface UserStats {
+    totalWin: number;
+    maxWin: number;
+    dailyStreak: number;
+}
+
+// Achievement badge
+export interface Achievement {
+    id: number;
+    title: string;
+    description: string;
+    icon: string; // emoji
+    achieved: boolean;
+    claimed: boolean;
+    condition: string;
+    reward: number;
+}
+
+// VIP privilege item
+export interface VIPPrivilege {
+    id: number;
+    title: string;
+    description: string;
+    icon: string; // emoji
+}

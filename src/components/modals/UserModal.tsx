@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { X, User as UserIcon, Crown, Camera, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2 } from 'lucide-react';
+import { X, User as UserIcon, Crown, Camera, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useUI } from '../../context/UIContext';
+import { USER_STATS, ACHIEVEMENTS, VIP_PRIVILEGES, type Achievement } from '../../data/mockData';
 
 interface UserModalProps {
     onClose: () => void;
@@ -8,11 +10,15 @@ interface UserModalProps {
 
 const UserModal = ({ onClose }: UserModalProps) => {
     const { user, updateUser } = useAuth();
+    const { showToast } = useUI();
     const [activeView, setActiveView] = useState<'overview' | 'edit'>('overview');
+    const [activeTab, setActiveTab] = useState<'info' | 'achievements'>('info');
     const [isLoading, setIsLoading] = useState(false);
+    const [showVipPrivileges, setShowVipPrivileges] = useState(false);
+    const [claimingId, setClaimingId] = useState<number | null>(null);
+    const [achievements, setAchievements] = useState<Achievement[]>(ACHIEVEMENTS);
 
-    // Mock Login Type: 'email' | 'facebook' | 'line' | 'apple' | 'guest'
-    // Use 'as' casting to prevent TypeScript from narrowing this constant to the literal 'email'
+    // Mock Login Type
     const loginType = 'email' as 'email' | 'facebook' | 'line' | 'apple' | 'guest';
 
     // Form State
@@ -20,7 +26,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
     const [bio, setBio] = useState('幸運女神眷顧我！');
     const [birthday, setBirthday] = useState('1990-01-01');
     const [email, setEmail] = useState('user@example.com');
-    // Initialize password with the mock value "********"
     const [password, setPassword] = useState('********');
 
     const handleSave = () => {
@@ -28,10 +33,26 @@ const UserModal = ({ onClose }: UserModalProps) => {
         setTimeout(() => {
             updateUser({ name: nickname });
             setIsLoading(false);
-            alert('資料已更新！'); // Simple feedback as requested
+            showToast('資料已更新！', 'success');
             setActiveView('overview');
         }, 500);
     };
+
+    const handleClaimAchievement = (id: number) => {
+        setClaimingId(id);
+        setTimeout(() => {
+            setAchievements(prev => prev.map(a =>
+                a.id === id ? { ...a, claimed: true } : a
+            ));
+            setClaimingId(null);
+            showToast('領取獎勵成功！', 'success');
+        }, 500);
+    };
+
+    // VIP Progress: Level 15 -> 16, 75%
+    const vipProgress = 75;
+    const currentExp = 75000;
+    const requiredExp = 100000;
 
     return (
         <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300 p-4">
@@ -82,7 +103,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                 </div>
 
                 {/* Main Content / Right Info */}
-                <div className="flex-1 p-8 bg-gradient-to-br from-[#1a0b2e] to-[#2a1b42] relative overflow-y-auto custom-scrollbar">
+                <div className="flex-1 p-6 bg-gradient-to-br from-[#1a0b2e] to-[#2a1b42] relative flex flex-col">
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10"
@@ -91,64 +112,168 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     </button>
 
                     {activeView === 'overview' ? (
-                        <>
-                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                <Crown className="text-[#FFD700]" /> VIP 會員中心
-                            </h3>
-
-                            {/* VIP Card */}
-                            <div className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 rounded-2xl p-6 shadow-xl mb-8 relative overflow-hidden group h-[200px]">
-                                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-30 mix-blend-overlay"></div>
-                                <div className="absolute -right-10 -top-10 text-black/10 group-hover:scale-110 transition-transform duration-700">
-                                    <Crown size={180} />
-                                </div>
-
-                                <div className="relative z-10 flex justify-between items-start mb-8">
-                                    <div>
-                                        <div className="text-black/60 font-bold text-sm tracking-widest mb-1">CURRENT LEVEL</div>
-                                        <div className="text-black font-black text-4xl italic">VIP {user?.vipLevel}</div>
-                                    </div>
-                                    <div className="bg-black/20 text-black font-bold px-3 py-1 rounded-lg backdrop-blur-sm text-xs">
-                                        特權已激活
-                                    </div>
-                                </div>
-
-                                <div className="relative z-10">
-                                    <div className="flex justify-between text-xs font-bold text-black/70 mb-1">
-                                        <span>經驗值</span>
-                                        <span>45,000 / 100,000</span>
-                                    </div>
-                                    <div className="h-2 bg-black/20 rounded-full overflow-hidden">
-                                        <div className="h-full w-[45%] bg-white rounded-full"></div>
-                                    </div>
-                                    <p className="text-xs text-black/60 mt-2">再獲得 55,000 經驗值即可升級至 VIP {user?.vipLevel ? user.vipLevel + 1 : 1}</p>
-                                </div>
+                        <div className="flex flex-col h-full">
+                            {/* Tab Navigation */}
+                            <div className="flex gap-2 mb-4">
+                                <button
+                                    onClick={() => setActiveTab('info')}
+                                    className={`flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${activeTab === 'info' ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-black' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
+                                >
+                                    📊 資訊
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('achievements')}
+                                    className={`flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${activeTab === 'achievements' ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-black' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
+                                >
+                                    🏆 成就
+                                </button>
                             </div>
 
-                            <h4 className="text-white font-bold mb-4">我的特權</h4>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-white/5 rounded-xl p-4 flex items-center gap-4 border border-white/10">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black shadow-lg">
-                                        <Gem size={20} />
+                            {activeTab === 'info' ? (
+                                <div className="flex-1 flex flex-col">
+                                    {/* VIP Card */}
+                                    <div className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 rounded-2xl p-5 shadow-xl mb-4 relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-30 mix-blend-overlay"></div>
+                                        <div className="absolute -right-10 -top-10 text-black/10 group-hover:scale-110 transition-transform duration-700">
+                                            <Crown size={140} />
+                                        </div>
+
+                                        <div className="relative z-10 flex justify-between items-start mb-4">
+                                            <div>
+                                                <div className="text-black/60 font-bold text-xs tracking-widest mb-1">CURRENT LEVEL</div>
+                                                <button
+                                                    onClick={() => setShowVipPrivileges(true)}
+                                                    className="text-black font-black text-3xl italic hover:underline cursor-pointer"
+                                                >
+                                                    VIP 15
+                                                </button>
+                                            </div>
+                                            <div className="bg-black/20 text-black font-bold px-3 py-1 rounded-lg backdrop-blur-sm text-xs">
+                                                特權已激活
+                                            </div>
+                                        </div>
+
+                                        <div className="relative z-10">
+                                            <div className="flex justify-between text-xs font-bold text-black/70 mb-1">
+                                                <span>升級進度 → VIP 16</span>
+                                                <span>{currentExp.toLocaleString()} / {requiredExp.toLocaleString()} ({vipProgress}%)</span>
+                                            </div>
+                                            <div className="h-3 bg-black/20 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-white rounded-full transition-all duration-500"
+                                                    style={{ width: `${vipProgress}%` }}
+                                                ></div>
+                                            </div>
+                                            <p className="text-xs text-black/60 mt-1">再獲得 {(requiredExp - currentExp).toLocaleString()} 經驗值即可升級</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div className="text-white font-bold text-sm">每日紅利</div>
-                                        <div className="text-slate-400 text-xs">+15% 額外加成</div>
+
+                                    {/* Stats Cards */}
+                                    <div className="grid grid-cols-3 gap-3 mb-4">
+                                        <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
+                                            <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
+                                                <TrendingUp size={16} className="text-white" />
+                                            </div>
+                                            <div className="text-slate-400 text-xs mb-1">累積總贏分</div>
+                                            <div className="text-white font-bold text-lg">{USER_STATS.totalWin.toLocaleString()}</div>
+                                        </div>
+                                        <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
+                                            <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                                                <Trophy size={16} className="text-white" />
+                                            </div>
+                                            <div className="text-slate-400 text-xs mb-1">最高贏分紀錄</div>
+                                            <div className="text-white font-bold text-lg">{USER_STATS.maxWin.toLocaleString()}</div>
+                                        </div>
+                                        <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
+                                            <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
+                                                <Flame size={16} className="text-white" />
+                                            </div>
+                                            <div className="text-slate-400 text-xs mb-1">連續登入天數</div>
+                                            <div className="text-white font-bold text-lg">{USER_STATS.dailyStreak} 天</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Privileges */}
+                                    <h4 className="text-white font-bold mb-2 text-sm">我的特權</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10">
+                                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black shadow-lg shrink-0">
+                                                <Gem size={18} />
+                                            </div>
+                                            <div>
+                                                <div className="text-white font-bold text-sm">每日紅利</div>
+                                                <div className="text-slate-400 text-xs">+15% 額外加成</div>
+                                            </div>
+                                        </div>
+                                        <div className="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10">
+                                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white shadow-lg shrink-0">
+                                                <Headphones size={18} />
+                                            </div>
+                                            <div>
+                                                <div className="text-white font-bold text-sm">專屬客服</div>
+                                                <div className="text-slate-400 text-xs">優先處理通道</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="bg-white/5 rounded-xl p-4 flex items-center gap-4 border border-white/10">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white shadow-lg">
-                                        <Headphones size={20} />
-                                    </div>
-                                    <div>
-                                        <div className="text-white font-bold text-sm">專屬客服</div>
-                                        <div className="text-slate-400 text-xs">優先處理通道</div>
+                            ) : (
+                                /* Achievements Tab */
+                                <div className="flex-1">
+                                    <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                                        <Trophy className="text-[#FFD700]" size={20} /> 成就牆
+                                    </h3>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {achievements.map((achievement) => (
+                                            <div
+                                                key={achievement.id}
+                                                className={`rounded-xl p-3 border text-center transition-all ${achievement.achieved
+                                                        ? 'bg-gradient-to-br from-purple-900/50 to-indigo-900/50 border-purple-500/30'
+                                                        : 'bg-white/5 border-white/10 opacity-60 grayscale'
+                                                    }`}
+                                            >
+                                                <div className="text-3xl mb-2">{achievement.icon}</div>
+                                                <div className={`font-bold text-sm mb-1 ${achievement.achieved ? 'text-white' : 'text-slate-400'}`}>
+                                                    {achievement.title}
+                                                </div>
+                                                <div className="text-xs text-slate-400 mb-2">
+                                                    {achievement.achieved ? achievement.description : achievement.condition}
+                                                </div>
+
+                                                {achievement.achieved && (
+                                                    <div className="mt-2">
+                                                        {achievement.claimed ? (
+                                                            <div className="flex items-center justify-center gap-1 text-green-400 text-xs font-bold">
+                                                                <Check size={12} /> 已領取
+                                                            </div>
+                                                        ) : claimingId === achievement.id ? (
+                                                            <div className="flex items-center justify-center gap-2 text-yellow-400 text-xs">
+                                                                <div className="w-3 h-3 border-2 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin"></div>
+                                                                領取中...
+                                                            </div>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => handleClaimAchievement(achievement.id)}
+                                                                className="w-full py-1.5 px-3 rounded-lg bg-gradient-to-r from-yellow-500 to-amber-600 text-black text-xs font-bold hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-1"
+                                                            >
+                                                                <Gift size={12} /> 領取 {achievement.reward.toLocaleString()}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                {!achievement.achieved && (
+                                                    <div className="flex items-center justify-center gap-1 text-slate-500 text-xs mt-2">
+                                                        <Lock size={12} /> 未達成
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
-                        </>
+                            )}
+                        </div>
                     ) : (
-                        <div className="animate-in slide-in-from-right duration-300">
+                        <div className="animate-in slide-in-from-right duration-300 flex-1 overflow-y-auto custom-scrollbar">
                             <div className="flex items-center gap-4 mb-8">
                                 <button onClick={() => setActiveView('overview')} className="text-slate-400 hover:text-white transition-colors">
                                     <ArrowLeft size={24} />
@@ -211,7 +336,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                 <div>
                                     {loginType === 'email' && (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {/* Account (Read-only) */}
                                             <div>
                                                 <label className="block text-slate-400 text-xs font-bold uppercase mb-2">帳號 (Account)</label>
                                                 <input
@@ -221,7 +345,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                                     className="w-full bg-slate-800/50 border border-white/5 rounded-lg p-3 text-slate-400 cursor-not-allowed"
                                                 />
                                             </div>
-                                            {/* Password (Editable) */}
                                             <div>
                                                 <label className="block text-slate-400 text-xs font-bold uppercase mb-2">密碼 (Password)</label>
                                                 <input
@@ -321,6 +444,48 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     )}
                 </div>
             </div>
+
+            {/* VIP Privileges Overlay */}
+            {showVipPrivileges && (
+                <div
+                    className="absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
+                    onClick={() => setShowVipPrivileges(false)}
+                >
+                    <div
+                        className="bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-[#FFD700]/30 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center">
+                                <Crown size={24} className="text-black" />
+                            </div>
+                            <div>
+                                <div className="text-[#FFD700] font-black text-xl">VIP 15</div>
+                                <div className="text-slate-400 text-xs">當前等級特權</div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {VIP_PRIVILEGES.map((privilege) => (
+                                <div key={privilege.id} className="flex items-center gap-3 bg-white/5 rounded-lg p-3 border border-white/10">
+                                    <span className="text-2xl">{privilege.icon}</span>
+                                    <div>
+                                        <div className="text-white font-bold text-sm">{privilege.title}</div>
+                                        <div className="text-slate-400 text-xs">{privilege.description}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={() => setShowVipPrivileges(false)}
+                            className="w-full mt-4 py-2 rounded-lg bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition-colors"
+                        >
+                            關閉
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

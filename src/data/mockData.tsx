@@ -3,7 +3,7 @@ import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
 import type { Game } from '../types/game';
-import type { Friend, OnlinePlayer } from '../types/user';
+import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 import type { EventItem, GiftItem } from '../types/event';
@@ -12,7 +12,7 @@ import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '..
 
 // Re-export types for backward compatibility
 export type { Game } from '../types/game';
-export type { Friend, OnlinePlayer } from '../types/user';
+export type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege } from '../types/user';
 export type { ChatMessage, ClubChatMessage } from '../types/chat';
 export type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 export type { EventItem, GiftItem } from '../types/event';
@@ -219,4 +219,27 @@ export const EVENT_TEMPLATES: EventTemplate[] = [
     { id: 'tournament', name: '老虎機爭霸戰 (Tournament)' },
     { id: 'mission', name: '全員達成任務 (Co-op Mission)' },
     { id: 'login', name: '登入簽到獎勵 (Login Bonus)' }
+];
+
+// --- Profile & Achievement Data ---
+export const USER_STATS: UserStats = {
+    totalWin: 12580000,
+    maxWin: 888888,
+    dailyStreak: 15
+};
+
+export const ACHIEVEMENTS: Achievement[] = [
+    { id: 1, title: '初來乍到', description: '首次登入遊戲', icon: '🎉', achieved: true, claimed: true, condition: '首次登入', reward: 10000 },
+    { id: 2, title: '贏家起步', description: '累積贏分達 100,000', icon: '🏆', achieved: true, claimed: true, condition: '贏分累計達 100K', reward: 50000 },
+    { id: 3, title: '財星高照', description: '累積贏分達 1,000,000', icon: '💎', achieved: true, claimed: false, condition: '贏分累計達 1M', reward: 100000 },
+    { id: 4, title: '日進斗金', description: '連續登入 7 天', icon: '🔥', achieved: true, claimed: false, condition: '連續登入 7 天', reward: 77777 },
+    { id: 5, title: '富可敵國', description: '累積贏分達 10,000,000', icon: '👑', achieved: false, claimed: false, condition: '贏分累計達 10M', reward: 500000 },
+    { id: 6, title: '傳奇玩家', description: '達到 VIP 等級 20', icon: '⭐', achieved: false, claimed: false, condition: 'VIP 等級達 20', reward: 1000000 }
+];
+
+export const VIP_PRIVILEGES: VIPPrivilege[] = [
+    { id: 1, title: '贈禮手續費優惠', description: '贈禮手續費僅 5%', icon: '🎁' },
+    { id: 2, title: '每日登入禮金加成', description: '每日登入禮金 +10%', icon: '💰' },
+    { id: 3, title: '專屬客服', description: '優先處理通道', icon: '🎧' },
+    { id: 4, title: '特殊活動資格', description: 'VIP 專屬活動邀請', icon: '🎪' }
 ];
