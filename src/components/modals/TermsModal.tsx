@@ -117,8 +117,8 @@ const TermsModal = ({ onClose, onAgree }: TermsModalProps) => {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex-1 py-3 px-4 text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === tab.id
-                                    ? 'text-[#FFD700] border-b-2 border-[#FFD700] bg-white/5'
-                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                ? 'text-[#FFD700] border-b-2 border-[#FFD700] bg-white/5'
+                                : 'text-slate-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             {tab.icon}
@@ -127,8 +127,8 @@ const TermsModal = ({ onClose, onAgree }: TermsModalProps) => {
                     ))}
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                {/* Content - Height restricted for always-visible footer */}
+                <div className="max-h-[250px] overflow-y-auto p-6 custom-scrollbar">
                     <pre className="whitespace-pre-wrap text-sm text-slate-300 font-sans leading-relaxed">
                         {termsContent[activeTab]}
                     </pre>
@@ -154,8 +154,8 @@ const TermsModal = ({ onClose, onAgree }: TermsModalProps) => {
                         onClick={onAgree}
                         disabled={!isAgreed}
                         className={`w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all ${isAgreed
-                                ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95'
-                                : 'bg-slate-700 text-slate-400 cursor-not-allowed'
+                            ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95'
+                            : 'bg-slate-700 text-slate-400 cursor-not-allowed'
                             }`}
                     >
                         下一步 <ArrowRight size={20} />

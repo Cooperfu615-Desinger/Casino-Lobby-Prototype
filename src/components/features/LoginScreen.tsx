@@ -202,19 +202,33 @@ const LoginScreen = () => {
                                     </div>
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-black py-4 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all mt-4 flex items-center justify-center gap-2 group tracking-widest text-lg"
-                                >
-                                    {loading ? (
-                                        <span className="animate-spin">⌛</span>
-                                    ) : (
-                                        <>
-                                            LOGIN <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                                        </>
-                                    )}
-                                </button>
+                                {/* Button Row: Register + Login */}
+                                <div className="flex gap-3 mt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setShowLoginInput(false);
+                                            handleStartRegistration();
+                                        }}
+                                        className="flex-1 py-4 rounded-full font-bold border-2 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10 active:scale-95 transition-all flex items-center justify-center gap-2"
+                                    >
+                                        <UserPlus size={18} />
+                                        註冊帳號
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="flex-1 bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-black py-4 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 group tracking-widest text-lg"
+                                    >
+                                        {loading ? (
+                                            <span className="animate-spin">⌛</span>
+                                        ) : (
+                                            <>
+                                                LOGIN <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
