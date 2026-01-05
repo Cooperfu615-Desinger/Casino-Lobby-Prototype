@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X } from 'lucide-react';
+import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import PhoneLoginModal from '../modals/PhoneLoginModal';
 import FacebookLoginModal from '../modals/FacebookLoginModal';
+import TermsModal from '../modals/TermsModal';
+import SignupModal from '../modals/SignupModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();
@@ -12,6 +14,23 @@ const LoginScreen = () => {
     const [showLoginInput, setShowLoginInput] = useState(false);
     const [showPhoneLogin, setShowPhoneLogin] = useState(false);
     const [showFBLogin, setShowFBLogin] = useState(false);
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const [showSignupModal, setShowSignupModal] = useState(false);
+
+    // Registration flow handlers
+    const handleStartRegistration = () => {
+        setShowTermsModal(true);
+    };
+
+    const handleTermsAgreed = () => {
+        setShowTermsModal(false);
+        setShowSignupModal(true);
+    };
+
+    const handleSignupSuccess = () => {
+        setShowSignupModal(false);
+        // User is now logged in via AuthContext
+    };
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -117,6 +136,15 @@ const LoginScreen = () => {
                             <span className="text-[10px] font-bold tracking-wide">遊客</span>
                         </button>
                     </div>
+
+                    {/* Registration Link */}
+                    <button
+                        onClick={handleStartRegistration}
+                        className="mt-4 flex items-center gap-2 text-sm text-[#FFD700] font-bold hover:text-yellow-300 transition-colors group"
+                    >
+                        <UserPlus size={16} />
+                        <span className="group-hover:underline">註冊帳號</span>
+                    </button>
                 </div>
 
                 {/* Footer Links */}
@@ -205,6 +233,22 @@ const LoginScreen = () => {
                     <FacebookLoginModal
                         onClose={() => setShowFBLogin(false)}
                         onLogin={handleFBLoginSuccess}
+                    />
+                )}
+
+                {/* Terms & Conditions Modal */}
+                {showTermsModal && (
+                    <TermsModal
+                        onClose={() => setShowTermsModal(false)}
+                        onAgree={handleTermsAgreed}
+                    />
+                )}
+
+                {/* Signup Modal */}
+                {showSignupModal && (
+                    <SignupModal
+                        onClose={() => setShowSignupModal(false)}
+                        onSuccess={handleSignupSuccess}
                     />
                 )}
 
