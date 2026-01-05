@@ -18,6 +18,16 @@ const UserModal = ({ onClose }: UserModalProps) => {
     const [claimingId, setClaimingId] = useState<number | null>(null);
     const [achievements, setAchievements] = useState<Achievement[]>(ACHIEVEMENTS);
 
+    // Account binding states
+    const [boundAccounts, setBoundAccounts] = useState({
+        phone: false,
+        facebook: false,
+        line: false,
+        apple: false
+    });
+    const [bindingConfirm, setBindingConfirm] = useState<'phone' | 'facebook' | 'line' | 'apple' | null>(null);
+    const [bindingLoading, setBindingLoading] = useState(false);
+
     // Mock Login Type
     const loginType = 'email' as 'email' | 'facebook' | 'line' | 'apple' | 'guest';
 
@@ -53,6 +63,26 @@ const UserModal = ({ onClose }: UserModalProps) => {
     const vipProgress = 75;
     const currentExp = 75000;
     const requiredExp = 100000;
+
+    // Binding confirmation handler
+    const handleBindConfirm = () => {
+        if (!bindingConfirm) return;
+        setBindingLoading(true);
+        setTimeout(() => {
+            setBoundAccounts(prev => ({ ...prev, [bindingConfirm]: true }));
+            setBindingLoading(false);
+            setBindingConfirm(null);
+            const labels = { phone: '手機', facebook: 'Facebook', line: 'LINE', apple: 'Apple' };
+            showToast(`${labels[bindingConfirm]} 綁定成功！`, 'success');
+        }, 1000);
+    };
+
+    const bindingOptions = [
+        { key: 'phone' as const, label: '綁定手機', icon: Phone, color: 'from-emerald-500 to-green-600', confirmText: '是否要綁定您的手機號碼？' },
+        { key: 'facebook' as const, label: '綁定 FB', icon: Facebook, color: 'from-[#1877F2] to-[#1565C0]', confirmText: '是否要綁定您的 Facebook 帳號？' },
+        { key: 'line' as const, label: '綁定 LINE', icon: MessageCircle, color: 'from-[#06C755] to-[#05A045]', confirmText: '是否要綁定您的 LINE 帳號？' },
+        { key: 'apple' as const, label: '綁定 Apple', icon: null, color: 'from-gray-700 to-gray-900', confirmText: '是否要綁定您的 Apple ID？' }
+    ];
 
     return (
         <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300 p-4">
@@ -92,13 +122,40 @@ const UserModal = ({ onClose }: UserModalProps) => {
                             </div>
                             <ChevronRight size={16} />
                         </button>
-                        <button className="w-full flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-colors text-slate-300 hover:text-white border border-transparent hover:border-white/10">
-                            <div className="flex items-center gap-3">
-                                <Phone size={20} />
-                                <span>綁定手機</span>
-                            </div>
-                            <span className="text-xs text-red-400">未綁定</span>
-                        </button>
+
+                        {/* 2x2 Account Binding Grid */}
+                        <div className="grid grid-cols-2 gap-2 mt-4">
+                            {bindingOptions.map((option) => {
+                                const isBound = boundAccounts[option.key];
+                                const IconComponent = option.icon;
+                                return (
+                                    <button
+                                        key={option.key}
+                                        onClick={() => !isBound && setBindingConfirm(option.key)}
+                                        disabled={isBound}
+                                        className={`flex items-center gap-2 p-3 rounded-xl text-xs font-bold transition-all border ${isBound
+                                            ? 'bg-slate-700/50 text-slate-500 border-slate-600 cursor-default'
+                                            : `bg-gradient-to-r ${option.color} text-white border-transparent hover:brightness-110 active:scale-95`
+                                            }`}
+                                    >
+                                        {option.key === 'apple' ? (
+                                            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                                <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.45-1.15 4.09-.64 1.8.55 2.91 1.77 3.48 2.65-3.05 1.57-2.48 5.67.65 6.94-.9 2.14-2.18 4.25-3.3 5.28zM14.99 4.26c.7-1.33 2.13-2.16 3.6-2.26.17 1.6-1.12 3.23-2.41 3.73-1.07.45-2.24-.04-2.61-1.46.46 0 .96.02 1.42-.01z" />
+                                            </svg>
+                                        ) : IconComponent ? (
+                                            <IconComponent size={16} />
+                                        ) : null}
+                                        {isBound ? (
+                                            <span className="flex items-center gap-1">
+                                                <Check size={12} /> 已綁定
+                                            </span>
+                                        ) : (
+                                            <span>{option.label}</span>
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
 
@@ -107,14 +164,15 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10"
+                        title="關閉"
                     >
                         <X size={24} />
                     </button>
 
                     {activeView === 'overview' ? (
                         <div className="flex flex-col h-full">
-                            {/* Tab Navigation */}
-                            <div className="flex gap-2 mb-4">
+                            {/* Tab Navigation - with right margin for close button */}
+                            <div className="flex gap-2 mb-4 mr-10">
                                 <button
                                     onClick={() => setActiveTab('info')}
                                     className={`flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${activeTab === 'info' ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-black' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
@@ -227,8 +285,8 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                             <div
                                                 key={achievement.id}
                                                 className={`rounded-xl p-3 border text-center transition-all ${achievement.achieved
-                                                        ? 'bg-gradient-to-br from-purple-900/50 to-indigo-900/50 border-purple-500/30'
-                                                        : 'bg-white/5 border-white/10 opacity-60 grayscale'
+                                                    ? 'bg-gradient-to-br from-purple-900/50 to-indigo-900/50 border-purple-500/30'
+                                                    : 'bg-white/5 border-white/10 opacity-60 grayscale'
                                                     }`}
                                             >
                                                 <div className="text-3xl mb-2">{achievement.icon}</div>
@@ -444,6 +502,48 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     )}
                 </div>
             </div>
+
+            {/* Binding Confirmation Modal */}
+            {bindingConfirm && (
+                <div
+                    className="absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
+                    onClick={() => !bindingLoading && setBindingConfirm(null)}
+                >
+                    <div
+                        className="bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-white/20 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 className="text-xl font-bold text-white mb-4 text-center">帳號綁定</h3>
+                        <p className="text-slate-300 text-center mb-6">
+                            {bindingOptions.find(o => o.key === bindingConfirm)?.confirmText}
+                        </p>
+
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setBindingConfirm(null)}
+                                disabled={bindingLoading}
+                                className="flex-1 py-3 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors disabled:opacity-50"
+                            >
+                                取消
+                            </button>
+                            <button
+                                onClick={handleBindConfirm}
+                                disabled={bindingLoading}
+                                className="flex-1 py-3 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 text-black font-bold hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            >
+                                {bindingLoading ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                                        綁定中...
+                                    </>
+                                ) : (
+                                    '確認'
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* VIP Privileges Overlay */}
             {showVipPrivileges && (
