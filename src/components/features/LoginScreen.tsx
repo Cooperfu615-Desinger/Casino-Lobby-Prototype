@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useUI } from '../../context/UIContext';
 import PhoneLoginModal from '../modals/PhoneLoginModal';
 import FacebookLoginModal from '../modals/FacebookLoginModal';
 import TermsModal from '../modals/TermsModal';
@@ -8,6 +9,7 @@ import SignupModal from '../modals/SignupModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();
+    const { showToast, setLoading: setGlobalLoading } = useUI();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -52,8 +54,24 @@ const LoginScreen = () => {
         login('Facebook User', 'fb-token');
     };
 
-    const comingSoon = () => {
-        alert("Feature Coming Soon!");
+    // LINE Login handler with loading
+    const handleLINELogin = () => {
+        setGlobalLoading(true);
+        setTimeout(() => {
+            login('LINE User', 'line-token');
+            setGlobalLoading(false);
+            showToast('LINE 登入成功！', 'success');
+        }, 1500);
+    };
+
+    // Apple Login handler with loading
+    const handleAppleLogin = () => {
+        setGlobalLoading(true);
+        setTimeout(() => {
+            login('Apple User', 'apple-token');
+            setGlobalLoading(false);
+            showToast('Apple 登入成功！', 'success');
+        }, 1500);
     };
 
     return (
@@ -109,7 +127,7 @@ const LoginScreen = () => {
 
                         {/* LINE */}
                         <button
-                            onClick={comingSoon}
+                            onClick={handleLINELogin}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#06C755] hover:bg-[#06C755]/90 text-white group"
                         >
                             <MessageCircle size={24} className="text-green-100 group-hover:text-white transition-colors" />
@@ -118,7 +136,7 @@ const LoginScreen = () => {
 
                         {/* Apple */}
                         <button
-                            onClick={comingSoon}
+                            onClick={handleAppleLogin}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-white hover:bg-gray-200 text-black group"
                         >
                             <svg className="w-6 h-6 fill-current text-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -136,15 +154,6 @@ const LoginScreen = () => {
                             <span className="text-[10px] font-bold tracking-wide">遊客</span>
                         </button>
                     </div>
-
-                    {/* Registration Link */}
-                    <button
-                        onClick={handleStartRegistration}
-                        className="mt-4 flex items-center gap-2 text-sm text-[#FFD700] font-bold hover:text-yellow-300 transition-colors group"
-                    >
-                        <UserPlus size={16} />
-                        <span className="group-hover:underline">註冊帳號</span>
-                    </button>
                 </div>
 
                 {/* Footer Links */}
