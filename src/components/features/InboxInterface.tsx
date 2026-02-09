@@ -101,7 +101,7 @@ const InboxInterface = ({ onClose }: InboxInterfaceProps) => {
         // 模擬增加餘額並觸發動畫
         const bonusAmount = 50000;
         if (user) {
-            updateBalance(user.balance + bonusAmount);
+            updateBalance({ gold: user.balance.gold + bonusAmount });
         }
         triggerBalanceAnimation();
         showToast('成功領取附件獎勵！+50,000 金幣', 'success');
@@ -126,7 +126,7 @@ const InboxInterface = ({ onClose }: InboxInterfaceProps) => {
         // 模擬增加餘額並觸發動畫
         const bonusAmount = 50000 * unclaimedAttachments.length;
         if (user) {
-            updateBalance(user.balance + bonusAmount);
+            updateBalance({ gold: user.balance.gold + bonusAmount });
         }
         triggerBalanceAnimation();
 

@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import type { CurrencyBalance } from '../types/user';
 
 export interface User {
     name: string;
     avatar: string; // Tailwind class for background color
     vipLevel: number;
-    balance: number;
+    balance: CurrencyBalance;
     id: string;
 }
 
@@ -15,7 +16,7 @@ interface AuthContextType {
     loginAsGuest: () => void;
     logout: () => void;
     updateUser: (updates: Partial<User>) => void;
-    updateBalance: (newBalance: number) => void;
+    updateBalance: (newBalance: Partial<CurrencyBalance>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,7 +30,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             name: username || '奧黛麗一本123456789',
             avatar: 'bg-gradient-to-br from-pink-400 to-purple-500',
             vipLevel: 7,
-            balance: 1234567890,
+            balance: {
+                gold: 1000,
+                silver: 50000,
+                bronze: 100000
+            },
             id: '123456789'
         };
         setUser(mockUser);
@@ -40,7 +45,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             name: 'Guest_' + Math.floor(Math.random() * 10000),
             avatar: 'bg-gradient-to-br from-gray-400 to-gray-600',
             vipLevel: 0,
-            balance: 10000,
+            balance: {
+                gold: 10,
+                silver: 1000,
+                bronze: 5000
+            },
             id: 'guest-' + Date.now()
         };
         setUser(guestUser);
@@ -54,8 +63,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(prev => prev ? { ...prev, ...updates } : null);
     };
 
-    const updateBalance = (newBalance: number) => {
-        setUser(prev => prev ? { ...prev, balance: newBalance } : null);
+    const updateBalance = (newBalance: Partial<CurrencyBalance>) => {
+        setUser(prev => prev ? { ...prev, balance: { ...prev.balance, ...newBalance } } : null);
     };
 
     return (

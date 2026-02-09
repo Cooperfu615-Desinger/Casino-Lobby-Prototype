@@ -17,6 +17,15 @@ export interface OnlinePlayer {
 
 export type FriendStatus = 'online' | 'playing' | 'offline';
 
+// Three-currency system
+export type CurrencyType = 'gold' | 'silver' | 'bronze';
+
+export interface CurrencyBalance {
+    gold: number;
+    silver: number;
+    bronze: number;
+}
+
 // User statistics for profile display
 export interface UserStats {
     totalWin: number;

@@ -13,6 +13,7 @@ import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '..
 // Re-export types for backward compatibility
 export type { Game } from '../types/game';
 export type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege } from '../types/user';
+
 export type { ChatMessage, ClubChatMessage } from '../types/chat';
 export type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 export type { EventItem, GiftItem } from '../types/event';

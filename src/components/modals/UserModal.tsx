@@ -107,9 +107,41 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     </div>
 
                     <div className="w-full space-y-4">
-                        <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                            <div className="text-slate-400 text-xs mb-1">總資產</div>
-                            <div className="text-[#FFD700] text-2xl font-mono font-bold">{user?.balance.toLocaleString()}</div>
+                        {/* Three Currency Display */}
+                        <div className="bg-white/5 rounded-xl p-4 border border-white/5 space-y-3">
+                            {/* Gold */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center text-sm">🪙</div>
+                                    <span className="text-slate-400 text-sm">金幣</span>
+                                </div>
+                                <div className="text-[#FFD700] text-xl font-mono font-bold">{user?.balance.gold.toLocaleString()}</div>
+                            </div>
+                            {/* Silver */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-300 to-slate-500 flex items-center justify-center text-sm">🥈</div>
+                                    <span className="text-slate-400 text-sm">銀幣</span>
+                                </div>
+                                <div className="text-slate-300 text-xl font-mono font-bold">{user?.balance.silver.toLocaleString()}</div>
+                            </div>
+                            {/* Bronze */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center text-sm">🥉</div>
+                                    <span className="text-slate-400 text-sm">銅幣</span>
+                                </div>
+                                <div className="text-amber-600 text-xl font-mono font-bold">{user?.balance.bronze.toLocaleString()}</div>
+                            </div>
+                            {/* Divider */}
+                            <div className="border-t border-white/10 pt-3">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-slate-400 text-xs">總資產 (折合金幣)</span>
+                                    <div className="text-[#FFD700] text-lg font-mono font-bold">
+                                        {user ? Math.floor(user.balance.gold + (user.balance.silver / 100)).toLocaleString() : '0'}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <button
