@@ -131,9 +131,11 @@ export const GIFT_ITEMS: GiftItem[] = [
 ];
 
 export const TRANSACTION_HISTORY: Transaction[] = [
+    { id: 'TX-20251225-000', date: '2025-12-25 08:30', type: 'vault_deposit', amount: '10,000 金幣', status: 'success', method: '錢包存入' },
     { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
     { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '$9.99', status: 'processing', method: 'Credit Card' },
     { id: 'TX-20251224-003', date: '2025-12-24 10:00', type: 'free_reward', amount: '10,000 金幣', status: 'success', method: '每日登入獎勵' },
+    { id: 'TX-20251224-005', date: '2025-12-24 09:00', type: 'currency_conversion', amount: '100,000 銀幣', status: 'success', method: '金幣轉銀幣' },
     { id: 'TX-20251223-004', date: '2025-12-23 21:00', type: 'gift_transfer', amount: '50,000 金幣', status: 'success', method: '贈送給 Tom888' },
     { id: 'TX-20251222-005', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
     { id: 'TX-20251221-006', date: '2025-12-21 23:30', type: 'gift_package', amount: '1,000,000 金幣', status: 'success', method: 'VIP 7 晉升禮包' },

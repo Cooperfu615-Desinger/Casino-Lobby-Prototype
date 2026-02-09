@@ -6,6 +6,7 @@ export interface User {
     avatar: string; // Tailwind class for background color
     vipLevel: number;
     balance: CurrencyBalance;
+    vault_gold: number; // New: Gold in the vault
     id: string;
 }
 
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 silver: 50000,
                 bronze: 100000
             },
+            vault_gold: 0,
             id: '123456789'
         };
         setUser(mockUser);
@@ -50,6 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 silver: 1000,
                 bronze: 5000
             },
+            vault_gold: 0,
             id: 'guest-' + Date.now()
         };
         setUser(guestUser);
