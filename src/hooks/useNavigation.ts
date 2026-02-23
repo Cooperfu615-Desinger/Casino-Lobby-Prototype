@@ -6,9 +6,9 @@
  */
 
 import { useNavigationContext } from '../context/NavigationContext';
-import type { ViewType, ChatSubTab } from '../context/NavigationContext';
+import type { ViewType, ChatSubTab, BankSubTab } from '../context/NavigationContext';
 
-export { ViewType, ChatSubTab };
+export { ViewType, ChatSubTab, BankSubTab };
 
 export const useNavigation = () => {
     return useNavigationContext();

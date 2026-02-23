@@ -6,9 +6,13 @@ export type ViewType = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' 
 // Chat sub-tab types
 export type ChatSubTab = 'public' | 'chat' | 'support';
 
+// Bank sub-tab types
+export type BankSubTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
+
 interface NavigationState {
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
+    bankInitialTab: BankSubTab;
     viewHistory: ViewType[];
 }
 
@@ -16,10 +20,11 @@ interface NavigationContextType {
     // Current state
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
+    bankInitialTab: BankSubTab;
     viewHistory: ViewType[];
 
     // Navigation methods
-    navigate: (view: ViewType, options?: { chatTab?: ChatSubTab }) => void;
+    navigate: (view: ViewType, options?: { chatTab?: ChatSubTab, bankTab?: BankSubTab }) => void;
     goBack: () => void;
     goToGames: () => void;
 
@@ -38,11 +43,12 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
     const [state, setState] = useState<NavigationState>({
         currentView: 'games',
         chatInitialTab: 'chat',
+        bankInitialTab: 'deposit',
         viewHistory: ['games'],
     });
 
     // Navigate to a specific view
-    const navigate = useCallback((view: ViewType, options?: { chatTab?: ChatSubTab }) => {
+    const navigate = useCallback((view: ViewType, options?: { chatTab?: ChatSubTab, bankTab?: BankSubTab }) => {
         setState(prev => {
             // If navigating to the same view, do nothing
             if (prev.currentView === view) return prev;
@@ -55,6 +61,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
             return {
                 currentView: view,
                 chatInitialTab: options?.chatTab || prev.chatInitialTab,
+                bankInitialTab: options?.bankTab || prev.bankInitialTab,
                 viewHistory: newHistory,
             };
         });
@@ -84,6 +91,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         setState({
             currentView: 'games',
             chatInitialTab: 'chat',
+            bankInitialTab: 'deposit',
             viewHistory: ['games'],
         });
     }, []);
@@ -101,6 +109,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
     const value: NavigationContextType = {
         currentView: state.currentView,
         chatInitialTab: state.chatInitialTab,
+        bankInitialTab: state.bankInitialTab,
         viewHistory: state.viewHistory,
         navigate,
         goBack,

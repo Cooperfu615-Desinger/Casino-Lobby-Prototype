@@ -8,19 +8,20 @@ interface BankInterfaceProps {
     onClose: () => void;
     /** 從聊天室跳轉時帶入的接收者 ID */
     receiverId?: string;
+    initialTab?: BankTab;
 }
 
-type BankTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
+export type BankTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
 type RecordFilter = 'all' | 'deposit' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'vault_ops';
 
 const CONSTANTS = {
     FEE_RATE: 0.05,
 };
 
-const BankInterface = ({ onClose, receiverId: initialReceiverId }: BankInterfaceProps) => {
+const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: BankInterfaceProps) => {
     const { openModal, setLoading, showToast } = useUI();
     const { user, updateBalance, updateUser } = useAuth();
-    const [activeTab, setActiveTab] = useState<BankTab>(() => initialReceiverId ? 'gifts' : 'deposit');
+    const [activeTab, setActiveTab] = useState<BankTab>(() => initialTab ? initialTab : (initialReceiverId ? 'gifts' : 'deposit'));
 
     // Vault tab state
     const [vaultAmount, setVaultAmount] = useState<number | ''>('');
