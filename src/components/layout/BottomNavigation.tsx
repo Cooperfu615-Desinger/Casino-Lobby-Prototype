@@ -1,4 +1,4 @@
-import { Calendar, Mail, Landmark, Gift, Shield, MessageCircle } from 'lucide-react';
+import { Calendar, Mail, Landmark, Gift, MessageCircle } from 'lucide-react';
 import NavButton from '../common/NavButton';
 import { useNavigation, ViewType } from '../../hooks/useNavigation';
 
@@ -51,13 +51,7 @@ const BottomNavigation = () => {
                     colorTheme="from-pink-500 to-rose-500"
                     onClick={() => handleNavigation('gifts')}
                 />
-                <NavButton
-                    icon={Shield}
-                    label="Club"
-                    active={currentView === 'club'}
-                    colorTheme="from-cyan-400 to-teal-600"
-                    onClick={() => handleNavigation('club')}
-                />
+
             </div>
         </nav>
     );

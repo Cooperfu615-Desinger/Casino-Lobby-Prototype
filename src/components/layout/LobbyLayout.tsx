@@ -15,7 +15,7 @@ import EventsInterface from '../features/EventsInterface';
 import InboxInterface from '../features/InboxInterface';
 import GiftsInterface from '../features/GiftsInterface';
 import BankInterface from '../features/BankInterface';
-import ClubInterface from '../features/ClubInterface';
+
 
 // Modals
 import UserModal from '../modals/UserModal';
@@ -84,9 +84,11 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {currentView === 'bank' && (
                 <BankInterface onClose={goToGames} />
             )}
+            {/* Phase 1: Club feature hidden
             {currentView === 'club' && (
                 <ClubInterface onClose={goToGames} />
             )}
+            */}
 
             {/* Bottom Navigation Bar */}
             <BottomNavigation />
