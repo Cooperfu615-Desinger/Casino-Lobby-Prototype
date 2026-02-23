@@ -26,11 +26,11 @@ const NAV_ITEMS = [
  * We align the 8-button floating strip to sit between them
  * at the same vertical baseline.
  */
-const NAV_H = 82;                // Enough for 42px icon + padding + label
-const BOTTOM = 20;                // Bottom offset in px
-const LEFT_INSET = 120;           // Dodge left promo (48 + ~72 scaled width)
-const RIGHT_INSET = 120;           // Dodge right promo (48 + ~72 scaled width)
-const FADE_W = 40;                // Fade mask width
+const NAV_H = 100;                // Enough for 42px icon + padding + label
+const BOTTOM = 40;                // Bottom offset in px
+const LEFT_INSET = 190;           // Dodge left promo (48 + ~72 scaled width)
+const RIGHT_INSET = 190;           // Dodge right promo (48 + ~72 scaled width)
+const FADE_W = 60;                // Fade mask width
 
 const BottomNavigation = () => {
     const { currentView, navigate, bankInitialTab, chatInitialTab } = useNavigation();

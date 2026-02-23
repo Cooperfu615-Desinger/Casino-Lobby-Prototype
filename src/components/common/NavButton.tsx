@@ -22,11 +22,11 @@ const NavButton = ({ icon: Icon, label, active, onClick, colorTheme }: NavButton
       bg-gradient-to-b ${colorTheme} text-white border-white/30 shadow-[0_4px_15px_rgba(0,0,0,0.4)]
       ${active ? 'scale-110 ring-2 ring-white/80 shadow-[0_0_18px_rgba(255,255,255,0.4)]' : 'hover:scale-105 active:scale-95'}
     `}>
-      <Icon size={42} strokeWidth={2.2} />
+      <Icon size={60} strokeWidth={2.2} />
     </div>
 
     {/* Label */}
-    <span className="text-[10px] font-bold text-white drop-shadow whitespace-nowrap leading-none tracking-wide">
+    <span className="text-[12px] font-bold text-white drop-shadow whitespace-nowrap leading-none tracking-wide">
       {label}
     </span>
   </button>
