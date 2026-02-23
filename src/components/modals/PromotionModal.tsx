@@ -33,7 +33,10 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
         setCurrentIndex(startIndex);
     }, [startIndex]);
 
-    const currentItem = OFFER_PACKAGES[currentIndex];
+    // Phase 1: Only show Recharge/Sale events
+    const currentPackages = OFFER_PACKAGES.filter(p => p.id !== 2 && p.id !== 6);
+
+    const currentItem = currentPackages[currentIndex] || currentPackages[0];
 
     // Navigate to previous/next card
     const goToPrev = () => {
@@ -41,7 +44,7 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
     };
 
     const goToNext = () => {
-        setCurrentIndex(prev => Math.min(OFFER_PACKAGES.length - 1, prev + 1));
+        setCurrentIndex(prev => Math.min(currentPackages.length - 1, prev + 1));
     };
 
     /**
@@ -84,9 +87,9 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
             {/* Right Arrow - Outside Card */}
             <button
                 onClick={goToNext}
-                disabled={currentIndex === OFFER_PACKAGES.length - 1}
+                disabled={currentIndex === currentPackages.length - 1}
                 aria-label="下一張卡片"
-                className={`absolute right-8 z-30 bg-black/60 hover:bg-black/80 text-white rounded-full p-4 transition-all backdrop-blur-sm border border-white/20 shadow-2xl ${currentIndex === OFFER_PACKAGES.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:scale-110 active:scale-95'}`}
+                className={`absolute right-8 z-30 bg-black/60 hover:bg-black/80 text-white rounded-full p-4 transition-all backdrop-blur-sm border border-white/20 shadow-2xl ${currentIndex === currentPackages.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:scale-110 active:scale-95'}`}
             >
                 <ChevronRight size={32} />
             </button>
@@ -142,7 +145,7 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
 
                 {/* Dots Indicator */}
                 <div className="flex justify-center gap-2 mt-6">
-                    {OFFER_PACKAGES.map((_, index) => (
+                    {currentPackages.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => setCurrentIndex(index)}
@@ -155,7 +158,7 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
 
             {/* Card Counter */}
             <div className="absolute bottom-8 text-white/50 text-sm font-mono">
-                {currentIndex + 1} / {OFFER_PACKAGES.length}
+                {currentIndex + 1} / {currentPackages.length}
             </div>
         </div>
     );

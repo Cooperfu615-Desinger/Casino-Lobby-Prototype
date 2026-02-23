@@ -9,12 +9,15 @@ interface EventsInterfaceProps {
 
 const EventsInterface = ({ onClose }: EventsInterfaceProps) => {
     const { openModal } = useUI();
-    const [activeTab, setActiveTab] = useState<'daily' | 'events' | 'leaderboard' | 'filter'>('daily');
+    const [activeTab, setActiveTab] = useState<'daily' | 'events' | 'leaderboard' | 'filter'>('events');
     const [filter, setFilter] = useState<'all' | 'upcoming' | 'active' | 'ending'>('all');
-    const [leaderboardType, setLeaderboardType] = useState<'jackpot' | 'multiplier' | 'win' | 'rich'>('jackpot');
+    const [leaderboardType, setLeaderboardType] = useState<'multiplier' | 'win' | 'rich'>('multiplier');
     const [signedIn, setSignedIn] = useState(false);
 
     const filteredList = EVENTS_LIST.filter(event => {
+        // Phase 1: Only show 'sale' (儲值活動)
+        if (event.type !== 'sale') return false;
+
         if (filter === 'all') return true;
         return event.status === filter;
     });
@@ -25,9 +28,6 @@ const EventsInterface = ({ onClose }: EventsInterfaceProps) => {
             let score = '';
 
             switch (leaderboardType) {
-                case 'jackpot':
-                    score = `$${(1000000 - i * 40000).toLocaleString()}`;
-                    break;
                 case 'multiplier':
                     score = `${(5000 - i * 150)}x`; // e.g. 5000x
                     break;
@@ -144,7 +144,6 @@ const EventsInterface = ({ onClose }: EventsInterfaceProps) => {
                     {activeTab === 'leaderboard' && (
                         <div className="flex gap-2 py-4 animate-in fade-in slide-in-from-right-4 duration-300">
                             {[
-                                { id: 'jackpot', label: '彩金榜' },
                                 { id: 'multiplier', label: '倍數榜' },
                                 { id: 'win', label: '贏分榜' },
                                 { id: 'rich', label: '富豪榜' }

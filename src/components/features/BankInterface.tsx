@@ -180,7 +180,7 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId }: BankInterface
                         <div className="space-y-4">
                             <p className="text-slate-400 text-sm">專屬優惠方案，左右滑動查看更多</p>
                             <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar -mx-2 px-2">
-                                {OFFER_PACKAGES.map(offer => (
+                                {OFFER_PACKAGES.filter(p => p.id !== 2 && p.id !== 6).map(offer => (
                                     <div
                                         key={offer.id}
                                         onClick={() => openModal('payment', { packageInfo: offer })}
