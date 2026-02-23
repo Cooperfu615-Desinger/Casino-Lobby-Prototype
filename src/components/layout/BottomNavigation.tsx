@@ -106,7 +106,7 @@ const BottomNavigation = () => {
                   The inner wrapper provides the constrained viewport for scrolling.
                   It limits the visual slide track to 800px so buttons don't clip under the side promotion buttons.
                 */}
-                <div className="relative w-full max-w-[800px] h-full mx-auto overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 before:bg-gradient-to-r before:from-[#1a0b2e]/90 before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:bg-gradient-to-l after:from-[#1a0b2e]/90 after:to-transparent after:z-10">
+                <div className="relative w-full max-w-[800px] h-full mx-auto overflow-hidden">
                     <div
                         ref={scrollRef}
                         onScroll={handleScroll}
