@@ -1,25 +1,15 @@
 import { useState } from 'react';
-import { User, Lock, ArrowRight, UserCircle2, Smartphone, Facebook, MessageCircle, X, UserPlus } from 'lucide-react';
+import { User, Lock, ArrowRight, UserCircle2, X, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { useUI } from '../../context/UIContext';
-import PhoneLoginModal from '../modals/PhoneLoginModal';
-import FacebookLoginModal from '../modals/FacebookLoginModal';
-import LINELoginModal from '../modals/LINELoginModal';
-import AppleLoginModal from '../modals/AppleLoginModal';
 import TermsModal from '../modals/TermsModal';
 import SignupModal from '../modals/SignupModal';
 
 const LoginScreen = () => {
     const { login, loginAsGuest } = useAuth();
-    const { showToast } = useUI();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showLoginInput, setShowLoginInput] = useState(false);
-    const [showPhoneLogin, setShowPhoneLogin] = useState(false);
-    const [showFBLogin, setShowFBLogin] = useState(false);
-    const [showLINELogin, setShowLINELogin] = useState(false);
-    const [showAppleLogin, setShowAppleLogin] = useState(false);
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [showSignupModal, setShowSignupModal] = useState(false);
 
@@ -35,39 +25,15 @@ const LoginScreen = () => {
 
     const handleSignupSuccess = () => {
         setShowSignupModal(false);
-        // User is now logged in via AuthContext
     };
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate API delay
         setTimeout(() => {
             login(username || undefined, password);
             setLoading(false);
         }, 800);
-    };
-
-    const handlePhoneLoginSuccess = () => {
-        // Trigger the auth context login with a dummy phone user
-        login('Phone User', 'otp-verified');
-    };
-
-    const handleFBLoginSuccess = () => {
-        // Trigger the auth context login with a dummy FB user
-        login('Facebook User', 'fb-token');
-    };
-
-    // LINE Login success handler with toast
-    const handleLINELoginSuccess = () => {
-        login('LINE User', 'line-token');
-        showToast('LINE 登入成功！', 'success');
-    };
-
-    // Apple Login success handler with toast
-    const handleAppleLoginSuccess = () => {
-        login('Apple User', 'apple-token');
-        showToast('Apple 登入成功！', 'success');
     };
 
     return (
@@ -90,12 +56,12 @@ const LoginScreen = () => {
                     </h1>
                 </div>
 
-                {/* Login Buttons Area */}
+                {/* Login Buttons Area — Account & Guest only */}
                 <div className="absolute bottom-24 left-0 right-0 w-full px-12 z-10 animate-in slide-in-from-bottom-10 fade-in duration-700 delay-300 flex flex-col items-center">
-
-                    <div className="flex gap-[16px] justify-center">
+                    <div className="flex gap-[32px] justify-center">
                         {/* Account Login */}
                         <button
+                            aria-label="帳號登入"
                             onClick={() => setShowLoginInput(true)}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-gradient-to-br from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 text-white group"
                         >
@@ -103,46 +69,9 @@ const LoginScreen = () => {
                             <span className="text-[10px] font-bold tracking-wide">帳號</span>
                         </button>
 
-                        {/* Phone Login */}
-                        <button
-                            onClick={() => setShowPhoneLogin(true)}
-                            className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-emerald-600 hover:bg-emerald-500 text-white group"
-                        >
-                            <Smartphone size={24} className="text-emerald-100 group-hover:text-white transition-colors" />
-                            <span className="text-[10px] font-bold tracking-wide">手機</span>
-                        </button>
-
-                        {/* Facebook */}
-                        <button
-                            onClick={() => setShowFBLogin(true)}
-                            className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#1877F2] hover:bg-[#1877F2]/90 text-white group"
-                        >
-                            <Facebook size={24} className="text-blue-100 group-hover:text-white transition-colors" />
-                            <span className="text-[10px] font-bold tracking-wide">Facebook</span>
-                        </button>
-
-                        {/* LINE */}
-                        <button
-                            onClick={() => setShowLINELogin(true)}
-                            className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#06C755] hover:bg-[#06C755]/90 text-white group"
-                        >
-                            <MessageCircle size={24} className="text-green-100 group-hover:text-white transition-colors" />
-                            <span className="text-[10px] font-bold tracking-wide">LINE</span>
-                        </button>
-
-                        {/* Apple */}
-                        <button
-                            onClick={() => setShowAppleLogin(true)}
-                            className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-white hover:bg-gray-200 text-black group"
-                        >
-                            <svg className="w-6 h-6 fill-current text-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.45-1.15 4.09-.64 1.8.55 2.91 1.77 3.48 2.65-3.05 1.57-2.48 5.67.65 6.94-.9 2.14-2.18 4.25-3.3 5.28zM14.99 4.26c.7-1.33 2.13-2.16 3.6-2.26.17 1.6-1.12 3.23-2.41 3.73-1.07.45-2.24-.04-2.61-1.46.46 0 .96.02 1.42-.01z" />
-                            </svg>
-                            <span className="text-[10px] font-bold tracking-wide">Apple</span>
-                        </button>
-
                         {/* Guest Login */}
                         <button
+                            aria-label="遊客登入"
                             onClick={loginAsGuest}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-amber-500 hover:bg-amber-400 text-white group"
                         >
@@ -166,6 +95,7 @@ const LoginScreen = () => {
                     <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
                         <div className="relative w-96 bg-[#1a0b2e] border border-white/20 rounded-3xl p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200">
                             <button
+                                aria-label="關閉"
                                 onClick={() => setShowLoginInput(false)}
                                 className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                             >
@@ -237,38 +167,6 @@ const LoginScreen = () => {
                             </form>
                         </div>
                     </div>
-                )}
-
-                {/* Phone Login Modal */}
-                {showPhoneLogin && (
-                    <PhoneLoginModal
-                        onClose={() => setShowPhoneLogin(false)}
-                        onLogin={handlePhoneLoginSuccess}
-                    />
-                )}
-
-                {/* Facebook Login Modal */}
-                {showFBLogin && (
-                    <FacebookLoginModal
-                        onClose={() => setShowFBLogin(false)}
-                        onLogin={handleFBLoginSuccess}
-                    />
-                )}
-
-                {/* LINE Login Modal */}
-                {showLINELogin && (
-                    <LINELoginModal
-                        onClose={() => setShowLINELogin(false)}
-                        onLogin={handleLINELoginSuccess}
-                    />
-                )}
-
-                {/* Apple Login Modal */}
-                {showAppleLogin && (
-                    <AppleLoginModal
-                        onClose={() => setShowAppleLogin(false)}
-                        onLogin={handleAppleLoginSuccess}
-                    />
                 )}
 
                 {/* Terms & Conditions Modal */}
