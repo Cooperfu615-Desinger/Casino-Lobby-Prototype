@@ -125,14 +125,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                 </div>
                                 <div className="text-slate-300 text-xl font-mono font-bold">{user?.balance.silver.toLocaleString()}</div>
                             </div>
-                            {/* Bronze */}
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center text-sm">🥉</div>
-                                    <span className="text-slate-400 text-sm">銅幣</span>
-                                </div>
-                                <div className="text-amber-600 text-xl font-mono font-bold">{user?.balance.bronze.toLocaleString()}</div>
-                            </div>
+
                             {/* Divider */}
                             <div className="border-t border-white/10 pt-3">
                                 <div className="flex items-center justify-between">
