@@ -1,7 +1,7 @@
 import { useRef, useEffect, UIEvent } from 'react';
 import { Calendar, Mail, Landmark, Gift, MessageCircle, CheckSquare, Shield, Headphones } from 'lucide-react';
 import NavButton from '../common/NavButton';
-import { useNavigation, ViewType } from '../../hooks/useNavigation';
+import { useNavigation } from '../../hooks/useNavigation';
 
 const NAV_ITEMS = [
     { id: 'chat', label: '聊天', icon: MessageCircle, colorTheme: 'from-blue-400 to-blue-600' },
