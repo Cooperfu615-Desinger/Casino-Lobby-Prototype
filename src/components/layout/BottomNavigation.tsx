@@ -100,16 +100,22 @@ const BottomNavigation = () => {
 
     return (
         <nav className="absolute bottom-[15px] left-0 right-0 px-4 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center pointer-events-none">
-            {/* The wrapper allows touch, handles the background, and scrolls. Constrained width to dodge side buttons */}
-            <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 shadow-2xl relative w-full max-w-[800px] mx-auto overflow-hidden pointer-events-auto before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 before:bg-gradient-to-r before:from-[#1a0b2e] before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:bg-gradient-to-l after:from-[#1a0b2e] after:to-transparent after:z-10">
-                <div
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    className="flex overflow-x-auto snap-x snap-mandatory pt-2 w-full h-[88px] pb-4 items-end [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden touch-pan-x"
-                >
-                    {renderItems(0)}
-                    {renderItems(1)}
-                    {renderItems(2)}
+            {/* The outer wrapper restores the full-width dark backdrop design */}
+            <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 shadow-2xl relative w-full pointer-events-auto">
+                {/* 
+                  The inner wrapper provides the constrained viewport for scrolling.
+                  It limits the visual slide track to 800px so buttons don't clip under the side promotion buttons.
+                */}
+                <div className="relative w-full max-w-[800px] h-full mx-auto overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 before:bg-gradient-to-r before:from-[#1a0b2e]/90 before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:bg-gradient-to-l after:from-[#1a0b2e]/90 after:to-transparent after:z-10">
+                    <div
+                        ref={scrollRef}
+                        onScroll={handleScroll}
+                        className="flex overflow-x-auto snap-x snap-mandatory pt-2 w-full h-[88px] pb-4 items-end [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden touch-pan-x"
+                    >
+                        {renderItems(0)}
+                        {renderItems(1)}
+                        {renderItems(2)}
+                    </div>
                 </div>
             </div>
         </nav>
