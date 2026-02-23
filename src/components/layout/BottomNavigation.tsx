@@ -14,16 +14,18 @@ const NAV_ITEMS = [
     { id: 'support', label: '客服', icon: Headphones, colorTheme: 'from-indigo-400 to-indigo-600' }
 ];
 
+// Height of the nav bar in pixels
+const NAV_HEIGHT = 80;
+
 const BottomNavigation = () => {
     const { currentView, navigate, bankInitialTab, chatInitialTab } = useNavigation();
     const scrollRef = useRef<HTMLDivElement>(null);
     const isHandlingScroll = useRef(false);
 
     useEffect(() => {
-        // Initial positioning to the middle set (index 1)
+        // Position to the middle set (index 1) so we can scroll in both directions
         const container = scrollRef.current;
         if (container) {
-            // Wait for next tick so layout is ready
             setTimeout(() => {
                 const setWidth = container.scrollWidth / 3;
                 container.scrollLeft = setWidth;
@@ -33,20 +35,16 @@ const BottomNavigation = () => {
 
     const handleScroll = (e: UIEvent<HTMLDivElement>) => {
         if (isHandlingScroll.current) return;
-
         const container = e.currentTarget;
         const setWidth = container.scrollWidth / 3;
 
-        // If user scrolls left into the first set, jump to middle set
         if (container.scrollLeft < setWidth * 0.1) {
             isHandlingScroll.current = true;
             requestAnimationFrame(() => {
                 container.scrollLeft += setWidth;
                 isHandlingScroll.current = false;
             });
-        }
-        // If user scrolls right into the third set, jump back to middle set
-        else if (container.scrollLeft > setWidth * 1.9) {
+        } else if (container.scrollLeft > setWidth * 1.9) {
             isHandlingScroll.current = true;
             requestAnimationFrame(() => {
                 container.scrollLeft -= setWidth;
@@ -69,52 +67,79 @@ const BottomNavigation = () => {
         }
     };
 
-    const renderItems = (setIndex: number) => {
-        return (
-            <div key={`set-${setIndex}`} className="flex shrink-0 w-full h-full items-end justify-between px-2 sm:px-4">
-                {NAV_ITEMS.map((item) => {
-                    const isActive =
-                        (currentView === 'chat' && item.id === 'support' && chatInitialTab === 'support') ? true :
-                            (currentView === 'chat' && item.id === 'chat' && chatInitialTab !== 'support') ? true :
-                                (currentView === 'bank' && item.id === 'vault' && bankInitialTab === 'vault') ? true :
-                                    (currentView === 'bank' && item.id === 'bank' && bankInitialTab !== 'vault') ? true :
-                                        (currentView === 'events' && item.id === 'events') ? true :
-                                            (currentView === 'inbox' && item.id === 'inbox') ? true :
-                                                (currentView === 'gifts' && item.id === 'gifts') ? true : false;
-
-                    return (
-                        <div key={`${setIndex}-${item.id}`} className="shrink-0 w-[64px] flex justify-center snap-center">
-                            <NavButton
-                                icon={item.icon}
-                                label={item.label}
-                                active={isActive}
-                                colorTheme={item.colorTheme}
-                                onClick={() => handleNavigation(item.id)}
-                            />
-                        </div>
-                    );
-                })}
-            </div>
-        );
+    const getIsActive = (id: string) => {
+        if (id === 'support') return currentView === 'chat' && chatInitialTab === 'support';
+        if (id === 'chat') return currentView === 'chat' && chatInitialTab !== 'support';
+        if (id === 'vault') return currentView === 'bank' && bankInitialTab === 'vault';
+        if (id === 'bank') return currentView === 'bank' && bankInitialTab !== 'vault';
+        if (id === 'events') return currentView === 'events';
+        if (id === 'inbox') return currentView === 'inbox';
+        if (id === 'gifts') return currentView === 'gifts';
+        return false;
     };
 
+    // Each set of 8 buttons. Width is computed as viewport-width * 1, so 3 copies = 3x viewport
+    const renderSet = (setIndex: number) => (
+        <div
+            key={`set-${setIndex}`}
+            /* Each set takes exactly 100% of the scroll container's clientWidth */
+            className="flex shrink-0 items-center"
+            style={{ width: '100%', height: `${NAV_HEIGHT}px` }}
+        >
+            {NAV_ITEMS.map((item) => (
+                <div
+                    key={`${setIndex}-${item.id}`}
+                    style={{ width: '12.5%', height: '100%' }}
+                    className="flex justify-center items-center"
+                >
+                    <NavButton
+                        icon={item.icon}
+                        label={item.label}
+                        active={getIsActive(item.id)}
+                        colorTheme={item.colorTheme}
+                        onClick={() => handleNavigation(item.id)}
+                    />
+                </div>
+            ))}
+        </div>
+    );
+
     return (
-        <nav className="absolute bottom-[15px] left-0 right-0 px-4 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center pointer-events-none">
-            {/* The outer wrapper restores the full-width dark backdrop design */}
-            <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 shadow-2xl relative w-full pointer-events-auto">
-                {/* 
-                  The inner wrapper provides the constrained viewport for scrolling.
-                  It limits the visual slide track to 800px so buttons don't clip under the side promotion buttons.
-                */}
-                <div className="relative w-full max-w-[800px] h-full mx-auto overflow-hidden">
+        /*
+         * The nav element sits at the bottom of the screen. 
+         * We add extra height for the background gradient fade above.
+         */
+        <nav
+            className="absolute left-0 right-0 bottom-0 z-40 pointer-events-none"
+            style={{ height: `${NAV_HEIGHT + 20}px` }}
+        >
+            {/* Full-width ambient gradient behind the bar */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
+
+            {/* Full-width dark backdrop bar - sits at the bottom */}
+            <div
+                className="absolute left-0 right-0 bottom-0 bg-[#1a0b2e]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl pointer-events-auto"
+                style={{ height: `${NAV_HEIGHT}px` }}
+            >
+                {/*
+                 * Inner constrained scroll viewport.
+                 * max-w limits visible buttons to the center area between side promo buttons.
+                 * overflow-hidden clips the duplicate sets so only 8 are visible at once.
+                 */}
+                <div
+                    className="mx-auto h-full overflow-hidden"
+                    style={{ maxWidth: 'calc(100% - 220px)' }}
+                >
+                    {/* Scrollable track: contains 3 identical sets of 8, width = 3 × parent width */}
                     <div
                         ref={scrollRef}
                         onScroll={handleScroll}
-                        className="flex overflow-x-auto snap-x snap-mandatory pt-2 w-full h-[88px] pb-4 items-end [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden touch-pan-x"
+                        className="flex h-full touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overflow-x-auto"
+                    /* The track's content width = 3 sets, each set is clientWidth wide */
                     >
-                        {renderItems(0)}
-                        {renderItems(1)}
-                        {renderItems(2)}
+                        {renderSet(0)}
+                        {renderSet(1)}
+                        {renderSet(2)}
                     </div>
                 </div>
             </div>
