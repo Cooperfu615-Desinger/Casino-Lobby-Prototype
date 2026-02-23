@@ -14,15 +14,23 @@ const NAV_ITEMS = [
     { id: 'support', label: '客服', icon: Headphones, colorTheme: 'from-indigo-400 to-indigo-600' }
 ];
 
-// The vertical height of the visible button area (px)
-const NAV_H = 70;
-
-// Horizontal offset from screen edges to dodge the side promo buttons (px)
-// Matches LobbyButtons: left-12 (48px) + scale-150 visual spread
-const SIDE_OFFSET = 145;
-
-// Width of the semi-transparent fade mask on each edge (px)
-const FADE_W = 48;
+/**
+ * Layout constants — all in px.
+ *
+ * The promo buttons (LobbyButtons) use:
+ *   - bottom-12 = 48px from bottom edge
+ *   - scale-150 from their respective bottom corners
+ *   - Left icon: w-20 (80px) × 1.5 = 120px visual width + label
+ *   - Right icon: w-16 (64px) × 1.5 = 96px visual width + label
+ *
+ * We align the 8-button floating strip to sit between them
+ * at the same vertical baseline.
+ */
+const NAV_H = 82;                // Enough for 42px icon + padding + label
+const BOTTOM = 20;                // Bottom offset in px
+const LEFT_INSET = 120;           // Dodge left promo (48 + ~72 scaled width)
+const RIGHT_INSET = 120;           // Dodge right promo (48 + ~72 scaled width)
+const FADE_W = 40;                // Fade mask width
 
 const BottomNavigation = () => {
     const { currentView, navigate, bankInitialTab, chatInitialTab } = useNavigation();
@@ -32,7 +40,6 @@ const BottomNavigation = () => {
     useEffect(() => {
         const container = scrollRef.current;
         if (!container) return;
-        // Position to middle set so infinite scroll works in both directions
         setTimeout(() => {
             container.scrollLeft = container.scrollWidth / 3;
         }, 0);
@@ -73,15 +80,10 @@ const BottomNavigation = () => {
         return currentView === id;
     };
 
-    /**
-     * Each "set" of 8 buttons fills exactly the scroll container's clientWidth.
-     * With 3 identical sets, scrollWidth = 3 × clientWidth, enabling infinite loop.
-     */
     const renderSet = (setIndex: number) => (
         <div
             key={`s${setIndex}`}
-            className="shrink-0 flex items-center"
-            // Must be 100% of the *scroll container's* width — inline style avoids Tailwind JIT issues
+            className="shrink-0 flex items-end"
             style={{ width: '100%', height: `${NAV_H}px` }}
         >
             {NAV_ITEMS.map((item) => (
@@ -103,24 +105,17 @@ const BottomNavigation = () => {
     );
 
     return (
-        /**
-         * Outer nav: fully transparent, absolute positioned.
-         * Covers only the floating button area (dodging side promo buttons).
-         * pointer-events-none on nav, re-enabled on scroll container.
-         */
         <nav
             className="absolute z-50 pointer-events-none"
             style={{
-                bottom: '15px',
-                left: `${SIDE_OFFSET}px`,
-                right: `${SIDE_OFFSET}px`,
+                bottom: `${BOTTOM}px`,
+                left: `${LEFT_INSET}px`,
+                right: `${RIGHT_INSET}px`,
                 height: `${NAV_H}px`,
             }}
         >
             {/* Scroll viewport — clips buttons outside the 8-slot window */}
-            <div
-                className="relative w-full h-full overflow-hidden pointer-events-auto"
-            >
+            <div className="relative w-full h-full overflow-hidden pointer-events-auto">
                 {/* Scrollable track: 3 sets wide */}
                 <div
                     ref={scrollRef}
@@ -133,23 +128,20 @@ const BottomNavigation = () => {
                     {renderSet(2)}
                 </div>
 
-                {/*
-                 * Semi-transparent fade masks on left & right edges.
-                 * They blend buttons smoothly into the background instead of hard-clipping.
-                 * z-10 keeps them above buttons; pointer-events-none lets clicks pass through.
-                 */}
+                {/* Left semi-transparent fade mask */}
                 <div
                     className="absolute top-0 left-0 bottom-0 pointer-events-none z-10"
                     style={{
                         width: `${FADE_W}px`,
-                        background: 'linear-gradient(to right, rgba(26,11,46,0.85) 0%, transparent 100%)',
+                        background: 'linear-gradient(to right, rgba(18,8,40,0.9) 0%, transparent 100%)',
                     }}
                 />
+                {/* Right semi-transparent fade mask */}
                 <div
                     className="absolute top-0 right-0 bottom-0 pointer-events-none z-10"
                     style={{
                         width: `${FADE_W}px`,
-                        background: 'linear-gradient(to left, rgba(26,11,46,0.85) 0%, transparent 100%)',
+                        background: 'linear-gradient(to left, rgba(18,8,40,0.9) 0%, transparent 100%)',
                     }}
                 />
             </div>
