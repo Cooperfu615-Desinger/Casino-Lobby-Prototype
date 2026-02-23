@@ -14,8 +14,15 @@ const NAV_ITEMS = [
     { id: 'support', label: '客服', icon: Headphones, colorTheme: 'from-indigo-400 to-indigo-600' }
 ];
 
-// Height of the nav bar in pixels
-const NAV_HEIGHT = 80;
+// The vertical height of the visible button area (px)
+const NAV_H = 70;
+
+// Horizontal offset from screen edges to dodge the side promo buttons (px)
+// Matches LobbyButtons: left-12 (48px) + scale-150 visual spread
+const SIDE_OFFSET = 145;
+
+// Width of the semi-transparent fade mask on each edge (px)
+const FADE_W = 48;
 
 const BottomNavigation = () => {
     const { currentView, navigate, bankInitialTab, chatInitialTab } = useNavigation();
@@ -23,37 +30,29 @@ const BottomNavigation = () => {
     const isHandlingScroll = useRef(false);
 
     useEffect(() => {
-        // Position to the middle set (index 1) so we can scroll in both directions
         const container = scrollRef.current;
-        if (container) {
-            setTimeout(() => {
-                const setWidth = container.scrollWidth / 3;
-                container.scrollLeft = setWidth;
-            }, 0);
-        }
+        if (!container) return;
+        // Position to middle set so infinite scroll works in both directions
+        setTimeout(() => {
+            container.scrollLeft = container.scrollWidth / 3;
+        }, 0);
     }, []);
 
     const handleScroll = (e: UIEvent<HTMLDivElement>) => {
         if (isHandlingScroll.current) return;
-        const container = e.currentTarget;
-        const setWidth = container.scrollWidth / 3;
+        const el = e.currentTarget;
+        const setW = el.scrollWidth / 3;
 
-        if (container.scrollLeft < setWidth * 0.1) {
+        if (el.scrollLeft < setW * 0.1) {
             isHandlingScroll.current = true;
-            requestAnimationFrame(() => {
-                container.scrollLeft += setWidth;
-                isHandlingScroll.current = false;
-            });
-        } else if (container.scrollLeft > setWidth * 1.9) {
+            requestAnimationFrame(() => { el.scrollLeft += setW; isHandlingScroll.current = false; });
+        } else if (el.scrollLeft > setW * 1.9) {
             isHandlingScroll.current = true;
-            requestAnimationFrame(() => {
-                container.scrollLeft -= setWidth;
-                isHandlingScroll.current = false;
-            });
+            requestAnimationFrame(() => { el.scrollLeft -= setW; isHandlingScroll.current = false; });
         }
     };
 
-    const handleNavigation = (id: string) => {
+    const handleNav = (id: string) => {
         switch (id) {
             case 'chat': navigate('chat', { chatTab: 'chat' }); break;
             case 'tasks': console.log('Open Daily Tasks'); break;
@@ -63,41 +62,40 @@ const BottomNavigation = () => {
             case 'inbox': navigate('inbox'); break;
             case 'gifts': navigate('gifts'); break;
             case 'support': navigate('chat', { chatTab: 'support' }); break;
-            default: break;
         }
     };
 
-    const getIsActive = (id: string) => {
+    const isActive = (id: string) => {
         if (id === 'support') return currentView === 'chat' && chatInitialTab === 'support';
         if (id === 'chat') return currentView === 'chat' && chatInitialTab !== 'support';
         if (id === 'vault') return currentView === 'bank' && bankInitialTab === 'vault';
         if (id === 'bank') return currentView === 'bank' && bankInitialTab !== 'vault';
-        if (id === 'events') return currentView === 'events';
-        if (id === 'inbox') return currentView === 'inbox';
-        if (id === 'gifts') return currentView === 'gifts';
-        return false;
+        return currentView === id;
     };
 
-    // Each set of 8 buttons. Width is computed as viewport-width * 1, so 3 copies = 3x viewport
+    /**
+     * Each "set" of 8 buttons fills exactly the scroll container's clientWidth.
+     * With 3 identical sets, scrollWidth = 3 × clientWidth, enabling infinite loop.
+     */
     const renderSet = (setIndex: number) => (
         <div
-            key={`set-${setIndex}`}
-            /* Each set takes exactly 100% of the scroll container's clientWidth */
-            className="flex shrink-0 items-center"
-            style={{ width: '100%', height: `${NAV_HEIGHT}px` }}
+            key={`s${setIndex}`}
+            className="shrink-0 flex items-center"
+            // Must be 100% of the *scroll container's* width — inline style avoids Tailwind JIT issues
+            style={{ width: '100%', height: `${NAV_H}px` }}
         >
             {NAV_ITEMS.map((item) => (
                 <div
                     key={`${setIndex}-${item.id}`}
                     style={{ width: '12.5%', height: '100%' }}
-                    className="flex justify-center items-center"
+                    className="flex items-center justify-center"
                 >
                     <NavButton
                         icon={item.icon}
                         label={item.label}
-                        active={getIsActive(item.id)}
+                        active={isActive(item.id)}
                         colorTheme={item.colorTheme}
-                        onClick={() => handleNavigation(item.id)}
+                        onClick={() => handleNav(item.id)}
                     />
                 </div>
             ))}
@@ -105,43 +103,55 @@ const BottomNavigation = () => {
     );
 
     return (
-        /*
-         * The nav element sits at the bottom of the screen. 
-         * We add extra height for the background gradient fade above.
+        /**
+         * Outer nav: fully transparent, absolute positioned.
+         * Covers only the floating button area (dodging side promo buttons).
+         * pointer-events-none on nav, re-enabled on scroll container.
          */
         <nav
-            className="absolute left-0 right-0 bottom-0 z-40 pointer-events-none"
-            style={{ height: `${NAV_HEIGHT + 20}px` }}
+            className="absolute z-50 pointer-events-none"
+            style={{
+                bottom: '15px',
+                left: `${SIDE_OFFSET}px`,
+                right: `${SIDE_OFFSET}px`,
+                height: `${NAV_H}px`,
+            }}
         >
-            {/* Full-width ambient gradient behind the bar */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
-
-            {/* Full-width dark backdrop bar - sits at the bottom */}
+            {/* Scroll viewport — clips buttons outside the 8-slot window */}
             <div
-                className="absolute left-0 right-0 bottom-0 bg-[#1a0b2e]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl pointer-events-auto"
-                style={{ height: `${NAV_HEIGHT}px` }}
+                className="relative w-full h-full overflow-hidden pointer-events-auto"
             >
+                {/* Scrollable track: 3 sets wide */}
+                <div
+                    ref={scrollRef}
+                    onScroll={handleScroll}
+                    className="flex h-full overflow-x-auto touch-pan-x
+                        [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                >
+                    {renderSet(0)}
+                    {renderSet(1)}
+                    {renderSet(2)}
+                </div>
+
                 {/*
-                 * Inner constrained scroll viewport.
-                 * max-w limits visible buttons to the center area between side promo buttons.
-                 * overflow-hidden clips the duplicate sets so only 8 are visible at once.
+                 * Semi-transparent fade masks on left & right edges.
+                 * They blend buttons smoothly into the background instead of hard-clipping.
+                 * z-10 keeps them above buttons; pointer-events-none lets clicks pass through.
                  */}
                 <div
-                    className="mx-auto h-full overflow-hidden"
-                    style={{ maxWidth: 'calc(100% - 220px)' }}
-                >
-                    {/* Scrollable track: contains 3 identical sets of 8, width = 3 × parent width */}
-                    <div
-                        ref={scrollRef}
-                        onScroll={handleScroll}
-                        className="flex h-full touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overflow-x-auto"
-                    /* The track's content width = 3 sets, each set is clientWidth wide */
-                    >
-                        {renderSet(0)}
-                        {renderSet(1)}
-                        {renderSet(2)}
-                    </div>
-                </div>
+                    className="absolute top-0 left-0 bottom-0 pointer-events-none z-10"
+                    style={{
+                        width: `${FADE_W}px`,
+                        background: 'linear-gradient(to right, rgba(26,11,46,0.85) 0%, transparent 100%)',
+                    }}
+                />
+                <div
+                    className="absolute top-0 right-0 bottom-0 pointer-events-none z-10"
+                    style={{
+                        width: `${FADE_W}px`,
+                        background: 'linear-gradient(to left, rgba(26,11,46,0.85) 0%, transparent 100%)',
+                    }}
+                />
             </div>
         </nav>
     );
