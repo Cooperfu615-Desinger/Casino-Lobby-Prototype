@@ -71,7 +71,7 @@ const BottomNavigation = () => {
 
     const renderItems = (setIndex: number) => {
         return (
-            <div key={`set-${setIndex}`} className="flex gap-6 shrink-0 px-3">
+            <div key={`set-${setIndex}`} className="flex shrink-0 w-full h-full items-end justify-between">
                 {NAV_ITEMS.map((item) => {
                     const isActive =
                         (currentView === 'chat' && item.id === 'support' && chatInitialTab === 'support') ? true :
@@ -83,7 +83,7 @@ const BottomNavigation = () => {
                                                 (currentView === 'gifts' && item.id === 'gifts') ? true : false;
 
                     return (
-                        <div key={`${setIndex}-${item.id}`} className="shrink-0 w-[64px] flex justify-center snap-center">
+                        <div key={`${setIndex}-${item.id}`} className="shrink-0 w-[12.5%] flex justify-center snap-center">
                             <NavButton
                                 icon={item.icon}
                                 label={item.label}
@@ -99,9 +99,9 @@ const BottomNavigation = () => {
     };
 
     return (
-        <nav className="absolute bottom-[15px] left-0 right-0 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center pointer-events-none">
+        <nav className="absolute bottom-[15px] left-0 right-0 px-4 h-[88px] bg-gradient-to-t from-black via-black/95 to-transparent z-40 flex items-end pb-0 justify-center pointer-events-none">
             {/* The wrapper allows touch, handles the background, and scrolls */}
-            <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 shadow-2xl relative w-full overflow-hidden pointer-events-auto mx-4 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-8 before:bg-gradient-to-r before:from-[#1a0b2e]/90 before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-[#1a0b2e]/90 after:to-transparent after:z-10">
+            <div className="flex h-[72px] items-end bg-[#1a0b2e]/90 backdrop-blur-xl rounded-t-3xl border-t border-white/10 shadow-2xl relative w-full overflow-hidden pointer-events-auto before:absolute before:left-0 before:top-0 before:bottom-0 before:w-8 before:bg-gradient-to-r before:from-[#1a0b2e]/90 before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-[#1a0b2e]/90 after:to-transparent after:z-10">
                 <div
                     ref={scrollRef}
                     onScroll={handleScroll}
