@@ -57,8 +57,8 @@ const ToggleSwitch = ({
         type="button"
         onClick={() => onChange(!enabled)}
         className={`relative flex-shrink-0 w-12 h-6 rounded-full transition-all duration-300 focus:outline-none ${enabled
-                ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] shadow-[0_0_12px_rgba(255,215,0,0.4)]'
-                : 'bg-white/10'
+            ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] shadow-[0_0_12px_rgba(255,215,0,0.4)]'
+            : 'bg-white/10'
             }`}
         aria-label={enabled ? '關閉自動發送' : '開啟自動發送'}
     >
@@ -124,6 +124,7 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                     </div>
                     <button
                         onClick={onClose}
+                        aria-label="關閉設定"
                         className="p-1.5 rounded-full text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
                     >
                         <X size={16} />

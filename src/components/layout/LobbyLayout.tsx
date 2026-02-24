@@ -29,7 +29,7 @@ interface LobbyLayoutProps {
 }
 
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
-    const { currentView, chatInitialTab, bankInitialTab, goToGames } = useNavigation();
+    const { currentView, chatInitialTab, bankInitialTab, eventsInitialTab, goToGames } = useNavigation();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
@@ -72,6 +72,8 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             )}
             {currentView === 'events' && (
                 <EventsInterface
+                    key={eventsInitialTab}
+                    initialTab={eventsInitialTab}
                     onClose={goToGames}
                 />
             )}

@@ -62,8 +62,8 @@ const BottomNavigation = () => {
     const handleNav = (id: string) => {
         switch (id) {
             case 'chat': navigate('chat', { chatTab: 'chat' }); break;
-            case 'tasks': console.log('Open Daily Tasks'); break;
-            case 'events': navigate('events'); break;
+            case 'tasks': navigate('events', { eventsTab: 'daily' }); break;
+            case 'events': navigate('events', { eventsTab: 'events' }); break;
             case 'bank': navigate('bank', { bankTab: 'deposit' }); break;
             case 'vault': navigate('bank', { bankTab: 'vault' }); break;
             case 'inbox': navigate('inbox'); break;
@@ -77,6 +77,8 @@ const BottomNavigation = () => {
         if (id === 'chat') return currentView === 'chat' && chatInitialTab !== 'support';
         if (id === 'vault') return currentView === 'bank' && bankInitialTab === 'vault';
         if (id === 'bank') return currentView === 'bank' && bankInitialTab !== 'vault';
+        if (id === 'tasks') return currentView === 'events' && useNavigation().eventsInitialTab === 'daily';
+        if (id === 'events') return currentView === 'events' && useNavigation().eventsInitialTab !== 'daily';
         return currentView === id;
     };
 

@@ -5,11 +5,12 @@ import { useUI } from '../../context/UIContext';
 
 interface EventsInterfaceProps {
     onClose: () => void;
+    initialTab?: 'daily' | 'events' | 'leaderboard' | 'filter';
 }
 
-const EventsInterface = ({ onClose }: EventsInterfaceProps) => {
+const EventsInterface = ({ onClose, initialTab = 'events' }: EventsInterfaceProps) => {
     const { openModal } = useUI();
-    const [activeTab, setActiveTab] = useState<'daily' | 'events' | 'leaderboard' | 'filter'>('events');
+    const [activeTab, setActiveTab] = useState<'daily' | 'events' | 'leaderboard' | 'filter'>(initialTab);
     const [filter, setFilter] = useState<'all' | 'upcoming' | 'active' | 'ending'>('all');
     const [leaderboardType, setLeaderboardType] = useState<'multiplier' | 'win' | 'rich'>('multiplier');
     const [signedIn, setSignedIn] = useState(false);

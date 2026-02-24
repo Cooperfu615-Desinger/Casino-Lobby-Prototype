@@ -9,10 +9,14 @@ export type ChatSubTab = 'public' | 'chat' | 'support';
 // Bank sub-tab types
 export type BankSubTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
 
+// Events sub-tab types
+export type EventsSubTab = 'daily' | 'events' | 'leaderboard' | 'filter';
+
 interface NavigationState {
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
     bankInitialTab: BankSubTab;
+    eventsInitialTab: EventsSubTab;
     viewHistory: ViewType[];
 }
 
@@ -21,10 +25,11 @@ interface NavigationContextType {
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
     bankInitialTab: BankSubTab;
+    eventsInitialTab: EventsSubTab;
     viewHistory: ViewType[];
 
     // Navigation methods
-    navigate: (view: ViewType, options?: { chatTab?: ChatSubTab, bankTab?: BankSubTab }) => void;
+    navigate: (view: ViewType, options?: { chatTab?: ChatSubTab; bankTab?: BankSubTab; eventsTab?: EventsSubTab }) => void;
     goBack: () => void;
     goToGames: () => void;
 
@@ -44,14 +49,15 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         currentView: 'games',
         chatInitialTab: 'chat',
         bankInitialTab: 'deposit',
+        eventsInitialTab: 'events',
         viewHistory: ['games'],
     });
 
     // Navigate to a specific view
-    const navigate = useCallback((view: ViewType, options?: { chatTab?: ChatSubTab, bankTab?: BankSubTab }) => {
+    const navigate = useCallback((view: ViewType, options?: { chatTab?: ChatSubTab; bankTab?: BankSubTab; eventsTab?: EventsSubTab }) => {
         setState(prev => {
             // If navigating to the same view, do nothing
-            if (prev.currentView === view) return prev;
+            if (prev.currentView === view && (!options || (!options.chatTab && !options.bankTab && !options.eventsTab))) return prev;
 
             // Build new history - only push if not going to games
             const newHistory = view === 'games'
@@ -62,6 +68,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
                 currentView: view,
                 chatInitialTab: options?.chatTab || prev.chatInitialTab,
                 bankInitialTab: options?.bankTab || prev.bankInitialTab,
+                eventsInitialTab: options?.eventsTab || prev.eventsInitialTab,
                 viewHistory: newHistory,
             };
         });
@@ -92,6 +99,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
             currentView: 'games',
             chatInitialTab: 'chat',
             bankInitialTab: 'deposit',
+            eventsInitialTab: 'events',
             viewHistory: ['games'],
         });
     }, []);
@@ -110,6 +118,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         currentView: state.currentView,
         chatInitialTab: state.chatInitialTab,
         bankInitialTab: state.bankInitialTab,
+        eventsInitialTab: state.eventsInitialTab,
         viewHistory: state.viewHistory,
         navigate,
         goBack,
