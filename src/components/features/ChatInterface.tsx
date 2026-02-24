@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import {
     Globe, MessageCircle, Headphones, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap
 } from 'lucide-react';
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
+import { useAuth } from '../../context/AuthContext';
+import AutoSendSettingsModal from '../modals/AutoSendSettingsModal';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [
@@ -36,6 +38,7 @@ interface ChatInterfaceProps {
 
 const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const { openModal } = useUI();
+    const { user } = useAuth();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
@@ -51,6 +54,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
     const [messageInput, setMessageInput] = useState('');
+    const [showAutoSendModal, setShowAutoSendModal] = useState(false);
 
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
@@ -576,10 +580,34 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                     ))
                                 )}
                             </div>
+
+                            {/* Auto-Send Settings Button — only visible for special players (canAutoSend: true) */}
+                            {user?.canAutoSend && (
+                                <div className="p-3 border-t border-white/5">
+                                    <button
+                                        onClick={() => setShowAutoSendModal(true)}
+                                        className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg
+                                                   bg-gradient-to-r from-[#FFD700]/10 to-[#DAA520]/5
+                                                   border border-[#FFD700]/25 text-[#FFD700] text-xs font-semibold
+                                                   hover:from-[#FFD700]/20 hover:to-[#DAA520]/15 hover:border-[#FFD700]/50
+                                                   hover:shadow-[0_0_12px_rgba(255,215,0,0.15)]
+                                                   active:scale-95 transition-all duration-150"
+                                    >
+                                        <Zap size={13} />
+                                        自動發送設定
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
                 {renderRightPanel()}
+
+                {/* Auto-Send Settings Modal — rendered inside modal container */}
+                <AutoSendSettingsModal
+                    isOpen={showAutoSendModal}
+                    onClose={() => setShowAutoSendModal(false)}
+                />
             </div>
         </div>
     );

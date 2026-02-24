@@ -8,6 +8,7 @@ export interface User {
     balance: CurrencyBalance;
     vault_gold: number; // New: Gold in the vault
     id: string;
+    canAutoSend?: boolean; // Special player permission: enables auto-send feature
 }
 
 interface AuthContextType {
@@ -37,7 +38,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 bronze: 100000
             },
             vault_gold: 0,
-            id: '123456789'
+            id: '123456789',
+            canAutoSend: true // Special player flag: enables auto-send feature in chat
         };
         setUser(mockUser);
     };
