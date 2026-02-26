@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { X, Zap, MessageSquare, Smile, Save, FlaskConical } from 'lucide-react';
+import { X, Zap, MessageSquare, Smile, Save, FlaskConical, Globe, MessageCircle } from 'lucide-react';
 
 // ─────────────────────────────────────────────
 // Types
 // ─────────────────────────────────────────────
-interface AutoSendSettings {
+export interface AutoSendSettings {
     enabled: boolean;
     message: string;
     selectedSticker: string | null;
@@ -13,6 +13,9 @@ interface AutoSendSettings {
 interface AutoSendSettingsModalProps {
     isOpen: boolean;
     onClose: () => void;
+    channelType: 'public' | 'private';
+    settings: AutoSendSettings;
+    onSave: (settings: AutoSendSettings) => void;
 }
 
 // ─────────────────────────────────────────────
@@ -32,14 +35,15 @@ const STICKER_OPTIONS = [
 // ─────────────────────────────────────────────
 // simulateNewPlayerJoin — Mock logic helper
 // ─────────────────────────────────────────────
-const simulateNewPlayerJoin = (settings: AutoSendSettings) => {
+const simulateNewPlayerJoin = (settings: AutoSendSettings, channelType: 'public' | 'private') => {
+    const channelLabel = channelType === 'public' ? '公共頻道' : '私聊頻道';
     if (settings.enabled) {
         const stickerText = settings.selectedSticker ?? '（無圖示）';
         console.log(
-            `[Auto-Send] 發送訊息給新玩家: ${settings.message || '（未設定訊息）'} + ${stickerText}`
+            `[Auto-Send][${channelLabel}] 發送訊息給新玩家: ${settings.message || '（未設定訊息）'} + ${stickerText}`
         );
     } else {
-        console.log('[Auto-Send] 自動發送功能目前已關閉，不發送訊息。');
+        console.log(`[Auto-Send][${channelLabel}] 自動發送功能目前已關閉，不發送訊息。`);
     }
 };
 
@@ -72,32 +76,38 @@ const ToggleSwitch = ({
 // ─────────────────────────────────────────────
 // AutoSendSettingsModal — Horizontal layout
 // ─────────────────────────────────────────────
-const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) => {
-    const [settings, setSettings] = useState<AutoSendSettings>({
-        enabled: false,
-        message: '歡迎加入！祝您好運 🍀',
-        selectedSticker: '🎉',
-    });
-
-    const [savedSettings, setSavedSettings] = useState<AutoSendSettings | null>(null);
+const AutoSendSettingsModal = ({ isOpen, onClose, channelType, settings, onSave }: AutoSendSettingsModalProps) => {
+    // Local draft state — only applied to parent on Save
+    const [draft, setDraft] = useState<AutoSendSettings>({ ...settings });
     const [justSaved, setJustSaved] = useState(false);
     const [testFired, setTestFired] = useState(false);
 
+    // Sync draft whenever the modal reopens with new settings
+    // (We rely on React key in parent to reset on channel switch)
+
     if (!isOpen) return null;
 
+    const isPublic = channelType === 'public';
+    const channelLabel = isPublic ? '公共頻道' : '私聊頻道';
+    const ChannelIcon = isPublic ? Globe : MessageCircle;
+    const accentColor = isPublic ? 'text-emerald-400' : 'text-[#FFD700]';
+    const accentBorderColor = isPublic ? 'border-emerald-400/30' : 'border-[#FFD700]/30';
+    const accentBgColor = isPublic ? 'bg-emerald-400/10' : 'bg-[#FFD700]/10';
+
     const handleSave = () => {
-        setSavedSettings({ ...settings });
+        onSave({ ...draft });
         setJustSaved(true);
         setTimeout(() => setJustSaved(false), 2000);
     };
 
     const handleCancel = () => {
-        if (savedSettings) setSettings({ ...savedSettings });
+        // Reset draft to current saved settings before closing
+        setDraft({ ...settings });
         onClose();
     };
 
     const handleSimulate = () => {
-        simulateNewPlayerJoin(settings);
+        simulateNewPlayerJoin(draft, channelType);
         setTestFired(true);
         setTimeout(() => setTestFired(false), 2000);
     };
@@ -112,13 +122,15 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
             <div className="relative w-[720px] bg-[#1a0b2e] border border-white/15 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden animate-in zoom-in-95 duration-200">
 
                 {/* ── Header ── */}
-                <div className="flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-[#0f061e] to-[#1a0b2e] border-b border-white/10">
+                <div className={`flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-[#0f061e] to-[#1a0b2e] border-b border-white/10`}>
                     <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FFD700]/20 to-[#DAA520]/10 border border-[#FFD700]/30 flex items-center justify-center">
-                            <Zap size={14} className="text-[#FFD700]" />
+                        <div className={`w-7 h-7 rounded-lg ${accentBgColor} border ${accentBorderColor} flex items-center justify-center`}>
+                            <ChannelIcon size={14} className={accentColor} />
                         </div>
                         <div>
-                            <h2 className="text-white font-bold text-sm leading-none">自動發送設定</h2>
+                            <h2 className="text-white font-bold text-sm leading-none">
+                                {channelLabel} — 自動發送設定
+                            </h2>
                             <p className="text-slate-500 text-[10px] mt-0.5">Special Player Feature</p>
                         </div>
                     </div>
@@ -142,11 +154,11 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                             <div className="flex items-center gap-2">
                                 <Zap
                                     size={14}
-                                    className={settings.enabled ? 'text-[#FFD700]' : 'text-slate-500'}
+                                    className={draft.enabled ? accentColor : 'text-slate-500'}
                                 />
                                 <div>
                                     <p className="text-white text-xs font-semibold leading-none">
-                                        {settings.enabled ? '自動發送已啟用' : '自動發送已停用'}
+                                        {draft.enabled ? '自動發送已啟用' : '自動發送已停用'}
                                     </p>
                                     <p className="text-slate-500 text-[10px] mt-0.5">
                                         新玩家加入時自動發送歡迎訊息
@@ -154,21 +166,21 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                                 </div>
                             </div>
                             <ToggleSwitch
-                                enabled={settings.enabled}
-                                onChange={(v) => setSettings((s) => ({ ...s, enabled: v }))}
+                                enabled={draft.enabled}
+                                onChange={(v) => setDraft((s) => ({ ...s, enabled: v }))}
                             />
                         </div>
 
                         {/* Message Textarea */}
                         <div className="space-y-1.5">
                             <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-300">
-                                <MessageSquare size={11} className="text-[#FFD700]" />
+                                <MessageSquare size={11} className={accentColor} />
                                 歡迎訊息內容
                             </label>
                             <textarea
-                                value={settings.message}
+                                value={draft.message}
                                 onChange={(e) =>
-                                    setSettings((s) => ({ ...s, message: e.target.value }))
+                                    setDraft((s) => ({ ...s, message: e.target.value }))
                                 }
                                 maxLength={100}
                                 rows={4}
@@ -178,7 +190,7 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                                            placeholder:text-slate-600 resize-none transition-all leading-relaxed"
                             />
                             <p className="text-right text-[10px] text-slate-600">
-                                {settings.message.length} / 100
+                                {draft.message.length} / 100
                             </p>
                         </div>
 
@@ -193,14 +205,14 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                                 }`}
                         >
                             <FlaskConical size={13} />
-                            {testFired ? '✅ 已輸出至 Console！' : '模擬新玩家加入（測試用）'}
+                            {testFired ? '✅ 已輸出至 Console！' : `模擬新玩家加入（${channelLabel}）`}
                         </button>
                     </div>
 
                     {/* ── RIGHT COLUMN: Sticker Selector ── */}
                     <div className="w-[300px] flex-shrink-0 p-5 space-y-3">
                         <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-300">
-                            <Smile size={11} className="text-[#FFD700]" />
+                            <Smile size={11} className={accentColor} />
                             附加貼圖
                             <span className="text-slate-600 font-normal text-[10px]">（再次點擊取消）</span>
                         </label>
@@ -208,14 +220,14 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                         {/* 4×2 grid */}
                         <div className="grid grid-cols-4 gap-2">
                             {STICKER_OPTIONS.map((sticker) => {
-                                const isSelected = settings.selectedSticker === sticker.id;
+                                const isSelected = draft.selectedSticker === sticker.id;
                                 return (
                                     <button
                                         key={sticker.id}
                                         type="button"
                                         title={`選擇貼圖：${sticker.label}`}
                                         onClick={() =>
-                                            setSettings((s) => ({
+                                            setDraft((s) => ({
                                                 ...s,
                                                 selectedSticker: isSelected ? null : sticker.id,
                                             }))
@@ -240,11 +252,11 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
 
                         {/* Selected sticker display */}
                         <div className="h-6 flex items-center justify-center">
-                            {settings.selectedSticker ? (
+                            {draft.selectedSticker ? (
                                 <p className="text-[10px] text-slate-400">
                                     已選擇：
                                     <span className="ml-1 font-semibold text-[#FFD700]">
-                                        {settings.selectedSticker}
+                                        {draft.selectedSticker}
                                     </span>
                                 </p>
                             ) : (
@@ -253,17 +265,17 @@ const AutoSendSettingsModal = ({ isOpen, onClose }: AutoSendSettingsModalProps) 
                         </div>
 
                         {/* Preview bar */}
-                        {(settings.message || settings.selectedSticker) && (
+                        {(draft.message || draft.selectedSticker) && (
                             <div className="mt-2 p-3 bg-[#0f061e] rounded-xl border border-white/10">
                                 <p className="text-[10px] text-slate-500 mb-1.5 font-semibold uppercase tracking-wide">預覽</p>
                                 <div className="flex items-start gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#FFD700]/30 to-[#DAA520]/20 border border-[#FFD700]/30 flex items-center justify-center flex-shrink-0">
-                                        <Zap size={10} className="text-[#FFD700]" />
+                                    <div className={`w-6 h-6 rounded-full ${accentBgColor} border ${accentBorderColor} flex items-center justify-center flex-shrink-0`}>
+                                        <ChannelIcon size={10} className={accentColor} />
                                     </div>
                                     <p className="text-white text-xs leading-relaxed break-words flex-1">
-                                        {settings.message || '（未設定訊息）'}
-                                        {settings.selectedSticker && (
-                                            <span className="ml-1">{settings.selectedSticker}</span>
+                                        {draft.message || '（未設定訊息）'}
+                                        {draft.selectedSticker && (
+                                            <span className="ml-1">{draft.selectedSticker}</span>
                                         )}
                                     </p>
                                 </div>

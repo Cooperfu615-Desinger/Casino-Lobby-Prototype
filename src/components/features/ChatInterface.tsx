@@ -6,7 +6,7 @@ import {
 import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
-import AutoSendSettingsModal from '../modals/AutoSendSettingsModal';
+import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [
@@ -54,7 +54,11 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
     const [messageInput, setMessageInput] = useState('');
-    const [showAutoSendModal, setShowAutoSendModal] = useState(false);
+    const [activeAutoSendChannel, setActiveAutoSendChannel] = useState<'public' | 'private' | null>(null);
+    const [autoSendConfig, setAutoSendConfig] = useState<{ public: AutoSendSettings; private: AutoSendSettings }>({
+        public: { enabled: false, message: '歡迎加入公共頻道！🎰', selectedSticker: '🎉' },
+        private: { enabled: false, message: '歡迎加入！祝您好運 🍀', selectedSticker: '🎉' },
+    });
 
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
@@ -472,6 +476,24 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                     </div>
                                 ))}
                             </div>
+
+                            {/* Auto-Send Settings Button for Public Channel */}
+                            {user?.canAutoSend && (
+                                <div className="p-3 border-t border-white/5">
+                                    <button
+                                        onClick={() => setActiveAutoSendChannel('public')}
+                                        className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg
+                                                   bg-gradient-to-r from-emerald-400/10 to-emerald-500/5
+                                                   border border-emerald-400/25 text-emerald-400 text-xs font-semibold
+                                                   hover:from-emerald-400/20 hover:to-emerald-500/15 hover:border-emerald-400/50
+                                                   hover:shadow-[0_0_12px_rgba(52,211,153,0.15)]
+                                                   active:scale-95 transition-all duration-150"
+                                    >
+                                        <Zap size={13} />
+                                        自動發送設定
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
 
@@ -585,7 +607,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             {user?.canAutoSend && (
                                 <div className="p-3 border-t border-white/5">
                                     <button
-                                        onClick={() => setShowAutoSendModal(true)}
+                                        onClick={() => setActiveAutoSendChannel('private')}
                                         className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg
                                                    bg-gradient-to-r from-[#FFD700]/10 to-[#DAA520]/5
                                                    border border-[#FFD700]/25 text-[#FFD700] text-xs font-semibold
@@ -604,10 +626,18 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                 {renderRightPanel()}
 
                 {/* Auto-Send Settings Modal — rendered inside modal container */}
-                <AutoSendSettingsModal
-                    isOpen={showAutoSendModal}
-                    onClose={() => setShowAutoSendModal(false)}
-                />
+                {activeAutoSendChannel && (
+                    <AutoSendSettingsModal
+                        key={activeAutoSendChannel}
+                        isOpen={true}
+                        onClose={() => setActiveAutoSendChannel(null)}
+                        channelType={activeAutoSendChannel}
+                        settings={autoSendConfig[activeAutoSendChannel]}
+                        onSave={(updated) => {
+                            setAutoSendConfig(prev => ({ ...prev, [activeAutoSendChannel]: updated }));
+                        }}
+                    />
+                )}
             </div>
         </div>
     );
