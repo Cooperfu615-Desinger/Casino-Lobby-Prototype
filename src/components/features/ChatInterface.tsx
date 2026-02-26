@@ -56,8 +56,8 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [messageInput, setMessageInput] = useState('');
     const [activeAutoSendChannel, setActiveAutoSendChannel] = useState<'public' | 'private' | null>(null);
     const [autoSendConfig, setAutoSendConfig] = useState<{ public: AutoSendSettings; private: AutoSendSettings }>({
-        public: { enabled: false, message: '歡迎加入公共頻道！🎰', selectedSticker: '🎉' },
-        private: { enabled: false, message: '歡迎加入！祝您好運 🍀', selectedSticker: '🎉' },
+        public: { enabled: false, message: '歡迎加入公共頻道！🎰', selectedSticker: '🎉', interval: 10 },
+        private: { enabled: false, message: '歡迎加入！祝您好運 🍀', selectedSticker: '🎉', interval: 1 },
     });
 
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
