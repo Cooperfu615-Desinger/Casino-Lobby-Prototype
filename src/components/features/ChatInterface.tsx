@@ -98,7 +98,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
             case 'support':
                 return (
                     <div className="flex-1 flex flex-col bg-[#160b29] relative">
-                        <div className="h-14 border-b border-white/10 flex justify-between items-center px-6 bg-[#1a0b2e]">
+                        <div className="h-14 border-b border-white/10 flex justify-between items-center pl-6 pr-16 bg-[#1a0b2e]">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center border border-white/20">
                                     <Bot size={18} className="text-white" />
@@ -140,7 +140,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
             case 'public':
                 return (
                     <div className="flex-1 flex flex-col bg-[#160b29] relative">
-                        <div className="h-14 border-b border-white/10 flex justify-between items-center px-6 bg-[#1a0b2e]">
+                        <div className="h-14 border-b border-white/10 flex justify-between items-center pl-6 pr-16 bg-[#1a0b2e]">
                             <div className="flex items-center gap-3">
                                 <Globe size={18} className="text-[#FFD700]" />
                                 <h3 className="text-white font-bold text-sm">公共頻道 (World Chat)</h3>
@@ -203,7 +203,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
             default:
                 return (
                     <div className="flex-1 flex flex-col bg-[#160b29] relative">
-                        <div className="h-14 border-b border-white/10 flex justify-between items-center px-6 bg-[#1a0b2e]">
+                        <div className="h-14 border-b border-white/10 flex justify-between items-center pl-6 pr-16 bg-[#1a0b2e]">
                             <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-full ${selectedFriend.avatar} flex items-center justify-center`}>
                                     <UserIcon size={16} className="text-white/80" />
