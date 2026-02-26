@@ -6,6 +6,7 @@ import Header from './Header';
 import NotificationTicker from './NotificationTicker';
 import BottomNavigation from './BottomNavigation';
 import LobbyButtons from './LobbyButtons';
+import CategorySidebar from './CategorySidebar';
 import GameGrid from './GameGrid';
 import SettingsMenu from './SettingsMenu';
 
@@ -33,6 +34,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
     return (
         <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
@@ -56,8 +58,17 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {/* Notification Ticker */}
             <NotificationTicker />
 
+            {/* Category Sidebar */}
+            <CategorySidebar
+                isOpen={isCategoryOpen}
+                onToggle={() => setIsCategoryOpen(!isCategoryOpen)}
+            />
+
             {/* Game Grid */}
-            <GameGrid onPlayGame={onPlayGame} />
+            <GameGrid
+                onPlayGame={onPlayGame}
+                isCategoryOpen={isCategoryOpen}
+            />
 
             {/* Lobby Floating Buttons */}
             <LobbyButtons />

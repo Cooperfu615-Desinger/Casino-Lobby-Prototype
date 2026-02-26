@@ -5,11 +5,13 @@ import type { Game } from '../../types';
 
 interface GameGridProps {
     onPlayGame: (game: Game) => void;
+    isCategoryOpen: boolean;
 }
 
-const GameGrid = ({ onPlayGame }: GameGridProps) => {
+const GameGrid = ({ onPlayGame, isCategoryOpen }: GameGridProps) => {
     return (
-        <main className="absolute top-[130px] bottom-[90px] left-0 right-0 overflow-x-auto overflow-y-hidden flex items-center px-12 no-scrollbar">
+        <main className={`absolute top-[130px] bottom-[90px] right-0 transition-all duration-300 overflow-x-auto overflow-y-hidden flex items-center px-12 no-scrollbar ${isCategoryOpen ? 'left-[240px]' : 'left-0'
+            }`}>
             <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 animate-pulse">
                 <ChevronLeft className="text-white/40 drop-shadow-lg" size={48} />
             </div>
