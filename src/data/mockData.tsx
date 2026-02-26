@@ -3,7 +3,7 @@ import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
 import type { Game } from '../types/game';
-import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege } from '../types/user';
+import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 import type { EventItem, GiftItem } from '../types/event';
@@ -12,7 +12,7 @@ import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '..
 
 // Re-export types for backward compatibility
 export type { Game } from '../types/game';
-export type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege } from '../types/user';
+export type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile } from '../types/user';
 
 export type { ChatMessage, ClubChatMessage } from '../types/chat';
 export type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
@@ -246,3 +246,24 @@ export const VIP_PRIVILEGES: VIPPrivilege[] = [
     { id: 3, title: '專屬客服', description: '優先處理通道', icon: '🎧' },
     { id: 4, title: '特殊活動資格', description: 'VIP 專屬活動邀請', icon: '🎪' }
 ];
+
+export const getMockPlayerProfile = (name: string): PlayerProfile => {
+    // try to find in friends or online players for base data
+    const isFriend = FRIENDS.some(f => f.name === name);
+    const friendData = FRIENDS.find(f => f.name === name);
+    const onlineData = ONLINE_PLAYERS.find(p => p.name === name);
+
+    return {
+        name,
+        avatar: friendData?.avatar || onlineData?.avatar || 'bg-slate-700',
+        level: onlineData?.level || Math.floor(Math.random() * 50) + 1,
+        vipLevel: Math.floor(Math.random() * 5) + 1,
+        bio: isFriend ? '我們已經是好友了，一起來玩吧！' : '我是個熱愛老虎機的玩家，希望能多交點朋友。',
+        recentGames: [
+            { id: 1, name: 'Ace Blackjack', image: 'bg-red-900' },
+            { id: 2, name: 'Gates of Olympus', image: 'bg-purple-800' },
+            { id: 3, name: 'Shark Hunter', image: 'bg-cyan-800' }
+        ],
+        isFriend
+    };
+};

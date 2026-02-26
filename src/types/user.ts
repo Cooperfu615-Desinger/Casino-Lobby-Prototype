@@ -6,6 +6,9 @@ export interface Friend {
     avatar: string;
     status: 'online' | 'playing' | 'offline';
     lastMsg: string;
+    bio?: string;
+    recentGames?: { id: number; name: string; image: string }[];
+    isFriend?: boolean;
 }
 
 export interface OnlinePlayer {
@@ -13,9 +16,22 @@ export interface OnlinePlayer {
     name: string;
     avatar: string;
     level: number;
+    bio?: string;
+    recentGames?: { id: number; name: string; image: string }[];
+    isFriend?: boolean;
 }
 
 export type FriendStatus = 'online' | 'playing' | 'offline';
+
+export interface PlayerProfile {
+    name: string;
+    avatar: string;
+    level: number;
+    vipLevel?: number;
+    bio: string;
+    recentGames: { id: number; name: string; image: string }[];
+    isFriend: boolean;
+}
 
 // Three-currency system
 export type CurrencyType = 'gold' | 'silver' | 'bronze';

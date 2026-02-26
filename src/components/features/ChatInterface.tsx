@@ -3,7 +3,7 @@ import {
     Globe, MessageCircle, Headphones, MoreVertical,
     Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap
 } from 'lucide-react';
-import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage } from '../../data/mockData';
+import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
@@ -42,7 +42,6 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState(2);
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
-    const [publicMenu, setPublicMenu] = useState<{ x: number, y: number, name: string } | null>(null);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [friends, setFriends] = useState(FRIENDS);
     const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; friendId: number | null; friendName: string }>({
@@ -64,7 +63,6 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
 
     const handleFriendRequest = (name: string) => {
-        setPublicMenu(null);
         setToastMessage(`${name} 已成為好友`);
         setTimeout(() => setToastMessage(null), 3000);
     };
@@ -164,8 +162,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                const rect = e.currentTarget.getBoundingClientRect();
-                                                setPublicMenu({ x: rect.left, y: rect.bottom, name: msg.sender });
+                                                openModal('playerProfile', { profile: getMockPlayerProfile(msg.sender) });
                                             }}
                                             className="flex flex-col items-center mr-2 hover:opacity-80 transition-all active:scale-95 group-hover:scale-105"
                                         >
@@ -232,9 +229,15 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             {(MOCK_SPECIFIC_CHATS[selectedFriendId] || CHAT_HISTORY).map(msg => (
                                 <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
                                     {!msg.isMe && (
-                                        <div className={`w-8 h-8 rounded-full ${selectedFriend.avatar} flex-shrink-0 mr-2 flex items-center justify-center`}>
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                openModal('playerProfile', { profile: getMockPlayerProfile(selectedFriend.name) });
+                                            }}
+                                            className={`w-8 h-8 rounded-full ${selectedFriend.avatar} flex-shrink-0 mr-2 flex items-center justify-center hover:scale-105 active:scale-95 transition-all`}
+                                        >
                                             <UserIcon size={14} className="text-white/80" />
-                                        </div>
+                                        </button>
                                     )}
                                     <div className={`max-w-[70%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${msg.isMe
                                         ? 'bg-[#FFD700] text-black rounded-tr-none'
@@ -405,35 +408,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
 
 
 
-                {/* User Action Menu (Global) */}
-                {publicMenu && (
-                    <>
-                        <div
-                            className="fixed z-50 bg-[#2a1b42] border border-white/20 rounded-lg shadow-xl py-1 w-32 animate-in fade-in zoom-in-95 duration-100"
-                            style={{ top: publicMenu.y, left: publicMenu.x }}
-                        >
-                            <div className="px-3 py-1.5 text-xs text-white/50 border-b border-white/10 mb-1">
-                                {publicMenu.name}
-                            </div>
-                            <button
-                                onClick={() => handleFriendRequest(publicMenu.name)}
-                                className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 flex items-center gap-2"
-                            >
-                                <UserPlus size={14} className="text-[#FFD700]" />
-                                加入好友
-                            </button>
-                            <button
-                                onClick={() => setPublicMenu(null)}
-                                className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/10 flex items-center gap-2"
-                            >
-                                <X size={14} />
-                                關閉
-                            </button>
-                        </div>
-                        {/* Global Click Listener to close menu */}
-                        <div className="fixed inset-0 z-40" onClick={() => setPublicMenu(null)} />
-                    </>
-                )}
+
 
                 {/* Close Button */}
                 <button
@@ -462,8 +437,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                const rect = e.currentTarget.getBoundingClientRect();
-                                                setPublicMenu({ x: rect.left, y: rect.bottom, name: player.name });
+                                                openModal('playerProfile', { profile: getMockPlayerProfile(player.name) });
                                             }}
                                             className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10 hover:scale-110 active:scale-95 transition-all shadow-md group`}
                                         >
