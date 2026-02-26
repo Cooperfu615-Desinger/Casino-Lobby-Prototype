@@ -58,14 +58,9 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
         public: { enabled: false, message: '歡迎加入公共頻道！🎰', selectedSticker: '🎉', interval: 10 },
         private: { enabled: false, message: '歡迎加入！祝您好運 🍀', selectedSticker: '🎉', interval: 1 },
     });
-
     // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
     const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
 
-    const handleFriendRequest = (name: string) => {
-        setToastMessage(`${name} 已成為好友`);
-        setTimeout(() => setToastMessage(null), 3000);
-    };
 
     const confirmDeleteFriend = (e: React.MouseEvent, friend: typeof FRIENDS[0]) => {
         e.stopPropagation();

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Zap, MessageSquare, Smile, Save, Globe, MessageCircle, Clock } from 'lucide-react';
+import { X, MessageSquare, Smile, Save, Globe, MessageCircle, Clock } from 'lucide-react';
 
 // ─────────────────────────────────────────────
 // Types
