@@ -115,7 +115,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {/* Game Grid */}
             <GameGrid
                 onPlayGame={onPlayGame}
-                isCategoryOpen={isCategoryOpen}
                 activeCategory={activeCategory}
             />
 

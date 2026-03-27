@@ -6,11 +6,10 @@ import { LOBBY_CATEGORIES, type LobbyCategoryId } from './CategorySidebar';
 
 interface GameGridProps {
     onPlayGame: (game: Game) => void;
-    isCategoryOpen: boolean;
     activeCategory: LobbyCategoryId;
 }
 
-const GameGrid = ({ onPlayGame, isCategoryOpen, activeCategory }: GameGridProps) => {
+const GameGrid = ({ onPlayGame, activeCategory }: GameGridProps) => {
     const selectedCategory = LOBBY_CATEGORIES.find((category) => category.id === activeCategory) ?? LOBBY_CATEGORIES[0];
     const filteredGames = !selectedCategory.gameCategory
         ? (activeCategory === 'all' ? GAMES : [])
@@ -18,8 +17,7 @@ const GameGrid = ({ onPlayGame, isCategoryOpen, activeCategory }: GameGridProps)
     const jackpotCount = filteredGames.filter((game) => game.hasJackpot).length;
 
     return (
-        <main className={`absolute top-[130px] bottom-[90px] right-0 transition-all duration-300 overflow-hidden flex flex-col px-12 no-scrollbar ${isCategoryOpen ? 'left-[240px]' : 'left-0'
-            }`}>
+        <main className="absolute top-[130px] bottom-[90px] left-0 right-0 transition-all duration-300 overflow-hidden flex flex-col px-12 no-scrollbar">
             <div className="flex items-start justify-between px-8 pt-5">
                 <div>
                     <div className="text-[11px] uppercase tracking-[0.3em] text-white/40 mb-2">
