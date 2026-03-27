@@ -1,21 +1,49 @@
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import type { GameCategory } from '../../types';
+
+export type LobbyCategoryId =
+    | 'all'
+    | 'slots'
+    | 'board'
+    | 'arcade'
+    | 'live'
+    | 'crash'
+    | 'fishing'
+    | 'lottery';
+
+export interface LobbyCategoryItem {
+    id: LobbyCategoryId;
+    label: string;
+    icon: string;
+    gameCategory?: GameCategory;
+}
 
 interface CategorySidebarProps {
     isOpen: boolean;
     onToggle: () => void;
+    activeCategory: LobbyCategoryId;
+    onSelectCategory: (categoryId: LobbyCategoryId) => void;
+    categoryCounts: Partial<Record<LobbyCategoryId, number>>;
 }
 
-const CATEGORIES = [
-    { id: 'slots', label: '老虎機 (Slots)', icon: '🎰' },
-    { id: 'board', label: '棋牌 (Board/Card)', icon: '🃏' },
+export const LOBBY_CATEGORIES: LobbyCategoryItem[] = [
+    { id: 'all', label: '全部遊戲 (All Games)', icon: '✨' },
+    { id: 'slots', label: '老虎機 (Slots)', icon: '🎰', gameCategory: 'slot' },
+    { id: 'board', label: '棋牌 (Board/Card)', icon: '🃏', gameCategory: 'card' },
     { id: 'arcade', label: '電子 (Arcade)', icon: '🕹️' },
     { id: 'live', label: '真人 (Live Casino)', icon: '👩‍💼' },
     { id: 'crash', label: 'Crash(崩潰) (Crash)', icon: '📈' },
-    { id: 'fishing', label: '魚機 (Fishing)', icon: '🎣' },
+    { id: 'fishing', label: '魚機 (Fishing)', icon: '🎣', gameCategory: 'fish' },
     { id: 'lottery', label: '樂透 (Lottery)', icon: '🎱' },
 ];
 
-const CategorySidebar = ({ isOpen, onToggle }: CategorySidebarProps) => {
+const CategorySidebar = ({
+    isOpen,
+    onToggle,
+    activeCategory,
+    onSelectCategory,
+    categoryCounts,
+}: CategorySidebarProps) => {
     return (
         <div
             className={`absolute top-[130px] bottom-[90px] z-30 flex transition-all duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-[240px]'
@@ -27,17 +55,38 @@ const CategorySidebar = ({ isOpen, onToggle }: CategorySidebarProps) => {
                     遊戲分類
                 </div>
                 <div className="flex flex-col gap-2">
-                    {CATEGORIES.map((cat) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => console.log('篩選類別:', cat.label)}
-                            className="flex items-center gap-3 px-3 py-3 w-full rounded-xl text-left text-sm text-slate-300 font-medium
-                                     hover:bg-white/10 hover:text-white transition-all group active:scale-[0.98]"
-                        >
-                            <span className="text-xl group-hover:scale-110 transition-transform">{cat.icon}</span>
-                            <span className="truncate">{cat.label}</span>
-                        </button>
-                    ))}
+                    {LOBBY_CATEGORIES.map((cat) => {
+                        const count = categoryCounts[cat.id] ?? 0;
+                        const isActive = activeCategory === cat.id;
+                        const isPlanned = cat.id !== 'all' && count === 0;
+
+                        return (
+                            <button
+                                key={cat.id}
+                                type="button"
+                                onClick={() => onSelectCategory(cat.id)}
+                                aria-pressed={isActive}
+                                className={`flex items-center gap-3 px-3 py-3 w-full rounded-xl text-left text-sm font-medium transition-all group active:scale-[0.98] border ${
+                                    isActive
+                                        ? 'bg-[#FFD700]/15 text-white border-[#FFD700]/40 shadow-[0_0_20px_rgba(255,215,0,0.08)]'
+                                        : 'text-slate-300 border-transparent hover:bg-white/10 hover:text-white'
+                                }`}
+                            >
+                                <span className="text-xl group-hover:scale-110 transition-transform">{cat.icon}</span>
+                                <div className="min-w-0 flex-1">
+                                    <div className="truncate">{cat.label}</div>
+                                    <div className={`text-[10px] mt-0.5 ${isPlanned ? 'text-orange-300/80' : 'text-slate-500'}`}>
+                                        {isPlanned ? 'Phase 2 規劃中' : `目前展示 ${count} 款`}
+                                    </div>
+                                </div>
+                                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                                    isActive ? 'bg-[#FFD700] text-black' : 'bg-white/10 text-slate-300'
+                                }`}>
+                                    {count}
+                                </span>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 

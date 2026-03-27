@@ -7,7 +7,9 @@ const LobbyButtons = () => {
     return (
         <>
             {/* Left: 豬幫出動 */}
-            <div
+            <button
+                type="button"
+                aria-label="開啟豬幫出動活動"
                 onClick={() => openModal('promotion', { startIndex: 1 })}
                 className="absolute bottom-12 left-12 z-[60] flex flex-col items-center cursor-pointer hover:scale-105 active:scale-95 transition-transform origin-bottom-left scale-150"
             >
@@ -18,10 +20,12 @@ const LobbyButtons = () => {
                 <div className="bg-pink-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md mt-2 border border-white/20">
                     豬幫出動!
                 </div>
-            </div>
+            </button>
 
             {/* Right: 首儲好禮 */}
-            <div
+            <button
+                type="button"
+                aria-label="開啟首儲好禮活動"
                 onClick={() => openModal('promotion', { startIndex: 2 })}
                 className="absolute bottom-12 right-12 z-[60] flex flex-col items-center cursor-pointer hover:scale-105 active:scale-95 transition-transform origin-bottom-right scale-150"
             >
@@ -31,7 +35,7 @@ const LobbyButtons = () => {
                 <div className="bg-red-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md mt-2 border border-white/20">
                     首儲好禮
                 </div>
-            </div>
+            </button>
         </>
     );
 };

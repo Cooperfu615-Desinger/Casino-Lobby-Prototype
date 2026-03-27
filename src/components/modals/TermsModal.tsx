@@ -1,19 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X, FileText, Shield, ScrollText, CheckSquare, Square, ArrowRight } from 'lucide-react';
+
+export type TermsTab = 'terms' | 'privacy' | 'service';
 
 interface TermsModalProps {
     onClose: () => void;
-    onAgree: () => void;
+    onAgree?: () => void;
+    initialTab?: TermsTab;
+    title?: string;
+    readOnly?: boolean;
+    confirmLabel?: string;
 }
 
-const TermsModal = ({ onClose, onAgree }: TermsModalProps) => {
-    const [activeTab, setActiveTab] = useState<'terms' | 'privacy' | 'service'>('terms');
+const TermsModal = ({
+    onClose,
+    onAgree,
+    initialTab = 'terms',
+    title = '註冊帳號 - 條款審閱',
+    readOnly = false,
+    confirmLabel = '下一步',
+}: TermsModalProps) => {
+    const [activeTab, setActiveTab] = useState<TermsTab>(initialTab);
     const [isAgreed, setIsAgreed] = useState(false);
+
+    useEffect(() => {
+        setActiveTab(initialTab);
+    }, [initialTab]);
 
     const tabs = [
         { id: 'terms' as const, label: '使用者規章', icon: <FileText size={16} /> },
         { id: 'privacy' as const, label: '隱私權政策', icon: <Shield size={16} /> },
-        { id: 'service' as const, label: '服務條款', icon: <ScrollText size={16} /> }
+        { id: 'service' as const, label: '服務條款', icon: <ScrollText size={16} /> },
     ];
 
     const termsContent = {
@@ -101,7 +118,7 @@ const TermsModal = ({ onClose, onAgree }: TermsModalProps) => {
             <div className="relative w-[600px] max-h-[80vh] bg-[#1a0b2e] border border-white/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-white/10">
-                    <h2 className="text-xl font-bold text-white">註冊帳號 - 條款審閱</h2>
+                    <h2 className="text-xl font-bold text-white">{title}</h2>
                     <button
                         onClick={onClose}
                         className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
@@ -135,32 +152,43 @@ const TermsModal = ({ onClose, onAgree }: TermsModalProps) => {
                 </div>
 
                 {/* Footer with Checkbox and Button */}
-                <div className="p-6 border-t border-white/10 bg-black/20">
-                    <label
-                        className="flex items-center gap-3 cursor-pointer group mb-4"
-                        onClick={() => setIsAgreed(!isAgreed)}
-                    >
-                        {isAgreed ? (
-                            <CheckSquare size={24} className="text-[#FFD700]" />
-                        ) : (
-                            <Square size={24} className="text-slate-400 group-hover:text-white transition-colors" />
-                        )}
-                        <span className="text-sm text-slate-300 group-hover:text-white transition-colors">
-                            我已閱讀並同意上述所有條款
-                        </span>
-                    </label>
+                {readOnly ? (
+                    <div className="p-6 border-t border-white/10 bg-black/20">
+                        <button
+                            onClick={onClose}
+                            className="w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95"
+                        >
+                            {confirmLabel} <ArrowRight size={20} />
+                        </button>
+                    </div>
+                ) : (
+                    <div className="p-6 border-t border-white/10 bg-black/20">
+                        <label
+                            className="flex items-center gap-3 cursor-pointer group mb-4"
+                            onClick={() => setIsAgreed(!isAgreed)}
+                        >
+                            {isAgreed ? (
+                                <CheckSquare size={24} className="text-[#FFD700]" />
+                            ) : (
+                                <Square size={24} className="text-slate-400 group-hover:text-white transition-colors" />
+                            )}
+                            <span className="text-sm text-slate-300 group-hover:text-white transition-colors">
+                                我已閱讀並同意上述所有條款
+                            </span>
+                        </label>
 
-                    <button
-                        onClick={onAgree}
-                        disabled={!isAgreed}
-                        className={`w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all ${isAgreed
-                            ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95'
-                            : 'bg-slate-700 text-slate-400 cursor-not-allowed'
-                            }`}
-                    >
-                        下一步 <ArrowRight size={20} />
-                    </button>
-                </div>
+                        <button
+                            onClick={onAgree}
+                            disabled={!isAgreed}
+                            className={`w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all ${isAgreed
+                                ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95'
+                                : 'bg-slate-700 text-slate-400 cursor-not-allowed'
+                                }`}
+                        >
+                            {confirmLabel} <ArrowRight size={20} />
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

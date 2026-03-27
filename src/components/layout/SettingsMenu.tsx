@@ -5,9 +5,12 @@ import { useAudio } from '../../context/AudioContext';
 
 interface SettingsMenuProps {
     onOpenLanguage: () => void;
+    onOpenLegal: () => void;
+    onOpenGuide: () => void;
+    onCloseMenu: () => void;
 }
 
-const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
+const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onOpenGuide, onCloseMenu }: SettingsMenuProps) => {
     const { isMusicEnabled, isSoundEnabled, toggleMusic, toggleSound } = useAudio();
     const [push, setPush] = useState(true);
     const { logout } = useAuth();
@@ -48,17 +51,32 @@ const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
 
                 {/* Links */}
                 <button
-                    onClick={onOpenLanguage}
+                    onClick={() => {
+                        onCloseMenu();
+                        onOpenLanguage();
+                    }}
                     className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left"
                 >
                     <Globe size={18} />
                     <span className="text-sm">切換語系</span>
                 </button>
-                <button className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left">
+                <button
+                    onClick={() => {
+                        onCloseMenu();
+                        onOpenLegal();
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left"
+                >
                     <FileText size={18} />
                     <span className="text-sm">使用者規章</span>
                 </button>
-                <button className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left">
+                <button
+                    onClick={() => {
+                        onCloseMenu();
+                        onOpenGuide();
+                    }}
+                    className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left"
+                >
                     <Info size={18} />
                     <span className="text-sm">大廳功能說明</span>
                 </button>
@@ -67,7 +85,10 @@ const SettingsMenu = ({ onOpenLanguage }: SettingsMenuProps) => {
 
                 {/* Logout */}
                 <button
-                    onClick={logout}
+                    onClick={() => {
+                        onCloseMenu();
+                        logout();
+                    }}
                     className="w-full px-4 py-3 flex items-center gap-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-colors text-left mb-2"
                 >
                     <LogOut size={18} />

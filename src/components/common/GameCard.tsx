@@ -1,4 +1,4 @@
-import { Game } from '../../data/mockData';
+import type { Game } from '../../types';
 import JackpotTicker from './JackpotTicker';
 
 interface GameCardProps {
@@ -9,6 +9,7 @@ interface GameCardProps {
 
 const GameCard = ({ game, onClick, className }: GameCardProps) => {
     const isLarge = game.size === 'large';
+    const categoryLabel = game.category === 'slot' ? 'Slot' : game.category === 'card' ? 'Card' : 'Fishing';
 
     // Size classes: Standard is fixed w/h, Large is wider and full height
     const sizeClasses = isLarge
@@ -16,9 +17,11 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
         : "w-[180px] h-[180px]";
 
     return (
-        <div
+        <button
+            type="button"
             onClick={onClick}
-            className={`relative group ${sizeClasses} flex-shrink-0 cursor-pointer transform transition-all hover:scale-[1.02] active:scale-95 ${className || ''}`}
+            aria-label={`開啟 ${game.title}`}
+            className={`relative group ${sizeClasses} flex-shrink-0 cursor-pointer transform transition-all hover:scale-[1.02] active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD700] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a0b2e] ${className || ''}`}
         >
             {/* Jackpot Ticker */}
             {game.hasJackpot && <JackpotTicker />}
@@ -33,6 +36,15 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
                 {/* Glossy Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
 
+                <div className="absolute left-3 top-3 flex items-center gap-2">
+                    <div className="rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm border border-white/10">
+                        {categoryLabel}
+                    </div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/35 text-lg backdrop-blur-sm border border-white/10">
+                        {game.icon}
+                    </div>
+                </div>
+
                 <div className={`absolute bottom-0 left-0 right-0 bg-black/60 ${isLarge ? 'py-4' : 'py-3'} px-2 backdrop-blur-[2px]`}>
                     <p className={`text-white text-center font-bold truncate leading-tight tracking-wide drop-shadow-md ${isLarge ? 'text-lg' : 'text-sm'}`}>
                         {game.title}
@@ -46,7 +58,7 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </button>
     );
 };
 

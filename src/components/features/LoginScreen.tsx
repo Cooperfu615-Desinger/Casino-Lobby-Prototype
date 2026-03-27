@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { User, Lock, ArrowRight, UserCircle2, X, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import TermsModal from '../modals/TermsModal';
+import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import SignupModal from '../modals/SignupModal';
 
 const LoginScreen = () => {
@@ -12,9 +12,13 @@ const LoginScreen = () => {
     const [showLoginInput, setShowLoginInput] = useState(false);
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [showSignupModal, setShowSignupModal] = useState(false);
+    const [termsMode, setTermsMode] = useState<'signup' | 'readOnly'>('signup');
+    const [legalTab, setLegalTab] = useState<TermsTab>('terms');
 
     // Registration flow handlers
     const handleStartRegistration = () => {
+        setTermsMode('signup');
+        setLegalTab('terms');
         setShowTermsModal(true);
     };
 
@@ -25,6 +29,12 @@ const LoginScreen = () => {
 
     const handleSignupSuccess = () => {
         setShowSignupModal(false);
+    };
+
+    const handleOpenLegalDoc = (tab: TermsTab) => {
+        setTermsMode('readOnly');
+        setLegalTab(tab);
+        setShowTermsModal(true);
     };
 
     const handleLogin = (e: React.FormEvent) => {
@@ -83,11 +93,17 @@ const LoginScreen = () => {
 
                 {/* Footer Links */}
                 <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-8 text-xs text-white/40 z-10 font-medium tracking-wider">
-                    <a href="#" className="hover:text-white transition-colors">使用者規章</a>
+                    <button type="button" onClick={() => handleOpenLegalDoc('terms')} className="hover:text-white transition-colors">
+                        使用者規章
+                    </button>
                     <span className="text-white/20">|</span>
-                    <a href="#" className="hover:text-white transition-colors">隱私權政策</a>
+                    <button type="button" onClick={() => handleOpenLegalDoc('privacy')} className="hover:text-white transition-colors">
+                        隱私權政策
+                    </button>
                     <span className="text-white/20">|</span>
-                    <a href="#" className="hover:text-white transition-colors">服務條款</a>
+                    <button type="button" onClick={() => handleOpenLegalDoc('service')} className="hover:text-white transition-colors">
+                        服務條款
+                    </button>
                 </div>
 
                 {/* Account Login Overlay Modal */}
@@ -173,7 +189,11 @@ const LoginScreen = () => {
                 {showTermsModal && (
                     <TermsModal
                         onClose={() => setShowTermsModal(false)}
-                        onAgree={handleTermsAgreed}
+                        onAgree={termsMode === 'signup' ? handleTermsAgreed : undefined}
+                        initialTab={legalTab}
+                        title={termsMode === 'signup' ? '註冊帳號 - 條款審閱' : '平台文件總覽'}
+                        readOnly={termsMode === 'readOnly'}
+                        confirmLabel="我知道了"
                     />
                 )}
 

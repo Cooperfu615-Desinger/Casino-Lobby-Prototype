@@ -21,7 +21,9 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
             {/* Left Section: User Info + Gold Wallet */}
             <div className="flex items-center gap-6 pointer-events-auto z-50">
                 {/* User Info (Clickable) */}
-                <div
+                <button
+                    type="button"
+                    aria-label="開啟玩家資料"
                     onClick={onOpenUserModal}
                     className="flex items-center gap-4 cursor-pointer hover:brightness-110 transition-all shrink-0"
                 >
@@ -45,7 +47,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                         </span>
                         <span className="text-[#FFD700] text-sm font-mono font-bold">VIP {user?.vipLevel || 0}</span>
                     </div>
-                </div>
+                </button>
 
                 {/* Gold Wallet Only */}
                 <div

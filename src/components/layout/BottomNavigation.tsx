@@ -33,7 +33,7 @@ const RIGHT_INSET = 190;           // Dodge right promo (48 + ~72 scaled width)
 const FADE_W = 60;                // Fade mask width
 
 const BottomNavigation = () => {
-    const { currentView, navigate, bankInitialTab, chatInitialTab } = useNavigation();
+    const { currentView, navigate, bankInitialTab, chatInitialTab, eventsInitialTab } = useNavigation();
     const scrollRef = useRef<HTMLDivElement>(null);
     const isHandlingScroll = useRef(false);
 
@@ -77,8 +77,8 @@ const BottomNavigation = () => {
         if (id === 'chat') return currentView === 'chat' && chatInitialTab !== 'support';
         if (id === 'vault') return currentView === 'bank' && bankInitialTab === 'vault';
         if (id === 'bank') return currentView === 'bank' && bankInitialTab !== 'vault';
-        if (id === 'tasks') return currentView === 'events' && useNavigation().eventsInitialTab === 'daily';
-        if (id === 'events') return currentView === 'events' && useNavigation().eventsInitialTab !== 'daily';
+        if (id === 'tasks') return currentView === 'events' && eventsInitialTab === 'daily';
+        if (id === 'events') return currentView === 'events' && eventsInitialTab !== 'daily';
         return currentView === id;
     };
 

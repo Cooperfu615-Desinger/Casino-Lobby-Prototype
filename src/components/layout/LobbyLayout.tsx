@@ -6,7 +6,7 @@ import Header from './Header';
 import NotificationTicker from './NotificationTicker';
 import BottomNavigation from './BottomNavigation';
 import LobbyButtons from './LobbyButtons';
-import CategorySidebar from './CategorySidebar';
+import CategorySidebar, { LOBBY_CATEGORIES, type LobbyCategoryId } from './CategorySidebar';
 import GameGrid from './GameGrid';
 import SettingsMenu from './SettingsMenu';
 
@@ -21,6 +21,8 @@ import BankInterface from '../features/BankInterface';
 // Modals
 import UserModal from '../modals/UserModal';
 import LanguageModal from '../modals/LanguageModal';
+import TermsModal, { type TermsTab } from '../modals/TermsModal';
+import LobbyGuideModal from '../modals/LobbyGuideModal';
 
 // Types
 import type { Game } from '../../types';
@@ -35,6 +37,24 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [activeCategory, setActiveCategory] = useState<LobbyCategoryId>('all');
+    const [legalTab, setLegalTab] = useState<TermsTab | null>(null);
+    const [isGuideOpen, setGuideOpen] = useState(false);
+
+    const categoryCounts = LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
+        if (!category.gameCategory) {
+            counts[category.id] = category.id === 'all' ? 22 : 0;
+            return counts;
+        }
+
+        counts[category.id] = counts[category.id] ?? 0;
+        counts[category.id] = category.gameCategory === 'slot'
+            ? 17
+            : category.gameCategory === 'card'
+                ? 3
+                : 2;
+        return counts;
+    }, {});
 
     return (
         <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
@@ -44,9 +64,34 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
 
             {/* Modal Overlays */}
-            {isSettingsOpen && <SettingsMenu onOpenLanguage={() => setLangModalOpen(true)} />}
+            {isSettingsOpen && (
+                <>
+                    <button
+                        type="button"
+                        aria-label="關閉設定選單"
+                        className="absolute inset-0 z-[95] cursor-default"
+                        onClick={() => setSettingsOpen(false)}
+                    />
+                    <SettingsMenu
+                        onOpenLanguage={() => setLangModalOpen(true)}
+                        onOpenLegal={() => setLegalTab('terms')}
+                        onOpenGuide={() => setGuideOpen(true)}
+                        onCloseMenu={() => setSettingsOpen(false)}
+                    />
+                </>
+            )}
             {isUserModalOpen && <UserModal onClose={() => setUserModalOpen(false)} />}
             {isLangModalOpen && <LanguageModal onClose={() => setLangModalOpen(false)} />}
+            {legalTab && (
+                <TermsModal
+                    initialTab={legalTab}
+                    title="平台文件總覽"
+                    readOnly
+                    confirmLabel="我知道了"
+                    onClose={() => setLegalTab(null)}
+                />
+            )}
+            {isGuideOpen && <LobbyGuideModal onClose={() => setGuideOpen(false)} />}
 
             {/* Header */}
             <Header
@@ -62,12 +107,16 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             <CategorySidebar
                 isOpen={isCategoryOpen}
                 onToggle={() => setIsCategoryOpen(!isCategoryOpen)}
+                activeCategory={activeCategory}
+                onSelectCategory={setActiveCategory}
+                categoryCounts={categoryCounts}
             />
 
             {/* Game Grid */}
             <GameGrid
                 onPlayGame={onPlayGame}
                 isCategoryOpen={isCategoryOpen}
+                activeCategory={activeCategory}
             />
 
             {/* Lobby Floating Buttons */}
