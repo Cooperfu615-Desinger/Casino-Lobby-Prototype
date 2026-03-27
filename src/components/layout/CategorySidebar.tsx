@@ -14,6 +14,7 @@ export type LobbyCategoryId =
 export interface LobbyCategoryItem {
     id: LobbyCategoryId;
     label: string;
+    shortLabel: string;
     icon: string;
     gameCategory?: GameCategory;
 }
@@ -27,14 +28,14 @@ interface CategorySidebarProps {
 }
 
 export const LOBBY_CATEGORIES: LobbyCategoryItem[] = [
-    { id: 'all', label: '全部遊戲 (All Games)', icon: '✨' },
-    { id: 'slots', label: '老虎機 (Slots)', icon: '🎰', gameCategory: 'slot' },
-    { id: 'board', label: '棋牌 (Board/Card)', icon: '🃏', gameCategory: 'card' },
-    { id: 'arcade', label: '電子 (Arcade)', icon: '🕹️' },
-    { id: 'live', label: '真人 (Live Casino)', icon: '👩‍💼' },
-    { id: 'crash', label: 'Crash(崩潰) (Crash)', icon: '📈' },
-    { id: 'fishing', label: '魚機 (Fishing)', icon: '🎣', gameCategory: 'fish' },
-    { id: 'lottery', label: '樂透 (Lottery)', icon: '🎱' },
+    { id: 'all', label: '全部遊戲 (All Games)', shortLabel: '全部', icon: '✨' },
+    { id: 'slots', label: '老虎機 (Slots)', shortLabel: '老虎機', icon: '🎰', gameCategory: 'slot' },
+    { id: 'board', label: '棋牌 (Board/Card)', shortLabel: '棋牌', icon: '🃏', gameCategory: 'card' },
+    { id: 'arcade', label: '電子 (Arcade)', shortLabel: '電子', icon: '🕹️' },
+    { id: 'live', label: '真人 (Live Casino)', shortLabel: '真人', icon: '👩‍💼' },
+    { id: 'crash', label: 'Crash(崩潰) (Crash)', shortLabel: 'Crash', icon: '📈' },
+    { id: 'fishing', label: '魚機 (Fishing)', shortLabel: '魚機', icon: '🎣', gameCategory: 'fish' },
+    { id: 'lottery', label: '樂透 (Lottery)', shortLabel: '樂透', icon: '🎱' },
 ];
 
 const CategorySidebar = ({
@@ -46,14 +47,14 @@ const CategorySidebar = ({
 }: CategorySidebarProps) => {
     if (!isOpen) {
         return (
-            <div className="absolute top-[142px] left-6 z-30">
+            <div className="absolute top-[154px] left-3 z-30">
                 <button
                     type="button"
                     onClick={onToggle}
-                    className="flex items-center justify-center w-12 h-12 bg-[#1a0b2e]/92 backdrop-blur-md border border-[#FFD700]/30 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.35)] text-[#FFD700] hover:text-white hover:bg-[#FFD700]/20 transition-all hover:scale-105 active:scale-95"
+                    className="flex items-center justify-center w-10 h-10 bg-[#1a0b2e]/92 backdrop-blur-md border border-[#FFD700]/25 rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.32)] text-[#FFD700] hover:text-white hover:bg-[#FFD700]/15 transition-all hover:scale-105 active:scale-95"
                     aria-label="展開分類"
                 >
-                    <ChevronRight size={24} />
+                    <ChevronRight size={20} />
                 </button>
             </div>
         );
@@ -64,36 +65,29 @@ const CategorySidebar = ({
             <button
                 type="button"
                 aria-label="關閉分類選單"
-                className="absolute inset-0 bg-black/55 backdrop-blur-[3px] animate-overlay-fade-in"
+                className="absolute inset-0 animate-overlay-fade-in"
                 onClick={onToggle}
             />
 
-            <div className="absolute left-6 top-[142px] w-[340px] rounded-[28px] border border-[#FFD700]/20 bg-[#1a0b2e]/96 backdrop-blur-xl shadow-[0_28px_80px_rgba(0,0,0,0.55),0_0_50px_rgba(255,215,0,0.08)] overflow-hidden animate-category-panel-in">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,215,0,0.16),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.22),_transparent_36%)]" />
-                <div className="border-b border-white/10 bg-black/20 px-5 py-4">
-                    <div className="flex items-center justify-between gap-4">
-                        <div>
-                            <div className="text-white/60 text-[11px] font-bold uppercase tracking-[0.3em]">
-                                Game Filter
-                            </div>
-                            <div className="mt-1 text-xl font-black text-white">遊戲分類</div>
-                            <p className="mt-1 text-xs leading-relaxed text-slate-400">
-                                以覆蓋式面板展示分類，方便快速切換而不影響主畫面閱讀。
-                            </p>
-                        </div>
-                        <button
-                            type="button"
-                            onClick={onToggle}
-                            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
-                            aria-label="收合分類"
-                        >
-                            <ChevronLeft size={20} />
-                        </button>
+            <div className="absolute left-3 top-[154px] w-[116px] rounded-[22px] border border-[#FFD700]/20 bg-[#140922]/96 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.52),0_0_24px_rgba(255,215,0,0.05)] overflow-hidden animate-category-panel-in">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,215,0,0.14),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.16),_transparent_36%)]" />
+
+                <div className="relative flex items-center justify-between px-3 py-2.5 border-b border-white/10 bg-black/15">
+                    <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/55">
+                        Filter
                     </div>
+                    <button
+                        type="button"
+                        onClick={onToggle}
+                        className="flex h-6 w-6 items-center justify-center rounded-xl bg-white/5 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+                        aria-label="收合分類"
+                    >
+                        <ChevronLeft size={14} />
+                    </button>
                 </div>
 
-                <div className="relative max-h-[420px] overflow-y-auto px-4 py-4 no-scrollbar">
-                    <div className="grid grid-cols-1 gap-2.5">
+                <div className="relative max-h-[172px] overflow-y-auto px-2 py-2 no-scrollbar">
+                    <div className="grid grid-cols-1 gap-1.5">
                         {LOBBY_CATEGORIES.map((cat) => {
                             const count = categoryCounts[cat.id] ?? 0;
                             const isActive = activeCategory === cat.id;
@@ -108,20 +102,20 @@ const CategorySidebar = ({
                                         onToggle();
                                     }}
                                     aria-pressed={isActive}
-                                    className={`flex items-center gap-3 px-4 py-3.5 w-full rounded-2xl text-left text-sm font-medium transition-all group active:scale-[0.98] border ${
+                                    className={`flex items-center gap-2 px-2.5 py-2.5 w-full rounded-2xl text-left transition-all group active:scale-[0.98] border ${
                                         isActive
-                                            ? 'bg-[#FFD700]/15 text-white border-[#FFD700]/40 shadow-[0_0_20px_rgba(255,215,0,0.08)]'
+                                            ? 'bg-[#FFD700]/15 text-white border-[#FFD700]/35 shadow-[0_0_14px_rgba(255,215,0,0.08)]'
                                             : 'text-slate-300 border-transparent hover:bg-white/10 hover:text-white'
                                     }`}
                                 >
-                                    <span className="text-2xl group-hover:scale-110 transition-transform">{cat.icon}</span>
+                                    <span className="text-lg group-hover:scale-110 transition-transform">{cat.icon}</span>
                                     <div className="min-w-0 flex-1">
-                                        <div className="truncate font-bold">{cat.label}</div>
-                                        <div className={`text-[11px] mt-1 ${isPlanned ? 'text-orange-300/80' : 'text-slate-500'}`}>
-                                            {isPlanned ? 'Phase 2 規劃中' : `目前展示 ${count} 款`}
+                                        <div className="truncate text-[11px] font-bold">{cat.shortLabel}</div>
+                                        <div className={`text-[9px] mt-0.5 ${isPlanned ? 'text-orange-300/80' : 'text-slate-500'}`}>
+                                            {isPlanned ? 'P2' : `${count} 款`}
                                         </div>
                                     </div>
-                                    <span className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold ${
                                         isActive ? 'bg-[#FFD700] text-black' : 'bg-white/10 text-slate-300'
                                     }`}>
                                         {count}
@@ -132,10 +126,10 @@ const CategorySidebar = ({
                     </div>
                 </div>
 
-                <div className="border-t border-white/10 bg-black/20 px-5 py-3.5 text-xs text-slate-400">
-                    目前選擇：
-                    <span className="ml-2 font-bold text-[#FFD700]">
-                        {LOBBY_CATEGORIES.find((category) => category.id === activeCategory)?.label}
+                <div className="relative border-t border-white/10 bg-black/15 px-3 py-2 text-[9px] text-slate-400">
+                    <span className="text-white/45">目前：</span>
+                    <span className="ml-1 font-bold text-[#FFD700]">
+                        {LOBBY_CATEGORIES.find((category) => category.id === activeCategory)?.shortLabel}
                     </span>
                 </div>
             </div>
