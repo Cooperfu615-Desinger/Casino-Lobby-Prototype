@@ -69,7 +69,7 @@ const CategorySidebar = ({
                 onClick={onToggle}
             />
 
-            <div className="absolute left-3 top-[154px] w-[116px] rounded-[22px] border border-[#FFD700]/20 bg-[#140922]/96 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.52),0_0_24px_rgba(255,215,0,0.05)] overflow-hidden animate-category-panel-in">
+            <div className="absolute left-3 top-[154px] w-[250px] rounded-[16px] border border-[#FFD700]/20 bg-[#140922]/96 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.52),0_0_24px_rgba(255,215,0,0.05)] overflow-hidden animate-category-panel-in">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,215,0,0.14),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.16),_transparent_36%)]" />
 
                 <div className="relative flex items-center justify-between px-3 py-2.5 border-b border-white/10 bg-black/15">
@@ -86,8 +86,8 @@ const CategorySidebar = ({
                     </button>
                 </div>
 
-                <div className="relative max-h-[172px] overflow-y-auto px-2 py-2 no-scrollbar">
-                    <div className="grid grid-cols-1 gap-1.5">
+                <div className="relative max-h-[300px] overflow-y-auto px-2 py-2 no-scrollbar">
+                    <div className="grid grid-cols-1 gap-1.2">
                         {LOBBY_CATEGORIES.map((cat) => {
                             const count = categoryCounts[cat.id] ?? 0;
                             const isActive = activeCategory === cat.id;
@@ -102,22 +102,20 @@ const CategorySidebar = ({
                                         onToggle();
                                     }}
                                     aria-pressed={isActive}
-                                    className={`flex items-center gap-2 px-2.5 py-2.5 w-full rounded-2xl text-left transition-all group active:scale-[0.98] border ${
-                                        isActive
-                                            ? 'bg-[#FFD700]/15 text-white border-[#FFD700]/35 shadow-[0_0_14px_rgba(255,215,0,0.08)]'
-                                            : 'text-slate-300 border-transparent hover:bg-white/10 hover:text-white'
-                                    }`}
+                                    className={`flex items-center gap-2 px-2.5 py-2.5 w-full rounded-2xl text-left transition-all group active:scale-[0.98] border ${isActive
+                                        ? 'bg-[#FFD700]/15 text-white border-[#FFD700]/35 shadow-[0_0_14px_rgba(255,215,0,0.08)]'
+                                        : 'text-slate-300 border-transparent hover:bg-white/10 hover:text-white'
+                                        }`}
                                 >
                                     <span className="text-lg group-hover:scale-110 transition-transform">{cat.icon}</span>
                                     <div className="min-w-0 flex-1">
-                                        <div className="truncate text-[11px] font-bold">{cat.shortLabel}</div>
-                                        <div className={`text-[9px] mt-0.5 ${isPlanned ? 'text-orange-300/80' : 'text-slate-500'}`}>
+                                        <div className="truncate text-[13px] font-bold">{cat.shortLabel}</div>
+                                        <div className={`text-[12px] mt-0.5 ${isPlanned ? 'text-orange-300/80' : 'text-slate-500'}`}>
                                             {isPlanned ? 'P2' : `${count} 款`}
                                         </div>
                                     </div>
-                                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold ${
-                                        isActive ? 'bg-[#FFD700] text-black' : 'bg-white/10 text-slate-300'
-                                    }`}>
+                                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[12px] font-bold ${isActive ? 'bg-[#FFD700] text-black' : 'bg-white/10 text-slate-300'
+                                        }`}>
                                         {count}
                                     </span>
                                 </button>
