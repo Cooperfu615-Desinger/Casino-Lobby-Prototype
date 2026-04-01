@@ -9,11 +9,17 @@ interface GameGridProps {
     activeCategory: LobbyCategoryId;
 }
 
+const ACTIVE_EVENT_GAME_IDS = new Set([2, 5, 8, 10, 14, 21]);
+
 const GameGrid = ({ onPlayGame, activeCategory }: GameGridProps) => {
     const selectedCategory = LOBBY_CATEGORIES.find((category) => category.id === activeCategory) ?? LOBBY_CATEGORIES[0];
-    const filteredGames = !selectedCategory.gameCategory
-        ? (activeCategory === 'all' ? GAMES : [])
-        : GAMES.filter((game) => game.category === selectedCategory.gameCategory);
+    const filteredGames = activeCategory === 'all'
+        ? GAMES
+        : activeCategory === 'event'
+            ? GAMES.filter((game) => ACTIVE_EVENT_GAME_IDS.has(game.id))
+            : selectedCategory.gameCategory
+                ? GAMES.filter((game) => game.category === selectedCategory.gameCategory)
+                : [];
     const jackpotCount = filteredGames.filter((game) => game.hasJackpot).length;
 
     return (
@@ -36,7 +42,9 @@ const GameGrid = ({ onPlayGame, activeCategory }: GameGridProps) => {
                     </div>
                     <p className="mt-2 text-sm text-slate-400">
                         {filteredGames.length > 0
-                            ? '此區塊可作為美術與前端對照不同遊戲分類的卡片樣式、資訊層與互動狀態。'
+                            ? activeCategory === 'event'
+                                ? '此區塊用來展示目前正在活動檔期中的遊戲，方便對照活動館別、活動標籤與推薦邏輯。'
+                                : '此區塊可作為美術與前端對照不同遊戲分類的卡片樣式、資訊層與互動狀態。'
                             : '此分類目前保留作為 Phase 2 內容坑位，方便後續擴充遊戲館別與後台配置。'}
                     </p>
                 </div>

@@ -43,7 +43,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
 
     const categoryCounts = LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
         if (!category.gameCategory) {
-            counts[category.id] = category.id === 'all' ? 22 : 0;
+            counts[category.id] = category.id === 'all' ? 22 : category.id === 'event' ? 6 : 0;
             return counts;
         }
 

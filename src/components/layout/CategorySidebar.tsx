@@ -3,6 +3,7 @@ import type { GameCategory } from '../../types';
 
 export type LobbyCategoryId =
     | 'all'
+    | 'event'
     | 'slots'
     | 'board'
     | 'arcade'
@@ -29,6 +30,7 @@ interface CategorySidebarProps {
 
 export const LOBBY_CATEGORIES: LobbyCategoryItem[] = [
     { id: 'all', label: '全部遊戲 (All Games)', shortLabel: '全部', icon: '✨' },
+    { id: 'event', label: '活動 (Event Games)', shortLabel: '活動', icon: '🔥' },
     { id: 'slots', label: '老虎機 (Slots)', shortLabel: '老虎機', icon: '🎰', gameCategory: 'slot' },
     { id: 'board', label: '棋牌 (Board/Card)', shortLabel: '棋牌', icon: '🃏', gameCategory: 'card' },
     { id: 'arcade', label: '電子 (Arcade)', shortLabel: '電子', icon: '🕹️' },
@@ -61,12 +63,10 @@ const CategorySidebar = ({
     }
 
     return (
-        <div className="absolute inset-0 z-40">
-            <button
-                type="button"
-                aria-label="關閉分類選單"
+        <div className="absolute inset-0 z-[120]">
+            <div
+                aria-hidden="true"
                 className="absolute inset-0 animate-overlay-fade-in"
-                onClick={onToggle}
             />
 
             <div className="absolute left-3 top-[154px] w-[250px] rounded-[16px] border border-[#FFD700]/20 bg-[#140922]/96 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.52),0_0_24px_rgba(255,215,0,0.05)] overflow-hidden animate-category-panel-in">
@@ -97,10 +97,7 @@ const CategorySidebar = ({
                                 <button
                                     key={cat.id}
                                     type="button"
-                                    onClick={() => {
-                                        onSelectCategory(cat.id);
-                                        onToggle();
-                                    }}
+                                    onClick={() => onSelectCategory(cat.id)}
                                     aria-pressed={isActive}
                                     className={`flex items-center gap-2 px-2.5 py-2.5 w-full rounded-2xl text-left transition-all group active:scale-[0.98] border ${isActive
                                         ? 'bg-[#FFD700]/15 text-white border-[#FFD700]/35 shadow-[0_0_14px_rgba(255,215,0,0.08)]'
