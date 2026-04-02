@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight, Globe } from 'lucide-react';
+import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight, Globe, SunMoon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAudio } from '../../context/AudioContext';
+import { useUserPreferences } from '../../context/UserPreferencesContext';
 
 interface SettingsMenuProps {
     onOpenLanguage: () => void;
@@ -12,6 +13,7 @@ interface SettingsMenuProps {
 
 const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onOpenGuide, onCloseMenu }: SettingsMenuProps) => {
     const { isMusicEnabled, isSoundEnabled, toggleMusic, toggleSound } = useAudio();
+    const { themeMode, toggleThemeMode } = useUserPreferences();
     const [push, setPush] = useState(true);
     const { logout } = useAuth();
 
@@ -44,6 +46,20 @@ const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onOpenGuide, onCloseMenu }:
                     </div>
                     <button onClick={() => setPush(!push)} className="text-[#FFD700] hover:scale-110 transition-transform">
                         {push ? <ToggleRight size={32} fill="currentColor" /> : <ToggleLeft size={32} className="text-slate-500" />}
+                    </button>
+                </div>
+                <div className="px-4 py-3 flex items-center justify-between hover:bg-white/5 rounded-xl transition-colors">
+                    <div className="flex items-center gap-3 text-white">
+                        <SunMoon size={18} className="text-[#FFD700]" />
+                        <div className="flex flex-col">
+                            <span className="text-sm font-bold">日夜切換</span>
+                            <span className="text-[10px] text-slate-500">
+                                {themeMode === 'night' ? '目前：夜景模式' : '目前：日景模式'}
+                            </span>
+                        </div>
+                    </div>
+                    <button onClick={toggleThemeMode} className="text-[#FFD700] hover:scale-110 transition-transform">
+                        {themeMode === 'day' ? <ToggleRight size={32} fill="currentColor" /> : <ToggleLeft size={32} className="text-slate-500" />}
                     </button>
                 </div>
 

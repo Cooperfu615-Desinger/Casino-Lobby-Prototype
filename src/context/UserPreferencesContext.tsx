@@ -30,12 +30,14 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 
 /** 支援的語言代碼 */
 export type Language = 'zh-TW' | 'en' | 'ja';
+export type ThemeMode = 'night' | 'day';
 
 /** 用戶偏好設定介面 */
 export interface UserPreferences {
     language: Language;
     soundEnabled: boolean;
     musicEnabled: boolean;
+    themeMode: ThemeMode;
 }
 
 /** Context 提供的方法與狀態 */
@@ -45,6 +47,8 @@ interface UserPreferencesContextType extends UserPreferences {
     toggleMusic: () => void;
     setSoundEnabled: (enabled: boolean) => void;
     setMusicEnabled: (enabled: boolean) => void;
+    toggleThemeMode: () => void;
+    setThemeMode: (mode: ThemeMode) => void;
 }
 
 // ============================================================================
@@ -58,6 +62,7 @@ const DEFAULT_PREFERENCES: UserPreferences = {
     language: 'zh-TW',
     soundEnabled: true,
     musicEnabled: true,
+    themeMode: 'night',
 };
 
 // ============================================================================
@@ -77,6 +82,7 @@ const loadPreferences = (): UserPreferences => {
                 language: parsed.language ?? DEFAULT_PREFERENCES.language,
                 soundEnabled: parsed.soundEnabled ?? DEFAULT_PREFERENCES.soundEnabled,
                 musicEnabled: parsed.musicEnabled ?? DEFAULT_PREFERENCES.musicEnabled,
+                themeMode: parsed.themeMode ?? DEFAULT_PREFERENCES.themeMode,
             };
         }
     } catch (error) {
@@ -166,6 +172,27 @@ export const UserPreferencesProvider = ({ children }: { children: ReactNode }) =
     }, []);
 
     // --------------------------------------------------------------------------
+    // Theme Methods
+    // --------------------------------------------------------------------------
+
+    /**
+     * 切換日夜模式
+     */
+    const toggleThemeMode = useCallback(() => {
+        setPreferences(prev => ({
+            ...prev,
+            themeMode: prev.themeMode === 'night' ? 'day' : 'night',
+        }));
+    }, []);
+
+    /**
+     * 設定日夜模式
+     */
+    const setThemeMode = useCallback((mode: ThemeMode) => {
+        setPreferences(prev => ({ ...prev, themeMode: mode }));
+    }, []);
+
+    // --------------------------------------------------------------------------
     // Context Value
     // --------------------------------------------------------------------------
 
@@ -174,12 +201,15 @@ export const UserPreferencesProvider = ({ children }: { children: ReactNode }) =
         language: preferences.language,
         soundEnabled: preferences.soundEnabled,
         musicEnabled: preferences.musicEnabled,
+        themeMode: preferences.themeMode,
         // Methods
         setLanguage,
         toggleSound,
         toggleMusic,
         setSoundEnabled,
         setMusicEnabled,
+        toggleThemeMode,
+        setThemeMode,
     };
 
     return (

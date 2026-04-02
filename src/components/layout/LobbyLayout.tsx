@@ -23,6 +23,7 @@ import UserModal from '../modals/UserModal';
 import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import LobbyGuideModal from '../modals/LobbyGuideModal';
+import { useUserPreferences } from '../../context/UserPreferencesContext';
 
 // Types
 import type { Game } from '../../types';
@@ -33,6 +34,7 @@ interface LobbyLayoutProps {
 
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const { currentView, chatInitialTab, bankInitialTab, eventsInitialTab, goToGames } = useNavigation();
+    const { themeMode } = useUserPreferences();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
@@ -56,12 +58,20 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
         return counts;
     }, {});
 
+    const backgroundGradient = themeMode === 'day'
+        ? 'from-[#6dcbff] via-[#8b7bff] to-[#f4c36f]'
+        : 'from-[#4B0082] via-[#240046] to-[#100020]';
+    const ambientGlow = themeMode === 'day'
+        ? 'bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.28),_transparent_34%),radial-gradient(circle_at_bottom_left,_rgba(255,213,128,0.18),_transparent_30%)]'
+        : 'bg-[radial-gradient(circle_at_top_right,_rgba(255,215,0,0.12),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(168,85,247,0.16),_transparent_32%)]';
+
     return (
         <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
 
             {/* Background Texture */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#4B0082] via-[#240046] to-[#100020]"></div>
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+            <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${backgroundGradient}`}></div>
+            <div className={`absolute inset-0 ${ambientGlow}`}></div>
+            <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] ${themeMode === 'day' ? 'opacity-10 mix-blend-soft-light' : 'opacity-20'}`}></div>
 
             {/* Modal Overlays */}
             {isSettingsOpen && (
