@@ -23,10 +23,12 @@ import UserModal from '../modals/UserModal';
 import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import LobbyGuideModal from '../modals/LobbyGuideModal';
+import GameLaunchModal from '../modals/GameLaunchModal';
+import SeatSelectionModal from '../modals/SeatSelectionModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
 
 // Types
-import type { Game } from '../../types';
+import type { Game, GameSeat } from '../../types';
 
 interface LobbyLayoutProps {
     onPlayGame: (game: Game) => void;
@@ -42,6 +44,8 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [activeCategory, setActiveCategory] = useState<LobbyCategoryId>('all');
     const [legalTab, setLegalTab] = useState<TermsTab | null>(null);
     const [isGuideOpen, setGuideOpen] = useState(false);
+    const [launchGame, setLaunchGame] = useState<Game | null>(null);
+    const [seatSelectionGame, setSeatSelectionGame] = useState<Game | null>(null);
 
     const categoryCounts = LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
         if (!category.gameCategory) {
@@ -64,6 +68,28 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const ambientGlow = themeMode === 'day'
         ? 'bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.28),_transparent_34%),radial-gradient(circle_at_bottom_left,_rgba(255,213,128,0.18),_transparent_30%)]'
         : 'bg-[radial-gradient(circle_at_top_right,_rgba(255,215,0,0.12),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(168,85,247,0.16),_transparent_32%)]';
+
+    const handleGameCardClick = (game: Game) => {
+        setLaunchGame(game);
+    };
+
+    const handleQuickPlay = () => {
+        if (!launchGame) return;
+        onPlayGame(launchGame);
+        setLaunchGame(null);
+    };
+
+    const handleOpenSeatSelection = () => {
+        if (!launchGame) return;
+        setSeatSelectionGame(launchGame);
+        setLaunchGame(null);
+    };
+
+    const handleEnterSeat = (_seat: GameSeat) => {
+        if (!seatSelectionGame) return;
+        onPlayGame(seatSelectionGame);
+        setSeatSelectionGame(null);
+    };
 
     return (
         <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
@@ -102,6 +128,21 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
                 />
             )}
             {isGuideOpen && <LobbyGuideModal onClose={() => setGuideOpen(false)} />}
+            {launchGame && (
+                <GameLaunchModal
+                    game={launchGame}
+                    onQuickPlay={handleQuickPlay}
+                    onChooseSeat={handleOpenSeatSelection}
+                    onClose={() => setLaunchGame(null)}
+                />
+            )}
+            {seatSelectionGame && (
+                <SeatSelectionModal
+                    game={seatSelectionGame}
+                    onClose={() => setSeatSelectionGame(null)}
+                    onEnterSeat={handleEnterSeat}
+                />
+            )}
 
             {/* Header */}
             <Header
@@ -124,7 +165,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
 
             {/* Game Grid */}
             <GameGrid
-                onPlayGame={onPlayGame}
+                onPlayGame={handleGameCardClick}
                 activeCategory={activeCategory}
             />
 

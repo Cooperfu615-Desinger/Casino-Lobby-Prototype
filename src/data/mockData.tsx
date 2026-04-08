@@ -2,7 +2,7 @@
 import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
-import type { Game } from '../types/game';
+import type { Game, GameSeat } from '../types/game';
 import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
@@ -45,6 +45,53 @@ export const GAMES: Game[] = [
     { id: 21, title: 'Cowboy Duel', category: 'card', image: 'bg-orange-950', icon: '🤠' },
     { id: 22, title: 'Deep Sea Pearl', category: 'fish', image: 'bg-blue-950', icon: '🐚' },
 ];
+
+const OCCUPIED_SEAT_IDS = new Set([
+    '003', '011', '016', '023', '029', '034', '041', '049', '057', '062', '071', '079',
+]);
+
+const formatSeatNo = (value: number) => value.toString().padStart(3, '0');
+
+const createSeatRecord = (page: number, index: number): GameSeat => {
+    const seatIndex = (page - 1) * 28 + index + 1;
+    const seatNo = formatSeatNo(seatIndex);
+    const baseRtp = 95 + (((page * 41) + (index * 17)) % 420) / 100;
+    const baseHitRate = 22 + (((page * 9) + (index * 5)) % 160) / 10;
+    const totalBetBase = 5800000 + seatIndex * 91357;
+
+    return {
+        id: `seat-${seatNo}`,
+        page,
+        seatNo,
+        rtp: Number(baseRtp.toFixed(2)),
+        isOccupied: OCCUPIED_SEAT_IDS.has(seatNo),
+        occupantName: OCCUPIED_SEAT_IDS.has(seatNo) ? `Player_${seatNo}` : undefined,
+        freeGame: {
+            unopened: (seatIndex * 3) % 8,
+            previousOne: 28 + ((seatIndex * 19) % 240),
+            previousTwo: 55 + ((seatIndex * 31) % 360),
+        },
+        rtpAverage: {
+            today: Number((baseRtp - 0.34 + (index % 3) * 0.21).toFixed(2)),
+            threeDay: Number((baseRtp + 0.62 - (page % 2) * 0.15).toFixed(2)),
+            sevenDay: Number((baseRtp - 0.48 + (seatIndex % 5) * 0.18).toFixed(2)),
+        },
+        hitRate: {
+            today: Number((baseHitRate - 1.2 + (page % 3) * 0.9).toFixed(2)),
+            threeDay: Number((baseHitRate + 0.8).toFixed(2)),
+            sevenDay: Number((baseHitRate + 2.1 - (index % 4) * 0.4).toFixed(2)),
+        },
+        totalBet: {
+            today: totalBetBase,
+            threeDay: totalBetBase * 3 + seatIndex * 54000,
+            sevenDay: totalBetBase * 7 + seatIndex * 195000,
+        },
+    };
+};
+
+export const GAME_SEATS: GameSeat[] = Array.from({ length: 3 }, (_, pageIndex) =>
+    Array.from({ length: 28 }, (_, seatIndex) => createSeatRecord(pageIndex + 1, seatIndex))
+).flat();
 
 export const FRIENDS: Friend[] = [
     { id: 1, name: 'Jessica_99', avatar: 'bg-pink-500', status: 'online', lastMsg: '要一起玩嗎？' },

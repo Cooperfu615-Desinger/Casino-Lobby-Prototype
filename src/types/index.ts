@@ -1,7 +1,7 @@
 // Unified type exports
 
 // Game
-export type { Game, GameCategory } from './game';
+export type { Game, GameCategory, GameSeat, SeatTrendMetric, SeatFreeGameStats } from './game';
 
 // User
 export type { Friend, OnlinePlayer, FriendStatus } from './user';
