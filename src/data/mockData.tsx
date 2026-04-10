@@ -3,7 +3,7 @@ import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
 import type { Game, GameSeat } from '../types/game';
-import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile } from '../types/user';
+import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile, VIPLevelRule } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 import type { EventItem, GiftItem } from '../types/event';
@@ -284,7 +284,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     { id: 3, title: '財星高照', description: '累積贏分達 1,000,000', icon: '💎', achieved: true, claimed: false, condition: '贏分累計達 1M', reward: 100000 },
     { id: 4, title: '日進斗金', description: '連續登入 7 天', icon: '🔥', achieved: true, claimed: false, condition: '連續登入 7 天', reward: 77777 },
     { id: 5, title: '富可敵國', description: '累積贏分達 10,000,000', icon: '👑', achieved: false, claimed: false, condition: '贏分累計達 10M', reward: 500000 },
-    { id: 6, title: '傳奇玩家', description: '達到 VIP 等級 20', icon: '⭐', achieved: false, claimed: false, condition: 'VIP 等級達 20', reward: 1000000 }
+    { id: 6, title: '傳奇玩家', description: '達到 VIP 等級 10', icon: '⭐', achieved: false, claimed: false, condition: 'VIP 等級達 10', reward: 1000000 }
 ];
 
 export const VIP_PRIVILEGES: VIPPrivilege[] = [
@@ -292,6 +292,141 @@ export const VIP_PRIVILEGES: VIPPrivilege[] = [
     { id: 2, title: '每日登入禮金加成', description: '每日登入禮金 +10%', icon: '💰' },
     { id: 3, title: '專屬客服', description: '優先處理通道', icon: '🎧' },
     { id: 4, title: '特殊活動資格', description: 'VIP 專屬活動邀請', icon: '🎪' }
+];
+
+export const VIP_LEVEL_RULES: VIPLevelRule[] = [
+    {
+        level: 0,
+        requiredDeposit: 0,
+        requiredBet: 0,
+        rewards: [
+            { label: '送銀幣', value: '5,000' },
+            { label: '手續費減免', value: '0%' },
+            { label: '月月收獎', value: '未開放' },
+            { label: '發財金', value: '8,888' },
+            { label: '登入禮', value: '每日 1,000' },
+        ],
+    },
+    {
+        level: 1,
+        requiredDeposit: 5000,
+        requiredBet: 120000,
+        rewards: [
+            { label: '送銀幣', value: '15,000' },
+            { label: '手續費減免', value: '1%' },
+            { label: '月月收獎', value: '每月 1 次' },
+            { label: '發財金', value: '18,888' },
+            { label: '登入禮', value: '每日 1,500' },
+        ],
+    },
+    {
+        level: 2,
+        requiredDeposit: 12000,
+        requiredBet: 350000,
+        rewards: [
+            { label: '送銀幣', value: '35,000' },
+            { label: '手續費減免', value: '2%' },
+            { label: '月月收獎', value: '每月 1 次' },
+            { label: '發財金', value: '28,888' },
+            { label: '登入禮', value: '每日 2,000' },
+        ],
+    },
+    {
+        level: 3,
+        requiredDeposit: 25000,
+        requiredBet: 800000,
+        rewards: [
+            { label: '送銀幣', value: '60,000' },
+            { label: '手續費減免', value: '3%' },
+            { label: '月月收獎', value: '每月 2 次' },
+            { label: '發財金', value: '38,888' },
+            { label: '登入禮', value: '每日 3,000' },
+        ],
+    },
+    {
+        level: 4,
+        requiredDeposit: 45000,
+        requiredBet: 1400000,
+        rewards: [
+            { label: '送銀幣', value: '90,000' },
+            { label: '手續費減免', value: '4%' },
+            { label: '月月收獎', value: '每月 2 次' },
+            { label: '發財金', value: '58,888' },
+            { label: '登入禮', value: '每日 4,000' },
+        ],
+    },
+    {
+        level: 5,
+        requiredDeposit: 70000,
+        requiredBet: 2100000,
+        rewards: [
+            { label: '送銀幣', value: '130,000' },
+            { label: '手續費減免', value: '5%' },
+            { label: '月月收獎', value: '每月 3 次' },
+            { label: '發財金', value: '88,888' },
+            { label: '登入禮', value: '每日 5,500' },
+        ],
+    },
+    {
+        level: 6,
+        requiredDeposit: 105000,
+        requiredBet: 3000000,
+        rewards: [
+            { label: '送銀幣', value: '180,000' },
+            { label: '手續費減免', value: '6%' },
+            { label: '月月收獎', value: '每月 3 次' },
+            { label: '發財金', value: '128,888' },
+            { label: '登入禮', value: '每日 7,000' },
+        ],
+    },
+    {
+        level: 7,
+        requiredDeposit: 150000,
+        requiredBet: 4200000,
+        rewards: [
+            { label: '送銀幣', value: '240,000' },
+            { label: '手續費減免', value: '7%' },
+            { label: '月月收獎', value: '每月 4 次' },
+            { label: '發財金', value: '168,888' },
+            { label: '登入禮', value: '每日 8,500' },
+        ],
+    },
+    {
+        level: 8,
+        requiredDeposit: 210000,
+        requiredBet: 5600000,
+        rewards: [
+            { label: '送銀幣', value: '320,000' },
+            { label: '手續費減免', value: '8%' },
+            { label: '月月收獎', value: '每月 4 次' },
+            { label: '發財金', value: '228,888' },
+            { label: '登入禮', value: '每日 10,000' },
+        ],
+    },
+    {
+        level: 9,
+        requiredDeposit: 280000,
+        requiredBet: 7300000,
+        rewards: [
+            { label: '送銀幣', value: '420,000' },
+            { label: '手續費減免', value: '9%' },
+            { label: '月月收獎', value: '每月 5 次' },
+            { label: '發財金', value: '288,888' },
+            { label: '登入禮', value: '每日 12,500' },
+        ],
+    },
+    {
+        level: 10,
+        requiredDeposit: 360000,
+        requiredBet: 9200000,
+        rewards: [
+            { label: '送銀幣', value: '550,000' },
+            { label: '手續費減免', value: '10%' },
+            { label: '月月收獎', value: '每月 6 次' },
+            { label: '發財金', value: '388,888' },
+            { label: '登入禮', value: '每日 15,000' },
+        ],
+    },
 ];
 
 export const getMockPlayerProfile = (name: string): PlayerProfile => {
@@ -304,7 +439,7 @@ export const getMockPlayerProfile = (name: string): PlayerProfile => {
         name,
         avatar: friendData?.avatar || onlineData?.avatar || 'bg-slate-700',
         level: onlineData?.level || Math.floor(Math.random() * 50) + 1,
-        vipLevel: Math.floor(Math.random() * 5) + 1,
+        vipLevel: Math.floor(Math.random() * 11),
         bio: isFriend ? '我們已經是好友了，一起來玩吧！' : '我是個熱愛老虎機的玩家，希望能多交點朋友。',
         recentGames: [
             { id: 1, name: 'Ace Blackjack', image: 'bg-red-900' },

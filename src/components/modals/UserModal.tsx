@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { X, User as UserIcon, Crown, Camera, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
+import { X, User as UserIcon, Crown, Camera, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
-import { USER_STATS, ACHIEVEMENTS, VIP_PRIVILEGES, type Achievement } from '../../data/mockData';
+import { USER_STATS, ACHIEVEMENTS, VIP_LEVEL_RULES, type Achievement } from '../../data/mockData';
 
 interface UserModalProps {
     onClose: () => void;
@@ -38,6 +38,19 @@ const UserModal = ({ onClose }: UserModalProps) => {
     const [email, setEmail] = useState('user@example.com');
     const [password, setPassword] = useState('********');
 
+    const currentVipLevel = Math.max(0, Math.min(user?.vipLevel ?? 0, 10));
+    const currentVipRule = VIP_LEVEL_RULES.find((rule) => rule.level === currentVipLevel) ?? VIP_LEVEL_RULES[0];
+    const nextVipRule = VIP_LEVEL_RULES.find((rule) => rule.level === Math.min(currentVipLevel + 1, 10)) ?? currentVipRule;
+    const currentDeposit = user?.vipDepositTotal ?? 0;
+    const currentBet = user?.vipBetTotal ?? 0;
+    const depositProgress = nextVipRule.requiredDeposit > 0
+        ? Math.min((currentDeposit / nextVipRule.requiredDeposit) * 100, 100)
+        : 100;
+    const betProgress = nextVipRule.requiredBet > 0
+        ? Math.min((currentBet / nextVipRule.requiredBet) * 100, 100)
+        : 100;
+    const isMaxVipLevel = currentVipLevel >= 10;
+
     const handleSave = () => {
         setIsLoading(true);
         setTimeout(() => {
@@ -58,11 +71,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
             showToast('領取獎勵成功！', 'success');
         }, 500);
     };
-
-    // VIP Progress: Level 15 -> 16, 75%
-    const vipProgress = 75;
-    const currentExp = 75000;
-    const requiredExp = 100000;
 
     // Binding confirmation handler
     const handleBindConfirm = () => {
@@ -228,26 +236,36 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                                     onClick={() => setShowVipPrivileges(true)}
                                                     className="text-black font-black text-3xl italic hover:underline cursor-pointer"
                                                 >
-                                                    VIP 15
+                                                    VIP {currentVipLevel}
                                                 </button>
                                             </div>
                                             <div className="bg-black/20 text-black font-bold px-3 py-1 rounded-lg backdrop-blur-sm text-xs">
-                                                特權已激活
+                                                {isMaxVipLevel ? '最高等級' : `目標 VIP ${nextVipRule.level}`}
                                             </div>
                                         </div>
 
-                                        <div className="relative z-10">
-                                            <div className="flex justify-between text-xs font-bold text-black/70 mb-1">
-                                                <span>升級進度 → VIP 16</span>
-                                                <span>{currentExp.toLocaleString()} / {requiredExp.toLocaleString()} ({vipProgress}%)</span>
-                                            </div>
-                                            <div className="h-3 bg-black/20 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full bg-white rounded-full transition-all duration-500"
-                                                    style={{ width: `${vipProgress}%` }}
-                                                ></div>
-                                            </div>
-                                            <p className="text-xs text-black/60 mt-1">再獲得 {(requiredExp - currentExp).toLocaleString()} 經驗值即可升級</p>
+                                        <div className="relative z-10 space-y-3">
+                                            <VipProgressRow
+                                                icon={<Wallet size={16} className="text-black/70" />}
+                                                label="累積儲值"
+                                                currentValue={currentDeposit}
+                                                targetValue={nextVipRule.requiredDeposit}
+                                                progress={depositProgress}
+                                                isMaxLevel={isMaxVipLevel}
+                                            />
+                                            <VipProgressRow
+                                                icon={<TrendingUp size={16} className="text-black/70" />}
+                                                label="累積投注"
+                                                currentValue={currentBet}
+                                                targetValue={nextVipRule.requiredBet}
+                                                progress={betProgress}
+                                                isMaxLevel={isMaxVipLevel}
+                                            />
+                                            <p className="text-xs text-black/65">
+                                                {isMaxVipLevel
+                                                    ? '已達 VIP 10，當前享有最高等級獎勵與權益。'
+                                                    : `需同時達成累積儲值與累積投注條件，即可升級至 VIP ${nextVipRule.level}。`}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -577,7 +595,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     onClick={() => setShowVipPrivileges(false)}
                 >
                     <div
-                        className="bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-[#FFD700]/30 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200"
+                        className="bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-[#FFD700]/30 shadow-2xl max-w-4xl w-full mx-4 animate-in zoom-in-95 duration-200 max-h-[80vh] overflow-hidden flex flex-col"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center gap-3 mb-4">
@@ -585,18 +603,42 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                 <Crown size={24} className="text-black" />
                             </div>
                             <div>
-                                <div className="text-[#FFD700] font-black text-xl">VIP 15</div>
-                                <div className="text-slate-400 text-xs">當前等級特權</div>
+                                <div className="text-[#FFD700] font-black text-xl">VIP 等級說明</div>
+                                <div className="text-slate-400 text-xs">顯示 VIP 0 ~ VIP 10 的升級條件與對應獎勵</div>
                             </div>
                         </div>
 
-                        <div className="space-y-3">
-                            {VIP_PRIVILEGES.map((privilege) => (
-                                <div key={privilege.id} className="flex items-center gap-3 bg-white/5 rounded-lg p-3 border border-white/10">
-                                    <span className="text-2xl">{privilege.icon}</span>
-                                    <div>
-                                        <div className="text-white font-bold text-sm">{privilege.title}</div>
-                                        <div className="text-slate-400 text-xs">{privilege.description}</div>
+                        <div className="overflow-y-auto custom-scrollbar pr-1 space-y-3">
+                            {VIP_LEVEL_RULES.map((rule) => (
+                                <div
+                                    key={rule.level}
+                                    className={`rounded-xl border p-4 ${rule.level === currentVipLevel
+                                        ? 'border-[#FFD700]/50 bg-[#FFD700]/10'
+                                        : 'border-white/10 bg-white/5'}`}
+                                >
+                                    <div className="flex items-start justify-between gap-4">
+                                        <div>
+                                            <div className="text-[#FFD700] font-black text-lg">VIP {rule.level}</div>
+                                            <div className="mt-1 text-xs text-slate-400">
+                                                {rule.level === currentVipLevel ? '目前等級' : `升級目標等級`}
+                                            </div>
+                                        </div>
+                                        <div className="text-right text-xs text-slate-400">
+                                            <div>累積儲值：<span className="font-bold text-white">{rule.requiredDeposit.toLocaleString()}</span></div>
+                                            <div className="mt-1">累積投注：<span className="font-bold text-white">{rule.requiredBet.toLocaleString()}</span></div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                                        {rule.rewards.map((reward) => (
+                                            <div key={`${rule.level}-${reward.label}`} className="rounded-lg bg-black/20 p-3 border border-white/5">
+                                                <div className="flex items-center gap-2 text-[#FFD700] text-xs font-bold">
+                                                    {getRewardIcon(reward.label)}
+                                                    <span>{reward.label}</span>
+                                                </div>
+                                                <div className="mt-2 text-sm font-black text-white">{reward.value}</div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             ))}
@@ -613,6 +655,54 @@ const UserModal = ({ onClose }: UserModalProps) => {
             )}
         </div>
     );
+};
+
+interface VipProgressRowProps {
+    icon: ReactNode;
+    label: string;
+    currentValue: number;
+    targetValue: number;
+    progress: number;
+    isMaxLevel: boolean;
+}
+
+const VipProgressRow = ({ icon, label, currentValue, targetValue, progress, isMaxLevel }: VipProgressRowProps) => (
+    <div className="rounded-xl bg-black/15 px-4 py-3 backdrop-blur-sm">
+        <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-black/80">
+                {icon}
+                <span className="text-sm font-bold">{label}</span>
+            </div>
+            <span className="text-xs font-bold text-black/70">
+                {isMaxLevel
+                    ? `${currentValue.toLocaleString()} / MAX`
+                    : `${currentValue.toLocaleString()} / ${targetValue.toLocaleString()}`}
+            </span>
+        </div>
+        <div className="mt-2 h-2.5 rounded-full bg-black/20 overflow-hidden">
+            <div
+                className="h-full rounded-full bg-white transition-all duration-500"
+                style={{ width: `${isMaxLevel ? 100 : progress}%` }}
+            />
+        </div>
+    </div>
+);
+
+const getRewardIcon = (label: string) => {
+    switch (label) {
+        case '送銀幣':
+            return <Coins size={14} />;
+        case '手續費減免':
+            return <Percent size={14} />;
+        case '月月收獎':
+            return <CalendarDays size={14} />;
+        case '發財金':
+            return <HandCoins size={14} />;
+        case '登入禮':
+            return <Gift size={14} />;
+        default:
+            return <Crown size={14} />;
+    }
 };
 
 export default UserModal;

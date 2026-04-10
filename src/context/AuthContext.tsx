@@ -5,6 +5,8 @@ export interface User {
     name: string;
     avatar: string; // Tailwind class for background color
     vipLevel: number;
+    vipDepositTotal: number;
+    vipBetTotal: number;
     balance: CurrencyBalance;
     vault_gold: number; // New: Gold in the vault
     id: string;
@@ -31,7 +33,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const mockUser: User = {
             name: username || '奧黛麗一本123456789',
             avatar: 'bg-gradient-to-br from-pink-400 to-purple-500',
-            vipLevel: 7,
+            vipLevel: 6,
+            vipDepositTotal: 128000,
+            vipBetTotal: 3560000,
             balance: {
                 gold: 1000,
                 silver: 50000,
@@ -49,6 +53,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             name: 'Guest_' + Math.floor(Math.random() * 10000),
             avatar: 'bg-gradient-to-br from-gray-400 to-gray-600',
             vipLevel: 0,
+            vipDepositTotal: 0,
+            vipBetTotal: 0,
             balance: {
                 gold: 10,
                 silver: 1000,

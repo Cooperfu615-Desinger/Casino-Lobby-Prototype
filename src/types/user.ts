@@ -68,3 +68,15 @@ export interface VIPPrivilege {
     description: string;
     icon: string; // emoji
 }
+
+export interface VIPRewardItem {
+    label: string;
+    value: string;
+}
+
+export interface VIPLevelRule {
+    level: number;
+    requiredDeposit: number;
+    requiredBet: number;
+    rewards: VIPRewardItem[];
+}
