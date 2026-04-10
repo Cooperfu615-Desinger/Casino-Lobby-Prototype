@@ -30,7 +30,7 @@ const NAV_H = 100;                // Enough for 42px icon + padding + label
 const BOTTOM = 40;                // Bottom offset in px
 const LEFT_INSET = 190;           // Dodge left promo (48 + ~72 scaled width)
 const RIGHT_INSET = 190;           // Dodge right promo (48 + ~72 scaled width)
-const FADE_W = 60;                // Fade mask width
+const FADE_W = 92;                // Fade mask width
 
 const BottomNavigation = () => {
     const { currentView, navigate, bankInitialTab, chatInitialTab, eventsInitialTab } = useNavigation();
@@ -117,7 +117,30 @@ const BottomNavigation = () => {
             }}
         >
             {/* Scroll viewport — clips buttons outside the 8-slot window */}
-            <div className="relative w-full h-full overflow-hidden pointer-events-auto">
+            <div
+                className="relative w-full h-full overflow-hidden pointer-events-auto rounded-[28px]"
+                style={{
+                    maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.65) 8%, black 18%, black 82%, rgba(0,0,0,0.65) 92%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.65) 8%, black 18%, black 82%, rgba(0,0,0,0.65) 92%, transparent 100%)',
+                }}
+            >
+                <div
+                    className="absolute inset-y-0 left-0 pointer-events-none z-10"
+                    style={{
+                        width: `${FADE_W}px`,
+                        background: 'linear-gradient(to right, rgba(28,10,48,0.68) 0%, rgba(28,10,48,0.32) 42%, rgba(28,10,48,0.08) 76%, transparent 100%)',
+                        filter: 'blur(10px)',
+                    }}
+                />
+                <div
+                    className="absolute inset-y-0 right-0 pointer-events-none z-10"
+                    style={{
+                        width: `${FADE_W}px`,
+                        background: 'linear-gradient(to left, rgba(28,10,48,0.68) 0%, rgba(28,10,48,0.32) 42%, rgba(28,10,48,0.08) 76%, transparent 100%)',
+                        filter: 'blur(10px)',
+                    }}
+                />
+
                 {/* Scrollable track: 3 sets wide */}
                 <div
                     ref={scrollRef}
@@ -129,23 +152,6 @@ const BottomNavigation = () => {
                     {renderSet(1)}
                     {renderSet(2)}
                 </div>
-
-                {/* Left semi-transparent fade mask */}
-                <div
-                    className="absolute top-0 left-0 bottom-0 pointer-events-none z-10"
-                    style={{
-                        width: `${FADE_W}px`,
-                        background: 'linear-gradient(to right, rgba(18,8,40,0.9) 0%, transparent 100%)',
-                    }}
-                />
-                {/* Right semi-transparent fade mask */}
-                <div
-                    className="absolute top-0 right-0 bottom-0 pointer-events-none z-10"
-                    style={{
-                        width: `${FADE_W}px`,
-                        background: 'linear-gradient(to left, rgba(18,8,40,0.9) 0%, transparent 100%)',
-                    }}
-                />
             </div>
         </nav>
     );
