@@ -22,7 +22,6 @@ import BankInterface from '../features/BankInterface';
 import UserModal from '../modals/UserModal';
 import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
-import LobbyGuideModal from '../modals/LobbyGuideModal';
 import GameLaunchModal from '../modals/GameLaunchModal';
 import SeatSelectionModal from '../modals/SeatSelectionModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
@@ -43,7 +42,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState<LobbyCategoryId>('all');
     const [legalTab, setLegalTab] = useState<TermsTab | null>(null);
-    const [isGuideOpen, setGuideOpen] = useState(false);
     const [launchGame, setLaunchGame] = useState<Game | null>(null);
     const [seatSelectionGame, setSeatSelectionGame] = useState<Game | null>(null);
 
@@ -111,7 +109,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
                     <SettingsMenu
                         onOpenLanguage={() => setLangModalOpen(true)}
                         onOpenLegal={() => setLegalTab('terms')}
-                        onOpenGuide={() => setGuideOpen(true)}
                         onCloseMenu={() => setSettingsOpen(false)}
                     />
                 </>
@@ -127,7 +124,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
                     onClose={() => setLegalTab(null)}
                 />
             )}
-            {isGuideOpen && <LobbyGuideModal onClose={() => setGuideOpen(false)} />}
             {launchGame && (
                 <GameLaunchModal
                     game={launchGame}

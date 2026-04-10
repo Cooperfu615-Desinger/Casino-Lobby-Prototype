@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Music, Volume2, Bell, FileText, Info, LogOut, ToggleLeft, ToggleRight, Globe, SunMoon } from 'lucide-react';
+import { Music, Volume2, Bell, FileText, LogOut, ToggleLeft, ToggleRight, Globe, SunMoon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAudio } from '../../context/AudioContext';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
@@ -7,11 +7,10 @@ import { useUserPreferences } from '../../context/UserPreferencesContext';
 interface SettingsMenuProps {
     onOpenLanguage: () => void;
     onOpenLegal: () => void;
-    onOpenGuide: () => void;
     onCloseMenu: () => void;
 }
 
-const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onOpenGuide, onCloseMenu }: SettingsMenuProps) => {
+const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onCloseMenu }: SettingsMenuProps) => {
     const { isMusicEnabled, isSoundEnabled, toggleMusic, toggleSound } = useAudio();
     const { themeMode, toggleThemeMode } = useUserPreferences();
     const [push, setPush] = useState(true);
@@ -85,16 +84,6 @@ const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onOpenGuide, onCloseMenu }:
                 >
                     <FileText size={18} />
                     <span className="text-sm">使用者規章</span>
-                </button>
-                <button
-                    onClick={() => {
-                        onCloseMenu();
-                        onOpenGuide();
-                    }}
-                    className="w-full px-4 py-3 flex items-center gap-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left"
-                >
-                    <Info size={18} />
-                    <span className="text-sm">大廳功能說明</span>
                 </button>
 
                 <div className="h-px bg-white/10 my-2 mx-2"></div>
