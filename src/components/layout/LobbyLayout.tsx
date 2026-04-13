@@ -6,6 +6,7 @@ import Header from './Header';
 import NotificationTicker from './NotificationTicker';
 import BottomNavigation from './BottomNavigation';
 import LobbyButtons from './LobbyButtons';
+import JpNotification from './JpNotification';
 import CategorySidebar, { LOBBY_CATEGORIES, type LobbyCategoryId } from './CategorySidebar';
 import GameGrid from './GameGrid';
 import SettingsMenu from './SettingsMenu';
@@ -149,6 +150,9 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
 
             {/* Notification Ticker */}
             <NotificationTicker />
+
+            {/* JP Winner Floating Notification */}
+            <JpNotification />
 
             {/* Category Sidebar */}
             <CategorySidebar
