@@ -77,6 +77,7 @@ const EventsInterface = ({ onClose, initialTab = 'events' }: EventsInterfaceProp
                 <div className="flex-none p-6 pb-0 bg-[#1a0b2e] z-20 relative">
                     {/* Close Button */}
                     <button
+                        aria-label="關閉功能"
                         onClick={onClose}
                         className="absolute top-6 right-6 z-20 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
                     >

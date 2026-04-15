@@ -60,6 +60,7 @@ const PhoneLoginModal: React.FC<PhoneLoginModalProps> = ({ onClose, onLogin }) =
 
                 {/* Close Button */}
                 <button
+                    aria-label="關閉"
                     onClick={onClose}
                     className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                 >

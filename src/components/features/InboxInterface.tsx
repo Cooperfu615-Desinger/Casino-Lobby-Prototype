@@ -151,7 +151,7 @@ const InboxInterface = ({ onClose }: InboxInterfaceProps) => {
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 z-20 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                    aria-label="關閉信箱"
+                    aria-label="關閉功能"
                 >
                     <X size={20} />
                 </button>

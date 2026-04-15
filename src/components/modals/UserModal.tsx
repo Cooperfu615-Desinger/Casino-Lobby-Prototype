@@ -198,6 +198,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         onClick={onClose}
                         className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10"
                         title="關閉"
+                        aria-label="Close"
                     >
                         <X size={24} />
                     </button>

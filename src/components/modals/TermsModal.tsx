@@ -120,6 +120,7 @@ const TermsModal = ({
                 <div className="flex items-center justify-between p-6 border-b border-white/10">
                     <h2 className="text-xl font-bold text-white">{title}</h2>
                     <button
+                        aria-label="關閉"
                         onClick={onClose}
                         className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                     >
