@@ -1,8 +1,9 @@
-import { Menu, Crown, User as UserIcon, Coins } from 'lucide-react';
+import { Menu, Crown, Coins } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ActionButton from '../common/ActionButton';
 import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
+import AvatarDisplay from '../common/AvatarDisplay';
 
 interface HeaderProps {
     onOpenUserModal: () => void;
@@ -29,9 +30,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                 >
                     <div className="relative group">
                         <div className="w-16 h-16 rounded-full border-2 border-[#FFD700] overflow-hidden bg-slate-800 shadow-[0_0_15px_#FFD700]">
-                            <div className={`w-full h-full ${user?.avatar || 'bg-slate-600'} flex items-center justify-center`}>
-                                <UserIcon className="text-white" size={36} />
-                            </div>
+                            <AvatarDisplay avatarId={user?.avatarId} size="sm" />
                         </div>
                         <div className="absolute -top-2 -right-1 bg-gradient-to-b from-[#FFD700] to-[#DAA520] p-1.5 rounded-full shadow-sm border border-white/30">
                             <Crown size={14} className="text-black fill-current" />

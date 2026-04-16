@@ -3,7 +3,8 @@ import type { CurrencyBalance } from '../types/user';
 
 export interface User {
     name: string;
-    avatar: string; // Tailwind class for background color
+    avatar: string; // Tailwind class for background color (legacy, kept for compatibility)
+    avatarId: number; // Selected avatar ID (1–20), see AVATARS in mockData
     vipLevel: number;
     vipDepositTotal: number;
     vipBetTotal: number;
@@ -21,6 +22,7 @@ interface AuthContextType {
     logout: () => void;
     updateUser: (updates: Partial<User>) => void;
     updateBalance: (newBalance: Partial<CurrencyBalance>) => void;
+    updateAvatar: (id: number) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,6 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const mockUser: User = {
             name: username || '奧黛麗一本123456789',
             avatar: 'bg-gradient-to-br from-pink-400 to-purple-500',
+            avatarId: 1,
             vipLevel: 6,
             vipDepositTotal: 128000,
             vipBetTotal: 3560000,
@@ -52,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const guestUser: User = {
             name: 'Guest_' + Math.floor(Math.random() * 10000),
             avatar: 'bg-gradient-to-br from-gray-400 to-gray-600',
+            avatarId: 1,
             vipLevel: 0,
             vipDepositTotal: 0,
             vipBetTotal: 0,
@@ -78,6 +82,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(prev => prev ? { ...prev, balance: { ...prev.balance, ...newBalance } } : null);
     };
 
+    const updateAvatar = (id: number) => {
+        setUser(prev => prev ? { ...prev, avatarId: id } : null);
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -86,7 +94,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             loginAsGuest,
             logout,
             updateUser,
-            updateBalance
+            updateBalance,
+            updateAvatar
         }}>
             {children}
         </AuthContext.Provider>

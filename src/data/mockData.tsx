@@ -20,6 +20,41 @@ export type { EventItem, GiftItem } from '../types/event';
 export type { InboxMessage } from '../types/inbox';
 export type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
 
+// ─── Avatar Data ────────────────────────────────────────────────────────────
+export interface AvatarItem {
+    id: number;
+    emoji: string;
+    label: string;
+    bgClass: string;   // full Tailwind gradient class string
+    locked: boolean;
+    unlockHint?: string;
+}
+
+export const AVATARS: AvatarItem[] = [
+    // ── Default avatars (1–10) ──
+    { id: 1,  emoji: '🐯', label: '猛虎',    bgClass: 'bg-gradient-to-br from-orange-400 to-amber-600',   locked: false },
+    { id: 2,  emoji: '🦁', label: '雄獅',    bgClass: 'bg-gradient-to-br from-yellow-400 to-amber-500',   locked: false },
+    { id: 3,  emoji: '🐉', label: '神龍',    bgClass: 'bg-gradient-to-br from-violet-500 to-purple-700',  locked: false },
+    { id: 4,  emoji: '🦊', label: '狐狸',    bgClass: 'bg-gradient-to-br from-red-400 to-orange-600',     locked: false },
+    { id: 5,  emoji: '🐺', label: '惡狼',    bgClass: 'bg-gradient-to-br from-slate-400 to-slate-700',    locked: false },
+    { id: 6,  emoji: '🦅', label: '老鷹',    bgClass: 'bg-gradient-to-br from-sky-500 to-blue-700',       locked: false },
+    { id: 7,  emoji: '🐼', label: '熊貓',    bgClass: 'bg-gradient-to-br from-zinc-200 to-zinc-600',      locked: false },
+    { id: 8,  emoji: '🦄', label: '獨角獸',  bgClass: 'bg-gradient-to-br from-pink-400 to-fuchsia-500',   locked: false },
+    { id: 9,  emoji: '🔥', label: '鳳凰',    bgClass: 'bg-gradient-to-br from-red-500 to-yellow-400',     locked: false },
+    { id: 10, emoji: '🎭', label: '謎面',    bgClass: 'bg-gradient-to-br from-indigo-600 to-violet-800',  locked: false },
+    // ── Locked avatars (11–20) ──
+    { id: 11, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 5+' },
+    { id: 12, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 10+' },
+    { id: 13, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 15+' },
+    { id: 14, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 20+' },
+    { id: 15, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 25+' },
+    { id: 16, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
+    { id: 17, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
+    { id: 18, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
+    { id: 19, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
+    { id: 20, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
+];
+
 // --- Mock Data ---
 export const GAMES: Game[] = [
     { id: 1, title: 'Ace Blackjack', category: 'card', image: 'bg-red-900', icon: '♠️', size: 'large', hasJackpot: true },

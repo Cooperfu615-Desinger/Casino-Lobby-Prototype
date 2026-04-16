@@ -1,8 +1,10 @@
 import { useState, type ReactNode } from 'react';
-import { X, User as UserIcon, Crown, Camera, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
+import { X, User as UserIcon, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 import { USER_STATS, ACHIEVEMENTS, VIP_LEVEL_RULES, type Achievement } from '../../data/mockData';
+import AvatarDisplay from '../common/AvatarDisplay';
+import AvatarSelectModal from './AvatarSelectModal';
 
 interface UserModalProps {
     onClose: () => void;
@@ -13,6 +15,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
     const { showToast } = useUI();
     const [activeView, setActiveView] = useState<'overview' | 'edit'>('overview');
     const [activeTab, setActiveTab] = useState<'info' | 'achievements'>('info');
+    const [showAvatarSelect, setShowAvatarSelect] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showVipPrivileges, setShowVipPrivileges] = useState(false);
     const [claimingId, setClaimingId] = useState<number | null>(null);
@@ -100,12 +103,14 @@ const UserModal = ({ onClose }: UserModalProps) => {
                 <div className="w-1/3 bg-[#120822] border-r border-white/10 p-8 flex flex-col items-center text-center relative">
                     <div className="relative group mb-4">
                         <div className="w-32 h-32 rounded-full border-4 border-[#FFD700] p-1 overflow-hidden bg-slate-800 shadow-[0_0_30px_rgba(255,215,0,0.3)]">
-                            <div className={`w-full h-full rounded-full ${user?.avatar || 'bg-slate-600'} flex items-center justify-center`}>
-                                <UserIcon size={64} className="text-white" />
-                            </div>
+                            <AvatarDisplay avatarId={user?.avatarId} size="lg" />
                         </div>
-                        <button className="absolute bottom-0 right-0 bg-white text-black p-2 rounded-full shadow-lg hover:bg-slate-200 transition-colors">
-                            <Camera size={16} />
+                        <button
+                            aria-label="更換頭像"
+                            onClick={() => setShowAvatarSelect(true)}
+                            className="absolute bottom-0 right-0 bg-[#FFD700] hover:bg-yellow-300 text-black p-2 rounded-full shadow-lg transition-all hover:scale-110 active:scale-95"
+                        >
+                            <Pencil size={15} />
                         </button>
                     </div>
 
@@ -653,6 +658,11 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {/* Avatar Select Modal — overlays on top of UserModal */}
+            {showAvatarSelect && (
+                <AvatarSelectModal onClose={() => setShowAvatarSelect(false)} />
             )}
         </div>
     );
