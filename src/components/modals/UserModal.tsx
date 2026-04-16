@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { X, User as UserIcon, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
+import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 import { USER_STATS, ACHIEVEMENTS, VIP_LEVEL_RULES, type Achievement } from '../../data/mockData';
