@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "build": "npm run typecheck && vite build",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "eslint src vite.config.ts eslint.config.js",
+    "check": "npm run typecheck && npm run lint && vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run check",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

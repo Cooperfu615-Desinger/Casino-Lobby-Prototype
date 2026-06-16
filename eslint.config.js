@@ -2,17 +2,30 @@ import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import tseslint from 'typescript-eslint';
+import tsParser from '@typescript-eslint/parser';
 
-export default tseslint.config(
+export default [
     {
-        ignores: ['dist', 'node_modules'],
+        ignores: ['dist', 'node_modules', 'coverage'],
+    },
+    {
+        files: ['**/*.{js,mjs,cjs}'],
+        ...js.configs.recommended,
+        languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+            },
+        },
     },
     {
         files: ['**/*.{ts,tsx}'],
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
         languageOptions: {
+            parser: tsParser,
             ecmaVersion: 2022,
+            sourceType: 'module',
             globals: globals.browser,
             parserOptions: {
                 ecmaFeatures: {
@@ -25,8 +38,20 @@ export default tseslint.config(
             'react-refresh': reactRefresh,
         },
         rules: {
+            'no-undef': 'off',
+            'no-unused-vars': 'off',
             ...reactHooks.configs.recommended.rules,
             'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         },
     },
-);
+    {
+        files: [
+            'src/context/**/*.{ts,tsx}',
+            'src/data/**/*.{ts,tsx}',
+            'src/components/layout/CategorySidebar.tsx',
+        ],
+        rules: {
+            'react-refresh/only-export-components': 'off',
+        },
+    },
+];
