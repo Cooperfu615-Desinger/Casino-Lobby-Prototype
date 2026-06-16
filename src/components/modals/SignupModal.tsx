@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, User, Lock, KeyRound, ArrowRight, AlertCircle } from 'lucide-react';
+import { X, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 
@@ -13,10 +13,15 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
     const { showToast } = useUI();
 
     const [username, setUsername] = useState('');
+    const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [promoCode, setPromoCode] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const labelClass = 'text-lg font-black text-white';
+    const inputClass = 'h-[58px] w-full rounded-2xl border-2 border-white/28 bg-white/10 px-5 text-xl font-bold text-white outline-none transition-all placeholder:text-white/38 focus:border-white/75 focus:bg-white/15';
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,6 +36,14 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
             setError('帳號至少需要 4 個字元');
             return;
         }
+        if (username.trim().length > 20) {
+            setError('帳號最多 20 個字元');
+            return;
+        }
+        if (!nickname.trim()) {
+            setError('請輸入暱稱');
+            return;
+        }
         if (!password) {
             setError('請輸入密碼');
             return;
@@ -43,12 +56,16 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
             setError('密碼與確認密碼不符');
             return;
         }
+        if (promoCode.trim() && ![6, 8].includes(promoCode.trim().length)) {
+            setError('推廣碼需為代理 6 碼或玩家 8 碼');
+            return;
+        }
 
         // Simulate registration
         setLoading(true);
         setTimeout(() => {
-            // Login with the new username
-            login(username.trim());
+            // Use nickname as the displayed player name after registration.
+            login(nickname.trim());
             showToast('註冊成功！歡迎進入遊戲', 'success');
             setLoading(false);
             onSuccess();
@@ -57,112 +74,151 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
 
     return (
         <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
-            <div className="relative w-[420px] bg-[#1a0b2e] border border-white/20 rounded-3xl p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200">
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
-                >
-                    <X size={24} />
-                </button>
+            <div className="relative w-[500px] max-w-[calc(100vw-32px)] max-h-[calc(100vh-32px)] overflow-hidden rounded-[34px] border border-white/25 bg-gradient-to-b from-[#7f86ff] via-[#6268ef] to-[#343fba] p-[3px] shadow-[0_24px_80px_rgba(0,0,0,0.58),0_0_34px_rgba(126,134,255,0.38)] animate-in zoom-in-95 duration-200">
+                <div className="relative max-h-[calc(100vh-38px)] overflow-y-auto rounded-[31px] px-6 py-8 sm:px-10 custom-scrollbar">
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.18),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(22,28,126,0.32),_transparent_36%)]" />
+                    <div className="pointer-events-none absolute inset-x-7 top-7 h-px bg-white/35" />
 
-                <h2 className="text-2xl font-bold text-white mb-2 text-center">建立新帳號</h2>
-                <p className="text-slate-400 text-sm text-center mb-6">請填寫以下資訊完成註冊</p>
+                    <button
+                        aria-label="關閉"
+                        onClick={onClose}
+                        className="absolute right-8 top-8 z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/35 bg-white/10 text-white/75 transition-all hover:bg-white/20 hover:text-white active:scale-95"
+                    >
+                        <X size={30} />
+                    </button>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Username */}
-                    <div className="space-y-1">
-                        <label className="text-xs text-slate-400 pl-4 uppercase font-bold tracking-wider">帳號 (Username)</label>
-                        <div className="relative group">
-                            <div className="absolute left-4 top-3.5 text-slate-500 group-focus-within:text-[#FFD700] transition-colors">
-                                <User size={20} />
-                            </div>
+                    <div className="relative mb-8 text-center">
+                        <h2 className="text-[34px] font-black text-white tracking-wide">建立帳號</h2>
+                        <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-white/55" />
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="relative space-y-4">
+                        {/* Username */}
+                        <div className="space-y-2">
+                            <label htmlFor="signup-username" className={labelClass}>帳號</label>
                             <input
+                                id="signup-username"
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                placeholder="請輸入帳號 (至少 4 字元)"
-                                className="w-full bg-black/40 border border-white/10 rounded-full py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-[#FFD700] focus:bg-black/60 transition-all font-medium placeholder:text-slate-600"
+                                maxLength={20}
+                                autoComplete="username"
+                                placeholder="請設定帳號（4～20 字元）"
+                                className={inputClass}
                             />
                         </div>
-                    </div>
 
-                    {/* Password */}
-                    <div className="space-y-1">
-                        <label className="text-xs text-slate-400 pl-4 uppercase font-bold tracking-wider">密碼 (Password)</label>
-                        <div className="relative group">
-                            <div className="absolute left-4 top-3.5 text-slate-500 group-focus-within:text-[#FFD700] transition-colors">
-                                <Lock size={20} />
-                            </div>
+                        {/* Nickname */}
+                        <div className="space-y-2">
+                            <label htmlFor="signup-nickname" className={labelClass}>暱稱</label>
                             <input
+                                id="signup-nickname"
+                                type="text"
+                                value={nickname}
+                                onChange={(e) => setNickname(e.target.value)}
+                                autoComplete="nickname"
+                                placeholder="請設定暱稱（顯示給其他玩家）"
+                                className={inputClass}
+                            />
+                        </div>
+
+                        {/* Password */}
+                        <div className="space-y-2">
+                            <label htmlFor="signup-password" className={labelClass}>密碼</label>
+                            <input
+                                id="signup-password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="請輸入密碼 (至少 6 字元)"
-                                className="w-full bg-black/40 border border-white/10 rounded-full py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-[#FFD700] focus:bg-black/60 transition-all font-medium placeholder:text-slate-600"
+                                autoComplete="new-password"
+                                placeholder="請設定密碼（6 字元以上）"
+                                className={inputClass}
                             />
                         </div>
-                    </div>
 
-                    {/* Confirm Password */}
-                    <div className="space-y-1">
-                        <label className="text-xs text-slate-400 pl-4 uppercase font-bold tracking-wider">確認密碼 (Confirm)</label>
-                        <div className="relative group">
-                            <div className="absolute left-4 top-3.5 text-slate-500 group-focus-within:text-[#FFD700] transition-colors">
-                                <KeyRound size={20} />
-                            </div>
+                        {/* Confirm Password */}
+                        <div className="space-y-2">
+                            <label htmlFor="signup-confirm-password" className={labelClass}>確認密碼</label>
                             <input
+                                id="signup-confirm-password"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                placeholder="再次輸入密碼"
-                                className={`w-full bg-black/40 border rounded-full py-3.5 pl-12 pr-4 text-white focus:outline-none focus:bg-black/60 transition-all font-medium placeholder:text-slate-600 ${confirmPassword && password !== confirmPassword
-                                        ? 'border-red-500 focus:border-red-500'
-                                        : 'border-white/10 focus:border-[#FFD700]'
+                                autoComplete="new-password"
+                                placeholder="請再次輸入密碼"
+                                className={`h-[58px] w-full rounded-2xl border-2 bg-white/10 px-5 text-xl font-bold text-white outline-none transition-all placeholder:text-white/38 focus:bg-white/15 ${confirmPassword && password !== confirmPassword
+                                    ? 'border-red-300 focus:border-red-200'
+                                    : 'border-white/28 focus:border-white/75'
                                     }`}
                             />
+                            {/* Real-time mismatch hint */}
+                            {confirmPassword && password !== confirmPassword && (
+                                <p className="text-red-100 text-xs pl-1 flex items-center gap-1 mt-1">
+                                    <AlertCircle size={12} /> 密碼不一致
+                                </p>
+                            )}
                         </div>
-                        {/* Real-time mismatch hint */}
-                        {confirmPassword && password !== confirmPassword && (
-                            <p className="text-red-400 text-xs pl-4 flex items-center gap-1 mt-1">
-                                <AlertCircle size={12} /> 密碼不一致
-                            </p>
+
+                        <div className="flex items-center gap-4 py-2 text-white/55">
+                            <div className="h-px flex-1 bg-white/25" />
+                            <span className="text-base font-black">選填</span>
+                            <div className="h-px flex-1 bg-white/25" />
+                        </div>
+
+                        {/* Promo Code */}
+                        <div className="space-y-2">
+                            <label htmlFor="signup-promo-code" className={labelClass}>推廣碼</label>
+                            <input
+                                id="signup-promo-code"
+                                type="text"
+                                value={promoCode}
+                                onChange={(e) => setPromoCode(e.target.value)}
+                                maxLength={8}
+                                placeholder="代理 6 碼 / 玩家 8 碼（可不填）"
+                                className={inputClass}
+                            />
+                            <p className="text-sm font-bold text-white/55">由代理或好友提供，無推廣碼可留空</p>
+                        </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <div className="bg-red-500/25 border border-red-200/50 rounded-xl p-3 flex items-center gap-2 text-red-50 text-sm animate-in shake duration-300">
+                                <AlertCircle size={18} />
+                                {error}
+                            </div>
                         )}
-                    </div>
 
-                    {/* Error Message */}
-                    {error && (
-                        <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-3 flex items-center gap-2 text-red-300 text-sm animate-in shake duration-300">
-                            <AlertCircle size={18} />
-                            {error}
-                        </div>
-                    )}
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="group mt-3 flex h-[64px] w-full items-center justify-center gap-2 rounded-full border-2 border-white/80 bg-gradient-to-b from-[#8cf2b9] to-[#21bd78] text-3xl font-black tracking-wide text-white shadow-[0_14px_30px_rgba(12,121,78,0.32)] transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="w-6 h-6 border-2 border-white/35 border-t-white rounded-full animate-spin"></div>
+                                    註冊中...
+                                </>
+                            ) : (
+                                <>
+                                    立即註冊 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                </>
+                            )}
+                        </button>
+                    </form>
 
-                    {/* Submit Button */}
+                    <p className="relative mt-5 text-center text-sm font-bold text-white/62">
+                        註冊即代表您同意我們的服務條款與隱私政策
+                    </p>
+
+                    {/* Back button */}
                     <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-black py-4 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all mt-4 flex items-center justify-center gap-2 group tracking-widest text-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                        onClick={onClose}
+                        className="relative w-full pt-4 text-center text-base font-bold text-white/55 transition-colors hover:text-white"
                     >
-                        {loading ? (
-                            <>
-                                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-                                註冊中...
-                            </>
-                        ) : (
-                            <>
-                                註冊 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                            </>
-                        )}
+                        已有帳號？<span className="text-fuchsia-300 underline decoration-fuchsia-300/60 underline-offset-4">立即登入</span>
                     </button>
-                </form>
-
-                {/* Back button */}
-                <button
-                    onClick={onClose}
-                    className="w-full mt-4 py-3 text-slate-400 text-sm font-medium hover:text-white transition-colors"
-                >
-                    返回登入
-                </button>
+                </div>
             </div>
         </div>
     );
