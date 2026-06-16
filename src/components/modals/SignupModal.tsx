@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
+import PrototypeOverlay from '../common/PrototypeOverlay';
 
 interface SignupModalProps {
     onClose: () => void;
@@ -73,8 +74,8 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
     };
 
     return (
-        <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
-            <div className="relative h-[560px] w-[640px] max-w-[calc(100vw-48px)] max-h-[calc(100vh-40px)] overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#2a1b42] via-[#1a0b2e] to-[#0d0418] p-7 shadow-[0_0_60px_rgba(0,0,0,0.65),0_0_32px_rgba(255,215,0,0.08)] animate-in zoom-in-95 duration-200">
+        <PrototypeOverlay>
+            <div className="relative h-[560px] w-[640px] max-h-[640px] overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#2a1b42] via-[#1a0b2e] to-[#0d0418] p-7 shadow-[0_0_60px_rgba(0,0,0,0.65),0_0_32px_rgba(255,215,0,0.08)] animate-in zoom-in-95 duration-200">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.1),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(126,34,206,0.18),_transparent_40%)]" />
                 <div className="relative">
 
@@ -223,7 +224,7 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </PrototypeOverlay>
     );
 };
 

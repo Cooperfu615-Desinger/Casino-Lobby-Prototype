@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UserCircle2 } from 'lucide-react';
+import PrototypeOverlay from '../common/PrototypeOverlay';
 
 interface AppleLoginModalProps {
     onClose: () => void;
@@ -37,7 +38,7 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
     };
 
     return (
-        <div className="absolute inset-0 z-[110] bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
+        <PrototypeOverlay layer="auth">
             {/* Modal Container - Apple Style (Clean, Minimal) */}
             <div className="w-[400px] bg-white rounded-2xl overflow-hidden shadow-2xl text-gray-900 animate-in zoom-in-95 duration-200 font-sans">
 
@@ -126,7 +127,7 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
                 </div>
 
             </div>
-        </div>
+        </PrototypeOverlay>
     );
 };
 

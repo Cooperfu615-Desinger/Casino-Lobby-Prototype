@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Smartphone, ArrowRight, CheckCircle2 } from 'lucide-react';
+import PrototypeOverlay from '../common/PrototypeOverlay';
 
 interface PhoneLoginModalProps {
     onClose: () => void;
@@ -54,7 +55,7 @@ const PhoneLoginModal: React.FC<PhoneLoginModalProps> = ({ onClose, onLogin }) =
     };
 
     return (
-        <div className="absolute inset-0 z-[110] bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
+        <PrototypeOverlay layer="auth">
             {/* Modal Container */}
             <div className="relative w-96 bg-[#1a0b2e] border border-emerald-500/30 rounded-3xl p-8 shadow-[0_0_50px_rgba(16,185,129,0.2)] animate-in zoom-in-95 duration-200">
 
@@ -154,7 +155,7 @@ const PhoneLoginModal: React.FC<PhoneLoginModalProps> = ({ onClose, onLogin }) =
                 )}
 
             </div>
-        </div>
+        </PrototypeOverlay>
     );
 };
 

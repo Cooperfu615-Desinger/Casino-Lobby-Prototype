@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Facebook, UserCircle2 } from 'lucide-react';
+import PrototypeOverlay from '../common/PrototypeOverlay';
 
 interface FacebookLoginModalProps {
     onClose: () => void;
@@ -30,7 +31,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
     };
 
     return (
-        <div className="absolute inset-0 z-[110] bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
+        <PrototypeOverlay layer="auth">
             {/* Modal Container - Facebook Dark Mode Style */}
             <div className="w-[400px] bg-[#242526] rounded-xl overflow-hidden shadow-2xl border border-[#3e4042] text-[#E4E6EB] animate-in zoom-in-95 duration-200 font-sans">
 
@@ -120,7 +121,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                 </div>
 
             </div>
-        </div>
+        </PrototypeOverlay>
     );
 };
 

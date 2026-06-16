@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // Context
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -17,6 +17,7 @@ import GameRoom from './components/features/GameRoom';
 
 // Components - Global UI
 import ModalContainer from './components/ModalContainer';
+import PrototypeStage from './components/common/PrototypeStage';
 import ToastContainer from './components/common/ToastContainer';
 import LoadingOverlay from './components/common/LoadingOverlay';
 
@@ -39,58 +40,34 @@ const MainContent = () => {
 
 function App() {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
-    const [scale, setScale] = useState(1);
-
-    useEffect(() => {
-        const handleResize = () => {
-            const scaleX = window.innerWidth / 1280;
-            const scaleY = window.innerHeight / 720;
-            setScale(Math.min(scaleX, scaleY));
-        };
-
-        window.addEventListener('resize', handleResize);
-        handleResize(); // Initial calculation
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     return (
-        <div className="fixed inset-0 bg-black flex items-center justify-center overflow-hidden">
-            {/* Game Container with Global Scale */}
-            <div
-                className="relative w-[1280px] h-[720px] shadow-2xl overflow-hidden"
-                style={{
-                    transform: `scale(${scale})`,
-                    transformOrigin: 'center center'
-                }}
-            >
-                {/* UserPreferencesProvider 必須在 AudioProvider 之前，因為 AudioContext 依賴偏好設定 */}
-                <UserPreferencesProvider>
-                    <AudioProvider>
-                        <AuthProvider>
-                            <UIProvider>
-                                <NavigationProvider>
-                                    {isInitialLoad ? (
-                                        <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                                    ) : (
-                                        <>
-                                            <MainContent />
-                                            <ModalContainer />
-                                        </>
-                                    )}
-                                </NavigationProvider>
-                                {/* Global UI Components - Always rendered */}
-                                <ToastContainer />
-                                <LoadingOverlay />
-                            </UIProvider>
-                        </AuthProvider>
-                    </AudioProvider>
-                </UserPreferencesProvider>
-            </div>
-        </div>
+        <PrototypeStage>
+            {/* UserPreferencesProvider 必須在 AudioProvider 之前，因為 AudioContext 依賴偏好設定 */}
+            <UserPreferencesProvider>
+                <AudioProvider>
+                    <AuthProvider>
+                        <UIProvider>
+                            <NavigationProvider>
+                                {isInitialLoad ? (
+                                    <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                                ) : (
+                                    <>
+                                        <MainContent />
+                                        <ModalContainer />
+                                    </>
+                                )}
+                            </NavigationProvider>
+                            {/* Global UI Components - Always rendered */}
+                            <ToastContainer />
+                            <LoadingOverlay />
+                        </UIProvider>
+                    </AuthProvider>
+                </AudioProvider>
+            </UserPreferencesProvider>
+        </PrototypeStage>
     );
 }
 
 export default App;
-
 

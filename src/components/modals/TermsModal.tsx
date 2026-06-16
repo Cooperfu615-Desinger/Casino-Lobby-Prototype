@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { X, FileText, Shield, ScrollText, CheckSquare, Square, ArrowRight } from 'lucide-react';
+import PrototypeOverlay from '../common/PrototypeOverlay';
 
 export type TermsTab = 'terms' | 'privacy' | 'service';
 
@@ -114,8 +115,8 @@ const TermsModal = ({
     };
 
     return (
-        <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
-            <div className="relative w-[600px] max-h-[80vh] bg-[#1a0b2e] border border-white/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
+        <PrototypeOverlay>
+            <div className="relative w-[600px] max-h-[640px] bg-[#1a0b2e] border border-white/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-white/10">
                     <h2 className="text-xl font-bold text-white">{title}</h2>
@@ -191,7 +192,7 @@ const TermsModal = ({
                     </div>
                 )}
             </div>
-        </div>
+        </PrototypeOverlay>
     );
 };
 

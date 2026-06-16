@@ -8,6 +8,7 @@ import FacebookLoginModal from '../modals/FacebookLoginModal';
 import LINELoginModal from '../modals/LINELoginModal';
 import AppleLoginModal from '../modals/AppleLoginModal';
 import GoogleLoginModal from '../modals/GoogleLoginModal';
+import PrototypeOverlay from '../common/PrototypeOverlay';
 
 // Apple Logo SVG（與 AppleLoginModal 一致）
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -33,42 +34,35 @@ const LoginScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showLoginInput, setShowLoginInput] = useState(false);
 
     // Registration flow
-    const [showTermsModal, setShowTermsModal] = useState(false);
-    const [showSignupModal, setShowSignupModal] = useState(false);
     const [termsMode, setTermsMode] = useState<'signup' | 'readOnly'>('signup');
     const [legalTab, setLegalTab] = useState<TermsTab>('terms');
 
-    // Social login modals
-    const [showPhone, setShowPhone] = useState(false);
-    const [showFacebook, setShowFacebook] = useState(false);
-    const [showLine, setShowLine] = useState(false);
-    const [showApple, setShowApple] = useState(false);
-    const [showGoogle, setShowGoogle] = useState(false);
+    type AuthOverlay = 'accountLogin' | 'terms' | 'signup' | 'phone' | 'facebook' | 'line' | 'apple' | 'google' | null;
+    const [activeOverlay, setActiveOverlay] = useState<AuthOverlay>(null);
 
     // ── Handlers ────────────────────────────────────────────────────────────
 
     const handleSocialLogin = () => login();
+    const closeOverlay = () => setActiveOverlay(null);
 
     const handleStartRegistration = () => {
         setTermsMode('signup');
         setLegalTab('terms');
-        setShowTermsModal(true);
+        setActiveOverlay('terms');
     };
 
     const handleTermsAgreed = () => {
-        setShowTermsModal(false);
-        setShowSignupModal(true);
+        setActiveOverlay('signup');
     };
 
-    const handleSignupSuccess = () => setShowSignupModal(false);
+    const handleSignupSuccess = () => setActiveOverlay(null);
 
     const handleOpenLegalDoc = (tab: TermsTab) => {
         setTermsMode('readOnly');
         setLegalTab(tab);
-        setShowTermsModal(true);
+        setActiveOverlay('terms');
     };
 
     const handleLogin = (e: React.FormEvent) => {
@@ -81,9 +75,7 @@ const LoginScreen = () => {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black">
-            {/* 1280x720 Fixed Resolution Container */}
-            <div className="relative w-[1280px] h-[720px] overflow-hidden shadow-2xl bg-gradient-to-b from-[#2c003e] to-black text-white font-sans flex flex-col items-center">
+        <div className="relative flex h-full w-full flex-col items-center overflow-hidden bg-gradient-to-b from-[#2c003e] to-black font-sans text-white">
 
                 {/* Background Texture */}
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
@@ -107,7 +99,7 @@ const LoginScreen = () => {
                     <div className="flex gap-8 justify-center">
                         <button
                             aria-label="帳號登入"
-                            onClick={() => setShowLoginInput(true)}
+                            onClick={() => setActiveOverlay('accountLogin')}
                             className="w-[80px] h-[80px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-gradient-to-br from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 text-white group"
                         >
                             <User size={24} className="text-indigo-100 group-hover:text-white transition-colors" />
@@ -136,7 +128,7 @@ const LoginScreen = () => {
                         {/* 手機 */}
                         <button
                             aria-label="手機登入"
-                            onClick={() => setShowPhone(true)}
+                            onClick={() => setActiveOverlay('phone')}
                             className="w-[72px] h-[72px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-gradient-to-br from-emerald-500 to-teal-600 hover:brightness-110 text-white group"
                         >
                             <Smartphone size={22} className="text-emerald-100 group-hover:text-white transition-colors" />
@@ -146,7 +138,7 @@ const LoginScreen = () => {
                         {/* Facebook */}
                         <button
                             aria-label="Facebook 登入"
-                            onClick={() => setShowFacebook(true)}
+                            onClick={() => setActiveOverlay('facebook')}
                             className="w-[72px] h-[72px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#1877F2] hover:bg-[#166FE5] text-white group"
                         >
                             <Facebook size={22} className="fill-current" />
@@ -156,7 +148,7 @@ const LoginScreen = () => {
                         {/* LINE */}
                         <button
                             aria-label="LINE 登入"
-                            onClick={() => setShowLine(true)}
+                            onClick={() => setActiveOverlay('line')}
                             className="w-[72px] h-[72px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-[#06C755] hover:bg-[#05B04C] text-white group"
                         >
                             <MessageCircle size={22} className="fill-current" />
@@ -166,7 +158,7 @@ const LoginScreen = () => {
                         {/* Apple */}
                         <button
                             aria-label="Apple 登入"
-                            onClick={() => setShowApple(true)}
+                            onClick={() => setActiveOverlay('apple')}
                             className="w-[72px] h-[72px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-black border border-white/20 hover:bg-white/10 text-white group"
                         >
                             <AppleLogo className="w-[22px] h-[22px]" />
@@ -176,7 +168,7 @@ const LoginScreen = () => {
                         {/* Google */}
                         <button
                             aria-label="Google 登入"
-                            onClick={() => setShowGoogle(true)}
+                            onClick={() => setActiveOverlay('google')}
                             className="w-[72px] h-[72px] rounded-2xl shadow-lg flex flex-col items-center justify-center gap-1 hover:scale-105 transition-transform duration-200 bg-white hover:bg-gray-100 text-gray-700 group"
                         >
                             <GoogleLogo className="w-[22px] h-[22px]" />
@@ -201,12 +193,12 @@ const LoginScreen = () => {
                 </div>
 
                 {/* ── Account Login Overlay ────────────────────────────────────────── */}
-                {showLoginInput && (
-                    <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
+                {activeOverlay === 'accountLogin' && (
+                    <PrototypeOverlay>
                         <div className="relative w-96 bg-[#1a0b2e] border border-white/20 rounded-3xl p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200">
                             <button
                                 aria-label="關閉"
-                                onClick={() => setShowLoginInput(false)}
+                                onClick={closeOverlay}
                                 className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                             >
                                 <X size={24} />
@@ -251,7 +243,6 @@ const LoginScreen = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            setShowLoginInput(false);
                                             handleStartRegistration();
                                         }}
                                         className="flex-1 py-4 rounded-full font-bold border-2 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10 active:scale-95 transition-all flex items-center justify-center gap-2"
@@ -275,13 +266,13 @@ const LoginScreen = () => {
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </PrototypeOverlay>
                 )}
 
                 {/* ── Terms & Signup ───────────────────────────────────────────────── */}
-                {showTermsModal && (
+                {activeOverlay === 'terms' && (
                     <TermsModal
-                        onClose={() => setShowTermsModal(false)}
+                        onClose={closeOverlay}
                         onAgree={termsMode === 'signup' ? handleTermsAgreed : undefined}
                         initialTab={legalTab}
                         title={termsMode === 'signup' ? '註冊帳號 - 條款審閱' : '平台文件總覽'}
@@ -289,21 +280,20 @@ const LoginScreen = () => {
                         confirmLabel="我知道了"
                     />
                 )}
-                {showSignupModal && (
+                {activeOverlay === 'signup' && (
                     <SignupModal
-                        onClose={() => setShowSignupModal(false)}
+                        onClose={closeOverlay}
                         onSuccess={handleSignupSuccess}
                     />
                 )}
 
                 {/* ── Social Login Modals ──────────────────────────────────────────── */}
-                {showPhone    && <PhoneLoginModal    onClose={() => setShowPhone(false)}    onLogin={handleSocialLogin} />}
-                {showFacebook && <FacebookLoginModal onClose={() => setShowFacebook(false)} onLogin={handleSocialLogin} />}
-                {showLine     && <LINELoginModal     onClose={() => setShowLine(false)}     onLogin={handleSocialLogin} />}
-                {showApple    && <AppleLoginModal    onClose={() => setShowApple(false)}    onLogin={handleSocialLogin} />}
-                {showGoogle   && <GoogleLoginModal   onClose={() => setShowGoogle(false)}   onLogin={handleSocialLogin} />}
+                {activeOverlay === 'phone' && <PhoneLoginModal onClose={closeOverlay} onLogin={handleSocialLogin} />}
+                {activeOverlay === 'facebook' && <FacebookLoginModal onClose={closeOverlay} onLogin={handleSocialLogin} />}
+                {activeOverlay === 'line' && <LINELoginModal onClose={closeOverlay} onLogin={handleSocialLogin} />}
+                {activeOverlay === 'apple' && <AppleLoginModal onClose={closeOverlay} onLogin={handleSocialLogin} />}
+                {activeOverlay === 'google' && <GoogleLoginModal onClose={closeOverlay} onLogin={handleSocialLogin} />}
 
-            </div>
         </div>
     );
 };
