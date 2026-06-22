@@ -35,7 +35,7 @@ interface LobbyLayoutProps {
 }
 
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
-    const { currentView, chatInitialTab, bankInitialTab, eventsInitialTab, goToGames } = useNavigation();
+    const { currentView, chatInitialTab, bankInitialTab, eventsInitialTab, chatTarget, supportDraft, goToGames } = useNavigation();
     const { themeMode } = useUserPreferences();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
@@ -175,8 +175,10 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {/* Feature Overlays - using NavigationContext */}
             {currentView === 'chat' && (
                 <ChatInterface
-                    key={chatInitialTab}
+                    key={`${chatInitialTab}-${chatTarget?.playerId || supportDraft?.title || 'default'}`}
                     initialTab={chatInitialTab}
+                    initialTargetPlayer={chatTarget}
+                    supportDraft={supportDraft}
                     onClose={goToGames}
                 />
             )}

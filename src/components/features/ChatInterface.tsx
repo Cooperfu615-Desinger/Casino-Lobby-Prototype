@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
     Globe, MessageCircle, Headphones, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap, Flag, ShieldAlert
 } from 'lucide-react';
-import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile } from '../../data/mockData';
+import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile, getStablePlayerId } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
+import { useSocial } from '../../context/SocialContext';
+import type { ChatTargetPlayer, SupportDraft } from '../../context/NavigationContext';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
@@ -33,14 +35,26 @@ const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
 
 interface ChatInterfaceProps {
     initialTab?: 'public' | 'chat' | 'support';
+    initialTargetPlayer?: ChatTargetPlayer;
+    supportDraft?: SupportDraft;
     onClose: () => void;
 }
 
-const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
+const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose }: ChatInterfaceProps) => {
     const { openModal } = useUI();
+    const { isBlockedPlayer } = useSocial();
     const { user } = useAuth();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
-    const [selectedFriendId, setSelectedFriendId] = useState(2);
+    const [selectedFriendId, setSelectedFriendId] = useState<number | null>(() => {
+        if (!initialTargetPlayer) return 2;
+        const targetFriend = FRIENDS.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
+        return targetFriend?.id ?? null;
+    });
+    const [directChatTarget, setDirectChatTarget] = useState<ChatTargetPlayer | null>(() => {
+        if (!initialTargetPlayer) return null;
+        const targetFriend = FRIENDS.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
+        return targetFriend ? null : initialTargetPlayer;
+    });
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [friends, setFriends] = useState(FRIENDS);
@@ -53,13 +67,89 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
     const [messageInput, setMessageInput] = useState('');
+    const [supportMessageInput, setSupportMessageInput] = useState('');
+    const [activeSupportDraft, setActiveSupportDraft] = useState<SupportDraft | undefined>(supportDraft);
     const [activeAutoSendChannel, setActiveAutoSendChannel] = useState<'public' | 'private' | null>(null);
     const [autoSendConfig, setAutoSendConfig] = useState<{ public: AutoSendSettings; private: AutoSendSettings }>({
         public: { enabled: false, message: '歡迎加入公共頻道！🎰', selectedSticker: '🎉', interval: 10 },
         private: { enabled: false, message: '歡迎加入！祝您好運 🍀', selectedSticker: '🎉', interval: 1 },
     });
-    // Fallback to first friend if selected one is deleted, or null handling could be improved in real app
-    const selectedFriend = friends.find(f => f.id === selectedFriendId) || friends[0] || FRIENDS[0];
+    useEffect(() => {
+        if (!initialTargetPlayer) return;
+
+        const targetFriend = friends.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
+        setChatTab('chat');
+        setSidebarTab('chats');
+
+        if (targetFriend) {
+            setSelectedFriendId(targetFriend.id);
+            setDirectChatTarget(null);
+        } else {
+            setSelectedFriendId(null);
+            setDirectChatTarget(initialTargetPlayer);
+        }
+    }, [friends, initialTargetPlayer]);
+
+    useEffect(() => {
+        if (!supportDraft) return;
+
+        setChatTab('support');
+        setActiveSupportDraft(supportDraft);
+        setSupportMessageInput('');
+    }, [supportDraft]);
+
+    const selectedFriend = selectedFriendId ? friends.find(f => f.id === selectedFriendId) : undefined;
+    const selectedPrivatePlayer = useMemo<ChatTargetPlayer>(() => {
+        if (directChatTarget) return directChatTarget;
+        if (selectedFriend) {
+            return {
+                playerId: selectedFriend.playerId || getStablePlayerId(selectedFriend.name, selectedFriend.id),
+                name: selectedFriend.name,
+                avatar: selectedFriend.avatar,
+                isFriend: true,
+            };
+        }
+
+        const fallbackFriend = friends[0] || FRIENDS[0];
+        return {
+            playerId: fallbackFriend.playerId || getStablePlayerId(fallbackFriend.name, fallbackFriend.id),
+            name: fallbackFriend.name,
+            avatar: fallbackFriend.avatar,
+            isFriend: true,
+        };
+    }, [directChatTarget, friends, selectedFriend]);
+
+    const selectedPrivateMessages = selectedFriendId
+        ? (MOCK_SPECIFIC_CHATS[selectedFriendId] || CHAT_HISTORY)
+        : [
+            { id: 1, sender: selectedPrivatePlayer.name, text: '嗨，我們可以在這裡直接聊天。', isMe: false, time: 'now' },
+        ];
+    const selectedPrivateBlocked = isBlockedPlayer(selectedPrivatePlayer.playerId);
+
+    const showLocalToast = (message: string) => {
+        setToastMessage(message);
+        setTimeout(() => setToastMessage(null), 3000);
+    };
+
+    const openPlayerProfile = (name: string) => {
+        const profile = getMockPlayerProfile(name);
+        if (isBlockedPlayer(profile.playerId)) {
+            showLocalToast('已封鎖的玩家無法查看個人資料');
+            return;
+        }
+
+        openModal('playerProfile', { profile });
+    };
+
+    const handleSendSupportMessage = () => {
+        if (activeSupportDraft && !supportMessageInput.trim()) {
+            showLocalToast('請輸入檢舉內容');
+            return;
+        }
+
+        showLocalToast(activeSupportDraft ? '檢舉內容已送出給客服' : '訊息已送出給客服');
+        setSupportMessageInput('');
+    };
 
 
     const confirmDeleteFriend = (e: React.MouseEvent, friend: typeof FRIENDS[0]) => {
@@ -74,8 +164,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
     const handleDeleteFriend = () => {
         if (deleteModal.friendId) {
             setFriends(prev => prev.filter(f => f.id !== deleteModal.friendId));
-            setToastMessage(`已刪除好友 ${deleteModal.friendName}`);
-            setTimeout(() => setToastMessage(null), 3000);
+            showLocalToast(`已刪除好友 ${deleteModal.friendName}`);
             setDeleteModal({ isOpen: false, friendId: null, friendName: '' });
         }
     };
@@ -113,6 +202,18 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             </div>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                            {activeSupportDraft && (
+                                <div className="rounded-2xl border border-orange-300/25 bg-orange-400/10 p-4 text-orange-50 shadow-[0_0_24px_rgba(251,146,60,0.08)]">
+                                    <div className="mb-2 flex items-center gap-2 text-xs font-black text-orange-200">
+                                        <Flag size={14} />
+                                        檢舉案件
+                                    </div>
+                                    <div className="text-sm font-black text-white">{activeSupportDraft.title}</div>
+                                    <p className="mt-2 text-xs leading-relaxed text-orange-100/70">
+                                        請在下方輸入檢舉內容，送出後客服會依此玩家資料與您的描述建立案件。
+                                    </p>
+                                </div>
+                            )}
                             <div className="flex justify-start">
                                 <div className="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 mr-2 flex items-center justify-center border border-white/20">
                                     <Bot size={14} className="text-white" />
@@ -127,11 +228,16 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             <div className="flex-1 relative">
                                 <input
                                     type="text"
-                                    placeholder="請輸入您的問題..."
+                                    value={supportMessageInput}
+                                    onChange={(e) => setSupportMessageInput(e.target.value)}
+                                    placeholder={activeSupportDraft ? '請輸入檢舉內容...' : '請輸入您的問題...'}
                                     className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700]"
                                 />
                             </div>
-                            <button className="p-2.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full text-white shadow-lg hover:scale-105 active:scale-95 transition-all">
+                            <button
+                                onClick={handleSendSupportMessage}
+                                className="p-2.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
+                            >
                                 <Send size={18} fill="currentColor" />
                             </button>
                         </div>
@@ -157,7 +263,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                openModal('playerProfile', { profile: getMockPlayerProfile(msg.sender) });
+                                                openPlayerProfile(msg.sender);
                                             }}
                                             className="flex flex-col items-center mr-2 hover:opacity-80 transition-all active:scale-95 group-hover:scale-105"
                                         >
@@ -205,15 +311,22 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                     <div className="flex-1 flex flex-col bg-[#160b29] relative">
                         <div className="h-14 border-b border-white/10 flex justify-between items-center pl-6 pr-16 bg-[#1a0b2e]">
                             <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-full ${selectedFriend.avatar} flex items-center justify-center`}>
+                                <div className={`w-8 h-8 rounded-full ${selectedPrivatePlayer.avatar || 'bg-slate-700'} flex items-center justify-center`}>
                                     <UserIcon size={16} className="text-white/80" />
                                 </div>
                                 <div>
-                                    <h3 className="text-white font-bold text-sm">{selectedFriend.name}</h3>
-                                    <span className="text-green-500 text-[10px] flex items-center gap-1">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                        在線
-                                    </span>
+                                    <h3 className="text-white font-bold text-sm">{selectedPrivatePlayer.name}</h3>
+                                    {selectedPrivateBlocked ? (
+                                        <span className="text-red-300 text-[10px] flex items-center gap-1">
+                                            <ShieldAlert size={10} />
+                                            已封鎖，無法私訊
+                                        </span>
+                                    ) : (
+                                        <span className="text-green-500 text-[10px] flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                            在線
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                             <button className="text-slate-400 hover:text-white">
@@ -221,15 +334,20 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             </button>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                            {(MOCK_SPECIFIC_CHATS[selectedFriendId] || CHAT_HISTORY).map(msg => (
+                            {selectedPrivateBlocked && (
+                                <div className="rounded-2xl border border-red-400/20 bg-red-500/10 p-4 text-sm text-red-100">
+                                    您已將 {selectedPrivatePlayer.name} 加入黑名單，無法進行私人聊天。
+                                </div>
+                            )}
+                            {selectedPrivateMessages.map(msg => (
                                 <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
                                     {!msg.isMe && (
                                         <button 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                openModal('playerProfile', { profile: getMockPlayerProfile(selectedFriend.name) });
+                                                openPlayerProfile(selectedPrivatePlayer.name);
                                             }}
-                                            className={`w-8 h-8 rounded-full ${selectedFriend.avatar} flex-shrink-0 mr-2 flex items-center justify-center hover:scale-105 active:scale-95 transition-all`}
+                                            className={`w-8 h-8 rounded-full ${selectedPrivatePlayer.avatar || 'bg-slate-700'} flex-shrink-0 mr-2 flex items-center justify-center hover:scale-105 active:scale-95 transition-all`}
                                         >
                                             <UserIcon size={14} className="text-white/80" />
                                         </button>
@@ -249,10 +367,10 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                 <div className="absolute bottom-16 left-3 bg-[#2a1b42] border border-white/20 rounded-xl shadow-xl p-2 w-40 animate-in fade-in zoom-in-95 duration-200">
                                     <button
                                         onClick={() => {
-                                            openModal('bank', { receiverId: selectedFriend.name });
+                                            openModal('bank', { initialTab: 'gifts', receiverId: selectedPrivatePlayer.playerId });
                                             setShowAttachMenu(false);
-                                            console.log("[Chat] Game Points button clicked - opening Bank with receiverId:", selectedFriend.name);
                                         }}
+                                        disabled={selectedPrivateBlocked}
                                         className="w-full flex items-center gap-3 p-3 hover:bg-white/10 rounded-lg text-white text-sm transition-colors"
                                     >
                                         <div className="w-8 h-8 rounded-full bg-[#FFD700]/20 flex items-center justify-center text-[#FFD700]">
@@ -281,7 +399,8 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
 
                             <button
                                 onClick={() => setShowAttachMenu(!showAttachMenu)}
-                                className={`p-2 transition-colors rounded-full z-10 ${showAttachMenu ? 'bg-[#FFD700] text-black' : 'text-slate-400 hover:text-[#FFD700] bg-white/5'}`}
+                                disabled={selectedPrivateBlocked}
+                                className={`p-2 transition-colors rounded-full z-10 disabled:cursor-not-allowed disabled:opacity-40 ${showAttachMenu ? 'bg-[#FFD700] text-black' : 'text-slate-400 hover:text-[#FFD700] bg-white/5'}`}
                             >
                                 {showAttachMenu ? <X size={20} /> : <Plus size={20} />}
                             </button>
@@ -290,12 +409,14 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                     type="text"
                                     value={messageInput}
                                     onChange={(e) => setMessageInput(e.target.value)}
-                                    placeholder="輸入訊息..."
-                                    className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700]"
+                                    disabled={selectedPrivateBlocked}
+                                    placeholder={selectedPrivateBlocked ? '已封鎖，無法私訊' : '輸入訊息...'}
+                                    className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700] disabled:cursor-not-allowed disabled:text-slate-500"
                                 />
                                 <button
                                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                                    className={`absolute right-3 top-2.5 transition-colors ${showEmojiPicker ? 'text-[#FFD700]' : 'text-slate-400 hover:text-[#FFD700]'}`}
+                                    disabled={selectedPrivateBlocked}
+                                    className={`absolute right-3 top-2.5 transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${showEmojiPicker ? 'text-[#FFD700]' : 'text-slate-400 hover:text-[#FFD700]'}`}
                                 >
                                     <Smile size={20} />
                                 </button>
@@ -353,7 +474,10 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                     </>
                                 )}
                             </div>
-                            <button className="p-2.5 bg-gradient-to-r from-[#FFD700] to-[#DAA520] rounded-full text-black shadow-lg hover:scale-105 active:scale-95 transition-all">
+                            <button
+                                disabled={selectedPrivateBlocked}
+                                className="p-2.5 bg-gradient-to-r from-[#FFD700] to-[#DAA520] rounded-full text-black shadow-lg hover:scale-105 active:scale-95 transition-all disabled:cursor-not-allowed disabled:opacity-40"
+                            >
                                 <Send size={18} fill="currentColor" />
                             </button>
                         </div>
@@ -433,7 +557,7 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                openModal('playerProfile', { profile: getMockPlayerProfile(player.name) });
+                                                openPlayerProfile(player.name);
                                             }}
                                             className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10 hover:scale-110 active:scale-95 transition-all shadow-md group`}
                                         >
@@ -505,40 +629,64 @@ const ChatInterface = ({ initialTab, onClose }: ChatInterfaceProps) => {
                             <div className="flex-1 overflow-y-auto no-scrollbar">
                                 {sidebarTab === 'chats' ? (
                                     /* Chat List Mode */
-                                    friends.map(friend => (
-                                        <div
-                                            key={friend.id}
-                                            onClick={() => {
-                                                setChatTab('chat');
-                                                setSelectedFriendId(friend.id);
-                                            }}
-                                            className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
-                                        >
-                                            <div className="relative">
-                                                <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
+                                    <>
+                                        {directChatTarget && (
+                                            <div
+                                                onClick={() => {
+                                                    setChatTab('chat');
+                                                    setSelectedFriendId(null);
+                                                }}
+                                                className="flex cursor-pointer items-center gap-3 border-l-4 border-[#FFD700] bg-[#FFD700]/10 p-4 transition-colors hover:bg-[#FFD700]/15"
+                                            >
+                                                <div className={`w-10 h-10 rounded-full ${directChatTarget.avatar || 'bg-slate-700'} flex items-center justify-center border border-[#FFD700]/40`}>
                                                     <UserIcon size={20} className="text-white/80" />
                                                 </div>
-                                                <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex justify-between items-baseline mb-0.5">
-                                                    <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
-                                                        {friend.name}
-                                                    </span>
-                                                    <span className="text-[10px] text-slate-500">10:30</span>
+                                                <div className="min-w-0 flex-1">
+                                                    <div className="flex items-baseline justify-between gap-2">
+                                                        <span className="truncate text-sm font-bold text-[#FFD700]">{directChatTarget.name}</span>
+                                                        <span className="text-[10px] text-[#FFD700]/70">now</span>
+                                                    </div>
+                                                    <p className="truncate text-xs text-slate-400">臨時私人對話</p>
                                                 </div>
-                                                <p className="text-xs text-slate-400 truncate">
-                                                    {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
-                                                </p>
                                             </div>
-                                        </div>
-                                    ))
+                                        )}
+                                        {friends.map(friend => (
+                                            <div
+                                                key={friend.id}
+                                                onClick={() => {
+                                                    setChatTab('chat');
+                                                    setDirectChatTarget(null);
+                                                    setSelectedFriendId(friend.id);
+                                                }}
+                                                className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
+                                            >
+                                                <div className="relative">
+                                                    <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
+                                                        <UserIcon size={20} className="text-white/80" />
+                                                    </div>
+                                                    <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex justify-between items-baseline mb-0.5">
+                                                        <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
+                                                            {friend.name}
+                                                        </span>
+                                                        <span className="text-[10px] text-slate-500">10:30</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-400 truncate">
+                                                        {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </>
                                 ) : (
                                     /* Friends List Mode (Simpler view) */
                                     friends.map(friend => (
                                         <div
                                             key={friend.id}
                                             onClick={() => {
+                                                setDirectChatTarget(null);
                                                 setSelectedFriendId(friend.id);
                                             }}
                                             className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors border-b border-white/5 ${selectedFriendId === friend.id ? 'bg-white/5' : ''}`}

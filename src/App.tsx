@@ -6,6 +6,7 @@ import { UserPreferencesProvider } from './context/UserPreferencesContext';
 import { AudioProvider } from './context/AudioContext';
 import { UIProvider } from './context/UIContext';
 import { NavigationProvider } from './context/NavigationContext';
+import { SocialProvider } from './context/SocialContext';
 
 // Components - Layout
 import BrandLoading from './components/layout/BrandLoading';
@@ -49,14 +50,16 @@ function App() {
                     <AuthProvider>
                         <UIProvider>
                             <NavigationProvider>
-                                {isInitialLoad ? (
-                                    <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                                ) : (
-                                    <>
-                                        <MainContent />
-                                        <ModalContainer />
-                                    </>
-                                )}
+                                <SocialProvider>
+                                    {isInitialLoad ? (
+                                        <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                                    ) : (
+                                        <>
+                                            <MainContent />
+                                            <ModalContainer />
+                                        </>
+                                    )}
+                                </SocialProvider>
                             </NavigationProvider>
                             {/* Global UI Components - Always rendered */}
                             <ToastContainer />
@@ -70,4 +73,3 @@ function App() {
 }
 
 export default App;
-

@@ -2,6 +2,7 @@
 
 export interface Friend {
     id: number;
+    playerId?: string;
     name: string;
     avatar: string;
     status: 'online' | 'playing' | 'offline';
@@ -13,6 +14,7 @@ export interface Friend {
 
 export interface OnlinePlayer {
     id: number;
+    playerId?: string;
     name: string;
     avatar: string;
     level: number;
@@ -24,6 +26,7 @@ export interface OnlinePlayer {
 export type FriendStatus = 'online' | 'playing' | 'offline';
 
 export interface PlayerProfile {
+    playerId: string;
     name: string;
     avatar: string;
     level: number;

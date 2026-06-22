@@ -12,11 +12,34 @@ export type BankSubTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
 // Events sub-tab types
 export type EventsSubTab = 'daily' | 'events' | 'leaderboard' | 'filter';
 
+export interface ChatTargetPlayer {
+    playerId: string;
+    name: string;
+    avatar?: string;
+    level?: number;
+    isFriend?: boolean;
+}
+
+export interface SupportDraft {
+    title: string;
+    targetPlayer?: ChatTargetPlayer;
+}
+
+interface NavigationOptions {
+    chatTab?: ChatSubTab;
+    bankTab?: BankSubTab;
+    eventsTab?: EventsSubTab;
+    chatTarget?: ChatTargetPlayer;
+    supportDraft?: SupportDraft;
+}
+
 interface NavigationState {
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
     bankInitialTab: BankSubTab;
     eventsInitialTab: EventsSubTab;
+    chatTarget?: ChatTargetPlayer;
+    supportDraft?: SupportDraft;
     viewHistory: ViewType[];
 }
 
@@ -26,10 +49,12 @@ interface NavigationContextType {
     chatInitialTab: ChatSubTab;
     bankInitialTab: BankSubTab;
     eventsInitialTab: EventsSubTab;
+    chatTarget?: ChatTargetPlayer;
+    supportDraft?: SupportDraft;
     viewHistory: ViewType[];
 
     // Navigation methods
-    navigate: (view: ViewType, options?: { chatTab?: ChatSubTab; bankTab?: BankSubTab; eventsTab?: EventsSubTab }) => void;
+    navigate: (view: ViewType, options?: NavigationOptions) => void;
     goBack: () => void;
     goToGames: () => void;
 
@@ -50,14 +75,19 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         chatInitialTab: 'chat',
         bankInitialTab: 'deposit',
         eventsInitialTab: 'events',
+        chatTarget: undefined,
+        supportDraft: undefined,
         viewHistory: ['games'],
     });
 
     // Navigate to a specific view
-    const navigate = useCallback((view: ViewType, options?: { chatTab?: ChatSubTab; bankTab?: BankSubTab; eventsTab?: EventsSubTab }) => {
+    const navigate = useCallback((view: ViewType, options?: NavigationOptions) => {
         setState(prev => {
             // If navigating to the same view, do nothing
-            if (prev.currentView === view && (!options || (!options.chatTab && !options.bankTab && !options.eventsTab))) return prev;
+            if (
+                prev.currentView === view &&
+                (!options || (!options.chatTab && !options.bankTab && !options.eventsTab && !options.chatTarget && !options.supportDraft))
+            ) return prev;
 
             // Build new history - only push if not going to games
             const newHistory = view === 'games'
@@ -69,6 +99,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
                 chatInitialTab: options?.chatTab || prev.chatInitialTab,
                 bankInitialTab: options?.bankTab || prev.bankInitialTab,
                 eventsInitialTab: options?.eventsTab || prev.eventsInitialTab,
+                chatTarget: options?.chatTarget,
+                supportDraft: options?.supportDraft,
                 viewHistory: newHistory,
             };
         });
@@ -100,6 +132,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
             chatInitialTab: 'chat',
             bankInitialTab: 'deposit',
             eventsInitialTab: 'events',
+            chatTarget: undefined,
+            supportDraft: undefined,
             viewHistory: ['games'],
         });
     }, []);
@@ -119,6 +153,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         chatInitialTab: state.chatInitialTab,
         bankInitialTab: state.bankInitialTab,
         eventsInitialTab: state.eventsInitialTab,
+        chatTarget: state.chatTarget,
+        supportDraft: state.supportDraft,
         viewHistory: state.viewHistory,
         navigate,
         goBack,

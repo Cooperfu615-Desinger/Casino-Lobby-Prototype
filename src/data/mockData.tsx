@@ -20,6 +20,13 @@ export type { EventItem, GiftItem } from '../types/event';
 export type { InboxMessage } from '../types/inbox';
 export type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
 
+export const getStablePlayerId = (name: string, seed?: number): string => {
+    if (seed) return `P${String(seed).padStart(5, '0')}`;
+
+    const hash = Array.from(name).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return `P${String(10000 + (hash % 90000)).padStart(5, '0')}`;
+};
+
 // ─── Avatar Data ────────────────────────────────────────────────────────────
 export interface AvatarItem {
     id: number;
@@ -129,20 +136,20 @@ export const GAME_SEATS: GameSeat[] = Array.from({ length: 3 }, (_, pageIndex) =
 ).flat();
 
 export const FRIENDS: Friend[] = [
-    { id: 1, name: 'Jessica_99', avatar: 'bg-pink-500', status: 'online', lastMsg: '要一起玩嗎？' },
-    { id: 2, name: 'Tom888', avatar: 'bg-blue-500', status: 'playing', lastMsg: '我剛中了Jackpot!' },
-    { id: 3, name: 'GM_Support', avatar: 'bg-yellow-600', status: 'online', lastMsg: '您好，有什麼能幫您的？' },
-    { id: 4, name: 'David_King', avatar: 'bg-green-600', status: 'offline', lastMsg: '下次見' },
-    { id: 5, name: 'LuckyGirl', avatar: 'bg-purple-500', status: 'playing', lastMsg: '這個機台很軟！' },
+    { id: 1, playerId: getStablePlayerId('Jessica_99', 10001), name: 'Jessica_99', avatar: 'bg-pink-500', status: 'online', lastMsg: '要一起玩嗎？' },
+    { id: 2, playerId: getStablePlayerId('Tom888', 10002), name: 'Tom888', avatar: 'bg-blue-500', status: 'playing', lastMsg: '我剛中了Jackpot!' },
+    { id: 3, playerId: getStablePlayerId('GM_Support', 10003), name: 'GM_Support', avatar: 'bg-yellow-600', status: 'online', lastMsg: '您好，有什麼能幫您的？' },
+    { id: 4, playerId: getStablePlayerId('David_King', 10004), name: 'David_King', avatar: 'bg-green-600', status: 'offline', lastMsg: '下次見' },
+    { id: 5, playerId: getStablePlayerId('LuckyGirl', 10005), name: 'LuckyGirl', avatar: 'bg-purple-500', status: 'playing', lastMsg: '這個機台很軟！' },
 ];
 
 export const ONLINE_PLAYERS: OnlinePlayer[] = [
-    { id: 101, name: 'DragonSlayer', avatar: 'bg-red-600', level: 50 },
-    { id: 102, name: 'PokerFace_X', avatar: 'bg-slate-600', level: 22 },
-    { id: 103, name: 'SlotQueen', avatar: 'bg-purple-600', level: 15 },
-    { id: 104, name: 'RichMan99', avatar: 'bg-yellow-600', level: 88 },
-    { id: 105, name: 'Newbie01', avatar: 'bg-green-600', level: 2 },
-    { id: 106, name: 'WinnerWinner', avatar: 'bg-blue-600', level: 34 },
+    { id: 101, playerId: getStablePlayerId('DragonSlayer', 10101), name: 'DragonSlayer', avatar: 'bg-red-600', level: 50 },
+    { id: 102, playerId: getStablePlayerId('PokerFace_X', 10102), name: 'PokerFace_X', avatar: 'bg-slate-600', level: 22 },
+    { id: 103, playerId: getStablePlayerId('SlotQueen', 10103), name: 'SlotQueen', avatar: 'bg-purple-600', level: 15 },
+    { id: 104, playerId: getStablePlayerId('RichMan99', 10104), name: 'RichMan99', avatar: 'bg-yellow-600', level: 88 },
+    { id: 105, playerId: getStablePlayerId('Newbie01', 10105), name: 'Newbie01', avatar: 'bg-green-600', level: 2 },
+    { id: 106, playerId: getStablePlayerId('WinnerWinner', 10106), name: 'WinnerWinner', avatar: 'bg-blue-600', level: 34 },
 ];
 
 export const CHAT_HISTORY: ChatMessage[] = [
@@ -471,6 +478,7 @@ export const getMockPlayerProfile = (name: string): PlayerProfile => {
     const onlineData = ONLINE_PLAYERS.find(p => p.name === name);
 
     return {
+        playerId: friendData?.playerId || onlineData?.playerId || getStablePlayerId(name),
         name,
         avatar: friendData?.avatar || onlineData?.avatar || 'bg-slate-700',
         level: onlineData?.level || Math.floor(Math.random() * 50) + 1,
