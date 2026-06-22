@@ -1,8 +1,20 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 
+declare const process: {
+  env: Record<string, string | undefined>
+}
+
 const repoBase = '/Casino-Lobby-Prototype/'
 const lucideTypeExports = new Set(['LucideIcon', 'LucideProps', 'IconNode'])
+
+const isVercelBuild = () => process.env.VERCEL === '1'
+
+const resolveBase = (command: 'build' | 'serve') => {
+  if (command !== 'build') return '/'
+
+  return isVercelBuild() ? '/' : repoBase
+}
 
 const toKebabIconName = (name: string) =>
   name
@@ -63,5 +75,5 @@ const lucideDirectImports = (): Plugin => ({
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
   plugins: [lucideDirectImports(), react()],
-  base: command === 'build' ? repoBase : '/',
+  base: resolveBase(command),
 }))
