@@ -5,6 +5,7 @@ import HistoryModal from './modals/HistoryModal';
 import PromotionModal from './modals/PromotionModal';
 import BankInterface from './features/BankInterface';
 import PlayerProfileCard from './modals/PlayerProfileCard';
+import BlacklistModal from './modals/BlacklistModal';
 
 const MODAL_REGISTRY: Partial<Record<ModalType, React.ComponentType<any>>> = {
     transfer: TransferModal,
@@ -13,6 +14,7 @@ const MODAL_REGISTRY: Partial<Record<ModalType, React.ComponentType<any>>> = {
     promotion: PromotionModal,
     bank: BankInterface,
     playerProfile: PlayerProfileCard,
+    blacklist: BlacklistModal,
     settings: () => null, // Placeholder
     none: () => null
 };

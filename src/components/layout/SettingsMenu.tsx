@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Music, Volume2, Bell, FileText, LogOut, ToggleLeft, ToggleRight, Globe, SunMoon } from 'lucide-react';
+import { Music, Volume2, Bell, FileText, LogOut, ToggleLeft, ToggleRight, Globe, SunMoon, Ban } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAudio } from '../../context/AudioContext';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
+import { useUI } from '../../context/UIContext';
+import { useSocial } from '../../context/SocialContext';
 
 interface SettingsMenuProps {
     onOpenLanguage: () => void;
@@ -13,6 +15,8 @@ interface SettingsMenuProps {
 const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onCloseMenu }: SettingsMenuProps) => {
     const { isMusicEnabled, isSoundEnabled, toggleMusic, toggleSound } = useAudio();
     const { themeMode, toggleThemeMode } = useUserPreferences();
+    const { openModal } = useUI();
+    const { blockedPlayers } = useSocial();
     const [push, setPush] = useState(true);
     const { logout } = useAuth();
 
@@ -84,6 +88,23 @@ const SettingsMenu = ({ onOpenLanguage, onOpenLegal, onCloseMenu }: SettingsMenu
                 >
                     <FileText size={18} />
                     <span className="text-sm">使用者規章</span>
+                </button>
+                <button
+                    onClick={() => {
+                        onCloseMenu();
+                        openModal('blacklist');
+                    }}
+                    className="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left"
+                >
+                    <span className="flex items-center gap-3">
+                        <Ban size={18} />
+                        <span className="text-sm">黑名單管理</span>
+                    </span>
+                    {blockedPlayers.length > 0 && (
+                        <span className="min-w-5 rounded-full bg-red-500/20 px-2 py-0.5 text-center text-[10px] font-black text-red-200">
+                            {blockedPlayers.length}
+                        </span>
+                    )}
                 </button>
 
                 <div className="h-px bg-white/10 my-2 mx-2"></div>

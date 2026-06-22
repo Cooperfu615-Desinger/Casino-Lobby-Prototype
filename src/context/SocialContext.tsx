@@ -6,8 +6,12 @@ export interface SocialPlayerIdentity {
     avatar?: string;
 }
 
+export interface BlockedPlayer extends SocialPlayerIdentity {
+    blockedAt: number;
+}
+
 interface SocialContextType {
-    blockedPlayers: SocialPlayerIdentity[];
+    blockedPlayers: BlockedPlayer[];
     blockPlayer: (player: SocialPlayerIdentity) => void;
     unblockPlayer: (playerId: string) => void;
     isBlockedPlayer: (playerId?: string) => boolean;
@@ -16,12 +20,12 @@ interface SocialContextType {
 const SocialContext = createContext<SocialContextType | undefined>(undefined);
 
 export const SocialProvider = ({ children }: { children: ReactNode }) => {
-    const [blockedPlayers, setBlockedPlayers] = useState<SocialPlayerIdentity[]>([]);
+    const [blockedPlayers, setBlockedPlayers] = useState<BlockedPlayer[]>([]);
 
     const blockPlayer = useCallback((player: SocialPlayerIdentity) => {
         setBlockedPlayers(prev => {
             if (prev.some(blocked => blocked.playerId === player.playerId)) return prev;
-            return [...prev, player];
+            return [...prev, { ...player, blockedAt: Date.now() }];
         });
     }, []);
 
