@@ -77,6 +77,16 @@ export interface VIPRewardItem {
     value: string;
 }
 
+export interface VIPTargetDetail {
+    level: number;
+    name: string;
+    themeColor: string;
+    rebate: string;
+    feeDiscount: string;
+    maintainRequirement: string;
+    note: string;
+}
+
 export interface VIPLevelRule {
     level: number;
     requiredDeposit: number;

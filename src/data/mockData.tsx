@@ -3,7 +3,7 @@ import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
 import type { Game, GameSeat } from '../types/game';
-import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile, VIPLevelRule } from '../types/user';
+import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile, VIPLevelRule, VIPTargetDetail } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 import type { EventItem, GiftItem } from '../types/event';
@@ -334,6 +334,108 @@ export const VIP_PRIVILEGES: VIPPrivilege[] = [
     { id: 2, title: '每日登入禮金加成', description: '每日登入禮金 +10%', icon: '💰' },
     { id: 3, title: '專屬客服', description: '優先處理通道', icon: '🎧' },
     { id: 4, title: '特殊活動資格', description: 'VIP 專屬活動邀請', icon: '🎪' }
+];
+
+export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
+    {
+        level: 0,
+        name: 'VIP 0',
+        themeColor: '#94A3B8',
+        rebate: '0%',
+        feeDiscount: '無折扣',
+        maintainRequirement: '無保級條件',
+        note: '完成首次儲值與投注即可開始累積 VIP 進度。',
+    },
+    {
+        level: 1,
+        name: 'VIP 1',
+        themeColor: '#CD7F32',
+        rebate: '1.2%',
+        feeDiscount: '減免 1%',
+        maintainRequirement: '每月有效投注 80,000，或月儲值 2,000',
+        note: '適合剛開始累積活躍度的玩家，解鎖基礎 VIP 禮遇。',
+    },
+    {
+        level: 2,
+        name: 'VIP 2',
+        themeColor: '#C0C7D1',
+        rebate: '0.4%',
+        feeDiscount: '減免 2%',
+        maintainRequirement: '每月有效投注 160,000，或月儲值 5,000',
+        note: '開始取得穩定回饋，適合中低頻但持續遊玩的玩家。',
+    },
+    {
+        level: 3,
+        name: 'VIP 3',
+        themeColor: '#F5C842',
+        rebate: '0.6%',
+        feeDiscount: '減免 3%',
+        maintainRequirement: '每月有效投注 320,000，或月儲值 12,000',
+        note: '提供更完整的週期性回饋，福利開始明顯拉開差距。',
+    },
+    {
+        level: 4,
+        name: 'VIP 4',
+        themeColor: '#60A5FA',
+        rebate: '0.8%',
+        feeDiscount: '減免 4%',
+        maintainRequirement: '每月有效投注 560,000，或月儲值 22,000',
+        note: '活躍玩家的主要分水嶺，可獲得更高活動優先權。',
+    },
+    {
+        level: 5,
+        name: 'VIP 5',
+        themeColor: '#A855F7',
+        rebate: '1.0%',
+        feeDiscount: '減免 5%',
+        maintainRequirement: '每月有效投注 900,000，或月儲值 35,000',
+        note: '進入高價值會員層級，福利以專屬服務與高額獎勵為主。',
+    },
+    {
+        level: 6,
+        name: 'VIP 6',
+        themeColor: '#EC4899',
+        rebate: '1.2%',
+        feeDiscount: '減免 6%',
+        maintainRequirement: '每月有效投注 1,300,000，或月儲值 50,000',
+        note: '適合穩定投注與儲值玩家，開始享有高階回饋節奏。',
+    },
+    {
+        level: 7,
+        name: 'VIP 7',
+        themeColor: '#F97316',
+        rebate: '1.4%',
+        feeDiscount: '減免 7%',
+        maintainRequirement: '每月有效投注 1,800,000，或月儲值 75,000',
+        note: '高階 VIP 目標，重點在更高回饋與專人服務。',
+    },
+    {
+        level: 8,
+        name: 'VIP 8',
+        themeColor: '#22D3EE',
+        rebate: '1.6%',
+        feeDiscount: '減免 8%',
+        maintainRequirement: '每月有效投注 2,400,000，或月儲值 105,000',
+        note: '針對核心玩家提供更高額、更穩定的月度禮遇。',
+    },
+    {
+        level: 9,
+        name: 'VIP 9',
+        themeColor: '#FACC15',
+        rebate: '1.8%',
+        feeDiscount: '減免 9%',
+        maintainRequirement: '每月有效投注 3,100,000，或月儲值 140,000',
+        note: '接近最高層級，獎勵與活動資格全面升級。',
+    },
+    {
+        level: 10,
+        name: 'VIP 10',
+        themeColor: '#FFFFFF',
+        rebate: '2.0%',
+        feeDiscount: '減免 10%',
+        maintainRequirement: '每月有效投注 4,000,000，或月儲值 180,000',
+        note: '最高 VIP 等級，享有目前所有開放中的尊榮福利。',
+    },
 ];
 
 export const VIP_LEVEL_RULES: VIPLevelRule[] = [
