@@ -1,9 +1,10 @@
-import { Menu, Crown, Coins } from 'lucide-react';
+import { Menu, Crown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ActionButton from '../common/ActionButton';
 import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
 import AvatarDisplay from '../common/AvatarDisplay';
+import WalletBalances from '../common/WalletBalances';
 
 interface HeaderProps {
     onOpenUserModal: () => void;
@@ -19,7 +20,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
     return (
         <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
 
-            {/* Left Section: User Info + Gold Wallet */}
+            {/* Left Section: User Info */}
             <div className="flex items-center gap-6 pointer-events-auto z-50">
                 {/* User Info (Clickable) */}
                 <button
@@ -45,22 +46,6 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                     </div>
                 </button>
 
-                {/* Gold Wallet Only */}
-                <div
-                    className={`bg-black/60 border border-[#FFD700]/50 rounded-full px-4 py-2 flex items-center gap-3 shadow-lg select-none transition-all ${isBalanceAnimating ? 'animate-pulse scale-105 border-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.5)]' : ''}`}
-                >
-                    <Coins className="text-[#FFD700] fill-current" size={22} />
-                    <span className={`text-white font-mono font-bold text-xl tracking-wide transition-colors ${isBalanceAnimating ? 'text-[#FFD700]' : ''}`}>
-                        {user?.balance.gold.toLocaleString() || '0'}
-                    </span>
-                    <button
-                        onClick={() => navigate('bank')}
-                        className="w-6 h-6 rounded-full bg-[#FFD700]/20 hover:bg-[#FFD700]/40 flex items-center justify-center text-white text-sm font-bold transition-colors"
-                        title="Add Gold"
-                    >
-                        +
-                    </button>
-                </div>
             </div>
 
             {/* Center: BUY & SALE Buttons (Absolutely Positioned) */}
@@ -69,22 +54,20 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                 <ActionButton label="SALE" type="sale" onClick={() => openModal('promotion', { startIndex: 0 })} />
             </div>
 
-            {/* Right: Silver/Bronze + Settings */}
-            <div className="pointer-events-auto flex items-center justify-end gap-3 w-[300px] z-50">
-                {/* Silver */}
-                <div className="bg-black/60 border border-slate-400/50 rounded-full px-3 py-1 flex items-center gap-2 shadow-md">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-slate-300 to-slate-500 flex items-center justify-center text-[10px]">🥈</div>
-                    <span className="text-white font-mono font-bold text-sm tracking-wide">
-                        {user?.balance.silver.toLocaleString() || '0'}
-                    </span>
-                    <button
-                        onClick={() => navigate('bank')}
-                        className="w-5 h-5 rounded-full bg-slate-400/20 hover:bg-slate-400/40 flex items-center justify-center text-white text-xs font-bold transition-colors"
-                        title="Add Silver"
-                    >
-                        +
-                    </button>
-                </div>
+            {/* Right: Wallets + Settings */}
+            <div className="pointer-events-auto flex w-[430px] items-center justify-end gap-3 z-50">
+                <button
+                    type="button"
+                    onClick={() => navigate('bank')}
+                    aria-label="開啟銀行中心"
+                    className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-black/45 p-2 shadow-lg transition-all hover:border-[#FFD700]/40 hover:bg-black/60 active:scale-[0.99]"
+                >
+                    <WalletBalances
+                        balance={user?.balance}
+                        variant="compact"
+                        isAnimating={isBalanceAnimating}
+                    />
+                </button>
 
                 <button
                     onClick={onOpenSettings}

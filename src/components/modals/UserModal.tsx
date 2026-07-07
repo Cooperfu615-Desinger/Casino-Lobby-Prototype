@@ -1,10 +1,11 @@
 import { useState, type ReactNode } from 'react';
-import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Trophy, Flame, Gift, Check, Lock, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
+import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Gift, Check, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
-import { USER_STATS, ACHIEVEMENTS, VIP_LEVEL_RULES, type Achievement } from '../../data/mockData';
+import { VIP_LEVEL_RULES } from '../../data/mockData';
 import AvatarDisplay from '../common/AvatarDisplay';
 import AvatarSelectModal from './AvatarSelectModal';
+import WalletBalances from '../common/WalletBalances';
 
 interface UserModalProps {
     onClose: () => void;
@@ -14,12 +15,9 @@ const UserModal = ({ onClose }: UserModalProps) => {
     const { user, updateUser } = useAuth();
     const { showToast } = useUI();
     const [activeView, setActiveView] = useState<'overview' | 'edit'>('overview');
-    const [activeTab, setActiveTab] = useState<'info' | 'achievements'>('info');
     const [showAvatarSelect, setShowAvatarSelect] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showVipPrivileges, setShowVipPrivileges] = useState(false);
-    const [claimingId, setClaimingId] = useState<number | null>(null);
-    const [achievements, setAchievements] = useState<Achievement[]>(ACHIEVEMENTS);
 
     // Account binding states
     const [boundAccounts, setBoundAccounts] = useState({
@@ -64,17 +62,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
         }, 500);
     };
 
-    const handleClaimAchievement = (id: number) => {
-        setClaimingId(id);
-        setTimeout(() => {
-            setAchievements(prev => prev.map(a =>
-                a.id === id ? { ...a, claimed: true } : a
-            ));
-            setClaimingId(null);
-            showToast('領取獎勵成功！', 'success');
-        }, 500);
-    };
-
     // Binding confirmation handler
     const handleBindConfirm = () => {
         if (!bindingConfirm) return;
@@ -96,13 +83,13 @@ const UserModal = ({ onClose }: UserModalProps) => {
     ];
 
     return (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-in fade-in duration-300 p-4">
-            <div className="w-full max-w-4xl bg-[#1a0b2e] rounded-3xl border border-white/10 shadow-2xl flex overflow-hidden max-h-[85vh]">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 p-3 backdrop-blur-md animate-in fade-in duration-300">
+            <div className="flex h-[600px] max-h-[calc(100%-24px)] w-full max-w-[900px] overflow-hidden rounded-2xl border border-white/10 bg-[#1a0b2e] shadow-2xl">
 
                 {/* Sidebar / Left Info */}
-                <div className="w-1/3 bg-[#120822] border-r border-white/10 p-8 flex flex-col items-center text-center relative">
-                    <div className="relative group mb-4">
-                        <div className="w-32 h-32 rounded-full border-4 border-[#FFD700] p-1 overflow-hidden bg-slate-800 shadow-[0_0_30px_rgba(255,215,0,0.3)]">
+                <div className="relative flex w-[300px] flex-col items-center border-r border-white/10 bg-[#120822] p-5 text-center">
+                    <div className="group relative mb-3">
+                        <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-[#FFD700] bg-slate-800 p-1 shadow-[0_0_24px_rgba(255,215,0,0.28)]">
                             <AvatarDisplay avatarId={user?.avatarId} size="lg" />
                         </div>
                         <button
@@ -114,55 +101,33 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         </button>
                     </div>
 
-                    <h2 className="text-2xl font-bold text-white mb-1">{user?.name}</h2>
-                    <div className="flex items-center gap-2 text-slate-400 text-xs bg-white/5 px-3 py-1 rounded-full mb-6">
+                    <h2 className="-mt-2 mb-1 text-xl font-bold text-white">{user?.name}</h2>
+                    <div className="-mt-1 mb-4 flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-slate-400">
                         ID: {user?.id} <button className="hover:text-white"><Copy size={12} /></button>
                     </div>
 
-                    <div className="w-full space-y-4">
-                        {/* Three Currency Display */}
-                        <div className="bg-white/5 rounded-xl p-4 border border-white/5 space-y-3">
-                            {/* Gold */}
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center text-sm">🪙</div>
-                                    <span className="text-slate-400 text-sm">金幣</span>
-                                </div>
-                                <div className="text-[#FFD700] text-xl font-mono font-bold">{user?.balance.gold.toLocaleString()}</div>
+                    <div className="w-full space-y-3">
+                        <div className="-mt-2.5 rounded-xl border border-white/5 bg-white/5 p-3">
+                            <div className="mb-2 flex items-center justify-between">
+                                <span className="text-xs font-black text-slate-300">錢包總覽</span>
+                                <span className="text-[10px] font-bold text-slate-500">金 / 銀 / 銅</span>
                             </div>
-                            {/* Silver */}
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-300 to-slate-500 flex items-center justify-center text-sm">🥈</div>
-                                    <span className="text-slate-400 text-sm">銀幣</span>
-                                </div>
-                                <div className="text-slate-300 text-xl font-mono font-bold">{user?.balance.silver.toLocaleString()}</div>
-                            </div>
-
-                            {/* Divider */}
-                            <div className="border-t border-white/10 pt-3">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-slate-400 text-xs">總資產 (折合金幣)</span>
-                                    <div className="text-[#FFD700] text-lg font-mono font-bold">
-                                        {user ? Math.floor(user.balance.gold + (user.balance.silver / 100)).toLocaleString() : '0'}
-                                    </div>
-                                </div>
-                            </div>
+                            <WalletBalances balance={user?.balance} variant="cards" />
                         </div>
 
                         <button
                             onClick={() => setActiveView('edit')}
-                            className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors border ${activeView === 'edit' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
+                            className={`flex h-[35px] w-full items-center justify-between rounded-xl border px-3 text-[13px] transition-colors ${activeView === 'edit' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
                         >
                             <div className="flex items-center gap-3">
-                                <UserCog size={20} />
+                                <UserCog size={16} />
                                 <span>修改資料</span>
                             </div>
-                            <ChevronRight size={16} />
+                            <ChevronRight size={14} />
                         </button>
 
                         {/* 2x2 Account Binding Grid */}
-                        <div className="grid grid-cols-2 gap-2 mt-4">
+                        <div className="mt-3 grid grid-cols-2 gap-2">
                             {bindingOptions.map((option) => {
                                 const isBound = boundAccounts[option.key];
                                 const IconComponent = option.icon;
@@ -171,7 +136,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                         key={option.key}
                                         onClick={() => !isBound && setBindingConfirm(option.key)}
                                         disabled={isBound}
-                                        className={`flex items-center gap-2 p-3 rounded-xl text-xs font-bold transition-all border ${isBound
+                                        className={`flex items-center gap-2 rounded-xl border p-2.5 text-xs font-bold transition-all ${isBound
                                             ? 'bg-slate-700/50 text-slate-500 border-slate-600 cursor-default'
                                             : `bg-gradient-to-r ${option.color} text-white border-transparent hover:brightness-110 active:scale-95`
                                             }`}
@@ -198,10 +163,10 @@ const UserModal = ({ onClose }: UserModalProps) => {
                 </div>
 
                 {/* Main Content / Right Info */}
-                <div className="flex-1 p-6 bg-gradient-to-br from-[#1a0b2e] to-[#2a1b42] relative flex flex-col">
+                <div className="relative flex flex-1 flex-col bg-gradient-to-br from-[#1a0b2e] to-[#2a1b42] p-5">
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10"
+                        className="absolute -right-px -top-1 z-10 flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
                         title="關閉"
                         aria-label="Close"
                     >
@@ -209,27 +174,10 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     </button>
 
                     {activeView === 'overview' ? (
-                        <div className="flex flex-col h-full">
-                            {/* Tab Navigation - with right margin for close button */}
-                            <div className="flex gap-2 mb-4 mr-10">
-                                <button
-                                    onClick={() => setActiveTab('info')}
-                                    className={`flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${activeTab === 'info' ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-black' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
-                                >
-                                    📊 資訊
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('achievements')}
-                                    className={`flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${activeTab === 'achievements' ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-black' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
-                                >
-                                    🏆 成就
-                                </button>
-                            </div>
-
-                            {activeTab === 'info' ? (
-                                <div className="flex-1 flex flex-col">
+                        <div className="flex h-full flex-col">
+                            <div className="flex min-h-0 flex-1 flex-col pr-1">
                                     {/* VIP Card */}
-                                    <div className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 rounded-2xl p-5 shadow-xl mb-4 relative overflow-hidden group">
+                                    <div className="group relative mb-4 overflow-hidden rounded-2xl bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 p-5 shadow-xl">
                                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-30 mix-blend-overlay"></div>
                                         <div className="absolute -right-10 -top-10 text-black/10 group-hover:scale-110 transition-transform duration-700">
                                             <Crown size={140} />
@@ -275,31 +223,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                         </div>
                                     </div>
 
-                                    {/* Stats Cards */}
-                                    <div className="grid grid-cols-3 gap-3 mb-4">
-                                        <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-                                            <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
-                                                <TrendingUp size={16} className="text-white" />
-                                            </div>
-                                            <div className="text-slate-400 text-xs mb-1">累積總贏分</div>
-                                            <div className="text-white font-bold text-lg">{USER_STATS.totalWin.toLocaleString()}</div>
-                                        </div>
-                                        <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-                                            <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                                                <Trophy size={16} className="text-white" />
-                                            </div>
-                                            <div className="text-slate-400 text-xs mb-1">最高贏分紀錄</div>
-                                            <div className="text-white font-bold text-lg">{USER_STATS.maxWin.toLocaleString()}</div>
-                                        </div>
-                                        <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-                                            <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
-                                                <Flame size={16} className="text-white" />
-                                            </div>
-                                            <div className="text-slate-400 text-xs mb-1">連續登入天數</div>
-                                            <div className="text-white font-bold text-lg">{USER_STATS.dailyStreak} 天</div>
-                                        </div>
-                                    </div>
-
                                     {/* Privileges */}
                                     <h4 className="text-white font-bold mb-2 text-sm">我的特權</h4>
                                     <div className="grid grid-cols-2 gap-3">
@@ -322,62 +245,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ) : (
-                                /* Achievements Tab */
-                                <div className="flex-1">
-                                    <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-                                        <Trophy className="text-[#FFD700]" size={20} /> 成就牆
-                                    </h3>
-                                    <div className="grid grid-cols-3 gap-3">
-                                        {achievements.map((achievement) => (
-                                            <div
-                                                key={achievement.id}
-                                                className={`rounded-xl p-3 border text-center transition-all ${achievement.achieved
-                                                    ? 'bg-gradient-to-br from-purple-900/50 to-indigo-900/50 border-purple-500/30'
-                                                    : 'bg-white/5 border-white/10 opacity-60 grayscale'
-                                                    }`}
-                                            >
-                                                <div className="text-3xl mb-2">{achievement.icon}</div>
-                                                <div className={`font-bold text-sm mb-1 ${achievement.achieved ? 'text-white' : 'text-slate-400'}`}>
-                                                    {achievement.title}
-                                                </div>
-                                                <div className="text-xs text-slate-400 mb-2">
-                                                    {achievement.achieved ? achievement.description : achievement.condition}
-                                                </div>
-
-                                                {achievement.achieved && (
-                                                    <div className="mt-2">
-                                                        {achievement.claimed ? (
-                                                            <div className="flex items-center justify-center gap-1 text-green-400 text-xs font-bold">
-                                                                <Check size={12} /> 已領取
-                                                            </div>
-                                                        ) : claimingId === achievement.id ? (
-                                                            <div className="flex items-center justify-center gap-2 text-yellow-400 text-xs">
-                                                                <div className="w-3 h-3 border-2 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin"></div>
-                                                                領取中...
-                                                            </div>
-                                                        ) : (
-                                                            <button
-                                                                onClick={() => handleClaimAchievement(achievement.id)}
-                                                                className="w-full py-1.5 px-3 rounded-lg bg-gradient-to-r from-yellow-500 to-amber-600 text-black text-xs font-bold hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-1"
-                                                            >
-                                                                <Gift size={12} /> 領取 {achievement.reward.toLocaleString()}
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                )}
-
-                                                {!achievement.achieved && (
-                                                    <div className="flex items-center justify-center gap-1 text-slate-500 text-xs mt-2">
-                                                        <Lock size={12} /> 未達成
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                            </div>
                         </div>
                     ) : (
                         <div className="animate-in slide-in-from-right duration-300 flex-1 overflow-y-auto custom-scrollbar">
