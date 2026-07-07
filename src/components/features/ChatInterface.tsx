@@ -3,11 +3,12 @@ import {
     Globe, MessageCircle, Headphones, MoreVertical,
     Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap, Flag, ShieldAlert
 } from 'lucide-react';
-import { FRIENDS, ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile, getStablePlayerId } from '../../data/mockData';
+import { ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile, getStablePlayerId } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import { useSocial } from '../../context/SocialContext';
 import type { ChatTargetPlayer, SupportDraft } from '../../context/NavigationContext';
+import type { Friend } from '../../types/user';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
@@ -42,25 +43,24 @@ interface ChatInterfaceProps {
 
 const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose }: ChatInterfaceProps) => {
     const { openModal } = useUI();
-    const { isBlockedPlayer } = useSocial();
+    const { friends, isBlockedPlayer, isFriendPlayer, removeFriend } = useSocial();
     const { user } = useAuth();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState<number | null>(() => {
-        if (!initialTargetPlayer) return 2;
-        const targetFriend = FRIENDS.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
+        if (!initialTargetPlayer) return friends[1]?.id ?? friends[0]?.id ?? null;
+        const targetFriend = friends.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
         return targetFriend?.id ?? null;
     });
     const [directChatTarget, setDirectChatTarget] = useState<ChatTargetPlayer | null>(() => {
         if (!initialTargetPlayer) return null;
-        const targetFriend = FRIENDS.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
+        const targetFriend = friends.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
         return targetFriend ? null : initialTargetPlayer;
     });
     const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
     const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const [friends, setFriends] = useState(FRIENDS);
-    const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; friendId: number | null; friendName: string }>({
+    const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; playerId: string | null; friendName: string }>({
         isOpen: false,
-        friendId: null,
+        playerId: null,
         friendName: ''
     });
     const [showAttachMenu, setShowAttachMenu] = useState(false);
@@ -91,6 +91,13 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     }, [friends, initialTargetPlayer]);
 
     useEffect(() => {
+        if (!selectedFriendId) return;
+        if (friends.some(friend => friend.id === selectedFriendId)) return;
+
+        setSelectedFriendId(friends[0]?.id ?? null);
+    }, [friends, selectedFriendId]);
+
+    useEffect(() => {
         if (!supportDraft) return;
 
         setChatTab('support');
@@ -110,7 +117,16 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
             };
         }
 
-        const fallbackFriend = friends[0] || FRIENDS[0];
+        const fallbackFriend = friends[0];
+        if (!fallbackFriend) {
+            return {
+                playerId: 'P00000',
+                name: '尚未選擇玩家',
+                avatar: 'bg-slate-700',
+                isFriend: false,
+            };
+        }
+
         return {
             playerId: fallbackFriend.playerId || getStablePlayerId(fallbackFriend.name, fallbackFriend.id),
             name: fallbackFriend.name,
@@ -120,10 +136,11 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     }, [directChatTarget, friends, selectedFriend]);
 
     const selectedPrivateMessages = selectedFriendId
+        && selectedFriend
         ? (MOCK_SPECIFIC_CHATS[selectedFriendId] || CHAT_HISTORY)
-        : [
+        : directChatTarget ? [
             { id: 1, sender: selectedPrivatePlayer.name, text: '嗨，我們可以在這裡直接聊天。', isMe: false, time: 'now' },
-        ];
+        ] : [];
     const selectedPrivateBlocked = isBlockedPlayer(selectedPrivatePlayer.playerId);
 
     const showLocalToast = (message: string) => {
@@ -138,7 +155,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
             return;
         }
 
-        openModal('playerProfile', { profile });
+        openModal('playerProfile', { profile: { ...profile, isFriend: isFriendPlayer(profile.playerId) } });
     };
 
     const handleSendSupportMessage = () => {
@@ -152,20 +169,20 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     };
 
 
-    const confirmDeleteFriend = (e: React.MouseEvent, friend: typeof FRIENDS[0]) => {
+    const confirmDeleteFriend = (e: React.MouseEvent, friend: Friend) => {
         e.stopPropagation();
         setDeleteModal({
             isOpen: true,
-            friendId: friend.id,
+            playerId: friend.playerId || getStablePlayerId(friend.name, friend.id),
             friendName: friend.name
         });
     };
 
     const handleDeleteFriend = () => {
-        if (deleteModal.friendId) {
-            setFriends(prev => prev.filter(f => f.id !== deleteModal.friendId));
+        if (deleteModal.playerId) {
+            removeFriend(deleteModal.playerId);
             showLocalToast(`已刪除好友 ${deleteModal.friendName}`);
-            setDeleteModal({ isOpen: false, friendId: null, friendName: '' });
+            setDeleteModal({ isOpen: false, playerId: null, friendName: '' });
         }
     };
 
@@ -509,7 +526,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                             <p className="text-slate-400 text-sm mb-6">是否確認刪除 {deleteModal.friendName}？</p>
                             <div className="flex gap-3 justify-center">
                                 <button
-                                    onClick={() => setDeleteModal({ isOpen: false, friendId: null, friendName: '' })}
+                                    onClick={() => setDeleteModal({ isOpen: false, playerId: null, friendName: '' })}
                                     className="px-4 py-2 rounded-lg bg-white/5 text-slate-300 hover:bg-white/10 text-sm transition-colors"
                                 >
                                     取消

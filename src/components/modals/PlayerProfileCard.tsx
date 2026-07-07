@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Ban, Coins, Flag, Gamepad2, Gift, Hash, MessageCircle, ShieldAlert, Sparkles, UserPlus, X } from 'lucide-react';
+import { Ban, Coins, Flag, Gamepad2, Gift, Hash, MessageCircle, ShieldAlert, Sparkles, UserMinus, UserPlus, X } from 'lucide-react';
 import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useSocial } from '../../context/SocialContext';
@@ -13,9 +13,12 @@ interface PlayerProfileCardProps {
 const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
     const { openModal, showToast } = useUI();
     const { navigate } = useNavigation();
-    const { blockPlayer, isBlockedPlayer } = useSocial();
-    const [isFriend, setIsFriend] = useState(profile.isFriend);
+    const { addFriend, blockPlayer, isBlockedPlayer, isFriendPlayer, removeFriend } = useSocial();
     const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+    const isFriend = isFriendPlayer(profile.playerId);
+    const displayBio = isFriend || profile.bio !== '我們已經是好友了，一起來玩吧！'
+        ? profile.bio
+        : '我是個熱愛老虎機的玩家，希望能多交點朋友。';
 
     const playerIdentity = {
         playerId: profile.playerId,
@@ -28,8 +31,13 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
     const isBlocked = isBlockedPlayer(profile.playerId);
 
     const handleAddFriend = () => {
-        setIsFriend(true);
-        showToast(`已送出 ${profile.name} 的好友邀請`, 'success');
+        addFriend(playerIdentity);
+        showToast(`已將 ${profile.name} 加入好友清單`, 'success');
+    };
+
+    const handleRemoveFriend = () => {
+        removeFriend(profile.playerId);
+        showToast(`已取消 ${profile.name} 的好友關係`, 'success');
     };
 
     const handleOpenPrivateChat = () => {
@@ -131,7 +139,7 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
                                 </span>
                             )}
                         </div>
-                        <p className="line-clamp-2 text-sm leading-relaxed text-slate-300">{profile.bio}</p>
+                        <p className="line-clamp-2 text-sm leading-relaxed text-slate-300">{displayBio}</p>
                     </section>
 
                     <section className="mt-4">
@@ -155,10 +163,10 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
                         <div className="mb-3 text-xs font-black text-slate-400">社交操作</div>
                         <div className="grid grid-cols-3 gap-3">
                             <ProfileActionButton
-                                icon={<UserPlus size={18} />}
-                                label={isFriend ? '已是好友' : '加好友'}
-                                disabled={isFriend}
-                                onClick={handleAddFriend}
+                                icon={isFriend ? <UserMinus size={18} /> : <UserPlus size={18} />}
+                                label={isFriend ? '取消好友' : '加好友'}
+                                tone={isFriend ? 'danger' : 'default'}
+                                onClick={isFriend ? handleRemoveFriend : handleAddFriend}
                             />
                             <ProfileActionButton
                                 icon={<Gift size={18} />}
@@ -243,7 +251,7 @@ interface ProfileActionButtonProps {
     icon: ReactNode;
     label: string;
     disabled?: boolean;
-    tone?: 'default' | 'gold' | 'pink';
+    tone?: 'default' | 'gold' | 'pink' | 'danger';
     onClick: () => void;
 }
 
@@ -252,6 +260,7 @@ const ProfileActionButton = ({ icon, label, disabled = false, tone = 'default', 
         default: 'border-white/15 bg-white/8 text-white hover:border-white/30 hover:bg-white/12',
         gold: 'border-[#FFD700]/30 bg-[#FFD700]/10 text-[#FFD700] hover:border-[#FFD700]/70 hover:bg-[#FFD700]/20',
         pink: 'border-pink-400/30 bg-pink-500/10 text-pink-200 hover:border-pink-300 hover:bg-pink-500/20',
+        danger: 'border-red-400/30 bg-red-500/10 text-red-100 hover:border-red-300 hover:bg-red-500/20',
     }[tone];
 
     return (

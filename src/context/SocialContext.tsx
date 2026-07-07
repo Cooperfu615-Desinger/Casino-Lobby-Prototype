@@ -1,4 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { FRIENDS } from '../data/mockData';
+import type { Friend } from '../types/user';
 
 export interface SocialPlayerIdentity {
     playerId: string;
@@ -11,6 +13,10 @@ export interface BlockedPlayer extends SocialPlayerIdentity {
 }
 
 interface SocialContextType {
+    friends: Friend[];
+    addFriend: (player: SocialPlayerIdentity) => void;
+    removeFriend: (playerId: string) => void;
+    isFriendPlayer: (playerId?: string) => boolean;
     blockedPlayers: BlockedPlayer[];
     blockPlayer: (player: SocialPlayerIdentity) => void;
     unblockPlayer: (playerId: string) => void;
@@ -20,7 +26,37 @@ interface SocialContextType {
 const SocialContext = createContext<SocialContextType | undefined>(undefined);
 
 export const SocialProvider = ({ children }: { children: ReactNode }) => {
+    const [friends, setFriends] = useState<Friend[]>(FRIENDS);
     const [blockedPlayers, setBlockedPlayers] = useState<BlockedPlayer[]>([]);
+
+    const addFriend = useCallback((player: SocialPlayerIdentity) => {
+        setFriends(prev => {
+            if (prev.some(friend => friend.playerId === player.playerId)) return prev;
+
+            const nextId = Math.max(0, ...prev.map(friend => friend.id)) + 1;
+            return [
+                ...prev,
+                {
+                    id: nextId,
+                    playerId: player.playerId,
+                    name: player.name,
+                    avatar: player.avatar || 'bg-slate-700',
+                    status: 'online',
+                    lastMsg: '剛成為好友',
+                    isFriend: true,
+                },
+            ];
+        });
+    }, []);
+
+    const removeFriend = useCallback((playerId: string) => {
+        setFriends(prev => prev.filter(friend => friend.playerId !== playerId));
+    }, []);
+
+    const isFriendPlayer = useCallback((playerId?: string) => {
+        if (!playerId) return false;
+        return friends.some(friend => friend.playerId === playerId);
+    }, [friends]);
 
     const blockPlayer = useCallback((player: SocialPlayerIdentity) => {
         setBlockedPlayers(prev => {
@@ -39,11 +75,15 @@ export const SocialProvider = ({ children }: { children: ReactNode }) => {
     }, [blockedPlayers]);
 
     const value = useMemo(() => ({
+        friends,
+        addFriend,
+        removeFriend,
+        isFriendPlayer,
         blockedPlayers,
         blockPlayer,
         unblockPlayer,
         isBlockedPlayer,
-    }), [blockedPlayers, blockPlayer, unblockPlayer, isBlockedPlayer]);
+    }), [friends, addFriend, removeFriend, isFriendPlayer, blockedPlayers, blockPlayer, unblockPlayer, isBlockedPlayer]);
 
     return (
         <SocialContext.Provider value={value}>
