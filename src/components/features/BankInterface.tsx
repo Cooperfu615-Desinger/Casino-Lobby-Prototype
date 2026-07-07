@@ -13,6 +13,7 @@ interface BankInterfaceProps {
 
 export type BankTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
 type RecordFilter = 'all' | 'deposit' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'vault_ops';
+type VaultMode = 'deposit' | 'withdraw';
 
 const CONSTANTS = {
     FEE_RATE: 0.05,
@@ -20,10 +21,11 @@ const CONSTANTS = {
 
 const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: BankInterfaceProps) => {
     const { openModal, setLoading, showToast } = useUI();
-    const { user, updateBalance, updateUser } = useAuth();
+    const { user, updateUser, depositToVault, withdrawFromVault } = useAuth();
     const [activeTab, setActiveTab] = useState<BankTab>(() => initialTab ? initialTab : (initialReceiverId ? 'gifts' : 'deposit'));
 
     // Vault tab state
+    const [vaultMode, setVaultMode] = useState<VaultMode>('deposit');
     const [vaultAmount, setVaultAmount] = useState<number | ''>('');
 
     // Gifts tab state
@@ -44,6 +46,19 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
     const numericAmount = Number(amount) || 0;
     const fee = Math.floor(numericAmount * CONSTANTS.FEE_RATE);
     const actualReceived = Math.max(0, numericAmount - fee);
+    const walletGold = user?.balance.gold || 0;
+    const vaultGold = user?.vault_gold || 0;
+    const vaultTransferMax = vaultMode === 'deposit' ? walletGold : vaultGold;
+    const numericVaultAmount = Number(vaultAmount) || 0;
+    const canConfirmVaultTransfer = numericVaultAmount > 0 && numericVaultAmount <= vaultTransferMax;
+
+    useEffect(() => {
+        setVaultAmount(prev => {
+            const currentAmount = Number(prev) || 0;
+            if (prev === '' || currentAmount <= vaultTransferMax) return prev;
+            return vaultTransferMax > 0 ? vaultTransferMax : '';
+        });
+    }, [vaultTransferMax]);
 
     // Filter transactions
     const filteredTransactions = TRANSACTION_HISTORY.filter(tx => {
@@ -56,20 +71,34 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
 
     // --- Actions ---
 
-    const handleVaultDeposit = () => {
-        const val = Number(vaultAmount);
-        if (val <= 0) return;
-        if ((user?.balance.gold || 0) < val) {
-            showToast('錢包金幣不足', 'error');
+    const handleVaultAmountInput = (value: string) => {
+        const sanitized = value.replace(/[^0-9]/g, '');
+        if (!sanitized) {
+            setVaultAmount('');
             return;
         }
 
+        const nextAmount = Math.min(Number(sanitized), vaultTransferMax);
+        setVaultAmount(nextAmount);
+    };
+
+    const handleVaultTransfer = () => {
+        if (!canConfirmVaultTransfer) return;
+
         setLoading(true);
         setTimeout(() => {
-            updateBalance({ gold: (user?.balance.gold || 0) - val });
-            updateUser({ vault_gold: (user?.vault_gold || 0) + val });
+            const transferSucceeded = vaultMode === 'deposit'
+                ? depositToVault(numericVaultAmount)
+                : withdrawFromVault(numericVaultAmount);
+
             setLoading(false);
-            showToast('成功存入保險箱', 'success');
+
+            if (!transferSucceeded) {
+                showToast(vaultMode === 'deposit' ? '錢包金幣不足' : '保險箱餘額不足', 'error');
+                return;
+            }
+
+            showToast(vaultMode === 'deposit' ? '成功存入保險箱' : '成功取出至錢包', 'success');
             setVaultAmount('');
         }, 800);
     };
@@ -361,61 +390,106 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                     {/* ========== 保險箱 Tab ========== */}
                     {activeTab === 'vault' && (
                         <div className="h-full flex items-center justify-center">
-                            <div className="bg-black/20 rounded-2xl p-8 border border-white/5 flex gap-10 w-full max-w-[800px]">
+                            <div className="bg-black/20 rounded-2xl p-7 border border-white/5 flex gap-8 w-full max-w-[820px]">
                                 {/* Left Side: Balances */}
                                 <div className="w-[260px] flex flex-col gap-4">
                                     <div className="bg-[#0f0518] rounded-xl p-4 border border-white/10">
                                         <div className="text-slate-400 text-xs mb-1">錢包金幣 (可用)</div>
                                         <div className="text-2xl font-mono font-bold text-[#FFD700] truncate">
-                                            {(user?.balance.gold || 0).toLocaleString()}
+                                            {walletGold.toLocaleString()}
                                         </div>
                                     </div>
                                     <div className="flex justify-center text-slate-500">
-                                        <ArrowRight size={24} className="rotate-90" />
+                                        <ArrowRight size={24} className={vaultMode === 'deposit' ? 'rotate-90' : '-rotate-90'} />
                                     </div>
                                     <div className="bg-[#0f0518] rounded-xl p-4 border border-white/10 shadow-[0_0_15px_rgba(255,215,0,0.1)]">
                                         <div className="text-slate-400 text-xs mb-1">保險箱金幣 (凍結)</div>
                                         <div className="text-2xl font-mono font-bold text-white truncate">
-                                            {(user?.vault_gold || 0).toLocaleString()}
+                                            {vaultGold.toLocaleString()}
                                         </div>
                                     </div>
-                                    <div className="mt-auto text-xs text-slate-500 leading-relaxed px-1">
+                                    <div className="mt-auto text-xs text-slate-500 leading-relaxed px-1 space-y-1">
                                         <p>• 存入保險箱的金幣可用於贈禮。</p>
                                         <p>• 存入可避免誤觸遊玩時消耗。</p>
+                                        <p>• 取出後金幣會回到錢包。</p>
                                     </div>
                                 </div>
 
-                                {/* Right Side: Deposit Form */}
-                                <div className="flex-1 bg-[#1a0b2e] rounded-xl p-8 flex flex-col justify-center">
-                                    <div className="flex flex-col gap-6 max-w-[360px] mx-auto w-full">
+                                {/* Right Side: Vault Form */}
+                                <div className="flex-1 bg-[#1a0b2e] rounded-xl p-6 flex flex-col justify-center">
+                                    <div className="flex flex-col gap-4 max-w-[380px] mx-auto w-full">
+                                        <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-1">
+                                            {[
+                                                { key: 'deposit' as const, label: '存入' },
+                                                { key: 'withdraw' as const, label: '取出' },
+                                            ].map(mode => (
+                                                <button
+                                                    key={mode.key}
+                                                    type="button"
+                                                    onClick={() => setVaultMode(mode.key)}
+                                                    className={`h-10 rounded-lg text-sm font-black transition-all ${vaultMode === mode.key
+                                                        ? 'bg-[#FFD700] text-black shadow-[0_0_18px_rgba(255,215,0,0.22)]'
+                                                        : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                                                        }`}
+                                                >
+                                                    {mode.label}
+                                                </button>
+                                            ))}
+                                        </div>
+
                                         <div className="text-center">
-                                            <h3 className="text-xl font-bold text-white mb-2">存入保險箱</h3>
-                                            <p className="text-slate-400 text-sm">請輸入欲從錢包轉入保險箱的金額</p>
+                                            <h3 className="text-xl font-bold text-white mb-2">
+                                                {vaultMode === 'deposit' ? '存入保險箱' : '取出至錢包'}
+                                            </h3>
+                                            <p className="text-slate-400 text-sm">
+                                                {vaultMode === 'deposit'
+                                                    ? '請輸入欲從錢包轉入保險箱的金額'
+                                                    : '請輸入欲從保險箱轉回錢包的金額'}
+                                            </p>
                                         </div>
 
                                         <div className="relative">
                                             <input
-                                                type="number"
+                                                type="text"
+                                                inputMode="numeric"
                                                 value={vaultAmount}
-                                                onChange={(e) => setVaultAmount(e.target.value === '' ? '' : Number(e.target.value))}
+                                                onChange={(e) => handleVaultAmountInput(e.target.value)}
                                                 placeholder="0"
+                                                aria-label={vaultMode === 'deposit' ? '存入金額' : '取出金額'}
                                                 className="w-full bg-black/40 border border-white/20 rounded-xl py-4 px-4 text-center text-3xl font-bold text-[#FFD700] focus:outline-none focus:border-[#FFD700] transition-all"
                                             />
                                             <button
-                                                onClick={() => setVaultAmount(user?.balance.gold || 0)}
+                                                type="button"
+                                                onClick={() => setVaultAmount(vaultTransferMax)}
                                                 className="absolute right-4 top-1/2 -translate-y-1/2 text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded"
                                             >
                                                 MAX
                                             </button>
                                         </div>
 
+                                        <div className="rounded-xl border border-white/10 bg-black/25 p-3 text-xs text-slate-400">
+                                            <div className="flex items-center justify-between">
+                                                <span>{vaultMode === 'deposit' ? '可存入上限' : '可取出上限'}</span>
+                                                <span className="font-mono font-black text-white">{vaultTransferMax.toLocaleString()}</span>
+                                            </div>
+                                            <div className="mt-2 flex items-center justify-between">
+                                                <span>{vaultMode === 'deposit' ? '異動後保險箱' : '異動後錢包'}</span>
+                                                <span className="font-mono font-black text-[#FFD700]">
+                                                    {(vaultMode === 'deposit'
+                                                        ? vaultGold + numericVaultAmount
+                                                        : walletGold + numericVaultAmount
+                                                    ).toLocaleString()}
+                                                </span>
+                                            </div>
+                                        </div>
+
                                         <button
-                                            onClick={handleVaultDeposit}
-                                            disabled={!vaultAmount || Number(vaultAmount) <= 0}
+                                            onClick={handleVaultTransfer}
+                                            disabled={!canConfirmVaultTransfer}
                                             className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center justify-center gap-2"
                                         >
                                             <ShieldCheck size={20} />
-                                            確認存入
+                                            {vaultMode === 'deposit' ? '確認存入' : '確認取出'}
                                         </button>
                                     </div>
                                 </div>

@@ -23,6 +23,8 @@ interface AuthContextType {
     updateUser: (updates: Partial<User>) => void;
     updateBalance: (newBalance: Partial<CurrencyBalance>) => void;
     updateAvatar: (id: number) => void;
+    depositToVault: (amount: number) => boolean;
+    withdrawFromVault: (amount: number) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -86,6 +88,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(prev => prev ? { ...prev, avatarId: id } : null);
     };
 
+    const depositToVault = (amount: number) => {
+        if (!user || amount <= 0 || amount > user.balance.gold) return false;
+
+        setUser(prev => prev ? {
+            ...prev,
+            balance: {
+                ...prev.balance,
+                gold: prev.balance.gold - amount,
+            },
+            vault_gold: prev.vault_gold + amount,
+        } : null);
+        return true;
+    };
+
+    const withdrawFromVault = (amount: number) => {
+        if (!user || amount <= 0 || amount > user.vault_gold) return false;
+
+        setUser(prev => prev ? {
+            ...prev,
+            balance: {
+                ...prev.balance,
+                gold: prev.balance.gold + amount,
+            },
+            vault_gold: prev.vault_gold - amount,
+        } : null);
+        return true;
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -95,7 +125,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             logout,
             updateUser,
             updateBalance,
-            updateAvatar
+            updateAvatar,
+            depositToVault,
+            withdrawFromVault
         }}>
             {children}
         </AuthContext.Provider>
