@@ -1,5 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import type { CurrencyBalance } from '../types/user';
+import {
+    calculateWalletExchange,
+    canSubmitWalletExchange,
+    type WalletExchangeDirection,
+    type WalletExchangeResult,
+} from '../utils/walletExchange';
 
 export interface User {
     name: string;
@@ -25,9 +31,11 @@ interface AuthContextType {
     updateAvatar: (id: number) => void;
     depositToVault: (amount: number) => boolean;
     withdrawFromVault: (amount: number) => boolean;
+    exchangeWalletCurrency: (direction: WalletExchangeDirection, amount: number) => WalletExchangeResult | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const DEFAULT_WALLET_AMOUNT = 1_000_000_000;
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
@@ -42,9 +50,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             vipDepositTotal: 128000,
             vipBetTotal: 3560000,
             balance: {
-                gold: 1000,
-                silver: 50000,
-                bronze: 100000
+                gold: DEFAULT_WALLET_AMOUNT,
+                silver: DEFAULT_WALLET_AMOUNT,
+                bronze: DEFAULT_WALLET_AMOUNT
             },
             vault_gold: 0,
             id: '123456789',
@@ -62,9 +70,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             vipDepositTotal: 0,
             vipBetTotal: 0,
             balance: {
-                gold: 10,
-                silver: 1000,
-                bronze: 5000
+                gold: DEFAULT_WALLET_AMOUNT,
+                silver: DEFAULT_WALLET_AMOUNT,
+                bronze: DEFAULT_WALLET_AMOUNT
             },
             vault_gold: 0,
             id: 'guest-' + Date.now()
@@ -116,6 +124,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return true;
     };
 
+    const exchangeWalletCurrency = (direction: WalletExchangeDirection, amount: number) => {
+        if (!user) return null;
+
+        const sourceBalance = direction === 'gold-to-silver' ? user.balance.gold : user.balance.silver;
+        if (!canSubmitWalletExchange(direction, amount, sourceBalance)) return null;
+
+        const exchange = calculateWalletExchange(direction, amount);
+        setUser(prev => {
+            if (!prev) return null;
+
+            if (direction === 'gold-to-silver') {
+                if (exchange.fromAmount > prev.balance.gold) return prev;
+                return {
+                    ...prev,
+                    balance: {
+                        ...prev.balance,
+                        gold: prev.balance.gold - exchange.fromAmount,
+                        silver: prev.balance.silver + exchange.toAmount,
+                    },
+                };
+            }
+
+            if (exchange.fromAmount > prev.balance.silver) return prev;
+            return {
+                ...prev,
+                balance: {
+                    ...prev.balance,
+                    silver: prev.balance.silver - exchange.fromAmount,
+                    gold: prev.balance.gold + exchange.toAmount,
+                },
+            };
+        });
+
+        return exchange;
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -127,7 +171,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             updateBalance,
             updateAvatar,
             depositToVault,
-            withdrawFromVault
+            withdrawFromVault,
+            exchangeWalletCurrency
         }}>
             {children}
         </AuthContext.Provider>

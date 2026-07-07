@@ -7,7 +7,7 @@ export type ViewType = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' 
 export type ChatSubTab = 'public' | 'chat' | 'support';
 
 // Bank sub-tab types
-export type BankSubTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
+export type BankSubTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'exchange' | 'records';
 
 // Events sub-tab types
 export type EventsSubTab = 'daily' | 'events' | 'leaderboard' | 'filter';

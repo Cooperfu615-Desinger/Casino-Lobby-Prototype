@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Landmark, Gem, X, Gift, History, Sparkles, User, Wallet, Send, Crown, Info, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Landmark, Gem, X, Gift, History, Sparkles, User, Wallet, Send, Crown, Info, ShieldCheck, ArrowRight, ArrowLeftRight, RefreshCw } from 'lucide-react';
 import { PACKAGES, OFFER_PACKAGES, TRANSACTION_HISTORY } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
+import {
+    calculateWalletExchange,
+    canSubmitWalletExchange,
+    GOLD_TO_SILVER_RATE,
+    type WalletExchangeDirection,
+} from '../../utils/walletExchange';
 
 interface BankInterfaceProps {
     onClose: () => void;
@@ -11,8 +17,8 @@ interface BankInterfaceProps {
     initialTab?: BankTab;
 }
 
-export type BankTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'records';
-type RecordFilter = 'all' | 'deposit' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'vault_ops';
+export type BankTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'exchange' | 'records';
+type RecordFilter = 'all' | 'deposit' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'currency_conversion' | 'vault_ops';
 type VaultMode = 'deposit' | 'withdraw';
 
 const CONSTANTS = {
@@ -21,12 +27,16 @@ const CONSTANTS = {
 
 const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: BankInterfaceProps) => {
     const { openModal, setLoading, showToast } = useUI();
-    const { user, updateUser, depositToVault, withdrawFromVault } = useAuth();
+    const { user, updateUser, depositToVault, withdrawFromVault, exchangeWalletCurrency } = useAuth();
     const [activeTab, setActiveTab] = useState<BankTab>(() => initialTab ? initialTab : (initialReceiverId ? 'gifts' : 'deposit'));
 
     // Vault tab state
     const [vaultMode, setVaultMode] = useState<VaultMode>('deposit');
     const [vaultAmount, setVaultAmount] = useState<number | ''>('');
+
+    // Exchange tab state
+    const [exchangeDirection, setExchangeDirection] = useState<WalletExchangeDirection>('gold-to-silver');
+    const [exchangeAmount, setExchangeAmount] = useState<number | ''>('');
 
     // Gifts tab state
     const [receiverId, setReceiverId] = useState(initialReceiverId || '');
@@ -36,6 +46,12 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
     const [recordFilter, setRecordFilter] = useState<RecordFilter>('all');
 
     // 當從聊天室跳轉時，自動切換到贈禮並填入 ID
+    useEffect(() => {
+        if (initialTab) {
+            setActiveTab(initialTab);
+        }
+    }, [initialTab]);
+
     useEffect(() => {
         if (initialReceiverId) {
             setActiveTab('gifts');
@@ -47,10 +63,21 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
     const fee = Math.floor(numericAmount * CONSTANTS.FEE_RATE);
     const actualReceived = Math.max(0, numericAmount - fee);
     const walletGold = user?.balance.gold || 0;
+    const walletSilver = user?.balance.silver || 0;
     const vaultGold = user?.vault_gold || 0;
     const vaultTransferMax = vaultMode === 'deposit' ? walletGold : vaultGold;
     const numericVaultAmount = Number(vaultAmount) || 0;
     const canConfirmVaultTransfer = numericVaultAmount > 0 && numericVaultAmount <= vaultTransferMax;
+    const exchangeSourceBalance = exchangeDirection === 'gold-to-silver' ? walletGold : walletSilver;
+    const numericExchangeAmount = Number(exchangeAmount) || 0;
+    const exchangeSummary = calculateWalletExchange(exchangeDirection, numericExchangeAmount);
+    const canConfirmExchange = canSubmitWalletExchange(exchangeDirection, numericExchangeAmount, exchangeSourceBalance);
+    const exchangeStep = exchangeDirection === 'gold-to-silver' ? 1 : GOLD_TO_SILVER_RATE;
+    const isSilverToGoldInvalid = exchangeDirection === 'silver-to-gold'
+        && numericExchangeAmount > 0
+        && numericExchangeAmount % GOLD_TO_SILVER_RATE !== 0;
+    const exchangeFromLabel = exchangeDirection === 'gold-to-silver' ? '金幣' : '銀幣';
+    const exchangeToLabel = exchangeDirection === 'gold-to-silver' ? '銀幣' : '金幣';
 
     useEffect(() => {
         setVaultAmount(prev => {
@@ -59,6 +86,14 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
             return vaultTransferMax > 0 ? vaultTransferMax : '';
         });
     }, [vaultTransferMax]);
+
+    useEffect(() => {
+        setExchangeAmount(prev => {
+            const currentAmount = Number(prev) || 0;
+            if (prev === '' || currentAmount <= exchangeSourceBalance) return prev;
+            return exchangeSourceBalance > 0 ? exchangeSourceBalance : '';
+        });
+    }, [exchangeSourceBalance]);
 
     // Filter transactions
     const filteredTransactions = TRANSACTION_HISTORY.filter(tx => {
@@ -82,6 +117,30 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
         setVaultAmount(nextAmount);
     };
 
+    const handleExchangeDirectionChange = (direction: WalletExchangeDirection) => {
+        setExchangeDirection(direction);
+        setExchangeAmount('');
+    };
+
+    const handleExchangeAmountInput = (value: string) => {
+        const sanitized = value.replace(/[^0-9]/g, '');
+        if (!sanitized) {
+            setExchangeAmount('');
+            return;
+        }
+
+        const nextAmount = Math.min(Number(sanitized), exchangeSourceBalance);
+        setExchangeAmount(nextAmount);
+    };
+
+    const setExchangePercent = (percent: number) => {
+        let nextAmount = Math.floor(exchangeSourceBalance * percent);
+        if (exchangeDirection === 'silver-to-gold') {
+            nextAmount = Math.floor(nextAmount / GOLD_TO_SILVER_RATE) * GOLD_TO_SILVER_RATE;
+        }
+        setExchangeAmount(nextAmount);
+    };
+
     const handleVaultTransfer = () => {
         if (!canConfirmVaultTransfer) return;
 
@@ -100,6 +159,37 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
 
             showToast(vaultMode === 'deposit' ? '成功存入保險箱' : '成功取出至錢包', 'success');
             setVaultAmount('');
+        }, 800);
+    };
+
+    const handleWalletExchange = () => {
+        if (numericExchangeAmount <= 0) {
+            showToast('請輸入兌換金額', 'error');
+            return;
+        }
+
+        if (isSilverToGoldInvalid) {
+            showToast('銀幣換金幣需以 100 銀幣為單位', 'error');
+            return;
+        }
+
+        setLoading(true);
+        setTimeout(() => {
+            const exchange = exchangeWalletCurrency(exchangeDirection, numericExchangeAmount);
+            setLoading(false);
+
+            if (!exchange) {
+                showToast('目前餘額不足，請重新輸入兌換金額', 'error');
+                return;
+            }
+
+            const fromLabel = exchange.direction === 'gold-to-silver' ? '金幣' : '銀幣';
+            const toLabel = exchange.direction === 'gold-to-silver' ? '銀幣' : '金幣';
+            showToast(
+                `已兌換 ${exchange.fromAmount.toLocaleString()} ${fromLabel}，獲得 ${exchange.toAmount.toLocaleString()} ${toLabel}`,
+                'success'
+            );
+            setExchangeAmount('');
         }, 800);
     };
 
@@ -128,6 +218,7 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
         { key: 'offers', label: '優惠', icon: <Sparkles size={16} /> },
         { key: 'gifts', label: '贈禮', icon: <Gift size={16} /> },
         { key: 'vault', label: '保險箱', icon: <ShieldCheck size={16} /> },
+        { key: 'exchange', label: '兌換', icon: <ArrowLeftRight size={16} /> },
         { key: 'records', label: '紀錄', icon: <History size={16} /> },
     ];
 
@@ -429,7 +520,7 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                                                     onClick={() => setVaultMode(mode.key)}
                                                     className={`h-10 rounded-lg text-sm font-black transition-all ${vaultMode === mode.key
                                                         ? 'bg-[#FFD700] text-black shadow-[0_0_18px_rgba(255,215,0,0.22)]'
-                                                        : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                                                        : 'text-slate-300 hover:bg-white/10 hover:text-white'
                                                         }`}
                                                 >
                                                     {mode.label}
@@ -497,6 +588,153 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                         </div>
                     )}
 
+                    {/* ========== 兌換 Tab ========== */}
+                    {activeTab === 'exchange' && (
+                        <div className="h-full flex items-center justify-center">
+                            <div className="grid w-full max-w-[860px] gap-6 lg:grid-cols-[280px_1fr]">
+                                {/* Left Side: Wallets */}
+                                <div className="rounded-2xl border border-white/5 bg-black/20 p-5">
+                                    <div className="mb-3">
+                                        <h3 className="text-lg font-black text-white">錢包兌換</h3>
+                                        <p className="-mt-0.5 text-[10px] text-slate-400">金銀幣互換不收手續費。</p>
+                                    </div>
+
+                                    <div className="space-y-1">
+                                        <div className="-mt-3 flex h-[75px] flex-col justify-center rounded-xl border border-[#FFD700]/20 bg-[#FFD700]/10 p-3">
+                                            <div className="text-xs font-bold text-slate-300">金錢包</div>
+                                            <div className="mt-1 truncate font-mono text-2xl font-black text-[#FFD700]">
+                                                {walletGold.toLocaleString()}
+                                            </div>
+                                        </div>
+                                        <div className="flex h-[75px] flex-col justify-center rounded-xl border border-white/10 bg-white/5 p-3">
+                                            <div className="text-xs font-bold text-slate-300">銀錢包</div>
+                                            <div className="mt-1 truncate font-mono text-2xl font-black text-slate-200">
+                                                {walletSilver.toLocaleString()}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4 rounded-xl border border-white/10 bg-[#1a0b2e] p-4">
+                                        <div className="text-xs font-bold text-slate-400">兌換比值</div>
+                                        <div className="mt-1 text-lg font-black text-[#FFD700]">1 金幣 = 100 銀幣</div>
+                                        <p className="mt-1 text-xs leading-relaxed text-slate-500">銀幣換金幣需以 100 銀幣為單位。</p>
+                                    </div>
+                                </div>
+
+                                {/* Right Side: Exchange Form */}
+                                <div className="rounded-2xl border border-white/5 bg-[#1a0b2e] p-6">
+                                    <div className="mb-5 flex items-start justify-between gap-4">
+                                        <div>
+                                            <h3 className="text-xl font-black text-white">金銀幣兌換</h3>
+                                            <p className="mt-1 text-sm text-slate-400">選擇兌換方向後輸入金額，系統會即時試算。</p>
+                                        </div>
+                                        <div className="rounded-full border border-[#FFD700]/25 bg-[#FFD700]/10 px-3 py-1 text-xs font-black text-[#FFD700]">
+                                            0 手續費
+                                        </div>
+                                    </div>
+
+                                    <div className="-mt-[15px] grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-1">
+                                        {[
+                                            { key: 'gold-to-silver' as const, label: '金幣兌銀幣' },
+                                            { key: 'silver-to-gold' as const, label: '銀幣兌金幣' },
+                                        ].map(direction => (
+                                            <button
+                                                key={direction.key}
+                                                type="button"
+                                                onClick={() => handleExchangeDirectionChange(direction.key)}
+                                                className={`h-10 rounded-lg text-sm font-black transition-all ${exchangeDirection === direction.key
+                                                    ? 'bg-[#FFD700] text-black shadow-[0_0_18px_rgba(255,215,0,0.22)]'
+                                                    : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                                                    }`}
+                                            >
+                                                {direction.label}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <div className="mt-[5px] rounded-xl border border-white/10 bg-black/30 px-4 py-3">
+                                        <label className="mb-2 block text-xs font-bold text-slate-300">
+                                            {exchangeDirection === 'gold-to-silver' ? '兌換金幣' : '兌換銀幣'}
+                                        </label>
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            value={exchangeAmount}
+                                            onChange={(e) => handleExchangeAmountInput(e.target.value)}
+                                            placeholder="0"
+                                            aria-label="兌換金額"
+                                            className={`mb-3 w-full bg-transparent text-center font-mono text-3xl font-black outline-none placeholder:text-white/10 ${exchangeDirection === 'gold-to-silver' ? 'text-[#FFD700]' : 'text-slate-200'}`}
+                                        />
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max={exchangeSourceBalance}
+                                            step={exchangeStep}
+                                            value={numericExchangeAmount}
+                                            onChange={(e) => handleExchangeAmountInput(e.target.value)}
+                                            aria-label="兌換金額拉桿"
+                                            className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[#FFD700]"
+                                        />
+                                        <div className="mt-3 grid grid-cols-5 gap-2">
+                                            {[
+                                                { label: '0%', value: 0 },
+                                                { label: '25%', value: 0.25 },
+                                                { label: '50%', value: 0.5 },
+                                                { label: '75%', value: 0.75 },
+                                                { label: 'MAX', value: 1 },
+                                            ].map(option => (
+                                                <button
+                                                    key={option.label}
+                                                    type="button"
+                                                    onClick={() => setExchangePercent(option.value)}
+                                                    className={`rounded-lg py-2 text-xs font-black transition-colors ${option.value === 1
+                                                        ? 'border border-[#FFD700]/25 bg-[#FFD700]/10 text-[#FFD700] hover:bg-[#FFD700]/15'
+                                                        : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+                                                        }`}
+                                                >
+                                                    {option.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        {isSilverToGoldInvalid && (
+                                            <p className="mt-2 text-xs font-bold text-red-300">銀幣換金幣需以 100 銀幣為單位。</p>
+                                        )}
+                                    </div>
+
+                                    <div className="mt-[5px] grid grid-cols-3 gap-3">
+                                        <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+                                            <div className="text-xs font-bold text-slate-400">扣除</div>
+                                            <div className="mt-1 truncate font-mono text-sm font-black text-white">
+                                                {exchangeSummary.fromAmount.toLocaleString()} {exchangeFromLabel}
+                                            </div>
+                                        </div>
+                                        <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+                                            <div className="text-xs font-bold text-slate-400">手續費</div>
+                                            <div className="mt-1 font-mono text-sm font-black text-emerald-300">
+                                                {exchangeSummary.fee.toLocaleString()}
+                                            </div>
+                                        </div>
+                                        <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+                                            <div className="text-xs font-bold text-slate-400">獲得</div>
+                                            <div className="mt-1 truncate font-mono text-sm font-black text-[#FFD700]">
+                                                {exchangeSummary.toAmount.toLocaleString()} {exchangeToLabel}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={handleWalletExchange}
+                                        disabled={!canConfirmExchange}
+                                        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FFD700] to-[#DAA520] py-3 font-bold text-black shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:pointer-events-none disabled:opacity-50"
+                                    >
+                                        <RefreshCw size={18} />
+                                        <span>確認兌換</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* ========== 紀錄 Tab ========== */}
                     {activeTab === 'records' && (
                         <div className="space-y-4">
@@ -508,6 +746,7 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                                     { key: 'free_reward', label: '免費獎勵' },
                                     { key: 'gift_transfer', label: '轉點贈禮' },
                                     { key: 'gift_package', label: '購買禮包' },
+                                    { key: 'currency_conversion', label: '兌換' },
                                 ].map(filter => (
                                     <button
                                         key={filter.key}
@@ -539,10 +778,10 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                                             <div className="flex flex-col items-end gap-1">
                                                 <span className={`font-bold ${tx.type === 'deposit' ? 'text-green-400' :
                                                     tx.type === 'gift_transfer' ? 'text-orange-400' :
-                                                        tx.type === 'free_reward' ? 'text-cyan-400' :
+                                                        tx.type === 'free_reward' || tx.type === 'currency_conversion' ? 'text-cyan-400' :
                                                             'text-purple-400'
                                                     }`}>
-                                                    {tx.type === 'gift_transfer' ? '-' : '+'}{tx.amount}
+                                                    {tx.type === 'gift_transfer' ? '-' : tx.type === 'currency_conversion' ? '' : '+'}{tx.amount}
                                                 </span>
                                                 <span className={`text-[10px] px-2 py-0.5 rounded ${tx.status === 'success' ? 'bg-green-500/20 text-green-400' :
                                                     tx.status === 'processing' ? 'bg-yellow-500/20 text-yellow-400' :
