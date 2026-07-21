@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
-import { Calendar, Crown, Medal, X } from 'lucide-react';
+import { useState } from 'react';
+import { Calendar, X } from 'lucide-react';
 import DailyCheckInPanel from '../activity/DailyCheckInPanel';
 import EventListPanel from '../activity/EventListPanel';
+import LeaderboardPanel, { type LeaderboardType } from '../activity/LeaderboardPanel';
 
 interface EventsInterfaceProps {
     onClose: () => void;
@@ -9,7 +10,6 @@ interface EventsInterfaceProps {
 }
 
 type MainTab = 'daily' | 'events' | 'leaderboard';
-type LeaderboardType = 'multiplier' | 'win' | 'rich';
 
 const EventsInterface = ({ onClose, initialTab = 'events' }: EventsInterfaceProps) => {
     const resolvedInitialTab: MainTab = initialTab === 'filter' ? 'events' : initialTab;
@@ -86,33 +86,6 @@ const EventsInterface = ({ onClose, initialTab = 'events' }: EventsInterfaceProp
                     {activeTab === 'events' && <EventListPanel />}
                     {activeTab === 'leaderboard' && <LeaderboardPanel type={leaderboardType} />}
                 </div>
-            </div>
-        </div>
-    );
-};
-
-const LeaderboardPanel = ({ type }: { type: LeaderboardType }) => {
-    const entries = useMemo(() => Array.from({ length: 20 }, (_, index) => {
-        const rank = index + 1;
-        const score = type === 'multiplier'
-            ? `${5_000 - index * 150}x`
-            : type === 'win'
-                ? `${(5_000_000 - index * 180_000).toLocaleString()} 銀幣`
-                : `${(99_999_999 - index * 3_000_000).toLocaleString()} 銀幣`;
-        return { rank, name: `Player_${1000 + index}`, score, hue: (index * 47 + 18) % 360 };
-    }), [type]);
-
-    return (
-        <div className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-            <div className="mb-2 flex items-center px-4 text-[10px] font-black uppercase tracking-wider text-white/35"><span className="w-16 text-center">Rank</span><span className="flex-1 pl-4">Player</span><span className="w-44 text-right">Score</span></div>
-            <div className="space-y-2 pb-6">
-                {entries.map((entry) => (
-                    <div key={entry.rank} className={`flex items-center rounded-xl border p-3 ${entry.rank === 1 ? 'border-[#FFD700]/30 bg-gradient-to-r from-[#FFD700]/20 to-transparent' : 'border-white/5 bg-black/20'}`}>
-                        <div className="flex w-16 justify-center">{entry.rank === 1 ? <Crown size={23} className="fill-[#FFD700] text-[#FFD700]" /> : entry.rank <= 3 ? <Medal size={22} className={entry.rank === 2 ? 'text-slate-300' : 'text-orange-500'} /> : <span className="font-mono text-lg font-bold text-slate-500">#{entry.rank}</span>}</div>
-                        <div className="flex flex-1 items-center gap-3 pl-4"><span className="h-9 w-9 rounded-full border-2 border-white/10" style={{ backgroundColor: `hsl(${entry.hue} 70% 45%)` }} /><span className={`font-bold ${entry.rank === 1 ? 'text-[#FFD700]' : 'text-white'}`}>{entry.name}</span></div>
-                        <div className="w-44 text-right font-mono text-sm font-black text-[#FFD700]">{entry.score}</div>
-                    </div>
-                ))}
             </div>
         </div>
     );
