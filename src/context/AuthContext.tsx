@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import type { CurrencyBalance } from '../types/user';
+import { TRANSACTION_HISTORY } from '../data/mockData';
+import type { Transaction } from '../types/transaction';
+import type { CurrencyBalance, CurrencyType } from '../types/user';
 import {
     calculateWalletExchange,
     canSubmitWalletExchange,
@@ -29,16 +31,39 @@ interface AuthContextType {
     updateUser: (updates: Partial<User>) => void;
     updateBalance: (newBalance: Partial<CurrencyBalance>) => void;
     updateAvatar: (id: number) => void;
+    transactions: Transaction[];
+    completeDeposit: (amount: number, method: 'App Store' | 'Google Play', price: string) => boolean;
+    addWalletReward: (currency: CurrencyType, amount: number, source: string) => boolean;
     depositToVault: (amount: number) => boolean;
     withdrawFromVault: (amount: number) => boolean;
+    transferFromVault: (receiverId: string, amount: number) => boolean;
     exchangeWalletCurrency: (direction: WalletExchangeDirection, amount: number) => WalletExchangeResult | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const DEFAULT_WALLET_AMOUNT = 10_000_000;
 
+const createTransaction = (transaction: Omit<Transaction, 'id' | 'date' | 'status'>): Transaction => ({
+    ...transaction,
+    id: `TX-${Date.now()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
+    date: new Intl.DateTimeFormat('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    }).format(new Date()),
+    status: 'success',
+});
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [transactions, setTransactions] = useState<Transaction[]>(() => [...TRANSACTION_HISTORY]);
+
+    const prependTransaction = (transaction: Omit<Transaction, 'id' | 'date' | 'status'>) => {
+        setTransactions(prev => [createTransaction(transaction), ...prev]);
+    };
 
     const login = (username?: string, _password?: string) => {
         // Mock login logic
@@ -96,6 +121,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(prev => prev ? { ...prev, avatarId: id } : null);
     };
 
+    const completeDeposit = (amount: number, method: 'App Store' | 'Google Play', price: string) => {
+        if (!user || amount <= 0) return false;
+
+        setUser(prev => prev ? {
+            ...prev,
+            balance: { ...prev.balance, gold: prev.balance.gold + amount },
+        } : null);
+        prependTransaction({
+            type: 'deposit',
+            amount: `${amount.toLocaleString()} 金幣`,
+            method: `${method}・${price}`,
+        });
+        return true;
+    };
+
+    const addWalletReward = (currency: CurrencyType, amount: number, source: string) => {
+        if (!user || amount <= 0) return false;
+
+        setUser(prev => prev ? {
+            ...prev,
+            balance: { ...prev.balance, [currency]: prev.balance[currency] + amount },
+        } : null);
+        const currencyLabel = currency === 'gold' ? '金幣' : currency === 'silver' ? '銀幣' : '銅幣';
+        prependTransaction({
+            type: 'free_reward',
+            amount: `${amount.toLocaleString()} ${currencyLabel}`,
+            method: source,
+        });
+        return true;
+    };
+
     const depositToVault = (amount: number) => {
         if (!user || amount <= 0 || amount > user.balance.gold) return false;
 
@@ -107,6 +163,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             },
             vault_gold: prev.vault_gold + amount,
         } : null);
+        prependTransaction({
+            type: 'vault_deposit',
+            amount: `${amount.toLocaleString()} 金幣`,
+            method: '錢包存入保險箱',
+        });
         return true;
     };
 
@@ -121,6 +182,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             },
             vault_gold: prev.vault_gold - amount,
         } : null);
+        prependTransaction({
+            type: 'vault_deposit',
+            amount: `${amount.toLocaleString()} 金幣`,
+            method: '保險箱取出至錢包',
+        });
+        return true;
+    };
+
+    const transferFromVault = (receiverId: string, amount: number) => {
+        const normalizedReceiverId = receiverId.trim();
+        if (!user || !normalizedReceiverId || amount <= 0 || amount > user.vault_gold) return false;
+
+        setUser(prev => prev ? { ...prev, vault_gold: prev.vault_gold - amount } : null);
+        prependTransaction({
+            type: 'gift_transfer',
+            amount: `${amount.toLocaleString()} 金幣`,
+            method: `贈送給 ${normalizedReceiverId}`,
+        });
         return true;
     };
 
@@ -157,6 +236,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             };
         });
 
+        const fromLabel = direction === 'gold-to-silver' ? '金幣' : '銀幣';
+        const toLabel = direction === 'gold-to-silver' ? '銀幣' : '金幣';
+        prependTransaction({
+            type: 'currency_conversion',
+            amount: `${exchange.fromAmount.toLocaleString()} ${fromLabel} → ${exchange.toAmount.toLocaleString()} ${toLabel}`,
+            method: `${fromLabel}兌換${toLabel}`,
+        });
+
         return exchange;
     };
 
@@ -170,8 +257,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             updateUser,
             updateBalance,
             updateAvatar,
+            transactions,
+            completeDeposit,
+            addWalletReward,
             depositToVault,
             withdrawFromVault,
+            transferFromVault,
             exchangeWalletCurrency
         }}>
             {children}

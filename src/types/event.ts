@@ -1,4 +1,5 @@
 import React from 'react';
+import type { CurrencyType } from './user';
 
 // Event related types
 
@@ -24,6 +25,10 @@ export interface GiftItem {
     icon: React.ReactNode;
     expire: string;
     claimed: boolean;
+    reward?: {
+        currency: CurrencyType;
+        amount: number;
+    };
 }
 
 export type EventType = 'sale' | 'tournament' | 'vip';

@@ -235,32 +235,32 @@ export const INBOX_MESSAGES: InboxMessage[] = [
 ];
 
 export const GIFT_ITEMS: GiftItem[] = [
-    { id: 1, title: '每日登入獎勵', amount: '10,000 銀幣', icon: <Coins className="text-slate-200" size={40} />, expire: '23小時後過期', claimed: false },
-    { id: 2, title: '限時活動獎勵', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false },
+    { id: 1, title: '每日登入獎勵', amount: '10,000 銀幣', icon: <Coins className="text-slate-200" size={40} />, expire: '23小時後過期', claimed: false, reward: { currency: 'silver', amount: 10_000 } },
+    { id: 2, title: '限時活動獎勵', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false, reward: { currency: 'gold', amount: 1_000_000 } },
     { id: 3, title: '維護補償', amount: '50,000 金幣', icon: <Wrench className="text-slate-400" size={40} />, expire: '6天後過期', claimed: true },
     { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size={40} />, expire: '2天後過期', claimed: false },
 ];
 
 export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251225-000', date: '2025-12-25 08:30', type: 'vault_deposit', amount: '10,000 金幣', status: 'success', method: '錢包存入' },
-    { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
-    { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '$9.99', status: 'processing', method: 'Credit Card' },
+    { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '100,000 金幣', status: 'success', method: 'App Store・$4.99' },
+    { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '500,000 金幣', status: 'processing', method: 'Google Play・$19.99' },
     { id: 'TX-20251224-003', date: '2025-12-24 10:00', type: 'free_reward', amount: '10,000 銀幣', status: 'success', method: '每日登入獎勵' },
     { id: 'TX-20251224-005', date: '2025-12-24 09:00', type: 'currency_conversion', amount: '100,000 銀幣', status: 'success', method: '金幣轉銀幣' },
     { id: 'TX-20251223-004', date: '2025-12-23 21:00', type: 'gift_transfer', amount: '50,000 金幣', status: 'success', method: '贈送給 Tom888' },
-    { id: 'TX-20251222-005', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
+    { id: 'TX-20251222-005', date: '2025-12-22 10:05', type: 'deposit', amount: '500,000 金幣', status: 'failed', method: 'App Store・$19.99' },
     { id: 'TX-20251221-006', date: '2025-12-21 23:30', type: 'gift_package', amount: '1,000,000 金幣', status: 'success', method: '限時活動獎勵' },
-    { id: 'TX-20251220-007', date: '2025-12-20 09:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'App Store' },
+    { id: 'TX-20251220-007', date: '2025-12-20 09:30', type: 'deposit', amount: '100,000 金幣', status: 'success', method: 'App Store・$4.99' },
     { id: 'TX-20251219-008', date: '2025-12-19 18:45', type: 'free_reward', amount: '5,000 金幣', status: 'success', method: '活動獎勵' },
     { id: 'TX-20251218-009', date: '2025-12-18 14:20', type: 'gift_transfer', amount: '100,000 金幣', status: 'success', method: '贈送給 Jessica_99' },
     { id: 'TX-20251217-010', date: '2025-12-17 08:00', type: 'free_reward', amount: '2,000 銀幣', status: 'success', method: '每日登入獎勵' },
-    { id: 'TX-20251216-011', date: '2025-12-16 12:45', type: 'deposit', amount: '$49.99', status: 'success', method: 'Google Play' },
+    { id: 'TX-20251216-011', date: '2025-12-16 12:45', type: 'deposit', amount: '1,200,000 金幣', status: 'success', method: 'Google Play・$49.99' },
     { id: 'TX-20251215-012', date: '2025-12-15 16:20', type: 'gift_package', amount: '50,000 金幣', status: 'success', method: '維護補償禮包' },
-    { id: 'TX-20251214-013', date: '2025-12-14 09:10', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251214-013', date: '2025-12-14 09:10', type: 'deposit', amount: '100,000 金幣', status: 'success', method: 'App Store・$4.99' },
     { id: 'TX-20251213-014', date: '2025-12-13 22:15', type: 'free_reward', amount: '8,888 金幣', status: 'success', method: '新春紅包' },
-    { id: 'TX-20251212-015', date: '2025-12-12 11:30', type: 'deposit', amount: '$19.99', status: 'processing', method: 'Credit Card' },
+    { id: 'TX-20251212-015', date: '2025-12-12 11:30', type: 'deposit', amount: '500,000 金幣', status: 'processing', method: 'Google Play・$19.99' },
     { id: 'TX-20251211-016', date: '2025-12-11 14:50', type: 'gift_transfer', amount: '25,000 金幣', status: 'success', method: '贈送給 LuckyGirl' },
-    { id: 'TX-20251210-017', date: '2025-12-10 10:00', type: 'deposit', amount: '$9.99', status: 'success', method: 'Apple Pay' },
+    { id: 'TX-20251210-017', date: '2025-12-10 10:00', type: 'deposit', amount: '500,000 金幣', status: 'success', method: 'App Store・$9.99' },
     { id: 'TX-20251209-018', date: '2025-12-09 19:40', type: 'gift_package', amount: '200,000 金幣', status: 'success', method: '新手禮包' },
 ];
 

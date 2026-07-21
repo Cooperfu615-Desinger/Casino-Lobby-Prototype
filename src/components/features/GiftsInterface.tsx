@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Gift, Clock, CheckCircle2, X, Loader2 } from 'lucide-react';
 import { GIFT_ITEMS, GiftItem } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface GiftsInterfaceProps {
     onClose: () => void;
@@ -14,7 +15,8 @@ interface GiftsInterfaceProps {
  * 在實際開發中，這些操作應與後端 ClaimGift API 同步。
  */
 const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
-    const { setLoading, showToast } = useUI();
+    const { setLoading, showToast, triggerBalanceAnimation } = useUI();
+    const { addWalletReward } = useAuth();
 
     // 使用 useState 管理禮物列表的本地狀態
     // 實際開發時，這些狀態可能來自 React Query / SWR 等資料狀態管理工具
@@ -55,9 +57,14 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
             i.id === id ? { ...i, claimed: true } : i
         ));
 
+        if (item.reward) {
+            addWalletReward(item.reward.currency, item.reward.amount, `禮物中心・${item.title}`);
+            triggerBalanceAnimation();
+        }
+
         setLoading(false);
-        showToast(`成功領取「${item.title}」！`, 'success');
-    }, [items, setLoading, showToast]);
+        showToast(item.reward ? `成功領取「${item.title}」，獎勵已加入錢包` : `成功領取「${item.title}」`, 'success');
+    }, [items, setLoading, showToast, addWalletReward, triggerBalanceAnimation]);
 
     /**
      * 全部領取所有未領取的禮物
@@ -89,12 +96,17 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
         // 模擬批次 API 延遲
         await new Promise(resolve => setTimeout(resolve, 1500));
 
+        const claimableItems = items.filter(item => !item.claimed);
+        claimableItems.forEach(item => {
+            if (item.reward) addWalletReward(item.reward.currency, item.reward.amount, `禮物中心・${item.title}`);
+        });
         setItems(prev => prev.map(item => ({ ...item, claimed: true })));
+        if (claimableItems.some(item => item.reward)) triggerBalanceAnimation();
 
         setLoading(false);
         setIsClaimingAll(false);
-        showToast(`成功領取 ${unclaimedCount} 份禮物！`, 'success');
-    }, [unclaimedCount, setLoading, showToast]);
+        showToast(`成功領取 ${unclaimedCount} 份禮物，獎勵已加入錢包`, 'success');
+    }, [items, unclaimedCount, setLoading, showToast, addWalletReward, triggerBalanceAnimation]);
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Landmark, Gem, X, Gift, History, Sparkles, User, Wallet, Send, Crown, Info, ShieldCheck, ArrowRight, ArrowLeftRight, RefreshCw } from 'lucide-react';
-import { PACKAGES, OFFER_PACKAGES, TRANSACTION_HISTORY } from '../../data/mockData';
+import { PACKAGES, OFFER_PACKAGES } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -27,7 +27,7 @@ const CONSTANTS = {
 
 const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: BankInterfaceProps) => {
     const { openModal, setLoading, showToast } = useUI();
-    const { user, updateUser, depositToVault, withdrawFromVault, exchangeWalletCurrency } = useAuth();
+    const { user, transactions, depositToVault, withdrawFromVault, transferFromVault, exchangeWalletCurrency } = useAuth();
     const [activeTab, setActiveTab] = useState<BankTab>(() => initialTab ? initialTab : (initialReceiverId ? 'gifts' : 'deposit'));
 
     // Vault tab state
@@ -96,10 +96,10 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
     }, [exchangeSourceBalance]);
 
     // Filter transactions
-    const filteredTransactions = TRANSACTION_HISTORY.filter(tx => {
+    const filteredTransactions = transactions.filter(tx => {
         if (recordFilter === 'all') return true;
         if (recordFilter === 'vault_ops') {
-            return ['vault_deposit', 'currency_conversion', 'vault_gift'].includes(tx.type);
+            return ['vault_deposit', 'vault_gift'].includes(tx.type);
         }
         return tx.type === recordFilter;
     });
@@ -205,9 +205,15 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
 
         setLoading(true);
         setTimeout(() => {
-            updateUser({ vault_gold: (user?.vault_gold || 0) - numericAmount });
+            const transferSucceeded = transferFromVault(receiverId, numericAmount);
             setLoading(false);
-            showToast('點數贈送成功！', 'success');
+
+            if (!transferSucceeded) {
+                showToast('保險箱餘額不足，請先存入金幣', 'error');
+                return;
+            }
+
+            showToast(`已贈送 ${numericAmount.toLocaleString()} 金幣，對方實收 ${actualReceived.toLocaleString()} 金幣`, 'success');
             setReceiverId('');
             setAmount('');
         }, 1000);
@@ -747,6 +753,7 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                                     { key: 'gift_transfer', label: '轉點贈禮' },
                                     { key: 'gift_package', label: '購買禮包' },
                                     { key: 'currency_conversion', label: '兌換' },
+                                    { key: 'vault_ops', label: '保險箱' },
                                 ].map(filter => (
                                     <button
                                         key={filter.key}
