@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import {
     Globe, MessageCircle, Headphones, MoreVertical,
     Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap, Flag, ShieldAlert
@@ -31,6 +31,16 @@ const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
         { id: 2, sender: 'Me', text: '真假？我也去試試', isMe: true, time: '10:01' }
     ]
 };
+
+const SUPPORT_CHAT_HISTORY: ChatMessage[] = [
+    { id: 1, sender: '客服小幫手', text: '您好！我是 Golden Bet 客服，請問有什麼可以協助您的？', isMe: false, time: '14:00' },
+];
+
+const getCurrentTime = () => new Date().toLocaleTimeString('zh-TW', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+});
 
 
 
@@ -66,7 +76,16 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     const [showAttachMenu, setShowAttachMenu] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
+    const [publicMessages, setPublicMessages] = useState<ChatMessage[]>(() => [...PUBLIC_CHAT_HISTORY]);
+    const [supportMessages, setSupportMessages] = useState<ChatMessage[]>(() => [...SUPPORT_CHAT_HISTORY]);
+    const [privateMessages, setPrivateMessages] = useState<Record<string, ChatMessage[]>>(() => Object.fromEntries(
+        friends.map((friend) => [
+            friend.playerId || getStablePlayerId(friend.name, friend.id),
+            [...(MOCK_SPECIFIC_CHATS[friend.id] || CHAT_HISTORY)],
+        ]),
+    ));
     const [messageInput, setMessageInput] = useState('');
+    const [publicMessageInput, setPublicMessageInput] = useState('');
     const [supportMessageInput, setSupportMessageInput] = useState('');
     const [activeSupportDraft, setActiveSupportDraft] = useState<SupportDraft | undefined>(supportDraft);
     const [activeAutoSendChannel, setActiveAutoSendChannel] = useState<'public' | 'private' | null>(null);
@@ -74,6 +93,8 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         public: { enabled: false, message: '歡迎加入公共頻道！🎰', selectedSticker: '🎉', interval: 10 },
         private: { enabled: false, message: '歡迎加入！祝您好運 🍀', selectedSticker: '🎉', interval: 1 },
     });
+    const messageEndRef = useRef<HTMLDivElement>(null);
+    const nextMessageIdRef = useRef(Date.now());
     useEffect(() => {
         if (!initialTargetPlayer) return;
 
@@ -135,13 +156,15 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         };
     }, [directChatTarget, friends, selectedFriend]);
 
-    const selectedPrivateMessages = selectedFriendId
-        && selectedFriend
-        ? (MOCK_SPECIFIC_CHATS[selectedFriendId] || CHAT_HISTORY)
-        : directChatTarget ? [
+    const selectedPrivateMessages = privateMessages[selectedPrivatePlayer.playerId]
+        ?? (directChatTarget ? [
             { id: 1, sender: selectedPrivatePlayer.name, text: '嗨，我們可以在這裡直接聊天。', isMe: false, time: 'now' },
-        ] : [];
+        ] : []);
     const selectedPrivateBlocked = isBlockedPlayer(selectedPrivatePlayer.playerId);
+
+    useEffect(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, [chatTab, publicMessages, supportMessages, privateMessages, selectedPrivatePlayer.playerId]);
 
     const showLocalToast = (message: string) => {
         setToastMessage(message);
@@ -158,14 +181,56 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         openModal('playerProfile', { profile: { ...profile, isFriend: isFriendPlayer(profile.playerId) } });
     };
 
-    const handleSendSupportMessage = () => {
-        if (activeSupportDraft && !supportMessageInput.trim()) {
-            showLocalToast('請輸入檢舉內容');
+    const makeSelfMessage = (text: string): ChatMessage => ({
+        id: ++nextMessageIdRef.current,
+        sender: user?.name || 'Me',
+        text,
+        isMe: true,
+        time: getCurrentTime(),
+    });
+
+    const handleSendPublicMessage = () => {
+        const text = publicMessageInput.trim();
+        if (!text) return;
+        setPublicMessages((messages) => [...messages, makeSelfMessage(text)]);
+        setPublicMessageInput('');
+    };
+
+    const handleSendPrivateMessage = () => {
+        const text = messageInput.trim();
+        if (!text) return;
+        if (selectedPrivateBlocked) {
+            showLocalToast('此玩家已在黑名單中，無法傳送私人訊息');
             return;
         }
 
+        const conversationKey = selectedPrivatePlayer.playerId;
+        setPrivateMessages((messages) => ({
+            ...messages,
+            [conversationKey]: [...(messages[conversationKey] ?? selectedPrivateMessages), makeSelfMessage(text)],
+        }));
+        setMessageInput('');
+        setShowEmojiPicker(false);
+    };
+
+    const handleSendSupportMessage = () => {
+        const text = supportMessageInput.trim();
+        if (!text) {
+            if (activeSupportDraft) showLocalToast('請輸入檢舉內容');
+            return;
+        }
+
+        const submittedText = activeSupportDraft ? `【${activeSupportDraft.title}】${text}` : text;
+        setSupportMessages((messages) => [...messages, makeSelfMessage(submittedText)]);
         showLocalToast(activeSupportDraft ? '檢舉內容已送出給客服' : '訊息已送出給客服');
         setSupportMessageInput('');
+        setActiveSupportDraft(undefined);
+    };
+
+    const handleEnterToSend = (event: KeyboardEvent<HTMLInputElement>, onSend: () => void) => {
+        if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
+        event.preventDefault();
+        onSend();
     };
 
 
@@ -231,15 +296,25 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                     </p>
                                 </div>
                             )}
-                            <div className="flex justify-start">
-                                <div className="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 mr-2 flex items-center justify-center border border-white/20">
-                                    <Bot size={14} className="text-white" />
+                            {supportMessages.map((message) => (
+                                <div key={message.id} className={`flex ${message.isMe ? 'justify-end' : 'justify-start'}`}>
+                                    {!message.isMe && (
+                                        <div className="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 mr-2 flex items-center justify-center border border-white/20">
+                                            <Bot size={14} className="text-white" />
+                                        </div>
+                                    )}
+                                    <div className="flex max-w-[70%] flex-col gap-1">
+                                        <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${message.isMe
+                                            ? 'rounded-tr-none bg-blue-600 text-white'
+                                            : 'rounded-tl-none border border-white/10 bg-[#2a1b42] text-white'
+                                            }`}>
+                                            {message.text}
+                                        </div>
+                                        <span className={`text-[9px] text-slate-500 ${message.isMe ? 'text-right' : 'text-left'}`}>{message.time}</span>
+                                    </div>
                                 </div>
-                                <div className="max-w-[70%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm bg-[#2a1b42] text-white rounded-tl-none border border-white/10">
-                                    <p>親愛的玩家您好！我是您的專屬 AI 客服助理。</p>
-                                    <p className="mt-2">如果您遇到任何遊戲問題、儲值問題或建議，請直接在下方輸入，我將盡快為您協助！🤖</p>
-                                </div>
-                            </div>
+                            ))}
+                            <div ref={messageEndRef} />
                         </div>
                         <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e]">
                             <div className="flex-1 relative">
@@ -247,13 +322,16 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                     type="text"
                                     value={supportMessageInput}
                                     onChange={(e) => setSupportMessageInput(e.target.value)}
+                                    onKeyDown={(event) => handleEnterToSend(event, handleSendSupportMessage)}
                                     placeholder={activeSupportDraft ? '請輸入檢舉內容...' : '請輸入您的問題...'}
                                     className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700]"
                                 />
                             </div>
                             <button
                                 onClick={handleSendSupportMessage}
-                                className="p-2.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full text-white shadow-lg hover:scale-105 active:scale-95 transition-all"
+                                disabled={!supportMessageInput.trim()}
+                                aria-label="傳送客服訊息"
+                                className="p-2.5 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full text-white shadow-lg hover:scale-105 active:scale-95 transition-all disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 <Send size={18} fill="currentColor" />
                             </button>
@@ -274,7 +352,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                             </div>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                            {PUBLIC_CHAT_HISTORY.map(msg => (
+                            {publicMessages.map(msg => (
                                 <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} relative group`}>
                                     {!msg.isSystem && !msg.isMe && (
                                         <button
@@ -306,17 +384,25 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                     )}
                                 </div>
                             ))}
-
+                            <div ref={messageEndRef} />
                         </div>
                         <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e]">
                             <div className="flex-1 relative">
                                 <input
                                     type="text"
+                                    value={publicMessageInput}
+                                    onChange={(event) => setPublicMessageInput(event.target.value)}
+                                    onKeyDown={(event) => handleEnterToSend(event, handleSendPublicMessage)}
                                     placeholder="發送訊息到公共頻道..."
                                     className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700]"
                                 />
                             </div>
-                            <button className="p-2.5 bg-gradient-to-r from-[#FFD700] to-[#DAA520] rounded-full text-black shadow-lg hover:scale-105 active:scale-95 transition-all">
+                            <button
+                                onClick={handleSendPublicMessage}
+                                disabled={!publicMessageInput.trim()}
+                                aria-label="傳送世界頻道訊息"
+                                className="p-2.5 bg-gradient-to-r from-[#FFD700] to-[#DAA520] rounded-full text-black shadow-lg hover:scale-105 active:scale-95 transition-all disabled:cursor-not-allowed disabled:opacity-40"
+                            >
                                 <Send size={18} fill="currentColor" />
                             </button>
                         </div>
@@ -378,6 +464,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                 </div>
                             ))}
                             <div className="text-center text-[10px] text-slate-500 my-2">今天 10:30</div>
+                            <div ref={messageEndRef} />
                         </div>
                         <div className="h-16 border-t border-white/10 p-3 flex items-center gap-3 bg-[#1a0b2e] relative">
                             {showAttachMenu && (
@@ -426,6 +513,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                     type="text"
                                     value={messageInput}
                                     onChange={(e) => setMessageInput(e.target.value)}
+                                    onKeyDown={(event) => handleEnterToSend(event, handleSendPrivateMessage)}
                                     disabled={selectedPrivateBlocked}
                                     placeholder={selectedPrivateBlocked ? '已封鎖，無法私訊' : '輸入訊息...'}
                                     className="w-full bg-[#0f061e] text-white text-sm rounded-full py-2.5 pl-4 pr-10 border border-white/10 focus:outline-none focus:border-[#FFD700] disabled:cursor-not-allowed disabled:text-slate-500"
@@ -492,7 +580,9 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                 )}
                             </div>
                             <button
-                                disabled={selectedPrivateBlocked}
+                                onClick={handleSendPrivateMessage}
+                                disabled={selectedPrivateBlocked || !messageInput.trim()}
+                                aria-label="傳送私人訊息"
                                 className="p-2.5 bg-gradient-to-r from-[#FFD700] to-[#DAA520] rounded-full text-black shadow-lg hover:scale-105 active:scale-95 transition-all disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 <Send size={18} fill="currentColor" />
