@@ -187,7 +187,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         onClick={onClose}
                         className="absolute -right-px -top-1 z-10 flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
                         title="關閉"
-                        aria-label="Close"
+                        aria-label="關閉玩家資料"
                     >
                         <X size={24} />
                     </button>

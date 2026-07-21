@@ -82,7 +82,7 @@ const LoginScreen = () => {
 
                 {/* Version */}
                 <div className="absolute top-6 right-6 text-white/50 text-sm font-mono tracking-wider">
-                    v1.000.06 (Profile Dynamic UI)
+                    v1.000.18 (Feature Alignment)
                 </div>
 
                 {/* Main Logo */}

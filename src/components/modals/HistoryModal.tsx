@@ -41,7 +41,7 @@ const HistoryModal = ({ onClose }: HistoryModalProps) => {
                     <button
                         onClick={onClose}
                         className="text-slate-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition-all"
-                        aria-label="Close"
+                        aria-label="關閉交易紀錄"
                     >
                         <X size={24} />
                     </button>

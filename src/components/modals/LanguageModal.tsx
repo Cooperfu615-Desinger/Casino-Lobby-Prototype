@@ -57,7 +57,7 @@ const LanguageModal = ({ onClose }: LanguageModalProps) => {
             <div className="w-full max-w-2xl bg-[#1a0b2e] border-2 border-white/10 rounded-3xl p-6 flex flex-col relative shadow-2xl">
                 <button
                     onClick={onClose}
-                    aria-label="Close"
+                    aria-label="關閉語言設定"
                     className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
                 >
                     <X size={24} />

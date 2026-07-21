@@ -72,7 +72,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                 <button
                     onClick={onOpenSettings}
                     title="Settings"
-                    aria-label="Open settings menu"
+                    aria-label="開啟設定選單"
                     className={`bg-black/40 p-2.5 rounded-xl border border-white/10 hover:bg-white/10 active:scale-95 transition-colors ${isSettingsOpen ? 'bg-white/20 border-white/30 text-white' : 'text-slate-200'}`}
                 >
                     <Menu size={28} />

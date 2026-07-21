@@ -82,10 +82,14 @@ const BottomNavigation = () => {
         return currentView === id;
     };
 
-    const renderSet = (setIndex: number) => (
+    const renderSet = (setIndex: number) => {
+        const isInteractiveSet = setIndex === 1;
+
+        return (
         <div
             key={`s${setIndex}`}
-            className="shrink-0 flex items-end"
+            aria-hidden={isInteractiveSet ? undefined : true}
+            className={`shrink-0 flex items-end ${isInteractiveSet ? '' : 'pointer-events-none'}`}
             style={{ width: '100%', height: `${NAV_H}px` }}
         >
             {NAV_ITEMS.map((item) => (
@@ -99,12 +103,14 @@ const BottomNavigation = () => {
                         label={item.label}
                         active={isActive(item.id)}
                         colorTheme={item.colorTheme}
+                        disabled={!isInteractiveSet}
                         onClick={() => handleNav(item.id)}
                     />
                 </div>
             ))}
         </div>
-    );
+        );
+    };
 
     return (
         <nav

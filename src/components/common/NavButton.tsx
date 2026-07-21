@@ -6,14 +6,18 @@ interface NavButtonProps {
   active: boolean;
   onClick: () => void;
   colorTheme: string;
+  disabled?: boolean;
 }
 
-const NavButton = ({ icon: Icon, label, active, onClick, colorTheme }: NavButtonProps) => (
+const NavButton = ({ icon: Icon, label, active, onClick, colorTheme, disabled = false }: NavButtonProps) => (
   <button
     onClick={onClick}
+    disabled={disabled}
+    tabIndex={disabled ? -1 : undefined}
     className={`
       relative flex flex-col items-center justify-end gap-1 w-full h-full transition-all duration-300
       ${active ? '-translate-y-2' : 'hover:opacity-90'}
+      disabled:pointer-events-none
     `}
   >
     {/* Icon Container */}

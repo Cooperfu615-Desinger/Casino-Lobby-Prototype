@@ -102,7 +102,7 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    aria-label="Close"
+                    aria-label="關閉優惠活動"
                     className="absolute -top-3 -right-3 z-20 text-white bg-black/80 hover:bg-red-600 rounded-full p-2 transition-all border border-white/20 shadow-lg hover:scale-110"
                 >
                     <X size={20} />

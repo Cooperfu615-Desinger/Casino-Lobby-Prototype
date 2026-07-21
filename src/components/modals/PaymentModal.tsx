@@ -22,7 +22,7 @@ const DEFAULT_PACKAGE_INFO: SalePackage = {
 const PaymentModal = ({ packageInfo = DEFAULT_PACKAGE_INFO, onClose }: PaymentModalProps) => {
     const [step, setStep] = useState<'confirm' | 'processing' | 'success'>('confirm');
     const [channel, setChannel] = useState<'App Store' | 'Google Play'>('App Store');
-    const { completeDeposit } = useAuth();
+    const { user, completeDeposit } = useAuth();
     const { showToast, triggerBalanceAnimation } = useUI();
     const coinAmount = Number(packageInfo.coins.replace(/[^0-9]/g, ''));
 
@@ -97,7 +97,7 @@ const PaymentModal = ({ packageInfo = DEFAULT_PACKAGE_INFO, onClose }: PaymentMo
                             <div className="w-full bg-black/30 rounded-xl p-4 mb-6 border border-white/5">
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-slate-400 text-sm">玩家帳號</span>
-                                    <span className="text-white text-sm font-medium">cooperfu@icloud.com</span>
+                                    <span className="max-w-[220px] truncate text-white text-sm font-medium">{user?.id ?? '未登入'}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-slate-400 text-sm">付款金額</span>
