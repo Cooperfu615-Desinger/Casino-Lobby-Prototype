@@ -26,6 +26,7 @@ import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import GameLaunchModal from '../modals/GameLaunchModal';
 import SeatSelectionModal from '../modals/SeatSelectionModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
+import useRecentGames from '../../hooks/useRecentGames';
 
 // Types
 import type { Game, GameSeat } from '../../types';
@@ -37,6 +38,7 @@ interface LobbyLayoutProps {
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const { currentView, chatInitialTab, bankInitialTab, eventsInitialTab, chatTarget, supportDraft, goToGames } = useNavigation();
     const { themeMode } = useUserPreferences();
+    const { recentGameIds, recordRecentGame } = useRecentGames();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
@@ -69,6 +71,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
         : 'bg-[radial-gradient(circle_at_top_right,_rgba(255,215,0,0.12),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(168,85,247,0.16),_transparent_32%)]';
 
     const handleGameCardClick = (game: Game) => {
+        recordRecentGame(game.id);
         setLaunchGame(game);
     };
 
@@ -167,6 +170,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             <GameGrid
                 onPlayGame={handleGameCardClick}
                 activeCategory={activeCategory}
+                recentGameIds={recentGameIds}
             />
 
             {/* Lobby Floating Buttons */}

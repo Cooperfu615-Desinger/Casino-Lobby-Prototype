@@ -5,16 +5,17 @@ interface GameCardProps {
     game: Game;
     onClick?: () => void;
     className?: string; // Add className prop for external grid positioning
+    compact?: boolean;
 }
 
-const GameCard = ({ game, onClick, className }: GameCardProps) => {
+const GameCard = ({ game, onClick, className, compact = false }: GameCardProps) => {
     const isLarge = game.size === 'large';
     const categoryLabel = game.category === 'slot' ? 'Slot' : game.category === 'card' ? 'Card' : 'Fishing';
 
     // Size classes: Standard is fixed w/h, Large is wider and full height
     const sizeClasses = isLarge
-        ? "w-[280px] h-[376px]"
-        : "w-[180px] h-[180px]";
+        ? compact ? 'h-[316px] w-[250px]' : 'h-[376px] w-[280px]'
+        : compact ? 'h-[150px] w-[160px]' : 'h-[180px] w-[180px]';
 
     return (
         <button
@@ -45,10 +46,20 @@ const GameCard = ({ game, onClick, className }: GameCardProps) => {
                     </div>
                 </div>
 
-                <div className={`absolute bottom-0 left-0 right-0 bg-black/60 ${isLarge ? 'py-4' : 'py-3'} px-2 backdrop-blur-[2px]`}>
-                    <p className={`text-white text-center font-bold truncate leading-tight tracking-wide drop-shadow-md ${isLarge ? 'text-lg' : 'text-sm'}`}>
+                {game.isNew && (
+                    <div className="absolute right-2.5 top-2.5 rounded-full border border-cyan-200/30 bg-cyan-400/90 px-2 py-0.5 text-[9px] font-black text-cyan-950 shadow-lg">
+                        NEW
+                    </div>
+                )}
+
+                <div className={`absolute bottom-0 left-0 right-0 bg-black/70 ${isLarge ? 'py-4' : compact ? 'py-2' : 'py-3'} px-2 backdrop-blur-[3px]`}>
+                    <p className={`truncate text-center font-bold leading-tight tracking-wide text-white drop-shadow-md ${isLarge ? 'text-lg' : 'text-sm'}`}>
                         {game.title}
                     </p>
+                    <div className="mt-1 flex items-center justify-center gap-2 text-[9px] font-bold text-white/55">
+                        <span className="max-w-[90px] truncate">{game.provider}</span>
+                        <span className="text-[#FFD700]">RTP {game.rtp}%</span>
+                    </div>
                 </div>
 
                 {/* Hover Effect */}

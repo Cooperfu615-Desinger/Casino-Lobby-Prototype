@@ -63,7 +63,7 @@ export const AVATARS: AvatarItem[] = [
 ];
 
 // --- Mock Data ---
-export const GAMES: Game[] = [
+const BASE_GAMES: Array<Omit<Game, 'provider' | 'description' | 'rtp' | 'volatility' | 'paylines' | 'maxMultiplier'>> = [
     { id: 1, title: 'Ace Blackjack', category: 'card', image: 'bg-red-900', icon: '♠️', size: 'large', hasJackpot: true },
     { id: 2, title: 'Gates of Olympus', category: 'slot', image: 'bg-purple-800', icon: '⚡', size: 'large', hasJackpot: true },
     { id: 3, title: 'Mystic Genie', category: 'slot', image: 'bg-indigo-800', icon: '🧞' },
@@ -87,6 +87,28 @@ export const GAMES: Game[] = [
     { id: 21, title: 'Cowboy Duel', category: 'card', image: 'bg-orange-950', icon: '🤠' },
     { id: 22, title: 'Deep Sea Pearl', category: 'fish', image: 'bg-blue-950', icon: '🐚' },
 ];
+
+const GAME_PROVIDERS = ['JH Gaming', 'PG Soft', 'Evolution'] as const;
+const GAME_DESCRIPTIONS: Record<Game['category'], string> = {
+    slot: '多線獎勵與特色回合，累積連線可觸發額外加成。',
+    card: '經典牌桌規則搭配快速節奏，適合策略型玩家。',
+    fish: '瞄準不同倍率魚種，特殊武器可觸發連鎖獎勵。',
+};
+
+export const GAMES: Game[] = BASE_GAMES.map((game, index) => ({
+    ...game,
+    provider: GAME_PROVIDERS[index % GAME_PROVIDERS.length],
+    description: GAME_DESCRIPTIONS[game.category],
+    rtp: Number((95.5 + ((game.id * 17) % 35) / 10).toFixed(1)),
+    volatility: (['中', '高', '低', '極高'] as const)[index % 4],
+    paylines: game.category === 'slot' ? (index % 2 === 0 ? '25 線' : '243 線') : 'N/A',
+    maxMultiplier: game.category === 'card'
+        ? `${8 + (game.id % 5) * 8}x`
+        : game.category === 'fish'
+            ? `${1_000 + game.id * 100}x`
+            : `${4_000 + game.id * 500}x`,
+    isNew: game.id >= 18,
+}));
 
 const OCCUPIED_SEAT_IDS = new Set([
     '003', '011', '016', '023', '029', '034', '041', '049', '057', '062', '071', '079',
