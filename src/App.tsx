@@ -7,6 +7,7 @@ import { AudioProvider } from './context/AudioContext';
 import { UIProvider } from './context/UIContext';
 import { NavigationProvider } from './context/NavigationContext';
 import { SocialProvider } from './context/SocialContext';
+import { ActivityProvider } from './context/ActivityContext';
 
 // Components - Layout
 import BrandLoading from './components/layout/BrandLoading';
@@ -52,18 +53,20 @@ function App() {
                     <AuthProvider>
                         <UIProvider>
                             <NavigationProvider>
-                                <SocialProvider>
-                                    {isInitialLoad ? (
-                                        <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                                    ) : !isAgeGateResolved ? (
-                                        <AgeGateModal onContinue={() => setIsAgeGateResolved(true)} />
-                                    ) : (
-                                        <>
-                                            <MainContent />
-                                            <ModalContainer />
-                                        </>
-                                    )}
-                                </SocialProvider>
+                                <ActivityProvider>
+                                    <SocialProvider>
+                                        {isInitialLoad ? (
+                                            <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                                        ) : !isAgeGateResolved ? (
+                                            <AgeGateModal onContinue={() => setIsAgeGateResolved(true)} />
+                                        ) : (
+                                            <>
+                                                <MainContent />
+                                                <ModalContainer />
+                                            </>
+                                        )}
+                                    </SocialProvider>
+                                </ActivityProvider>
                             </NavigationProvider>
                             {/* Global UI Components - Always rendered */}
                             <ToastContainer />

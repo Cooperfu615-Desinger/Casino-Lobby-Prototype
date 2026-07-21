@@ -206,7 +206,7 @@ export const SALE_PACKAGES: SalePackage[] = [
 
 /** 專屬優惠方案卡片 - 用於銀行中心「優惠」分頁 */
 export const OFFER_PACKAGES: OfferPackage[] = [
-    { id: 1, title: '新春紅包禮', description: '每日登入領取紅包金幣', coins: '888,888', price: '$1.99', original: '$9.99', tag: '限時 80% OFF', gradient: 'from-red-600 to-orange-500', expireTime: '3天後結束' },
+    { id: 1, title: '新春紅包禮', description: '購買即享限時紅包金幣', coins: '888,888', price: '$1.99', original: '$9.99', tag: '限時 80% OFF', gradient: 'from-red-600 to-orange-500', expireTime: '3天後結束' },
     { id: 2, title: 'VIP 專屬儲值', description: 'VIP 5+ 專屬加碼優惠', coins: '2,500,000', price: '$19.99', original: '$49.99', tag: 'VIP 限定', gradient: 'from-purple-600 to-indigo-500' },
     { id: 3, title: '週末狂歡包', description: '週六日限定超值禮包', coins: '1,200,000', price: '$9.99', original: '$24.99', tag: '週末限定', gradient: 'from-pink-500 to-rose-500', expireTime: '週日 23:59 截止' },
     { id: 4, title: '首充雙倍送', description: '首次儲值享 200% 回饋', coins: '500,000', price: '$4.99', original: '$9.99', tag: '首充限定', gradient: 'from-amber-500 to-yellow-400' },
@@ -215,16 +215,16 @@ export const OFFER_PACKAGES: OfferPackage[] = [
 ];
 
 export const EVENTS_LIST: EventItem[] = [
-    { id: 1, type: 'sale', title: '限時儲值優惠', desc: '全場 200% 回饋，僅剩 3 小時！', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to-orange-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2025/11/01 12:00', endTime: '2025/11/01 15:00' },
-    { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to-amber-900/50', border: 'border-yellow-500/50', status: 'active', startTime: '2025/11/01 00:00', endTime: '2025/11/07 23:59' },
-    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '同時達成儲值與投注門檻，提升返水與手續費減免。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to-indigo-900/50', border: 'border-purple-500/50', status: 'active', startTime: '2025/10/01 00:00', endTime: '2025/12/31 23:59' },
-    { id: 4, type: 'tournament', title: '深海捕魚祭', desc: '捕獲特殊魚種積分翻倍！', icon: <Swords className="text-cyan-400" />, bg: 'from-cyan-900/50 to-blue-900/50', border: 'border-cyan-500/50', status: 'active', startTime: '2025/11/02 10:00', endTime: '2025/11/05 10:00' },
-    { id: 5, type: 'sale', title: '週末狂歡包', desc: '週末限定，買一送一！', icon: <Flame className="text-pink-500" />, bg: 'from-pink-900/50 to-rose-900/50', border: 'border-pink-500/50', status: 'upcoming', startTime: '2025/11/08 00:00', endTime: '2025/11/09 23:59' },
-    { id: 6, type: 'vip', title: '黑卡會員邀請', desc: '僅限 VIP 7 以上玩家參與。', icon: <Crown className="text-slate-400" />, bg: 'from-slate-900/50 to-gray-900/50', border: 'border-slate-500/50', status: 'upcoming', startTime: '2025/11/15 12:00', endTime: '2025/11/20 12:00' },
-    { id: 7, type: 'tournament', title: '百家樂連勝王', desc: '挑戰最高連勝紀錄，奪取獎金。', icon: <Swords className="text-emerald-400" />, bg: 'from-emerald-900/50 to-green-900/50', border: 'border-emerald-500/50', status: 'ending', startTime: '2025/10/28 12:00', endTime: '2025/11/01 18:00' },
-    { id: 8, type: 'sale', title: '幸運輪盤加碼', desc: '每日登入免費轉一次！', icon: <Stars className="text-yellow-300" />, bg: 'from-orange-900/50 to-yellow-900/50', border: 'border-orange-500/50', status: 'active', startTime: '2025/11/01 00:00', endTime: '2025/11/30 23:59' },
-    { id: 9, type: 'tournament', title: '新手衝等賽', desc: '新註冊玩家專屬，快速升級。', icon: <Swords className="text-blue-400" />, bg: 'from-blue-900/50 to-sky-900/50', border: 'border-blue-500/50', status: 'upcoming', startTime: '2025/11/10 00:00', endTime: '2025/11/17 23:59' },
-    { id: 10, type: 'vip', title: '生日禮金加倍', desc: '本月壽星儲值回饋 300%。', icon: <Crown className="text-red-400" />, bg: 'from-red-900/50 to-pink-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2025/10/01 00:00', endTime: '2025/11/01 23:59' },
+    { id: 1, type: 'sale', title: '限時儲值優惠', desc: 'App Store／Google Play 儲值限時加碼。', prize: '+20%', details: '活動期間完成指定商店儲值，即可依方案取得對應加碼銀幣。實際付款仍使用 APP 既有商店流程。', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to-orange-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2026/07/20 12:00', endTime: '2026/07/22 23:59' },
+    { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '累積贏分競賽，即刻加入挑戰！', prize: '10,000,000 銀幣', details: '活動期間遊玩指定老虎機，依累積贏分進行排名。活動結束後由系統結算 Mock 名次。', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to-amber-900/50', border: 'border-yellow-500/50', status: 'active', startTime: '2026/07/15 00:00', endTime: '2026/07/31 23:59' },
+    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '同時達成儲值與投注門檻，提升兩項核心回饋。', prize: '返水／手續費減免', details: '活動期間依 APP VIP0～VIP10 規格計算；升級需同時達成儲值與投注，保級則擇一達成。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to-indigo-900/50', border: 'border-purple-500/50', status: 'active', startTime: '2026/01/01 00:00', endTime: '長期' },
+    { id: 4, type: 'tournament', title: '深海捕魚祭', desc: '捕獲特殊魚種，活動積分翻倍。', prize: '3,000,000 銀幣', details: '遊玩捕魚分類並捕獲活動魚種即可累積積分；Boss 魚種提供額外倍率。', icon: <Swords className="text-cyan-400" />, bg: 'from-cyan-900/50 to-blue-900/50', border: 'border-cyan-500/50', status: 'active', startTime: '2026/07/18 10:00', endTime: '2026/07/28 10:00' },
+    { id: 5, type: 'sale', title: '週末狂歡包', desc: '週末限定商店加碼活動。', prize: '最高 +15%', details: '活動開始後，指定 App Store／Google Play 方案會顯示週末加碼內容。', icon: <Flame className="text-pink-500" />, bg: 'from-pink-900/50 to-rose-900/50', border: 'border-pink-500/50', status: 'upcoming', startTime: '2026/07/25 00:00', endTime: '2026/07/26 23:59' },
+    { id: 6, type: 'vip', title: '黑卡會員邀請', desc: '限 VIP7 以上玩家參與的排名活動。', prize: '限定頭像框', details: '符合 VIP 等級即可於活動開始後報名，最終依活動積分決定限定獎勵。', icon: <Crown className="text-slate-400" />, bg: 'from-slate-900/50 to-gray-900/50', border: 'border-slate-500/50', status: 'upcoming', startTime: '2026/08/01 12:00', endTime: '2026/08/07 12:00' },
+    { id: 7, type: 'tournament', title: '百家樂連勝王', desc: '挑戰最高連勝紀錄，奪取排名獎金。', prize: '5,000,000 銀幣', details: '依活動期間內單次最高連勝局數排名，相同局數則以先達成者優先。', icon: <Swords className="text-emerald-400" />, bg: 'from-emerald-900/50 to-green-900/50', border: 'border-emerald-500/50', status: 'ended', startTime: '2026/06/01 12:00', endTime: '2026/06/15 18:00' },
+    { id: 8, type: 'sale', title: '幸運輪盤加碼', desc: '每日完成指定任務即可獲得一次轉盤機會。', prize: '最高 888,888 銀幣', details: '每日任務完成後可參加一次 Mock 輪盤；獎勵與簽到獎勵分開計算。', icon: <Stars className="text-yellow-300" />, bg: 'from-orange-900/50 to-yellow-900/50', border: 'border-orange-500/50', status: 'active', startTime: '2026/07/01 00:00', endTime: '2026/07/31 23:59' },
+    { id: 9, type: 'tournament', title: '新手衝等賽', desc: '新註冊玩家限定的成長競賽。', prize: '1,000,000 銀幣', details: '活動開始後完成遊戲與社交任務即可累積成長積分。', icon: <Swords className="text-blue-400" />, bg: 'from-blue-900/50 to-sky-900/50', border: 'border-blue-500/50', status: 'upcoming', startTime: '2026/08/10 00:00', endTime: '2026/08/17 23:59' },
+    { id: 10, type: 'vip', title: '夏季回饋賽', desc: '夏季限定累積投注回饋活動。', prize: '2,000,000 銀幣', details: '活動已結束，最終排名與獎勵皆為本機 Mock 展示資料。', icon: <Crown className="text-red-400" />, bg: 'from-red-900/50 to-pink-900/50', border: 'border-red-500/50', status: 'ended', startTime: '2026/06/01 00:00', endTime: '2026/06/30 23:59' },
 ];
 
 export const INBOX_MESSAGES: InboxMessage[] = [
@@ -235,7 +235,7 @@ export const INBOX_MESSAGES: InboxMessage[] = [
 ];
 
 export const GIFT_ITEMS: GiftItem[] = [
-    { id: 1, title: '每日登入獎勵', amount: '10,000 金幣', icon: <Coins className="text-[#FFD700]" size={40} />, expire: '23小時後過期', claimed: false },
+    { id: 1, title: '每日登入獎勵', amount: '10,000 銀幣', icon: <Coins className="text-slate-200" size={40} />, expire: '23小時後過期', claimed: false },
     { id: 2, title: '限時活動獎勵', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false },
     { id: 3, title: '維護補償', amount: '50,000 金幣', icon: <Wrench className="text-slate-400" size={40} />, expire: '6天後過期', claimed: true },
     { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size={40} />, expire: '2天後過期', claimed: false },
@@ -245,7 +245,7 @@ export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251225-000', date: '2025-12-25 08:30', type: 'vault_deposit', amount: '10,000 金幣', status: 'success', method: '錢包存入' },
     { id: 'TX-20251224-001', date: '2025-12-24 19:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },
     { id: 'TX-20251224-002', date: '2025-12-24 15:15', type: 'deposit', amount: '$9.99', status: 'processing', method: 'Credit Card' },
-    { id: 'TX-20251224-003', date: '2025-12-24 10:00', type: 'free_reward', amount: '10,000 金幣', status: 'success', method: '每日登入獎勵' },
+    { id: 'TX-20251224-003', date: '2025-12-24 10:00', type: 'free_reward', amount: '10,000 銀幣', status: 'success', method: '每日登入獎勵' },
     { id: 'TX-20251224-005', date: '2025-12-24 09:00', type: 'currency_conversion', amount: '100,000 銀幣', status: 'success', method: '金幣轉銀幣' },
     { id: 'TX-20251223-004', date: '2025-12-23 21:00', type: 'gift_transfer', amount: '50,000 金幣', status: 'success', method: '贈送給 Tom888' },
     { id: 'TX-20251222-005', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
@@ -253,7 +253,7 @@ export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251220-007', date: '2025-12-20 09:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'App Store' },
     { id: 'TX-20251219-008', date: '2025-12-19 18:45', type: 'free_reward', amount: '5,000 金幣', status: 'success', method: '活動獎勵' },
     { id: 'TX-20251218-009', date: '2025-12-18 14:20', type: 'gift_transfer', amount: '100,000 金幣', status: 'success', method: '贈送給 Jessica_99' },
-    { id: 'TX-20251217-010', date: '2025-12-17 08:00', type: 'free_reward', amount: '2,000 金幣', status: 'success', method: '每日登入獎勵' },
+    { id: 'TX-20251217-010', date: '2025-12-17 08:00', type: 'free_reward', amount: '2,000 銀幣', status: 'success', method: '每日登入獎勵' },
     { id: 'TX-20251216-011', date: '2025-12-16 12:45', type: 'deposit', amount: '$49.99', status: 'success', method: 'Google Play' },
     { id: 'TX-20251215-012', date: '2025-12-15 16:20', type: 'gift_package', amount: '50,000 金幣', status: 'success', method: '維護補償禮包' },
     { id: 'TX-20251214-013', date: '2025-12-14 09:10', type: 'deposit', amount: '$4.99', status: 'success', method: 'Apple Pay' },

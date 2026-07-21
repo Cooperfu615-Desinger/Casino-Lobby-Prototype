@@ -7,12 +7,14 @@ export interface EventItem {
     type: 'sale' | 'tournament' | 'vip';
     title: string;
     desc: string;
+    prize: string;
+    details: string;
     icon: React.ReactNode;
     bg: string;
     border: string;
     startTime: string;
     endTime: string;
-    status: 'upcoming' | 'active' | 'ending';
+    status: 'upcoming' | 'active' | 'ending' | 'ended';
 }
 
 export interface GiftItem {
@@ -25,4 +27,4 @@ export interface GiftItem {
 }
 
 export type EventType = 'sale' | 'tournament' | 'vip';
-export type EventStatus = 'upcoming' | 'active' | 'ending';
+export type EventStatus = 'upcoming' | 'active' | 'ending' | 'ended';
