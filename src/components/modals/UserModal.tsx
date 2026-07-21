@@ -1,11 +1,12 @@
 import { useState, type ReactNode } from 'react';
-import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Check, Wallet, Percent, CalendarDays } from 'lucide-react';
+import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Check, Wallet, Percent, CalendarDays, ScrollText } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 import { VIP_LEVEL_RULES, VIP_TARGET_DETAILS } from '../../data/mockData';
 import AvatarDisplay from '../common/AvatarDisplay';
 import AvatarSelectModal from './AvatarSelectModal';
 import WalletBalances from '../common/WalletBalances';
+import GameRecordsPanel from '../profile/GameRecordsPanel';
 
 interface UserModalProps {
     onClose: () => void;
@@ -14,7 +15,7 @@ interface UserModalProps {
 const UserModal = ({ onClose }: UserModalProps) => {
     const { user, updateUser } = useAuth();
     const { showToast } = useUI();
-    const [activeView, setActiveView] = useState<'overview' | 'edit'>('overview');
+    const [activeView, setActiveView] = useState<'overview' | 'edit' | 'history'>('overview');
     const [showAvatarSelect, setShowAvatarSelect] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showVipTarget, setShowVipTarget] = useState(false);
@@ -129,6 +130,17 @@ const UserModal = ({ onClose }: UserModalProps) => {
                             <div className="flex items-center gap-3">
                                 <UserCog size={16} />
                                 <span>修改資料</span>
+                            </div>
+                            <ChevronRight size={14} />
+                        </button>
+
+                        <button
+                            onClick={() => setActiveView('history')}
+                            className={`flex h-[35px] w-full items-center justify-between rounded-xl border px-3 text-[13px] transition-colors ${activeView === 'history' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
+                        >
+                            <div className="flex items-center gap-3">
+                                <ScrollText size={16} />
+                                <span>遊戲紀錄</span>
                             </div>
                             <ChevronRight size={14} />
                         </button>
@@ -255,6 +267,8 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                     </div>
                             </div>
                         </div>
+                    ) : activeView === 'history' ? (
+                        <GameRecordsPanel onBack={() => setActiveView('overview')} />
                     ) : (
                         <div className="animate-in slide-in-from-right duration-300 flex-1 overflow-y-auto custom-scrollbar">
                             <div className="flex items-center gap-4 mb-8">

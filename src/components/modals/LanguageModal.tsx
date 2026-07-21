@@ -45,7 +45,7 @@ const LanguageModal = ({ onClose }: LanguageModalProps) => {
         // 如果選擇的是不同語言
         if (langId !== currentLanguage) {
             setLanguage(langId as Language);
-            showToast(`語言已切換為 ${LANGUAGE_NAMES[langId as Language]}`, 'success');
+            showToast(`語言偏好已儲存為 ${LANGUAGE_NAMES[langId as Language]}；原型文案維持繁體中文`, 'success');
         }
 
         // 關閉彈窗
@@ -103,7 +103,7 @@ const LanguageModal = ({ onClose }: LanguageModalProps) => {
                 </div>
 
                 <p className="mt-8 text-center text-slate-500 text-xs">
-                    More languages will be supported in future updates.
+                    本階段僅保存語言選擇流程，原型介面文案維持繁體中文。
                 </p>
             </div>
         </div>
