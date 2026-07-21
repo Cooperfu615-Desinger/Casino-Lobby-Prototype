@@ -35,7 +35,7 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const DEFAULT_WALLET_AMOUNT = 1_000_000_000;
+const DEFAULT_WALLET_AMOUNT = 10_000_000;
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);

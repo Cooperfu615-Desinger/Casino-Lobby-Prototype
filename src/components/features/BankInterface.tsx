@@ -352,7 +352,7 @@ const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: B
                                         <Crown size={20} className="text-white" />
                                     </div>
                                     <div>
-                                        <div className="text-[#FFD700] font-bold">VIP 5</div>
+                                        <div className="text-[#FFD700] font-bold">VIP {Math.max(0, Math.min(user?.vipLevel ?? 0, 10))}</div>
                                         <div className="text-[10px] text-slate-400">尊榮會員</div>
                                     </div>
                                 </div>

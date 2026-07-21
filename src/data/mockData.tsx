@@ -52,9 +52,9 @@ export const AVATARS: AvatarItem[] = [
     // ── Locked avatars (11–20) ──
     { id: 11, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 5+' },
     { id: 12, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 10+' },
-    { id: 13, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 15+' },
-    { id: 14, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 20+' },
-    { id: 15, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 25+' },
+    { id: 13, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 10+' },
+    { id: 14, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 10+' },
+    { id: 15, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: 'VIP 10+' },
     { id: 16, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
     { id: 17, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
     { id: 18, emoji: '🔒', label: '???', bgClass: 'bg-gradient-to-br from-slate-600 to-slate-800', locked: true, unlockHint: '活動獎勵' },
@@ -195,7 +195,7 @@ export const OFFER_PACKAGES: OfferPackage[] = [
 export const EVENTS_LIST: EventItem[] = [
     { id: 1, type: 'sale', title: '限時儲值優惠', desc: '全場 200% 回饋，僅剩 3 小時！', icon: <Flame className="text-red-500" />, bg: 'from-red-900/50 to-orange-900/50', border: 'border-red-500/50', status: 'ending', startTime: '2025/11/01 12:00', endTime: '2025/11/01 15:00' },
     { id: 2, type: 'tournament', title: '雷神之錘爭霸戰', desc: '總獎金 10,000,000 金幣，即刻開戰！', icon: <Swords className="text-yellow-400" />, bg: 'from-yellow-900/50 to-amber-900/50', border: 'border-yellow-500/50', status: 'active', startTime: '2025/11/01 00:00', endTime: '2025/11/07 23:59' },
-    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '升級 VIP 5 即可獲得專屬經理服務。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to-indigo-900/50', border: 'border-purple-500/50', status: 'active', startTime: '2025/10/01 00:00', endTime: '2025/12/31 23:59' },
+    { id: 3, type: 'vip', title: 'VIP 尊榮升級', desc: '同時達成儲值與投注門檻，提升返水與手續費減免。', icon: <Crown className="text-purple-400" />, bg: 'from-purple-900/50 to-indigo-900/50', border: 'border-purple-500/50', status: 'active', startTime: '2025/10/01 00:00', endTime: '2025/12/31 23:59' },
     { id: 4, type: 'tournament', title: '深海捕魚祭', desc: '捕獲特殊魚種積分翻倍！', icon: <Swords className="text-cyan-400" />, bg: 'from-cyan-900/50 to-blue-900/50', border: 'border-cyan-500/50', status: 'active', startTime: '2025/11/02 10:00', endTime: '2025/11/05 10:00' },
     { id: 5, type: 'sale', title: '週末狂歡包', desc: '週末限定，買一送一！', icon: <Flame className="text-pink-500" />, bg: 'from-pink-900/50 to-rose-900/50', border: 'border-pink-500/50', status: 'upcoming', startTime: '2025/11/08 00:00', endTime: '2025/11/09 23:59' },
     { id: 6, type: 'vip', title: '黑卡會員邀請', desc: '僅限 VIP 7 以上玩家參與。', icon: <Crown className="text-slate-400" />, bg: 'from-slate-900/50 to-gray-900/50', border: 'border-slate-500/50', status: 'upcoming', startTime: '2025/11/15 12:00', endTime: '2025/11/20 12:00' },
@@ -208,13 +208,13 @@ export const EVENTS_LIST: EventItem[] = [
 export const INBOX_MESSAGES: InboxMessage[] = [
     { id: 1, type: 'system', title: '【系統公告】伺服器維護通知', date: '2025-10-30', content: '親愛的玩家您好：\n\n為了提供更優質的遊戲體驗，我們將於 2025/11/01 03:00 (GMT+8) 進行例行性維護，預計維護時間為 2 小時。維護期間將無法登入遊戲，造成不便敬請見諒。\n\n維護補償將於開機後發送至您的信箱。\n\nGolden Bet 營運團隊 敬上', read: false, attachment: { type: 'coins', label: '維護補償', amount: '50,000 金幣' } },
     { id: 2, type: 'promo', title: '🔥 週末狂歡！儲值回饋 200%', date: '2025-10-29', content: '週末限定活動開跑！\n\n凡於本週六、日進行儲值，即可享有 200% 的金幣回饋！\n機會難得，錯過不再！快去商店查看詳情吧！', read: true },
-    { id: 3, type: 'system', title: '恭喜晉升 VIP 7！', date: '2025-10-25', content: '恭喜您！\n\n您已成功晉升為 VIP 7 會員。現在您可以享受更高的返水比例與專屬客戶經理服務。\n\n我們已發送一份晉升禮包到您的「禮物中心」，請記得去領取喔！', read: true, attachment: { type: 'coins', label: 'VIP 晉升禮包', amount: '1,000,000 金幣' } },
+    { id: 3, type: 'system', title: '恭喜晉升 VIP 7！', date: '2025-10-25', content: '恭喜您！\n\n您已成功晉升為 VIP 7 會員，現在可享有 1.4% 返水與 7% 手續費減免。\n\n保級只需達成每月有效投注或月儲值其中一項條件。', read: true },
     { id: 4, type: 'personal', title: '好友邀請通知', date: '2025-10-20', content: '玩家 Tom888 邀請您加入「贏家俱樂部」公會。', read: true },
 ];
 
 export const GIFT_ITEMS: GiftItem[] = [
     { id: 1, title: '每日登入獎勵', amount: '10,000 金幣', icon: <Coins className="text-[#FFD700]" size={40} />, expire: '23小時後過期', claimed: false },
-    { id: 2, title: 'VIP 7 晉升禮包', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false },
+    { id: 2, title: '限時活動獎勵', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false },
     { id: 3, title: '維護補償', amount: '50,000 金幣', icon: <Wrench className="text-slate-400" size={40} />, expire: '6天後過期', claimed: true },
     { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size={40} />, expire: '2天後過期', claimed: false },
 ];
@@ -227,7 +227,7 @@ export const TRANSACTION_HISTORY: Transaction[] = [
     { id: 'TX-20251224-005', date: '2025-12-24 09:00', type: 'currency_conversion', amount: '100,000 銀幣', status: 'success', method: '金幣轉銀幣' },
     { id: 'TX-20251223-004', date: '2025-12-23 21:00', type: 'gift_transfer', amount: '50,000 金幣', status: 'success', method: '贈送給 Tom888' },
     { id: 'TX-20251222-005', date: '2025-12-22 10:05', type: 'deposit', amount: '$19.99', status: 'failed', method: 'Apple Pay' },
-    { id: 'TX-20251221-006', date: '2025-12-21 23:30', type: 'gift_package', amount: '1,000,000 金幣', status: 'success', method: 'VIP 7 晉升禮包' },
+    { id: 'TX-20251221-006', date: '2025-12-21 23:30', type: 'gift_package', amount: '1,000,000 金幣', status: 'success', method: '限時活動獎勵' },
     { id: 'TX-20251220-007', date: '2025-12-20 09:30', type: 'deposit', amount: '$4.99', status: 'success', method: 'App Store' },
     { id: 'TX-20251219-008', date: '2025-12-19 18:45', type: 'free_reward', amount: '5,000 金幣', status: 'success', method: '活動獎勵' },
     { id: 'TX-20251218-009', date: '2025-12-18 14:20', type: 'gift_transfer', amount: '100,000 金幣', status: 'success', method: '贈送給 Jessica_99' },
@@ -330,10 +330,8 @@ export const ACHIEVEMENTS: Achievement[] = [
 ];
 
 export const VIP_PRIVILEGES: VIPPrivilege[] = [
-    { id: 1, title: '贈禮手續費優惠', description: '贈禮手續費僅 5%', icon: '🎁' },
-    { id: 2, title: '每日登入禮金加成', description: '每日登入禮金 +10%', icon: '💰' },
-    { id: 3, title: '專屬客服', description: '優先處理通道', icon: '🎧' },
-    { id: 4, title: '特殊活動資格', description: 'VIP 專屬活動邀請', icon: '🎪' }
+    { id: 1, title: '返水', description: '依 VIP 等級享有對應返水比例', icon: '↗' },
+    { id: 2, title: '手續費減免', description: '依 VIP 等級享有對應手續費減免', icon: '%' },
 ];
 
 export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
@@ -350,10 +348,10 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         level: 1,
         name: 'VIP 1',
         themeColor: '#CD7F32',
-        rebate: '1.2%',
+        rebate: '0.2%',
         feeDiscount: '減免 1%',
         maintainRequirement: '每月有效投注 80,000，或月儲值 2,000',
-        note: '適合剛開始累積活躍度的玩家，解鎖基礎 VIP 禮遇。',
+        note: '完成基礎儲值與投注門檻後，開始享有返水與手續費減免。',
     },
     {
         level: 2,
@@ -371,7 +369,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '0.6%',
         feeDiscount: '減免 3%',
         maintainRequirement: '每月有效投注 320,000，或月儲值 12,000',
-        note: '提供更完整的週期性回饋，福利開始明顯拉開差距。',
+        note: '返水與手續費減免隨等級穩定提升。',
     },
     {
         level: 4,
@@ -380,7 +378,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '0.8%',
         feeDiscount: '減免 4%',
         maintainRequirement: '每月有效投注 560,000，或月儲值 22,000',
-        note: '活躍玩家的主要分水嶺，可獲得更高活動優先權。',
+        note: '持續累積儲值與投注，可提高兩項核心回饋。',
     },
     {
         level: 5,
@@ -389,7 +387,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '1.0%',
         feeDiscount: '減免 5%',
         maintainRequirement: '每月有效投注 900,000，或月儲值 35,000',
-        note: '進入高價值會員層級，福利以專屬服務與高額獎勵為主。',
+        note: '進入高階會員層級，返水與手續費減免同步提升。',
     },
     {
         level: 6,
@@ -407,7 +405,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '1.4%',
         feeDiscount: '減免 7%',
         maintainRequirement: '每月有效投注 1,800,000，或月儲值 75,000',
-        note: '高階 VIP 目標，重點在更高回饋與專人服務。',
+        note: '高階 VIP 目標，享有更高返水與手續費減免。',
     },
     {
         level: 8,
@@ -416,7 +414,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '1.6%',
         feeDiscount: '減免 8%',
         maintainRequirement: '每月有效投注 2,400,000，或月儲值 105,000',
-        note: '針對核心玩家提供更高額、更穩定的月度禮遇。',
+        note: '針對核心玩家提供更高且穩定的核心回饋。',
     },
     {
         level: 9,
@@ -425,7 +423,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '1.8%',
         feeDiscount: '減免 9%',
         maintainRequirement: '每月有效投注 3,100,000，或月儲值 140,000',
-        note: '接近最高層級，獎勵與活動資格全面升級。',
+        note: '接近最高層級，兩項核心回饋進一步提升。',
     },
     {
         level: 10,
@@ -434,7 +432,7 @@ export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
         rebate: '2.0%',
         feeDiscount: '減免 10%',
         maintainRequirement: '每月有效投注 4,000,000，或月儲值 180,000',
-        note: '最高 VIP 等級，享有目前所有開放中的尊榮福利。',
+        note: '最高 VIP 等級，享有最高返水與手續費減免。',
     },
 ];
 
@@ -444,11 +442,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 0,
         requiredBet: 0,
         rewards: [
-            { label: '送銀幣', value: '5,000' },
-            { label: '手續費減免', value: '0%' },
-            { label: '月月收獎', value: '未開放' },
-            { label: '發財金', value: '8,888' },
-            { label: '登入禮', value: '每日 1,000' },
+            { label: '返水', value: '0%' },
+            { label: '手續費減免', value: '無折扣' },
         ],
     },
     {
@@ -456,11 +451,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 5000,
         requiredBet: 120000,
         rewards: [
-            { label: '送銀幣', value: '15,000' },
-            { label: '手續費減免', value: '1%' },
-            { label: '月月收獎', value: '每月 1 次' },
-            { label: '發財金', value: '18,888' },
-            { label: '登入禮', value: '每日 1,500' },
+            { label: '返水', value: '0.2%' },
+            { label: '手續費減免', value: '減免 1%' },
         ],
     },
     {
@@ -468,11 +460,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 12000,
         requiredBet: 350000,
         rewards: [
-            { label: '送銀幣', value: '35,000' },
-            { label: '手續費減免', value: '2%' },
-            { label: '月月收獎', value: '每月 1 次' },
-            { label: '發財金', value: '28,888' },
-            { label: '登入禮', value: '每日 2,000' },
+            { label: '返水', value: '0.4%' },
+            { label: '手續費減免', value: '減免 2%' },
         ],
     },
     {
@@ -480,11 +469,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 25000,
         requiredBet: 800000,
         rewards: [
-            { label: '送銀幣', value: '60,000' },
-            { label: '手續費減免', value: '3%' },
-            { label: '月月收獎', value: '每月 2 次' },
-            { label: '發財金', value: '38,888' },
-            { label: '登入禮', value: '每日 3,000' },
+            { label: '返水', value: '0.6%' },
+            { label: '手續費減免', value: '減免 3%' },
         ],
     },
     {
@@ -492,11 +478,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 45000,
         requiredBet: 1400000,
         rewards: [
-            { label: '送銀幣', value: '90,000' },
-            { label: '手續費減免', value: '4%' },
-            { label: '月月收獎', value: '每月 2 次' },
-            { label: '發財金', value: '58,888' },
-            { label: '登入禮', value: '每日 4,000' },
+            { label: '返水', value: '0.8%' },
+            { label: '手續費減免', value: '減免 4%' },
         ],
     },
     {
@@ -504,11 +487,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 70000,
         requiredBet: 2100000,
         rewards: [
-            { label: '送銀幣', value: '130,000' },
-            { label: '手續費減免', value: '5%' },
-            { label: '月月收獎', value: '每月 3 次' },
-            { label: '發財金', value: '88,888' },
-            { label: '登入禮', value: '每日 5,500' },
+            { label: '返水', value: '1.0%' },
+            { label: '手續費減免', value: '減免 5%' },
         ],
     },
     {
@@ -516,11 +496,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 105000,
         requiredBet: 3000000,
         rewards: [
-            { label: '送銀幣', value: '180,000' },
-            { label: '手續費減免', value: '6%' },
-            { label: '月月收獎', value: '每月 3 次' },
-            { label: '發財金', value: '128,888' },
-            { label: '登入禮', value: '每日 7,000' },
+            { label: '返水', value: '1.2%' },
+            { label: '手續費減免', value: '減免 6%' },
         ],
     },
     {
@@ -528,11 +505,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 150000,
         requiredBet: 4200000,
         rewards: [
-            { label: '送銀幣', value: '240,000' },
-            { label: '手續費減免', value: '7%' },
-            { label: '月月收獎', value: '每月 4 次' },
-            { label: '發財金', value: '168,888' },
-            { label: '登入禮', value: '每日 8,500' },
+            { label: '返水', value: '1.4%' },
+            { label: '手續費減免', value: '減免 7%' },
         ],
     },
     {
@@ -540,11 +514,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 210000,
         requiredBet: 5600000,
         rewards: [
-            { label: '送銀幣', value: '320,000' },
-            { label: '手續費減免', value: '8%' },
-            { label: '月月收獎', value: '每月 4 次' },
-            { label: '發財金', value: '228,888' },
-            { label: '登入禮', value: '每日 10,000' },
+            { label: '返水', value: '1.6%' },
+            { label: '手續費減免', value: '減免 8%' },
         ],
     },
     {
@@ -552,11 +523,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 280000,
         requiredBet: 7300000,
         rewards: [
-            { label: '送銀幣', value: '420,000' },
-            { label: '手續費減免', value: '9%' },
-            { label: '月月收獎', value: '每月 5 次' },
-            { label: '發財金', value: '288,888' },
-            { label: '登入禮', value: '每日 12,500' },
+            { label: '返水', value: '1.8%' },
+            { label: '手續費減免', value: '減免 9%' },
         ],
     },
     {
@@ -564,11 +532,8 @@ export const VIP_LEVEL_RULES: VIPLevelRule[] = [
         requiredDeposit: 360000,
         requiredBet: 9200000,
         rewards: [
-            { label: '送銀幣', value: '550,000' },
-            { label: '手續費減免', value: '10%' },
-            { label: '月月收獎', value: '每月 6 次' },
-            { label: '發財金', value: '388,888' },
-            { label: '登入禮', value: '每日 15,000' },
+            { label: '返水', value: '2.0%' },
+            { label: '手續費減免', value: '減免 10%' },
         ],
     },
 ];

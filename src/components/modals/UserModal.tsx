@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Gem, Headphones, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Gift, Check, Coins, Wallet, CalendarDays, HandCoins, Percent } from 'lucide-react';
+import { X, Crown, Pencil, Copy, ChevronRight, UserCog, Phone, Save, ArrowLeft, Facebook, MessageCircle, UserCircle2, TrendingUp, Check, Wallet, Percent, CalendarDays } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 import { VIP_LEVEL_RULES, VIP_TARGET_DETAILS } from '../../data/mockData';
@@ -41,6 +41,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
 
     const currentVipLevel = Math.max(0, Math.min(user?.vipLevel ?? 0, 10));
     const currentVipRule = VIP_LEVEL_RULES.find((rule) => rule.level === currentVipLevel) ?? VIP_LEVEL_RULES[0];
+    const currentVipDetail = VIP_TARGET_DETAILS.find((detail) => detail.level === currentVipLevel) ?? VIP_TARGET_DETAILS[0];
     const nextVipRule = VIP_LEVEL_RULES.find((rule) => rule.level === Math.min(currentVipLevel + 1, 10)) ?? currentVipRule;
     const currentDeposit = user?.vipDepositTotal ?? 0;
     const currentBet = user?.vipBetTotal ?? 0;
@@ -235,20 +236,20 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10">
                                             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black shadow-lg shrink-0">
-                                                <Gem size={18} />
+                                                <TrendingUp size={18} />
                                             </div>
                                             <div>
-                                                <div className="text-white font-bold text-sm">每日紅利</div>
-                                                <div className="text-slate-400 text-xs">+15% 額外加成</div>
+                                                <div className="text-white font-bold text-sm">返水</div>
+                                                <div className="text-slate-400 text-xs">{currentVipDetail.rebate}</div>
                                             </div>
                                         </div>
                                         <div className="bg-white/5 rounded-xl p-3 flex items-center gap-3 border border-white/10">
                                             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white shadow-lg shrink-0">
-                                                <Headphones size={18} />
+                                                <Percent size={18} />
                                             </div>
                                             <div>
-                                                <div className="text-white font-bold text-sm">專屬客服</div>
-                                                <div className="text-slate-400 text-xs">優先處理通道</div>
+                                                <div className="text-white font-bold text-sm">手續費減免</div>
+                                                <div className="text-slate-400 text-xs">{currentVipDetail.feeDiscount}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -665,16 +666,8 @@ const getRewardIcon = (label: string) => {
     switch (label) {
         case '返水':
             return <TrendingUp size={14} />;
-        case '送銀幣':
-            return <Coins size={14} />;
         case '手續費減免':
             return <Percent size={14} />;
-        case '月月收獎':
-            return <CalendarDays size={14} />;
-        case '發財金':
-            return <HandCoins size={14} />;
-        case '登入禮':
-            return <Gift size={14} />;
         default:
             return <Crown size={14} />;
     }
