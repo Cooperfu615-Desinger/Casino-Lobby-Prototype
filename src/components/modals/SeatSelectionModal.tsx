@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
-import { X, UserRound, Gamepad2 } from 'lucide-react';
+import { X, UserRound, Gamepad2, WalletCards } from 'lucide-react';
 import { GAME_SEATS } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
-import type { Game, GameSeat } from '../../types';
+import { getGameWalletLabel } from '../../utils/gameWallets';
+import type { Game, GameSeat, GameWalletKey } from '../../types';
 
 type SeatFilterMode = 'all' | 'available';
 
 interface SeatSelectionModalProps {
     game: Game;
+    wallet: GameWalletKey;
     onClose: () => void;
     onEnterSeat: (seat: GameSeat) => void;
 }
 
 const SEAT_PAGES = [1, 2, 3];
 
-const SeatSelectionModal = ({ game, onClose, onEnterSeat }: SeatSelectionModalProps) => {
+const SeatSelectionModal = ({ game, wallet, onClose, onEnterSeat }: SeatSelectionModalProps) => {
     const { showToast } = useUI();
     const [activePage, setActivePage] = useState(1);
     const [filterMode, setFilterMode] = useState<SeatFilterMode>('all');
@@ -75,6 +77,10 @@ const SeatSelectionModal = ({ game, onClose, onEnterSeat }: SeatSelectionModalPr
                                     label="顯示空位"
                                     onClick={() => setFilterMode('available')}
                                 />
+                            </div>
+                            <div className="flex items-center gap-2 rounded-2xl border border-[#8d8c90]/15 bg-white px-4 py-2 text-[12px] font-black text-[#6d6c70] shadow-sm">
+                                <WalletCards size={15} className="text-[#ff5f66]" />
+                                遊戲幣別：{getGameWalletLabel(wallet)}
                             </div>
                         </div>
 

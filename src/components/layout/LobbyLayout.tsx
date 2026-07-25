@@ -150,6 +150,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {seatSelection && (
                 <SeatSelectionModal
                     game={seatSelection.game}
+                    wallet={seatSelection.wallet}
                     onClose={() => setSeatSelection(null)}
                     onEnterSeat={handleEnterSeat}
                 />

@@ -15,7 +15,7 @@ export const buildGameWalletOptions = ({
     {
         key: 'stored-gold',
         label: '儲值金幣',
-        shortLabel: '金幣',
+        shortLabel: '儲值金',
         balance: stored.gold,
         tone: 'gold',
         isActivity: false,
@@ -34,7 +34,7 @@ export const buildGameWalletOptions = ({
     {
         key: 'stored-silver',
         label: '儲值銀幣',
-        shortLabel: '銀幣',
+        shortLabel: '儲值銀',
         balance: stored.silver,
         tone: 'silver',
         isActivity: false,

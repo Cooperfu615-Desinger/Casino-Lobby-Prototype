@@ -136,7 +136,7 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
             type,
             createdAt: Date.now(),
         };
-        setToasts(prev => [...prev, newToast]);
+        setToasts(prev => [...prev.slice(-2), newToast]);
     }, []);
 
     /**

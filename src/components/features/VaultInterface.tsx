@@ -234,13 +234,13 @@ const VaultInterface = ({ onClose, initialTab = 'vault', receiverId: initialRece
                                         <span className="mb-2 block text-[9px] font-black text-slate-400">接收者玩家 ID</span>
                                         <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/25 px-4 py-3">
                                             <Send size={15} className="text-purple-300" />
-                                            <input value={receiverId} onChange={event => setReceiverId(event.target.value)} placeholder="輸入玩家 ID" className="w-full bg-transparent text-sm font-bold text-white outline-none placeholder:text-slate-600" />
+                                            <input aria-label="接收者玩家 ID" value={receiverId} onChange={event => setReceiverId(event.target.value)} placeholder="輸入玩家 ID" className="w-full bg-transparent text-sm font-bold text-white outline-none placeholder:text-slate-600" />
                                         </div>
                                     </label>
                                     <label className="block">
                                         <span className="mb-2 block text-[9px] font-black text-slate-400">贈禮金額</span>
                                         <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-3">
-                                            <input type="text" inputMode="numeric" value={giftAmount} onChange={event => setSanitizedAmount(event.target.value, vaultGold, setGiftAmount)} placeholder="0" className="w-full bg-transparent text-center font-mono text-3xl font-black text-[#FFD700] outline-none placeholder:text-white/10" />
+                                            <input type="text" inputMode="numeric" aria-label="贈禮金額" value={giftAmount} onChange={event => setSanitizedAmount(event.target.value, vaultGold, setGiftAmount)} placeholder="0" className="w-full bg-transparent text-center font-mono text-3xl font-black text-[#FFD700] outline-none placeholder:text-white/10" />
                                         </div>
                                     </label>
                                 </div>
