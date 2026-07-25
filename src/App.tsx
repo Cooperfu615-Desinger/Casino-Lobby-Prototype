@@ -24,22 +24,26 @@ import PrototypeStage from './components/common/PrototypeStage';
 import ToastContainer from './components/common/ToastContainer';
 import LoadingOverlay from './components/common/LoadingOverlay';
 import AgeGateModal from './components/modals/AgeGateModal';
+import RewardConversionModal from './components/modals/RewardConversionModal';
 
 // Types
-import type { Game } from './types';
+import type { GameSession } from './types';
 
 // Wrapper component to handle routing based on auth state
 const MainContent = () => {
     const { isAuthenticated } = useAuth();
-    const [activeGame, setActiveGame] = useState<Game | null>(null);
+    const [activeSession, setActiveSession] = useState<GameSession | null>(null);
 
     if (!isAuthenticated) return <LoginScreen />;
 
-    if (activeGame) {
-        return <GameRoom game={activeGame} onExit={() => setActiveGame(null)} />;
-    }
-
-    return <LobbyLayout onPlayGame={setActiveGame} />;
+    return (
+        <>
+            {activeSession
+                ? <GameRoom session={activeSession} onExit={() => setActiveSession(null)} />
+                : <LobbyLayout onPlayGame={setActiveSession} />}
+            <RewardConversionModal onViewRecords={() => setActiveSession(null)} />
+        </>
+    );
 };
 
 function App() {

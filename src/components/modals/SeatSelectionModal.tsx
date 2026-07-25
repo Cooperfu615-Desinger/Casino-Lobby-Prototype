@@ -339,7 +339,7 @@ const TableRow = ({ row }: TableRowProps) => (
         </div>
         {row.values.map((item, index) => (
             <div
-                key={`${row.label}-${item.label}`}
+                key={`${row.label}-${index}`}
                 className={`border-b border-white/20 px-2 py-2.5 text-center ${index > 0 ? 'border-l border-white/20' : 'border-l border-white/25'}`}
             >
                 <div className="text-[11px] font-bold text-white/80">{item.label}</div>

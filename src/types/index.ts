@@ -2,6 +2,7 @@
 
 // Game
 export type { Game, GameCategory, GameSeat, SeatTrendMetric, SeatFreeGameStats } from './game';
+export type { GameSession, GameWalletKey, GameWalletOption } from './gameWallet';
 
 // User
 export type { Friend, OnlinePlayer, FriendStatus } from './user';

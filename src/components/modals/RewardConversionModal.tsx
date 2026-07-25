@@ -2,7 +2,11 @@ import { ArrowRight, Check, Coins, History, Sparkles } from 'lucide-react';
 import { useRewardCards } from '../../context/RewardCardContext';
 import { useNavigation } from '../../hooks/useNavigation';
 
-const RewardConversionModal = () => {
+interface RewardConversionModalProps {
+    onViewRecords?: () => void;
+}
+
+const RewardConversionModal = ({ onViewRecords }: RewardConversionModalProps) => {
     const { pendingConversionNotice, markConversionNoticeRead } = useRewardCards();
     const { navigate } = useNavigation();
     const notice = pendingConversionNotice && !pendingConversionNotice.read ? pendingConversionNotice : null;
@@ -12,6 +16,7 @@ const RewardConversionModal = () => {
     const isGold = notice.sourceCurrency === 'activity-gold';
     const goToRecords = () => {
         markConversionNoticeRead();
+        onViewRecords?.();
         navigate('bank', { bankTab: 'records' });
     };
 

@@ -1,11 +1,14 @@
-import { useState, type ReactNode } from 'react';
-import { Armchair, BookOpen, Info, Play, X } from 'lucide-react';
-import type { Game } from '../../types';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Armchair, BookOpen, Check, Info, Play, WalletCards, X } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { useRewardCards } from '../../context/RewardCardContext';
+import { buildGameWalletOptions } from '../../utils/gameWallets';
+import type { Game, GameWalletKey, GameWalletOption } from '../../types';
 
 interface GameLaunchModalProps {
     game: Game;
-    onQuickPlay: () => void;
-    onChooseSeat: () => void;
+    onQuickPlay: (wallet: GameWalletKey) => void;
+    onChooseSeat: (wallet: GameWalletKey) => void;
     onClose: () => void;
 }
 
@@ -28,7 +31,23 @@ const GAME_RULES: Record<Game['category'], string[]> = {
 };
 
 const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunchModalProps) => {
+    const { user } = useAuth();
+    const { availableActivityGoldBalance, availableActivitySilverBalance } = useRewardCards();
     const [activeTab, setActiveTab] = useState<'details' | 'rules'>('details');
+    const walletOptions = useMemo(() => buildGameWalletOptions({
+        stored: user?.balance ?? { gold: 0, silver: 0, bronze: 0 },
+        activityGold: availableActivityGoldBalance,
+        activitySilver: availableActivitySilverBalance,
+    }), [availableActivityGoldBalance, availableActivitySilverBalance, user?.balance]);
+    const [selectedWallet, setSelectedWallet] = useState<GameWalletKey>('stored-gold');
+    const selectedOption = walletOptions.find(option => option.key === selectedWallet);
+    const canEnter = Boolean(selectedOption?.enabled);
+
+    useEffect(() => {
+        if (selectedOption?.enabled) return;
+        const nextAvailableWallet = walletOptions.find(option => option.enabled);
+        if (nextAvailableWallet) setSelectedWallet(nextAvailableWallet.key);
+    }, [selectedOption?.enabled, walletOptions]);
 
     return (
         <div className="absolute inset-0 z-[130] flex items-center justify-center">
@@ -40,7 +59,7 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
             />
 
             <article
-                className="relative w-[560px] max-w-[calc(100%-32px)] overflow-hidden rounded-[28px] border border-[#FFD700]/25 bg-gradient-to-br from-[#21103a]/98 to-[#10051f]/98 shadow-[0_28px_90px_rgba(0,0,0,0.58)] animate-in fade-in zoom-in-95 duration-200"
+                className="relative w-[700px] max-w-[calc(100%-32px)] overflow-hidden rounded-[28px] border border-[#FFD700]/25 bg-gradient-to-br from-[#21103a]/98 to-[#10051f]/98 shadow-[0_28px_90px_rgba(0,0,0,0.58)] animate-in fade-in zoom-in-95 duration-200"
                 role="dialog"
                 aria-modal="true"
                 aria-label={`${game.title} 遊戲詳情`}
@@ -80,7 +99,7 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
                         />
                     </div>
 
-                    <div className="min-h-[142px] rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                    <div className="min-h-[126px] rounded-2xl border border-white/10 bg-white/[0.035] p-4">
                         {activeTab === 'details' ? (
                             <div className="animate-in fade-in duration-150">
                                 <p className="mb-4 text-xs font-medium leading-relaxed text-slate-300">{game.description}</p>
@@ -103,11 +122,39 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
                         )}
                     </div>
 
+                    <section className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-3" aria-label="遊戲幣別">
+                        <div className="mb-2.5 flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-2">
+                                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#FFD700]/10 text-[#FFD700]">
+                                    <WalletCards size={16} />
+                                </span>
+                                <div>
+                                    <h3 className="text-xs font-black text-white">選擇遊戲幣別</h3>
+                                    <p className="text-[9px] text-slate-500">快速進入與選位都會沿用本次選擇</p>
+                                </div>
+                            </div>
+                            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[9px] font-black text-slate-400">
+                                {walletOptions.filter(option => option.enabled).length} 個可用
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-5 gap-2">
+                            {walletOptions.map(option => (
+                                <WalletOptionButton
+                                    key={option.key}
+                                    option={option}
+                                    selected={selectedWallet === option.key}
+                                    onSelect={() => setSelectedWallet(option.key)}
+                                />
+                            ))}
+                        </div>
+                    </section>
+
                     <div className="mt-4 grid grid-cols-2 gap-3">
                         <button
                             type="button"
-                            onClick={onQuickPlay}
-                            className="group flex min-h-[105px] flex-col items-start rounded-2xl border border-[#FFD700]/30 bg-gradient-to-br from-[#FFD700]/18 to-[#FFD700]/5 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-[#FFD700]/55 active:translate-y-0"
+                            onClick={() => canEnter && onQuickPlay(selectedWallet)}
+                            disabled={!canEnter}
+                            className="group flex min-h-[96px] flex-col items-start rounded-2xl border border-[#FFD700]/30 bg-gradient-to-br from-[#FFD700]/18 to-[#FFD700]/5 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-[#FFD700]/55 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             <span className="text-[9px] font-black tracking-[0.18em] text-[#FFD700]">QUICK PLAY</span>
                             <strong className="mt-2 flex items-center gap-2 text-lg font-black text-white"><Play size={17} fill="currentColor" />快速遊玩</strong>
@@ -116,8 +163,9 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
 
                         <button
                             type="button"
-                            onClick={onChooseSeat}
-                            className="group flex min-h-[105px] flex-col items-start rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-purple-300/35 hover:bg-white/10 active:translate-y-0"
+                            onClick={() => canEnter && onChooseSeat(selectedWallet)}
+                            disabled={!canEnter}
+                            className="group flex min-h-[96px] flex-col items-start rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-purple-300/35 hover:bg-white/10 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             <span className="text-[9px] font-black tracking-[0.18em] text-purple-300">SEAT MAP</span>
                             <strong className="mt-2 flex items-center gap-2 text-lg font-black text-white"><Armchair size={17} />選擇機台</strong>
@@ -127,6 +175,50 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
                 </div>
             </article>
         </div>
+    );
+};
+
+const WalletOptionButton = ({
+    option,
+    selected,
+    onSelect,
+}: {
+    option: GameWalletOption;
+    selected: boolean;
+    onSelect: () => void;
+}) => {
+    const toneClass = option.tone === 'gold'
+        ? 'border-[#FFD700]/35 bg-[#FFD700]/10 text-[#FFD700]'
+        : option.tone === 'silver'
+            ? 'border-slate-200/25 bg-slate-200/10 text-slate-100'
+            : 'border-orange-400/30 bg-orange-400/10 text-orange-300';
+
+    return (
+        <button
+            type="button"
+            aria-pressed={selected}
+            aria-label={`${option.label}，餘額 ${option.balance.toLocaleString()}`}
+            title={!option.enabled ? option.unavailableReason ?? '餘額不足' : option.label}
+            disabled={!option.enabled}
+            onClick={onSelect}
+            className={`relative min-w-0 rounded-xl border px-2 py-2.5 text-left transition-all ${selected
+                ? `${toneClass} ring-2 ring-white/35`
+                : option.enabled
+                    ? 'border-white/10 bg-white/[0.035] text-slate-300 hover:border-white/25 hover:bg-white/[0.07]'
+                    : 'cursor-not-allowed border-white/5 bg-black/15 text-slate-600 opacity-65'
+                }`}
+        >
+            {selected && (
+                <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[#241039]">
+                    <Check size={10} strokeWidth={4} />
+                </span>
+            )}
+            <span className="block truncate pr-3 text-[9px] font-black">{option.shortLabel}</span>
+            <strong className="mt-1 block truncate text-[11px] font-black">{option.balance.toLocaleString()}</strong>
+            <small className="mt-1 block truncate text-[7px] text-current opacity-60">
+                {option.enabled ? (option.isActivity ? '獎勵卡可用' : '錢包可用') : '目前不可用'}
+            </small>
+        </button>
     );
 };
 

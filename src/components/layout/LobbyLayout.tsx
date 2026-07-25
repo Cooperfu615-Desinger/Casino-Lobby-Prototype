@@ -26,15 +26,14 @@ import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import GameLaunchModal from '../modals/GameLaunchModal';
 import SeatSelectionModal from '../modals/SeatSelectionModal';
-import RewardConversionModal from '../modals/RewardConversionModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
 import useRecentGames from '../../hooks/useRecentGames';
 
 // Types
-import type { Game, GameSeat } from '../../types';
+import type { Game, GameSeat, GameSession, GameWalletKey } from '../../types';
 
 interface LobbyLayoutProps {
-    onPlayGame: (game: Game) => void;
+    onPlayGame: (session: GameSession) => void;
 }
 
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
@@ -58,7 +57,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [activeCategory, setActiveCategory] = useState<LobbyCategoryId>('all');
     const [legalTab, setLegalTab] = useState<TermsTab | null>(null);
     const [launchGame, setLaunchGame] = useState<Game | null>(null);
-    const [seatSelectionGame, setSeatSelectionGame] = useState<Game | null>(null);
+    const [seatSelection, setSeatSelection] = useState<{ game: Game; wallet: GameWalletKey } | null>(null);
 
     const categoryCounts = LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
         if (!category.gameCategory) {
@@ -87,22 +86,22 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
         setLaunchGame(game);
     };
 
-    const handleQuickPlay = () => {
+    const handleQuickPlay = (wallet: GameWalletKey) => {
         if (!launchGame) return;
-        onPlayGame(launchGame);
+        onPlayGame({ game: launchGame, wallet });
         setLaunchGame(null);
     };
 
-    const handleOpenSeatSelection = () => {
+    const handleOpenSeatSelection = (wallet: GameWalletKey) => {
         if (!launchGame) return;
-        setSeatSelectionGame(launchGame);
+        setSeatSelection({ game: launchGame, wallet });
         setLaunchGame(null);
     };
 
-    const handleEnterSeat = (_seat: GameSeat) => {
-        if (!seatSelectionGame) return;
-        onPlayGame(seatSelectionGame);
-        setSeatSelectionGame(null);
+    const handleEnterSeat = (seat: GameSeat) => {
+        if (!seatSelection) return;
+        onPlayGame({ game: seatSelection.game, wallet: seatSelection.wallet, seat });
+        setSeatSelection(null);
     };
 
     return (
@@ -148,14 +147,13 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
                     onClose={() => setLaunchGame(null)}
                 />
             )}
-            {seatSelectionGame && (
+            {seatSelection && (
                 <SeatSelectionModal
-                    game={seatSelectionGame}
-                    onClose={() => setSeatSelectionGame(null)}
+                    game={seatSelection.game}
+                    onClose={() => setSeatSelection(null)}
                     onEnterSeat={handleEnterSeat}
                 />
             )}
-            <RewardConversionModal />
 
             {/* Header */}
             <Header
