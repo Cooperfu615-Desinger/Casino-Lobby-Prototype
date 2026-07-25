@@ -17,6 +17,7 @@ import EventsInterface from '../features/EventsInterface';
 import InboxInterface from '../features/InboxInterface';
 import GiftsInterface from '../features/GiftsInterface';
 import BankInterface from '../features/BankInterface';
+import VaultInterface from '../features/VaultInterface';
 
 
 // Modals
@@ -37,7 +38,17 @@ interface LobbyLayoutProps {
 }
 
 const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
-    const { currentView, chatInitialTab, bankInitialTab, eventsInitialTab, chatTarget, supportDraft, goToGames } = useNavigation();
+    const {
+        currentView,
+        chatInitialTab,
+        bankInitialTab,
+        vaultInitialTab,
+        vaultReceiverId,
+        eventsInitialTab,
+        chatTarget,
+        supportDraft,
+        goToGames,
+    } = useNavigation();
     const { themeMode } = useUserPreferences();
     const { recentGameIds, recordRecentGame } = useRecentGames();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -203,6 +214,14 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             )}
             {currentView === 'bank' && (
                 <BankInterface onClose={goToGames} initialTab={bankInitialTab} />
+            )}
+            {currentView === 'vault' && (
+                <VaultInterface
+                    key={`${vaultInitialTab}-${vaultReceiverId || 'default'}`}
+                    onClose={goToGames}
+                    initialTab={vaultInitialTab}
+                    receiverId={vaultReceiverId}
+                />
             )}
             {/* Phase 1: Club feature hidden
             {currentView === 'club' && (

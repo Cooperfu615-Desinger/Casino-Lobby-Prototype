@@ -1,811 +1,214 @@
-import { useState, useEffect } from 'react';
-import { Landmark, Gem, X, Gift, History, Sparkles, User, Wallet, Send, Crown, Info, ShieldCheck, ArrowRight, ArrowLeftRight, RefreshCw } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import {
+    Gem,
+    History,
+    Landmark,
+    SlidersHorizontal,
+    Sparkles,
+    X,
+} from 'lucide-react';
 import { PACKAGES, OFFER_PACKAGES } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
-import {
-    calculateWalletExchange,
-    canSubmitWalletExchange,
-    GOLD_TO_SILVER_RATE,
-    type WalletExchangeDirection,
-} from '../../utils/walletExchange';
+import type { Transaction, TransactionStatus } from '../../types/transaction';
 
 interface BankInterfaceProps {
     onClose: () => void;
-    /** 從聊天室跳轉時帶入的接收者 ID */
-    receiverId?: string;
     initialTab?: BankTab;
 }
 
-export type BankTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'exchange' | 'records';
-type RecordFilter = 'all' | 'deposit' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'currency_conversion' | 'vault_ops';
-type VaultMode = 'deposit' | 'withdraw';
+export type BankTab = 'deposit' | 'offers' | 'records';
+type RecordCategory = 'all' | 'deposit' | 'vault' | 'gift' | 'exchange' | 'reward';
+type RecordStatusFilter = 'all' | TransactionStatus;
 
-const CONSTANTS = {
-    FEE_RATE: 0.05,
+const CATEGORY_TYPES: Record<Exclude<RecordCategory, 'all'>, Transaction['type'][]> = {
+    deposit: ['deposit', 'withdraw'],
+    vault: ['vault_deposit', 'vault_gift'],
+    gift: ['gift_transfer', 'gift_package'],
+    exchange: ['currency_conversion'],
+    reward: ['free_reward', 'reward_card_conversion', 'rebate'],
 };
 
-const BankInterface = ({ onClose, receiverId: initialReceiverId, initialTab }: BankInterfaceProps) => {
-    const { openModal, setLoading, showToast } = useUI();
-    const { user, transactions, depositToVault, withdrawFromVault, transferFromVault, exchangeWalletCurrency } = useAuth();
-    const [activeTab, setActiveTab] = useState<BankTab>(() => initialTab ? initialTab : (initialReceiverId ? 'gifts' : 'deposit'));
+const BankInterface = ({ onClose, initialTab = 'deposit' }: BankInterfaceProps) => {
+    const { openModal } = useUI();
+    const { transactions } = useAuth();
+    const [activeTab, setActiveTab] = useState<BankTab>(initialTab);
+    const [recordCategory, setRecordCategory] = useState<RecordCategory>('all');
+    const [recordStatus, setRecordStatus] = useState<RecordStatusFilter>('all');
 
-    // Vault tab state
-    const [vaultMode, setVaultMode] = useState<VaultMode>('deposit');
-    const [vaultAmount, setVaultAmount] = useState<number | ''>('');
+    const filteredTransactions = useMemo(() => transactions.filter(transaction => {
+        const matchesCategory = recordCategory === 'all'
+            || CATEGORY_TYPES[recordCategory].includes(transaction.type);
+        const matchesStatus = recordStatus === 'all' || transaction.status === recordStatus;
+        return matchesCategory && matchesStatus;
+    }), [recordCategory, recordStatus, transactions]);
 
-    // Exchange tab state
-    const [exchangeDirection, setExchangeDirection] = useState<WalletExchangeDirection>('gold-to-silver');
-    const [exchangeAmount, setExchangeAmount] = useState<number | ''>('');
-
-    // Gifts tab state
-    const [receiverId, setReceiverId] = useState(initialReceiverId || '');
-    const [amount, setAmount] = useState<number | ''>('');
-
-    // Records tab state
-    const [recordFilter, setRecordFilter] = useState<RecordFilter>('all');
-
-    // 當從聊天室跳轉時，自動切換到贈禮並填入 ID
-    useEffect(() => {
-        if (initialTab) {
-            setActiveTab(initialTab);
-        }
-    }, [initialTab]);
-
-    useEffect(() => {
-        if (initialReceiverId) {
-            setActiveTab('gifts');
-            setReceiverId(initialReceiverId);
-        }
-    }, [initialReceiverId]);
-
-    const numericAmount = Number(amount) || 0;
-    const fee = Math.floor(numericAmount * CONSTANTS.FEE_RATE);
-    const actualReceived = Math.max(0, numericAmount - fee);
-    const walletGold = user?.balance.gold || 0;
-    const walletSilver = user?.balance.silver || 0;
-    const vaultGold = user?.vault_gold || 0;
-    const vaultTransferMax = vaultMode === 'deposit' ? walletGold : vaultGold;
-    const numericVaultAmount = Number(vaultAmount) || 0;
-    const canConfirmVaultTransfer = numericVaultAmount > 0 && numericVaultAmount <= vaultTransferMax;
-    const exchangeSourceBalance = exchangeDirection === 'gold-to-silver' ? walletGold : walletSilver;
-    const numericExchangeAmount = Number(exchangeAmount) || 0;
-    const exchangeSummary = calculateWalletExchange(exchangeDirection, numericExchangeAmount);
-    const canConfirmExchange = canSubmitWalletExchange(exchangeDirection, numericExchangeAmount, exchangeSourceBalance);
-    const exchangeStep = exchangeDirection === 'gold-to-silver' ? 1 : GOLD_TO_SILVER_RATE;
-    const isSilverToGoldInvalid = exchangeDirection === 'silver-to-gold'
-        && numericExchangeAmount > 0
-        && numericExchangeAmount % GOLD_TO_SILVER_RATE !== 0;
-    const exchangeFromLabel = exchangeDirection === 'gold-to-silver' ? '金幣' : '銀幣';
-    const exchangeToLabel = exchangeDirection === 'gold-to-silver' ? '銀幣' : '金幣';
-
-    useEffect(() => {
-        setVaultAmount(prev => {
-            const currentAmount = Number(prev) || 0;
-            if (prev === '' || currentAmount <= vaultTransferMax) return prev;
-            return vaultTransferMax > 0 ? vaultTransferMax : '';
-        });
-    }, [vaultTransferMax]);
-
-    useEffect(() => {
-        setExchangeAmount(prev => {
-            const currentAmount = Number(prev) || 0;
-            if (prev === '' || currentAmount <= exchangeSourceBalance) return prev;
-            return exchangeSourceBalance > 0 ? exchangeSourceBalance : '';
-        });
-    }, [exchangeSourceBalance]);
-
-    // Filter transactions
-    const filteredTransactions = transactions.filter(tx => {
-        if (recordFilter === 'all') return true;
-        if (recordFilter === 'vault_ops') {
-            return ['vault_deposit', 'vault_gift'].includes(tx.type);
-        }
-        return tx.type === recordFilter;
-    });
-
-    // --- Actions ---
-
-    const handleVaultAmountInput = (value: string) => {
-        const sanitized = value.replace(/[^0-9]/g, '');
-        if (!sanitized) {
-            setVaultAmount('');
-            return;
-        }
-
-        const nextAmount = Math.min(Number(sanitized), vaultTransferMax);
-        setVaultAmount(nextAmount);
-    };
-
-    const handleExchangeDirectionChange = (direction: WalletExchangeDirection) => {
-        setExchangeDirection(direction);
-        setExchangeAmount('');
-    };
-
-    const handleExchangeAmountInput = (value: string) => {
-        const sanitized = value.replace(/[^0-9]/g, '');
-        if (!sanitized) {
-            setExchangeAmount('');
-            return;
-        }
-
-        const nextAmount = Math.min(Number(sanitized), exchangeSourceBalance);
-        setExchangeAmount(nextAmount);
-    };
-
-    const setExchangePercent = (percent: number) => {
-        let nextAmount = Math.floor(exchangeSourceBalance * percent);
-        if (exchangeDirection === 'silver-to-gold') {
-            nextAmount = Math.floor(nextAmount / GOLD_TO_SILVER_RATE) * GOLD_TO_SILVER_RATE;
-        }
-        setExchangeAmount(nextAmount);
-    };
-
-    const handleVaultTransfer = () => {
-        if (!canConfirmVaultTransfer) return;
-
-        setLoading(true);
-        setTimeout(() => {
-            const transferSucceeded = vaultMode === 'deposit'
-                ? depositToVault(numericVaultAmount)
-                : withdrawFromVault(numericVaultAmount);
-
-            setLoading(false);
-
-            if (!transferSucceeded) {
-                showToast(vaultMode === 'deposit' ? '錢包金幣不足' : '保險箱餘額不足', 'error');
-                return;
-            }
-
-            showToast(vaultMode === 'deposit' ? '成功存入保險箱' : '成功取出至錢包', 'success');
-            setVaultAmount('');
-        }, 800);
-    };
-
-    const handleWalletExchange = () => {
-        if (numericExchangeAmount <= 0) {
-            showToast('請輸入兌換金額', 'error');
-            return;
-        }
-
-        if (isSilverToGoldInvalid) {
-            showToast('銀幣換金幣需以 100 銀幣為單位', 'error');
-            return;
-        }
-
-        setLoading(true);
-        setTimeout(() => {
-            const exchange = exchangeWalletCurrency(exchangeDirection, numericExchangeAmount);
-            setLoading(false);
-
-            if (!exchange) {
-                showToast('目前餘額不足，請重新輸入兌換金額', 'error');
-                return;
-            }
-
-            const fromLabel = exchange.direction === 'gold-to-silver' ? '金幣' : '銀幣';
-            const toLabel = exchange.direction === 'gold-to-silver' ? '銀幣' : '金幣';
-            showToast(
-                `已兌換 ${exchange.fromAmount.toLocaleString()} ${fromLabel}，獲得 ${exchange.toAmount.toLocaleString()} ${toLabel}`,
-                'success'
-            );
-            setExchangeAmount('');
-        }, 800);
-    };
-
-
-    const handleGiftTransfer = () => {
-        if (!receiverId || numericAmount <= 0) return;
-
-        // Check Vault Balance
-        if ((user?.vault_gold || 0) < numericAmount) {
-            showToast('保險箱餘額不足，請先存入金幣', 'error');
-            return;
-        }
-
-        setLoading(true);
-        setTimeout(() => {
-            const transferSucceeded = transferFromVault(receiverId, numericAmount);
-            setLoading(false);
-
-            if (!transferSucceeded) {
-                showToast('保險箱餘額不足，請先存入金幣', 'error');
-                return;
-            }
-
-            showToast(`已贈送 ${numericAmount.toLocaleString()} 金幣，對方實收 ${actualReceived.toLocaleString()} 金幣`, 'success');
-            setReceiverId('');
-            setAmount('');
-        }, 1000);
-    };
-
-    const tabs: { key: BankTab; label: string; icon: React.ReactNode }[] = [
-        { key: 'deposit', label: '儲值', icon: <Gem size={16} /> },
-        { key: 'offers', label: '優惠', icon: <Sparkles size={16} /> },
-        { key: 'gifts', label: '贈禮', icon: <Gift size={16} /> },
-        { key: 'vault', label: '保險箱', icon: <ShieldCheck size={16} /> },
-        { key: 'exchange', label: '兌換', icon: <ArrowLeftRight size={16} /> },
-        { key: 'records', label: '紀錄', icon: <History size={16} /> },
+    const tabs: Array<{ key: BankTab; label: string; icon: React.ReactNode }> = [
+        { key: 'deposit', label: '儲值', icon: <Gem size={15} /> },
+        { key: 'offers', label: '優惠', icon: <Sparkles size={15} /> },
+        { key: 'records', label: '紀錄', icon: <History size={15} /> },
     ];
 
     return (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            {/* Modal Container */}
-            <div className="relative w-[90%] max-w-[1000px] h-[600px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
-
-                {/* Close Button */}
-                <button
-                    aria-label="關閉功能"
-                    onClick={onClose}
-                    className="absolute top-4 right-4 z-20 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                >
-                    <X size={20} />
-                </button>
-
-                {/* Header with Tabs */}
-                <header className="flex flex-col gap-4 px-8 pt-6 pb-4 border-b border-white/10">
-                    <div className="flex items-center gap-3">
-                        <Landmark size={24} className="text-[#FFD700]" />
-                        <h2 className="text-2xl font-bold text-white">銀行中心</h2>
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="relative flex h-[min(680px,92vh)] w-[94%] max-w-[1040px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
+                <header className="relative flex-none border-b border-white/10 bg-gradient-to-r from-[#2a1244] via-[#1a0b2e] to-[#130720] px-6 pb-3 pt-4">
+                    <button type="button" aria-label="關閉銀行中心" onClick={onClose} className="absolute right-5 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white/55 hover:bg-white/10 hover:text-white">
+                        <X size={19} />
+                    </button>
+                    <div className="flex items-center gap-3 pr-12">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#FFD700]/25 bg-[#FFD700]/10 text-[#FFD700]">
+                            <Landmark size={20} />
+                        </div>
+                        <div>
+                            <p className="text-[8px] font-black tracking-[0.22em] text-[#FFD700]/70">APP WALLET SERVICES</p>
+                            <h2 className="text-xl font-black text-white">銀行中心</h2>
+                        </div>
                     </div>
-
-                    {/* Tab Navigation */}
-                    <div className="flex gap-2">
+                    <nav className="mt-3 flex max-w-lg gap-2" aria-label="銀行功能">
                         {tabs.map(tab => (
                             <button
                                 key={tab.key}
+                                type="button"
                                 onClick={() => setActiveTab(tab.key)}
-                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all ${activeTab === tab.key
-                                    ? 'bg-[#FFD700] text-black shadow-lg shadow-[#FFD700]/20'
-                                    : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
+                                className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all ${activeTab === tab.key
+                                    ? 'bg-[#FFD700] text-black shadow-lg shadow-[#FFD700]/15'
+                                    : 'border border-white/5 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
-                                {tab.icon}
-                                {tab.label}
+                                {tab.icon}{tab.label}
                             </button>
                         ))}
-                    </div>
+                    </nav>
                 </header>
 
-                {/* Tab Content */}
-                <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-
-                    {/* ========== 儲值 Tab ========== */}
+                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
                     {activeTab === 'deposit' && (
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                             {PACKAGES.map(pkg => (
-                                <div
+                                <button
                                     key={pkg.id}
+                                    type="button"
                                     onClick={() => openModal('payment', { packageInfo: pkg })}
-                                    className="relative group bg-[#0f061e] border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-between hover:border-[#FFD700] hover:bg-white/5 transition-all cursor-pointer shadow-lg hover:shadow-[#FFD700]/20 hover:-translate-y-1"
+                                    className="group relative flex min-h-[205px] flex-col items-center justify-between rounded-2xl border border-white/10 bg-[#0f061e] p-5 text-center shadow-lg transition-all hover:-translate-y-1 hover:border-[#FFD700]/70 hover:bg-white/5 hover:shadow-[#FFD700]/10"
                                 >
-                                    {pkg.best && (
-                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/20 whitespace-nowrap z-10">
-                                            BEST VALUE
-                                        </div>
-                                    )}
-
-                                    <div className="relative mb-4">
-                                        <div className="absolute inset-0 bg-[#FFD700]/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>
-                                        <Gem size={64} className="text-[#FFD700] drop-shadow-[0_0_10px_rgba(255,215,0,0.5)] relative z-10" />
+                                    {pkg.best && <span className="absolute -top-2.5 rounded-full border border-white/15 bg-red-600 px-3 py-1 text-[9px] font-black text-white">BEST VALUE</span>}
+                                    <div className="relative mt-2">
+                                        <span className="absolute inset-0 rounded-full bg-[#FFD700]/20 blur-xl transition-transform group-hover:scale-150" />
+                                        <Gem size={52} className="relative text-[#FFD700] drop-shadow-[0_0_10px_rgba(255,215,0,0.45)]" />
                                     </div>
-
-                                    <div className="text-center w-full">
-                                        <div className="text-white font-black text-2xl tracking-wide mb-1">{pkg.coins}</div>
-                                        {pkg.bonus && <div className="text-green-400 text-sm font-bold mb-4">{pkg.bonus} BONUS</div>}
-
-                                        <button className="w-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-400 hover:to-green-600 text-white font-bold py-3 rounded-full border border-white/20 shadow-lg active:scale-95 transition-all">
-                                            {pkg.price}
-                                        </button>
+                                    <div className="w-full">
+                                        <strong className="block text-xl font-black tracking-wide text-white">{pkg.coins}</strong>
+                                        <span className="mt-1 block min-h-4 text-[10px] font-black text-emerald-400">{pkg.bonus ? `${pkg.bonus} BONUS` : ''}</span>
+                                        <span className="mt-3 block w-full rounded-xl border border-white/15 bg-gradient-to-r from-emerald-500 to-emerald-700 py-2.5 text-xs font-black text-white">{pkg.price}</span>
                                     </div>
-                                </div>
+                                </button>
                             ))}
                         </div>
                     )}
 
-                    {/* ========== 優惠 Tab ========== */}
                     {activeTab === 'offers' && (
-                        <div className="space-y-4">
-                            <p className="text-slate-400 text-sm">專屬優惠方案，左右滑動查看更多</p>
-                            <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar -mx-2 px-2">
-                                {OFFER_PACKAGES.filter(p => p.id !== 2 && p.id !== 6).map(offer => (
-                                    <div
+                        <div>
+                            <p className="mb-4 text-xs text-slate-400">APP Store／Google Play 專屬優惠方案</p>
+                            <div className="grid gap-4 md:grid-cols-2">
+                                {OFFER_PACKAGES.filter(offer => offer.id !== 2 && offer.id !== 6).map(offer => (
+                                    <button
                                         key={offer.id}
+                                        type="button"
                                         onClick={() => openModal('payment', { packageInfo: offer })}
-                                        className={`flex-shrink-0 w-[280px] bg-gradient-to-br ${offer.gradient} rounded-2xl p-5 cursor-pointer hover:-translate-y-1 transition-all shadow-xl hover:shadow-2xl`}
+                                        className={`relative min-h-[190px] overflow-hidden rounded-2xl bg-gradient-to-br p-5 text-left shadow-xl transition-all hover:-translate-y-1 ${offer.gradient}`}
                                     >
-                                        {/* Tag */}
-                                        <div className="inline-block bg-black/30 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
-                                            {offer.tag}
+                                        <Sparkles className="absolute -bottom-8 -right-5 text-white/10" size={120} />
+                                        <span className="relative inline-block rounded-full bg-black/30 px-3 py-1 text-[9px] font-black text-white">{offer.tag}</span>
+                                        <h3 className="relative mt-3 text-lg font-black text-white">{offer.title}</h3>
+                                        <p className="relative mt-1 text-xs text-white/70">{offer.description}</p>
+                                        <div className="relative mt-5 flex items-end justify-between">
+                                            <div><span className="block text-[8px] font-black tracking-wider text-white/50">COINS</span><strong className="text-lg text-[#FFD700]">{offer.coins}</strong></div>
+                                            <div className="text-right"><strong className="block text-lg text-white">{offer.price}</strong><span className="text-xs text-white/45 line-through">{offer.original}</span></div>
                                         </div>
-
-                                        {/* Title & Description */}
-                                        <h3 className="text-white font-bold text-lg mb-1">{offer.title}</h3>
-                                        <p className="text-white/70 text-sm mb-4">{offer.description}</p>
-
-                                        {/* Coins */}
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <Gem size={20} className="text-[#FFD700]" />
-                                            <span className="text-white font-black text-xl">{offer.coins}</span>
-                                        </div>
-
-                                        {/* Price */}
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-white font-bold text-lg">{offer.price}</span>
-                                            <span className="text-white/50 line-through text-sm">{offer.original}</span>
-                                        </div>
-
-                                        {/* Expire Time */}
-                                        {offer.expireTime && (
-                                            <div className="mt-3 text-white/60 text-xs">
-                                                ⏰ {offer.expireTime}
-                                            </div>
-                                        )}
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    {/* ========== 贈禮 Tab ========== */}
-                    {activeTab === 'gifts' && (
-                        <div className="h-full flex flex-col md:flex-row gap-4">
-                            {/* 左側 - 資訊區 */}
-                            <div className="md:w-[280px] bg-black/20 rounded-xl p-4 flex flex-col gap-3">
-                                {/* VIP 等級 */}
-                                <div className="flex items-center gap-3 pb-3 border-b border-white/10">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg">
-                                        <Crown size={20} className="text-white" />
-                                    </div>
-                                    <div>
-                                        <div className="text-[#FFD700] font-bold">VIP {Math.max(0, Math.min(user?.vipLevel ?? 0, 10))}</div>
-                                        <div className="text-[10px] text-slate-400">尊榮會員</div>
-                                    </div>
-                                </div>
-
-                                {/* 限制條件資訊 */}
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-slate-300">
-                                        <Info size={14} className="text-slate-500" />
-                                        <span className="text-xs">每日贈禮次數</span>
-                                    </div>
-                                    <div className="bg-black/30 rounded-lg p-2.5 flex justify-between items-center">
-                                        <span className="text-slate-400 text-xs">剩餘</span>
-                                        <span className="text-white font-bold">5 <span className="text-slate-500 font-normal">/ 10 次</span></span>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-slate-300">
-                                        <Gem size={14} className="text-slate-500" />
-                                        <span className="text-xs">單次最高贈送</span>
-                                    </div>
-                                    <div className="bg-black/30 rounded-lg p-2.5">
-                                        <span className="text-[#FFD700] font-bold font-mono">1,000,000 點</span>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-slate-300">
-                                        <Wallet size={14} className="text-slate-500" />
-                                        <span className="text-xs">目前手續費率</span>
-                                    </div>
-                                    <div className="bg-black/30 rounded-lg p-2.5 flex justify-between items-center">
-                                        <span className="text-red-400 font-bold">5%</span>
-                                        <span className="text-[10px] text-slate-500">VIP 6 可降至 3%</span>
-                                    </div>
-                                </div>
-
-                                {/* 餘額顯示 */}
-                                <div className="mt-auto pt-3 border-t border-white/10">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-slate-400 text-xs">保險箱餘額</span>
-                                        <span className="text-[#FFD700] font-mono font-bold">${(user?.vault_gold || 0).toLocaleString()}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* 右側 - 操作區 */}
-                            <div className="flex-1 flex flex-col gap-3">
-                                {/* Receiver Input */}
-                                <div className="space-y-1">
-                                    <label className="text-xs text-slate-300 ml-1 font-medium">接收者 ID</label>
-                                    <div className="relative group">
-                                        <input
-                                            type="text"
-                                            value={receiverId}
-                                            onChange={(e) => setReceiverId(e.target.value)}
-                                            placeholder="請輸入玩家 ID"
-                                            className="w-full bg-[#0f0518] border border-white/10 rounded-lg px-4 py-2.5 pl-10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#FFD700] transition-colors"
-                                        />
-                                        <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#FFD700] transition-colors" />
-                                    </div>
-                                </div>
-
-                                {/* Amount Input */}
-                                <div className="flex-1 flex flex-col gap-2">
-                                    <label className="text-xs text-slate-300 ml-1 font-medium">轉帳金額 (從保險箱扣除)</label>
-                                    <div className="bg-[#0f0518] border border-white/10 rounded-lg p-3 flex-1 flex flex-col justify-center gap-2">
-                                        <input
-                                            type="number"
-                                            value={amount}
-                                            onChange={(e) => {
-                                                const val = e.target.value === '' ? '' : Number(e.target.value);
-                                                if (val === '' || (val >= 0 && val <= (user?.vault_gold || 0))) {
-                                                    setAmount(val);
-                                                }
-                                            }}
-                                            placeholder="0"
-                                            aria-label="轉帳金額"
-                                            className="w-full bg-transparent text-center text-2xl font-bold text-[#FFD700] placeholder:text-white/10 focus:outline-none"
-                                        />
-
-                                        {/* Slider */}
-                                        <div className="px-1">
-                                            <input
-                                                type="range"
-                                                min="0"
-                                                max={user?.vault_gold || 0}
-                                                step="1000"
-                                                value={numericAmount}
-                                                onChange={(e) => setAmount(Number(e.target.value))}
-                                                aria-label="金額拉桿"
-                                                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#FFD700]"
-                                            />
-                                            <div className="flex justify-between mt-1">
-                                                <button type="button" onClick={() => setAmount(0)} className="text-[10px] text-slate-500 hover:text-white transition-colors">0%</button>
-                                                <button type="button" onClick={() => setAmount(Math.floor((user?.vault_gold || 0) * 0.25))} className="text-[10px] text-slate-500 hover:text-white transition-colors">25%</button>
-                                                <button type="button" onClick={() => setAmount(Math.floor((user?.vault_gold || 0) * 0.5))} className="text-[10px] text-slate-500 hover:text-white transition-colors">50%</button>
-                                                <button type="button" onClick={() => setAmount(Math.floor((user?.vault_gold || 0) * 0.75))} className="text-[10px] text-slate-500 hover:text-white transition-colors">75%</button>
-                                                <button type="button" onClick={() => setAmount(user?.vault_gold || 0)} className="text-[10px] text-slate-500 hover:text-white transition-colors">MAX</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Fee Preview */}
-                                <div className="bg-white/5 rounded-lg p-2.5 flex justify-between items-center">
-                                    <div className="flex items-center gap-4 text-xs">
-                                        <span className="text-slate-400">手續費 (5%): <span className="text-red-400 font-mono">-${fee.toLocaleString()}</span></span>
-                                        <span className="text-slate-300">對方實收: <span className="text-[#FFD700] font-mono font-bold">${actualReceived.toLocaleString()}</span></span>
-                                    </div>
-                                </div>
-
-                                {/* Transfer Button */}
-                                <button
-                                    onClick={handleGiftTransfer}
-                                    disabled={!receiverId || numericAmount <= 0}
-                                    className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center justify-center gap-2"
-                                >
-                                    <Send size={18} />
-                                    <span>確認贈送</span>
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ========== 保險箱 Tab ========== */}
-                    {activeTab === 'vault' && (
-                        <div className="h-full flex items-center justify-center">
-                            <div className="bg-black/20 rounded-2xl p-7 border border-white/5 flex gap-8 w-full max-w-[820px]">
-                                {/* Left Side: Balances */}
-                                <div className="w-[260px] flex flex-col gap-4">
-                                    <div className="bg-[#0f0518] rounded-xl p-4 border border-white/10">
-                                        <div className="text-slate-400 text-xs mb-1">錢包金幣 (可用)</div>
-                                        <div className="text-2xl font-mono font-bold text-[#FFD700] truncate">
-                                            {walletGold.toLocaleString()}
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center text-slate-500">
-                                        <ArrowRight size={24} className={vaultMode === 'deposit' ? 'rotate-90' : '-rotate-90'} />
-                                    </div>
-                                    <div className="bg-[#0f0518] rounded-xl p-4 border border-white/10 shadow-[0_0_15px_rgba(255,215,0,0.1)]">
-                                        <div className="text-slate-400 text-xs mb-1">保險箱金幣 (凍結)</div>
-                                        <div className="text-2xl font-mono font-bold text-white truncate">
-                                            {vaultGold.toLocaleString()}
-                                        </div>
-                                    </div>
-                                    <div className="mt-auto text-xs text-slate-500 leading-relaxed px-1 space-y-1">
-                                        <p>• 存入保險箱的金幣可用於贈禮。</p>
-                                        <p>• 存入可避免誤觸遊玩時消耗。</p>
-                                        <p>• 取出後金幣會回到錢包。</p>
-                                    </div>
-                                </div>
-
-                                {/* Right Side: Vault Form */}
-                                <div className="flex-1 bg-[#1a0b2e] rounded-xl p-6 flex flex-col justify-center">
-                                    <div className="flex flex-col gap-4 max-w-[380px] mx-auto w-full">
-                                        <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-1">
-                                            {[
-                                                { key: 'deposit' as const, label: '存入' },
-                                                { key: 'withdraw' as const, label: '取出' },
-                                            ].map(mode => (
-                                                <button
-                                                    key={mode.key}
-                                                    type="button"
-                                                    onClick={() => setVaultMode(mode.key)}
-                                                    className={`h-10 rounded-lg text-sm font-black transition-all ${vaultMode === mode.key
-                                                        ? 'bg-[#FFD700] text-black shadow-[0_0_18px_rgba(255,215,0,0.22)]'
-                                                        : 'text-slate-300 hover:bg-white/10 hover:text-white'
-                                                        }`}
-                                                >
-                                                    {mode.label}
-                                                </button>
-                                            ))}
-                                        </div>
-
-                                        <div className="text-center">
-                                            <h3 className="text-xl font-bold text-white mb-2">
-                                                {vaultMode === 'deposit' ? '存入保險箱' : '取出至錢包'}
-                                            </h3>
-                                            <p className="text-slate-400 text-sm">
-                                                {vaultMode === 'deposit'
-                                                    ? '請輸入欲從錢包轉入保險箱的金額'
-                                                    : '請輸入欲從保險箱轉回錢包的金額'}
-                                            </p>
-                                        </div>
-
-                                        <div className="relative">
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                value={vaultAmount}
-                                                onChange={(e) => handleVaultAmountInput(e.target.value)}
-                                                placeholder="0"
-                                                aria-label={vaultMode === 'deposit' ? '存入金額' : '取出金額'}
-                                                className="w-full bg-black/40 border border-white/20 rounded-xl py-4 px-4 text-center text-3xl font-bold text-[#FFD700] focus:outline-none focus:border-[#FFD700] transition-all"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setVaultAmount(vaultTransferMax)}
-                                                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded"
-                                            >
-                                                MAX
-                                            </button>
-                                        </div>
-
-                                        <div className="rounded-xl border border-white/10 bg-black/25 p-3 text-xs text-slate-400">
-                                            <div className="flex items-center justify-between">
-                                                <span>{vaultMode === 'deposit' ? '可存入上限' : '可取出上限'}</span>
-                                                <span className="font-mono font-black text-white">{vaultTransferMax.toLocaleString()}</span>
-                                            </div>
-                                            <div className="mt-2 flex items-center justify-between">
-                                                <span>{vaultMode === 'deposit' ? '異動後保險箱' : '異動後錢包'}</span>
-                                                <span className="font-mono font-black text-[#FFD700]">
-                                                    {(vaultMode === 'deposit'
-                                                        ? vaultGold + numericVaultAmount
-                                                        : walletGold + numericVaultAmount
-                                                    ).toLocaleString()}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <button
-                                            onClick={handleVaultTransfer}
-                                            disabled={!canConfirmVaultTransfer}
-                                            className="w-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center justify-center gap-2"
-                                        >
-                                            <ShieldCheck size={20} />
-                                            {vaultMode === 'deposit' ? '確認存入' : '確認取出'}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ========== 兌換 Tab ========== */}
-                    {activeTab === 'exchange' && (
-                        <div className="h-full flex items-center justify-center">
-                            <div className="grid w-full max-w-[860px] gap-6 lg:grid-cols-[280px_1fr]">
-                                {/* Left Side: Wallets */}
-                                <div className="rounded-2xl border border-white/5 bg-black/20 p-5">
-                                    <div className="mb-3">
-                                        <h3 className="text-lg font-black text-white">錢包兌換</h3>
-                                        <p className="-mt-0.5 text-[10px] text-slate-400">金銀幣互換不收手續費。</p>
-                                    </div>
-
-                                    <div className="space-y-1">
-                                        <div className="-mt-3 flex h-[75px] flex-col justify-center rounded-xl border border-[#FFD700]/20 bg-[#FFD700]/10 p-3">
-                                            <div className="text-xs font-bold text-slate-300">金錢包</div>
-                                            <div className="mt-1 truncate font-mono text-2xl font-black text-[#FFD700]">
-                                                {walletGold.toLocaleString()}
-                                            </div>
-                                        </div>
-                                        <div className="flex h-[75px] flex-col justify-center rounded-xl border border-white/10 bg-white/5 p-3">
-                                            <div className="text-xs font-bold text-slate-300">銀錢包</div>
-                                            <div className="mt-1 truncate font-mono text-2xl font-black text-slate-200">
-                                                {walletSilver.toLocaleString()}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-4 rounded-xl border border-white/10 bg-[#1a0b2e] p-4">
-                                        <div className="text-xs font-bold text-slate-400">兌換比值</div>
-                                        <div className="mt-1 text-lg font-black text-[#FFD700]">1 金幣 = 100 銀幣</div>
-                                        <p className="mt-1 text-xs leading-relaxed text-slate-500">銀幣換金幣需以 100 銀幣為單位。</p>
-                                    </div>
-                                </div>
-
-                                {/* Right Side: Exchange Form */}
-                                <div className="rounded-2xl border border-white/5 bg-[#1a0b2e] p-6">
-                                    <div className="mb-5 flex items-start justify-between gap-4">
-                                        <div>
-                                            <h3 className="text-xl font-black text-white">金銀幣兌換</h3>
-                                            <p className="mt-1 text-sm text-slate-400">選擇兌換方向後輸入金額，系統會即時試算。</p>
-                                        </div>
-                                        <div className="rounded-full border border-[#FFD700]/25 bg-[#FFD700]/10 px-3 py-1 text-xs font-black text-[#FFD700]">
-                                            0 手續費
-                                        </div>
-                                    </div>
-
-                                    <div className="-mt-[15px] grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-1">
-                                        {[
-                                            { key: 'gold-to-silver' as const, label: '金幣兌銀幣' },
-                                            { key: 'silver-to-gold' as const, label: '銀幣兌金幣' },
-                                        ].map(direction => (
-                                            <button
-                                                key={direction.key}
-                                                type="button"
-                                                onClick={() => handleExchangeDirectionChange(direction.key)}
-                                                className={`h-10 rounded-lg text-sm font-black transition-all ${exchangeDirection === direction.key
-                                                    ? 'bg-[#FFD700] text-black shadow-[0_0_18px_rgba(255,215,0,0.22)]'
-                                                    : 'text-slate-300 hover:bg-white/10 hover:text-white'
-                                                    }`}
-                                            >
-                                                {direction.label}
-                                            </button>
-                                        ))}
-                                    </div>
-
-                                    <div className="mt-[5px] rounded-xl border border-white/10 bg-black/30 px-4 py-3">
-                                        <label className="mb-2 block text-xs font-bold text-slate-300">
-                                            {exchangeDirection === 'gold-to-silver' ? '兌換金幣' : '兌換銀幣'}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            inputMode="numeric"
-                                            value={exchangeAmount}
-                                            onChange={(e) => handleExchangeAmountInput(e.target.value)}
-                                            placeholder="0"
-                                            aria-label="兌換金額"
-                                            className={`mb-3 w-full bg-transparent text-center font-mono text-3xl font-black outline-none placeholder:text-white/10 ${exchangeDirection === 'gold-to-silver' ? 'text-[#FFD700]' : 'text-slate-200'}`}
-                                        />
-                                        <input
-                                            type="range"
-                                            min="0"
-                                            max={exchangeSourceBalance}
-                                            step={exchangeStep}
-                                            value={numericExchangeAmount}
-                                            onChange={(e) => handleExchangeAmountInput(e.target.value)}
-                                            aria-label="兌換金額拉桿"
-                                            className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[#FFD700]"
-                                        />
-                                        <div className="mt-3 grid grid-cols-5 gap-2">
-                                            {[
-                                                { label: '0%', value: 0 },
-                                                { label: '25%', value: 0.25 },
-                                                { label: '50%', value: 0.5 },
-                                                { label: '75%', value: 0.75 },
-                                                { label: 'MAX', value: 1 },
-                                            ].map(option => (
-                                                <button
-                                                    key={option.label}
-                                                    type="button"
-                                                    onClick={() => setExchangePercent(option.value)}
-                                                    className={`rounded-lg py-2 text-xs font-black transition-colors ${option.value === 1
-                                                        ? 'border border-[#FFD700]/25 bg-[#FFD700]/10 text-[#FFD700] hover:bg-[#FFD700]/15'
-                                                        : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-                                                        }`}
-                                                >
-                                                    {option.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        {isSilverToGoldInvalid && (
-                                            <p className="mt-2 text-xs font-bold text-red-300">銀幣換金幣需以 100 銀幣為單位。</p>
-                                        )}
-                                    </div>
-
-                                    <div className="mt-[5px] grid grid-cols-3 gap-3">
-                                        <div className="rounded-xl border border-white/10 bg-black/20 p-3">
-                                            <div className="text-xs font-bold text-slate-400">扣除</div>
-                                            <div className="mt-1 truncate font-mono text-sm font-black text-white">
-                                                {exchangeSummary.fromAmount.toLocaleString()} {exchangeFromLabel}
-                                            </div>
-                                        </div>
-                                        <div className="rounded-xl border border-white/10 bg-black/20 p-3">
-                                            <div className="text-xs font-bold text-slate-400">手續費</div>
-                                            <div className="mt-1 font-mono text-sm font-black text-emerald-300">
-                                                {exchangeSummary.fee.toLocaleString()}
-                                            </div>
-                                        </div>
-                                        <div className="rounded-xl border border-white/10 bg-black/20 p-3">
-                                            <div className="text-xs font-bold text-slate-400">獲得</div>
-                                            <div className="mt-1 truncate font-mono text-sm font-black text-[#FFD700]">
-                                                {exchangeSummary.toAmount.toLocaleString()} {exchangeToLabel}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        onClick={handleWalletExchange}
-                                        disabled={!canConfirmExchange}
-                                        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FFD700] to-[#DAA520] py-3 font-bold text-black shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:pointer-events-none disabled:opacity-50"
-                                    >
-                                        <RefreshCw size={18} />
-                                        <span>確認兌換</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ========== 紀錄 Tab ========== */}
                     {activeTab === 'records' && (
-                        <div className="space-y-4">
-                            {/* Filter Buttons */}
-                            <div className="flex gap-2 flex-wrap">
-                                {[
-                                    { key: 'all', label: '全部' },
-                                    { key: 'deposit', label: '儲值' },
-                                    { key: 'free_reward', label: '免費獎勵' },
-                                    { key: 'gift_transfer', label: '轉點贈禮' },
-                                    { key: 'gift_package', label: '購買禮包' },
-                                    { key: 'currency_conversion', label: '兌換' },
-                                    { key: 'vault_ops', label: '保險箱' },
-                                ].map(filter => (
+                        <div>
+                            <div className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl border border-white/8 bg-black/20 p-3">
+                                <SlidersHorizontal size={15} className="mr-1 text-[#FFD700]" />
+                                {([
+                                    ['all', '全部'],
+                                    ['deposit', '儲值'],
+                                    ['vault', '保險箱'],
+                                    ['gift', '贈禮'],
+                                    ['exchange', '兌換'],
+                                    ['reward', '獎勵'],
+                                ] as const).map(([key, label]) => (
                                     <button
-                                        key={filter.key}
-                                        onClick={() => setRecordFilter(filter.key as RecordFilter)}
-                                        className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${recordFilter === filter.key
-                                            ? 'bg-[#FFD700] text-black'
-                                            : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                                            }`}
+                                        key={key}
+                                        type="button"
+                                        onClick={() => setRecordCategory(key)}
+                                        className={`rounded-full px-3.5 py-1.5 text-[10px] font-black transition-all ${recordCategory === key ? 'bg-[#FFD700] text-black' : 'bg-white/5 text-slate-400 hover:text-white'}`}
                                     >
-                                        {filter.label}
+                                        {label}
                                     </button>
                                 ))}
+                                <select
+                                    aria-label="交易狀態"
+                                    value={recordStatus}
+                                    onChange={event => setRecordStatus(event.target.value as RecordStatusFilter)}
+                                    className="ml-auto rounded-xl border border-white/10 bg-[#160922] px-3 py-1.5 text-[10px] font-bold text-slate-300 outline-none"
+                                >
+                                    <option value="all">全部狀態</option>
+                                    <option value="success">成功</option>
+                                    <option value="processing">處理中</option>
+                                    <option value="failed">失敗</option>
+                                </select>
                             </div>
 
-                            {/* Transaction List */}
                             <div className="space-y-2">
                                 {filteredTransactions.length === 0 ? (
-                                    <div className="text-center text-slate-500 py-12">暫無紀錄</div>
-                                ) : (
-                                    filteredTransactions.map(tx => (
-                                        <div
-                                            key={tx.id}
-                                            className="bg-[#0f061e] border border-white/5 rounded-xl p-4 flex justify-between items-center hover:border-white/10 transition-colors"
-                                        >
-                                            <div className="flex flex-col gap-1">
-                                                <span className="text-white font-medium">{tx.method}</span>
-                                                <span className="text-xs text-slate-500">{tx.date}</span>
-                                            </div>
-                                            <div className="flex flex-col items-end gap-1">
-                                                <span className={`font-bold ${tx.type === 'deposit' ? 'text-green-400' :
-                                                    tx.type === 'gift_transfer' ? 'text-orange-400' :
-                                                        tx.type === 'free_reward' || tx.type === 'currency_conversion' ? 'text-cyan-400' :
-                                                            'text-purple-400'
-                                                    }`}>
-                                                    {tx.type === 'gift_transfer' ? '-' : tx.type === 'currency_conversion' ? '' : '+'}{tx.amount}
-                                                </span>
-                                                <span className={`text-[10px] px-2 py-0.5 rounded ${tx.status === 'success' ? 'bg-green-500/20 text-green-400' :
-                                                    tx.status === 'processing' ? 'bg-yellow-500/20 text-yellow-400' :
-                                                        'bg-red-500/20 text-red-400'
-                                                    }`}>
-                                                    {tx.status === 'success' ? '成功' : tx.status === 'processing' ? '處理中' : '失敗'}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ))
-                                )}
+                                    <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center text-sm text-slate-500">目前沒有符合條件的紀錄</div>
+                                ) : filteredTransactions.map(transaction => (
+                                    <TransactionRow key={transaction.id} transaction={transaction} />
+                                ))}
                             </div>
                         </div>
                     )}
                 </div>
             </div>
         </div>
+    );
+};
+
+const TransactionRow = ({ transaction }: { transaction: Transaction }) => {
+    const isOutgoing = ['gift_transfer', 'vault_deposit'].includes(transaction.type)
+        && !transaction.method.includes('取出');
+    const amountTone = transaction.type === 'deposit'
+        ? 'text-emerald-400'
+        : transaction.type === 'gift_transfer'
+            ? 'text-orange-300'
+            : ['free_reward', 'reward_card_conversion', 'rebate'].includes(transaction.type)
+                ? 'text-[#FFD700]'
+                : 'text-cyan-300';
+    const statusLabel = transaction.status === 'success' ? '成功' : transaction.status === 'processing' ? '處理中' : '失敗';
+    const statusTone = transaction.status === 'success'
+        ? 'bg-emerald-500/12 text-emerald-300'
+        : transaction.status === 'processing'
+            ? 'bg-amber-500/12 text-amber-300'
+            : 'bg-red-500/12 text-red-300';
+
+    return (
+        <article className="flex items-center justify-between gap-4 rounded-xl border border-white/5 bg-[#0f061e] px-4 py-3 transition-colors hover:border-white/10">
+            <div className="min-w-0">
+                <strong className="block truncate text-xs text-white">{transaction.method}</strong>
+                <span className="mt-1 block text-[9px] text-slate-500">{transaction.date}・{transaction.id}</span>
+            </div>
+            <div className="shrink-0 text-right">
+                <strong className={`block text-xs ${amountTone}`}>{isOutgoing ? '−' : '+'}{transaction.amount}</strong>
+                <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[8px] font-black ${statusTone}`}>{statusLabel}</span>
+            </div>
+        </article>
     );
 };
 

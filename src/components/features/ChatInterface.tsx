@@ -10,6 +10,7 @@ import { useSocial } from '../../context/SocialContext';
 import type { ChatTargetPlayer, SupportDraft } from '../../context/NavigationContext';
 import type { Friend } from '../../types/user';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
+import { useNavigation } from '../../hooks/useNavigation';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [
@@ -53,6 +54,7 @@ interface ChatInterfaceProps {
 
 const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose }: ChatInterfaceProps) => {
     const { openModal } = useUI();
+    const { navigate } = useNavigation();
     const { friends, isBlockedPlayer, isFriendPlayer, removeFriend } = useSocial();
     const { user } = useAuth();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
@@ -471,7 +473,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                                 <div className="absolute bottom-16 left-3 bg-[#2a1b42] border border-white/20 rounded-xl shadow-xl p-2 w-40 animate-in fade-in zoom-in-95 duration-200">
                                     <button
                                         onClick={() => {
-                                            openModal('bank', { initialTab: 'gifts', receiverId: selectedPrivatePlayer.playerId });
+                                            navigate('vault', { vaultTab: 'gifts', vaultReceiverId: selectedPrivatePlayer.playerId });
                                             setShowAttachMenu(false);
                                         }}
                                         disabled={selectedPrivateBlocked}

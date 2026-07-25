@@ -11,7 +11,7 @@ interface PlayerProfileCardProps {
 }
 
 const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
-    const { openModal, showToast } = useUI();
+    const { showToast } = useUI();
     const { navigate } = useNavigation();
     const { addFriend, blockPlayer, isBlockedPlayer, isFriendPlayer, removeFriend } = useSocial();
     const [showBlockConfirm, setShowBlockConfirm] = useState(false);
@@ -52,7 +52,7 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
 
     const handleGiftOrTransfer = () => {
         onClose();
-        openModal('bank', { initialTab: 'gifts', receiverId: profile.playerId });
+        navigate('vault', { vaultTab: 'gifts', vaultReceiverId: profile.playerId });
     };
 
     const handleReport = () => {

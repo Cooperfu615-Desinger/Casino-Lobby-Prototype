@@ -1,13 +1,16 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
 // View types that can be navigated to
-export type ViewType = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'gifts' | 'club';
+export type ViewType = 'games' | 'chat' | 'events' | 'inbox' | 'bank' | 'vault' | 'gifts' | 'club';
 
 // Chat sub-tab types
 export type ChatSubTab = 'public' | 'chat' | 'support';
 
 // Bank sub-tab types
-export type BankSubTab = 'deposit' | 'offers' | 'gifts' | 'vault' | 'exchange' | 'records';
+export type BankSubTab = 'deposit' | 'offers' | 'records';
+
+// Vault sub-tab types
+export type VaultSubTab = 'vault' | 'gifts' | 'exchange';
 
 // Events sub-tab types
 export type EventsSubTab = 'daily' | 'events' | 'leaderboard' | 'filter';
@@ -28,6 +31,8 @@ export interface SupportDraft {
 interface NavigationOptions {
     chatTab?: ChatSubTab;
     bankTab?: BankSubTab;
+    vaultTab?: VaultSubTab;
+    vaultReceiverId?: string;
     eventsTab?: EventsSubTab;
     chatTarget?: ChatTargetPlayer;
     supportDraft?: SupportDraft;
@@ -37,6 +42,8 @@ interface NavigationState {
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
     bankInitialTab: BankSubTab;
+    vaultInitialTab: VaultSubTab;
+    vaultReceiverId?: string;
     eventsInitialTab: EventsSubTab;
     chatTarget?: ChatTargetPlayer;
     supportDraft?: SupportDraft;
@@ -48,6 +55,8 @@ interface NavigationContextType {
     currentView: ViewType;
     chatInitialTab: ChatSubTab;
     bankInitialTab: BankSubTab;
+    vaultInitialTab: VaultSubTab;
+    vaultReceiverId?: string;
     eventsInitialTab: EventsSubTab;
     chatTarget?: ChatTargetPlayer;
     supportDraft?: SupportDraft;
@@ -74,6 +83,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         currentView: 'games',
         chatInitialTab: 'chat',
         bankInitialTab: 'deposit',
+        vaultInitialTab: 'vault',
+        vaultReceiverId: undefined,
         eventsInitialTab: 'events',
         chatTarget: undefined,
         supportDraft: undefined,
@@ -86,7 +97,7 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
             // If navigating to the same view, do nothing
             if (
                 prev.currentView === view &&
-                (!options || (!options.chatTab && !options.bankTab && !options.eventsTab && !options.chatTarget && !options.supportDraft))
+                (!options || (!options.chatTab && !options.bankTab && !options.vaultTab && !options.vaultReceiverId && !options.eventsTab && !options.chatTarget && !options.supportDraft))
             ) return prev;
 
             // Build new history - only push if not going to games
@@ -98,6 +109,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
                 currentView: view,
                 chatInitialTab: options?.chatTab || prev.chatInitialTab,
                 bankInitialTab: options?.bankTab || prev.bankInitialTab,
+                vaultInitialTab: options?.vaultTab || prev.vaultInitialTab,
+                vaultReceiverId: options?.vaultReceiverId,
                 eventsInitialTab: options?.eventsTab || prev.eventsInitialTab,
                 chatTarget: options?.chatTarget,
                 supportDraft: options?.supportDraft,
@@ -131,6 +144,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
             currentView: 'games',
             chatInitialTab: 'chat',
             bankInitialTab: 'deposit',
+            vaultInitialTab: 'vault',
+            vaultReceiverId: undefined,
             eventsInitialTab: 'events',
             chatTarget: undefined,
             supportDraft: undefined,
@@ -152,6 +167,8 @@ export const NavigationProvider = ({ children }: NavigationProviderProps) => {
         currentView: state.currentView,
         chatInitialTab: state.chatInitialTab,
         bankInitialTab: state.bankInitialTab,
+        vaultInitialTab: state.vaultInitialTab,
+        vaultReceiverId: state.vaultReceiverId,
         eventsInitialTab: state.eventsInitialTab,
         chatTarget: state.chatTarget,
         supportDraft: state.supportDraft,
