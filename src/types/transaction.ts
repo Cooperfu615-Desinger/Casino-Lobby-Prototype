@@ -20,13 +20,13 @@ export interface SalePackage {
 export interface Transaction {
     id: string;
     date: string;
-    type: 'deposit' | 'withdraw' | 'rebate' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'vault_deposit' | 'currency_conversion' | 'vault_gift';
+    type: 'deposit' | 'withdraw' | 'rebate' | 'free_reward' | 'reward_card_conversion' | 'gift_transfer' | 'gift_package' | 'vault_deposit' | 'currency_conversion' | 'vault_gift';
     amount: string;
     status: 'success' | 'processing' | 'failed';
     method: string;
 }
 
-export type TransactionType = 'deposit' | 'withdraw' | 'rebate' | 'free_reward' | 'gift_transfer' | 'gift_package' | 'vault_deposit' | 'currency_conversion' | 'vault_gift';
+export type TransactionType = 'deposit' | 'withdraw' | 'rebate' | 'free_reward' | 'reward_card_conversion' | 'gift_transfer' | 'gift_package' | 'vault_deposit' | 'currency_conversion' | 'vault_gift';
 export type TransactionStatus = 'success' | 'processing' | 'failed';
 
 /** 專屬優惠方案卡片 */

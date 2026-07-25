@@ -33,7 +33,7 @@ interface AuthContextType {
     updateAvatar: (id: number) => void;
     transactions: Transaction[];
     completeDeposit: (amount: number, method: 'App Store' | 'Google Play', price: string) => boolean;
-    addWalletReward: (currency: CurrencyType, amount: number, source: string) => boolean;
+    addWalletReward: (currency: CurrencyType, amount: number, source: string, transactionType?: Transaction['type']) => boolean;
     depositToVault: (amount: number) => boolean;
     withdrawFromVault: (amount: number) => boolean;
     transferFromVault: (receiverId: string, amount: number) => boolean;
@@ -136,7 +136,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return true;
     };
 
-    const addWalletReward = (currency: CurrencyType, amount: number, source: string) => {
+    const addWalletReward = (
+        currency: CurrencyType,
+        amount: number,
+        source: string,
+        transactionType: Transaction['type'] = 'free_reward',
+    ) => {
         if (!user || amount <= 0) return false;
 
         setUser(prev => prev ? {
@@ -145,7 +150,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } : null);
         const currencyLabel = currency === 'gold' ? '金幣' : currency === 'silver' ? '銀幣' : '銅幣';
         prependTransaction({
-            type: 'free_reward',
+            type: transactionType,
             amount: `${amount.toLocaleString()} ${currencyLabel}`,
             method: source,
         });

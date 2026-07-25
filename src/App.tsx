@@ -8,6 +8,7 @@ import { UIProvider } from './context/UIContext';
 import { NavigationProvider } from './context/NavigationContext';
 import { SocialProvider } from './context/SocialContext';
 import { ActivityProvider } from './context/ActivityContext';
+import { RewardCardProvider } from './context/RewardCardContext';
 
 // Components - Layout
 import BrandLoading from './components/layout/BrandLoading';
@@ -53,20 +54,22 @@ function App() {
                     <AuthProvider>
                         <UIProvider>
                             <NavigationProvider>
-                                <ActivityProvider>
-                                    <SocialProvider>
-                                        {isInitialLoad ? (
-                                            <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                                        ) : !isAgeGateResolved ? (
-                                            <AgeGateModal onContinue={() => setIsAgeGateResolved(true)} />
-                                        ) : (
-                                            <>
-                                                <MainContent />
-                                                <ModalContainer />
-                                            </>
-                                        )}
-                                    </SocialProvider>
-                                </ActivityProvider>
+                                <RewardCardProvider>
+                                    <ActivityProvider>
+                                        <SocialProvider>
+                                            {isInitialLoad ? (
+                                                <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                                            ) : !isAgeGateResolved ? (
+                                                <AgeGateModal onContinue={() => setIsAgeGateResolved(true)} />
+                                            ) : (
+                                                <>
+                                                    <MainContent />
+                                                    <ModalContainer />
+                                                </>
+                                            )}
+                                        </SocialProvider>
+                                    </ActivityProvider>
+                                </RewardCardProvider>
                             </NavigationProvider>
                             {/* Global UI Components - Always rendered */}
                             <ToastContainer />

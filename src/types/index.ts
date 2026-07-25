@@ -11,6 +11,13 @@ export type { ChatMessage, ClubChatMessage, ClubRole } from './chat';
 
 // Transaction
 export type { Package, SalePackage, Transaction, TransactionType, TransactionStatus } from './transaction';
+export type {
+    RewardCard,
+    RewardCardCurrency,
+    RewardCardStatus,
+    RewardCardDefinition,
+    RewardCardConversionNotice,
+} from './rewardCard';
 
 // Event
 export type { EventItem, GiftItem, EventType, EventStatus } from './event';
