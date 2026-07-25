@@ -20,7 +20,7 @@ export type {
 } from './rewardCard';
 
 // Event
-export type { EventItem, GiftItem, EventType, EventStatus } from './event';
+export type { EventItem, EventType, EventStatus } from './event';
 
 // Inbox
 export type { InboxMessage, InboxMessageType } from './inbox';

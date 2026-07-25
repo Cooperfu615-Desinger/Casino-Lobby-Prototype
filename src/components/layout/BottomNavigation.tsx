@@ -1,5 +1,5 @@
 import { useRef, useEffect, UIEvent } from 'react';
-import { Calendar, Mail, Landmark, Gift, MessageCircle, CheckSquare, Shield, Headphones } from 'lucide-react';
+import { Calendar, Mail, Landmark, CreditCard, MessageCircle, CheckSquare, Shield, Headphones } from 'lucide-react';
 import NavButton from '../common/NavButton';
 import { useNavigation } from '../../hooks/useNavigation';
 
@@ -10,7 +10,7 @@ const NAV_ITEMS = [
     { id: 'bank', label: '銀行', icon: Landmark, colorTheme: 'from-yellow-400 to-amber-600' },
     { id: 'vault', label: '保險箱', icon: Shield, colorTheme: 'from-cyan-400 to-teal-600' },
     { id: 'inbox', label: '信箱', icon: Mail, colorTheme: 'from-emerald-400 to-green-600' },
-    { id: 'gifts', label: '禮物', icon: Gift, colorTheme: 'from-pink-500 to-rose-500' },
+    { id: 'gifts', label: '獎勵卡', icon: CreditCard, colorTheme: 'from-pink-500 to-rose-500' },
     { id: 'support', label: '客服', icon: Headphones, colorTheme: 'from-indigo-400 to-indigo-600' }
 ];
 

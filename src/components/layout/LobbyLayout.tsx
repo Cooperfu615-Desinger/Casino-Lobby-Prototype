@@ -25,6 +25,7 @@ import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import GameLaunchModal from '../modals/GameLaunchModal';
 import SeatSelectionModal from '../modals/SeatSelectionModal';
+import RewardConversionModal from '../modals/RewardConversionModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
 import useRecentGames from '../../hooks/useRecentGames';
 
@@ -143,6 +144,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
                     onEnterSeat={handleEnterSeat}
                 />
             )}
+            <RewardConversionModal />
 
             {/* Header */}
             <Header

@@ -1,6 +1,4 @@
 import React from 'react';
-import type { CurrencyType } from './user';
-
 // Event related types
 
 export interface EventItem {
@@ -16,19 +14,6 @@ export interface EventItem {
     startTime: string;
     endTime: string;
     status: 'upcoming' | 'active' | 'ending' | 'ended';
-}
-
-export interface GiftItem {
-    id: number;
-    title: string;
-    amount: string;
-    icon: React.ReactNode;
-    expire: string;
-    claimed: boolean;
-    reward?: {
-        currency: CurrencyType;
-        amount: number;
-    };
 }
 
 export type EventType = 'sale' | 'tournament' | 'vip';

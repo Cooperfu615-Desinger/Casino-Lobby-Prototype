@@ -20,7 +20,7 @@ const ActivityContext = createContext<ActivityContextType | undefined>(undefined
 
 export const ActivityProvider = ({ children }: { children: ReactNode }) => {
     const [checkedDays, setCheckedDays] = useState<number[]>(createInitialCheckedDays);
-    const [claimedMilestones, setClaimedMilestones] = useState<number[]>([5, 7, 10, 15].filter((days) => days <= checkedDays.length));
+    const [claimedMilestones, setClaimedMilestones] = useState<number[]>([5, 7].filter(days => days <= checkedDays.length));
     const [joinedEventIds, setJoinedEventIds] = useState<number[]>([]);
 
     const checkInDay = useCallback((day: number) => {

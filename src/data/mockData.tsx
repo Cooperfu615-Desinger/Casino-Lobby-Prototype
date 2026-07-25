@@ -1,12 +1,12 @@
 // React is implicitly imported by the JSX transform
-import { Flame, Swords, Crown, Coins, Wrench, Star, Stars } from 'lucide-react';
+import { Flame, Swords, Crown, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
 import type { Game, GameSeat } from '../types/game';
 import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile, VIPLevelRule, VIPTargetDetail } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
-import type { EventItem, GiftItem } from '../types/event';
+import type { EventItem } from '../types/event';
 import type { InboxMessage } from '../types/inbox';
 import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
 
@@ -16,7 +16,7 @@ export type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, Player
 
 export type { ChatMessage, ClubChatMessage } from '../types/chat';
 export type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
-export type { EventItem, GiftItem } from '../types/event';
+export type { EventItem } from '../types/event';
 export type { InboxMessage } from '../types/inbox';
 export type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
 
@@ -232,13 +232,6 @@ export const INBOX_MESSAGES: InboxMessage[] = [
     { id: 2, type: 'promo', title: '🔥 週末狂歡！儲值回饋 200%', date: '2025-10-29', content: '週末限定活動開跑！\n\n凡於本週六、日進行儲值，即可享有 200% 的金幣回饋！\n機會難得，錯過不再！快去商店查看詳情吧！', read: true },
     { id: 3, type: 'system', title: '恭喜晉升 VIP 7！', date: '2025-10-25', content: '恭喜您！\n\n您已成功晉升為 VIP 7 會員，現在可享有 1.4% 返水與 7% 手續費減免。\n\n保級只需達成每月有效投注或月儲值其中一項條件。', read: true },
     { id: 4, type: 'personal', title: '好友邀請通知', date: '2025-10-20', content: '玩家 Tom888 邀請您加入「贏家俱樂部」公會。', read: true },
-];
-
-export const GIFT_ITEMS: GiftItem[] = [
-    { id: 1, title: '每日登入獎勵', amount: '10,000 銀幣', icon: <Coins className="text-slate-200" size={40} />, expire: '23小時後過期', claimed: false, reward: { currency: 'silver', amount: 10_000 } },
-    { id: 2, title: '限時活動獎勵', amount: '1,000,000 金幣', icon: <Crown className="text-purple-400" size={40} />, expire: '永久有效', claimed: false, reward: { currency: 'gold', amount: 1_000_000 } },
-    { id: 3, title: '維護補償', amount: '50,000 金幣', icon: <Wrench className="text-slate-400" size={40} />, expire: '6天後過期', claimed: true },
-    { id: 4, title: '新手幸運符', amount: '幸運加成 x3', icon: <Star className="text-yellow-300" size={40} />, expire: '2天後過期', claimed: false },
 ];
 
 export const TRANSACTION_HISTORY: Transaction[] = [
