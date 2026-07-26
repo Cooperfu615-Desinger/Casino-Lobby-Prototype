@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import {
     Globe, MessageCircle, Headphones, MoreVertical,
-    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Trash2, Coins, Gift, Zap, Flag, ShieldAlert
+    Send, Plus, Smile, Megaphone, Bot, User as UserIcon, X, UserPlus, Coins, Gift, Zap, Flag, ShieldAlert,
+    Users, LoaderCircle, RefreshCw
 } from 'lucide-react';
-import { ONLINE_PLAYERS, CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile, getStablePlayerId } from '../../data/mockData';
+import { CHAT_HISTORY, PUBLIC_CHAT_HISTORY, ChatMessage, getMockPlayerProfile, getStablePlayerId } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import { useSocial } from '../../context/SocialContext';
 import type { ChatTargetPlayer, SupportDraft } from '../../context/NavigationContext';
-import type { Friend } from '../../types/user';
+import type { Friend, OnlinePlayer } from '../../types/user';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
 import { useNavigation } from '../../hooks/useNavigation';
 
@@ -43,6 +44,8 @@ const getCurrentTime = () => new Date().toLocaleTimeString('zh-TW', {
     hour12: false,
 });
 
+type DirectoryView = 'conversations' | 'players' | 'friends';
+type DirectoryStatus = 'idle' | 'loading' | 'loaded' | 'error';
 
 
 interface ChatInterfaceProps {
@@ -55,7 +58,14 @@ interface ChatInterfaceProps {
 const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose }: ChatInterfaceProps) => {
     const { openModal } = useUI();
     const { navigate } = useNavigation();
-    const { friends, isBlockedPlayer, isFriendPlayer, removeFriend } = useSocial();
+    const {
+        friends,
+        addFriend,
+        isBlockedPlayer,
+        isFriendPlayer,
+        requestFriendList,
+        requestPlayerList,
+    } = useSocial();
     const { user } = useAuth();
     const [chatTab, setChatTab] = useState<'public' | 'chat' | 'support'>(initialTab || 'chat');
     const [selectedFriendId, setSelectedFriendId] = useState<number | null>(() => {
@@ -68,13 +78,11 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         const targetFriend = friends.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
         return targetFriend ? null : initialTargetPlayer;
     });
-    const [sidebarTab, setSidebarTab] = useState<'friends' | 'chats'>('friends');
+    const [directoryView, setDirectoryView] = useState<DirectoryView>('conversations');
+    const [directoryStatus, setDirectoryStatus] = useState<DirectoryStatus>('idle');
+    const [loadedPlayers, setLoadedPlayers] = useState<OnlinePlayer[]>([]);
+    const [loadedFriends, setLoadedFriends] = useState<Friend[]>([]);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; playerId: string | null; friendName: string }>({
-        isOpen: false,
-        playerId: null,
-        friendName: ''
-    });
     const [showAttachMenu, setShowAttachMenu] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [emojiTab, setEmojiTab] = useState<'default' | 'reward' | 'other'>('default');
@@ -97,12 +105,13 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     });
     const messageEndRef = useRef<HTMLDivElement>(null);
     const nextMessageIdRef = useRef(Date.now());
+    const directoryRequestIdRef = useRef(0);
     useEffect(() => {
         if (!initialTargetPlayer) return;
 
         const targetFriend = friends.find(friend => friend.playerId === initialTargetPlayer.playerId || friend.name === initialTargetPlayer.name);
         setChatTab('chat');
-        setSidebarTab('chats');
+        setDirectoryView('conversations');
 
         if (targetFriend) {
             setSelectedFriendId(targetFriend.id);
@@ -134,6 +143,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         if (selectedFriend) {
             return {
                 playerId: selectedFriend.playerId || getStablePlayerId(selectedFriend.name, selectedFriend.id),
+                account: selectedFriend.account,
                 name: selectedFriend.name,
                 avatar: selectedFriend.avatar,
                 isFriend: true,
@@ -144,6 +154,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         if (!fallbackFriend) {
             return {
                 playerId: 'P00000',
+                account: 'Player',
                 name: '尚未選擇玩家',
                 avatar: 'bg-slate-700',
                 isFriend: false,
@@ -152,6 +163,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
 
         return {
             playerId: fallbackFriend.playerId || getStablePlayerId(fallbackFriend.name, fallbackFriend.id),
+            account: fallbackFriend.account,
             name: fallbackFriend.name,
             avatar: fallbackFriend.avatar,
             isFriend: true,
@@ -236,21 +248,39 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     };
 
 
-    const confirmDeleteFriend = (e: React.MouseEvent, friend: Friend) => {
-        e.stopPropagation();
-        setDeleteModal({
-            isOpen: true,
-            playerId: friend.playerId || getStablePlayerId(friend.name, friend.id),
-            friendName: friend.name
-        });
+    const handleLoadDirectory = async (view: Exclude<DirectoryView, 'conversations'>) => {
+        const requestId = ++directoryRequestIdRef.current;
+        setDirectoryView(view);
+        setDirectoryStatus('loading');
+
+        try {
+            if (view === 'players') {
+                const players = await requestPlayerList();
+                if (requestId !== directoryRequestIdRef.current) return;
+                setLoadedPlayers(players);
+            } else {
+                const friendList = await requestFriendList();
+                if (requestId !== directoryRequestIdRef.current) return;
+                setLoadedFriends(friendList);
+            }
+            setDirectoryStatus('loaded');
+        } catch {
+            if (requestId !== directoryRequestIdRef.current) return;
+            setDirectoryStatus('error');
+        }
     };
 
-    const handleDeleteFriend = () => {
-        if (deleteModal.playerId) {
-            removeFriend(deleteModal.playerId);
-            showLocalToast(`已刪除好友 ${deleteModal.friendName}`);
-            setDeleteModal({ isOpen: false, playerId: null, friendName: '' });
-        }
+    const handleAddFriendFromList = (player: OnlinePlayer) => {
+        const playerId = player.playerId || getStablePlayerId(player.name, player.id);
+        if (isFriendPlayer(playerId)) return;
+
+        addFriend({
+            playerId,
+            account: player.account,
+            name: player.name,
+            avatar: player.avatar,
+        });
+        showLocalToast(`已將 ${player.name} 加入好友清單`);
     };
 
     const TabButton = ({ id, icon: Icon, label }: { id: 'public' | 'chat' | 'support'; icon: typeof Globe; label: string }) => (
@@ -610,34 +640,6 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
 
 
 
-                {/* Delete Confirmation Modal */}
-                {deleteModal.isOpen && (
-                    <div className="absolute inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-                        <div className="bg-[#1a0b2e] border border-white/20 p-6 rounded-xl shadow-2xl w-80 text-center animate-in zoom-in-95 duration-200">
-                            <h3 className="text-white font-bold text-lg mb-2">刪除好友</h3>
-                            <p className="text-slate-400 text-sm mb-6">是否確認刪除 {deleteModal.friendName}？</p>
-                            <div className="flex gap-3 justify-center">
-                                <button
-                                    onClick={() => setDeleteModal({ isOpen: false, playerId: null, friendName: '' })}
-                                    className="px-4 py-2 rounded-lg bg-white/5 text-slate-300 hover:bg-white/10 text-sm transition-colors"
-                                >
-                                    取消
-                                </button>
-                                <button
-                                    onClick={handleDeleteFriend}
-                                    className="px-4 py-2 rounded-lg bg-red-500/80 text-white hover:bg-red-600 text-sm transition-colors"
-                                >
-                                    確認
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-
-
-
-
                 {/* Close Button */}
                 <button
                     aria-label="關閉功能"
@@ -655,41 +657,177 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                         <TabButton id="support" icon={Headphones} label="線上客服" />
                     </div>
 
-                    {chatTab === 'public' && (
-                        <div className="flex-1 flex flex-col min-h-0">
-                            <div className="p-3 border-b border-white/5">
-                                <h4 className="text-white text-xs font-bold mb-2">線上玩家 ({ONLINE_PLAYERS.length})</h4>
-                            </div>
-                            <div className="flex-1 overflow-y-auto no-scrollbar">
-                                {ONLINE_PLAYERS.map(player => (
-                                    <div key={player.id} className="flex items-center gap-3 p-3 hover:bg-white/5 transition-colors">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                openPlayerProfile(player.name);
-                                            }}
-                                            className={`w-8 h-8 rounded-full ${player.avatar} flex items-center justify-center border border-white/10 hover:scale-110 active:scale-95 transition-all shadow-md group`}
-                                        >
-                                            <UserIcon size={14} className="text-white group-hover:text-[#FFD700]" />
-                                        </button>
-                                        <div className="flex-1">
-                                            <div className="text-slate-200 text-sm font-bold">{player.name}</div>
-                                            <div className="text-slate-500 text-[10px]">Level {player.level}</div>
-                                        </div>
-                                    </div>
-                                ))}
+                    {chatTab !== 'support' && (
+                        <div className="flex min-h-0 flex-1 flex-col">
+                            <div className="border-b border-white/5 p-3">
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleLoadDirectory('players')}
+                                        aria-pressed={directoryView === 'players'}
+                                        className={`flex h-10 items-center justify-center gap-2 rounded-lg border text-xs font-black transition-all active:scale-95 ${directoryView === 'players'
+                                            ? 'border-[#FFD700] bg-[#FFD700] text-black shadow-[0_0_16px_rgba(255,215,0,0.16)]'
+                                            : 'border-white/10 bg-white/5 text-slate-300 hover:border-[#FFD700]/40 hover:text-[#FFD700]'
+                                            }`}
+                                    >
+                                        <Users size={14} />
+                                        玩家清單
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleLoadDirectory('friends')}
+                                        aria-pressed={directoryView === 'friends'}
+                                        className={`flex h-10 items-center justify-center gap-2 rounded-lg border text-xs font-black transition-all active:scale-95 ${directoryView === 'friends'
+                                            ? 'border-[#FFD700] bg-[#FFD700] text-black shadow-[0_0_16px_rgba(255,215,0,0.16)]'
+                                            : 'border-white/10 bg-white/5 text-slate-300 hover:border-[#FFD700]/40 hover:text-[#FFD700]'
+                                            }`}
+                                    >
+                                        <UserPlus size={14} />
+                                        好友清單
+                                    </button>
+                                </div>
+                                <p className="mt-2 text-center text-[10px] leading-4 text-slate-600">點擊後才載入清單資料</p>
                             </div>
 
-                            {/* Auto-Send Settings Button for Public Channel */}
+                            <div className="flex-1 overflow-y-auto no-scrollbar">
+                                {directoryView === 'conversations' && chatTab === 'chat' && (
+                                    <div>
+                                        <div className="border-b border-white/5 px-4 py-3 text-[10px] font-black tracking-[0.18em] text-slate-500">近期對話</div>
+                                        <div className="flex items-center gap-3 border-l-4 border-[#FFD700] bg-[#FFD700]/10 p-4">
+                                            <button
+                                                type="button"
+                                                onClick={() => openPlayerProfile(selectedPrivatePlayer.name)}
+                                                aria-label={`查看 ${selectedPrivatePlayer.name} 的玩家資訊`}
+                                                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#FFD700]/40 ${selectedPrivatePlayer.avatar || 'bg-slate-700'} transition-transform hover:scale-105 active:scale-95`}
+                                            >
+                                                <UserIcon size={20} className="text-white/80" />
+                                            </button>
+                                            <div className="min-w-0 flex-1">
+                                                <div className="truncate text-sm font-bold text-[#FFD700]">{selectedPrivatePlayer.name}</div>
+                                                <p className="truncate text-xs text-slate-400">{directChatTarget ? '臨時私人對話' : selectedFriend?.lastMsg || '私人對話'}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {directoryView === 'conversations' && chatTab === 'public' && (
+                                    <div className="flex h-full min-h-48 flex-col items-center justify-center px-6 text-center">
+                                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#FFD700]/20 bg-[#FFD700]/10 text-[#FFD700]">
+                                            <Users size={22} />
+                                        </div>
+                                        <p className="text-sm font-black text-slate-200">清單尚未載入</p>
+                                        <p className="mt-2 text-xs leading-5 text-slate-500">需要查看玩家或好友時，再點擊上方按鈕。</p>
+                                    </div>
+                                )}
+
+                                {directoryView !== 'conversations' && directoryStatus === 'loading' && (
+                                    <div className="flex h-full min-h-48 flex-col items-center justify-center gap-3 text-slate-400">
+                                        <LoaderCircle size={24} className="animate-spin text-[#FFD700]" />
+                                        <span className="text-xs font-bold">正在載入{directoryView === 'players' ? '玩家' : '好友'}清單...</span>
+                                    </div>
+                                )}
+
+                                {directoryView !== 'conversations' && directoryStatus === 'error' && (
+                                    <div className="flex h-full min-h-48 flex-col items-center justify-center px-6 text-center">
+                                        <p className="text-sm font-black text-slate-200">清單載入失敗</p>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleLoadDirectory(directoryView)}
+                                            className="mt-3 flex items-center gap-2 rounded-lg border border-[#FFD700]/30 bg-[#FFD700]/10 px-3 py-2 text-xs font-black text-[#FFD700] transition-colors hover:bg-[#FFD700]/20"
+                                        >
+                                            <RefreshCw size={13} />
+                                            重新載入
+                                        </button>
+                                    </div>
+                                )}
+
+                                {directoryView === 'players' && directoryStatus === 'loaded' && (
+                                    <div>
+                                        <div className="border-b border-white/5 px-4 py-3 text-[10px] font-black tracking-[0.18em] text-slate-500">玩家清單 · {loadedPlayers.length}</div>
+                                        {loadedPlayers.map(player => {
+                                            const playerId = player.playerId || getStablePlayerId(player.name, player.id);
+                                            const alreadyFriend = isFriendPlayer(playerId);
+
+                                            return (
+                                                <div key={player.id} className="flex items-center gap-3 border-b border-white/5 p-3 transition-colors hover:bg-white/5">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => openPlayerProfile(player.name)}
+                                                        aria-label={`查看 ${player.name} 的玩家資訊`}
+                                                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 ${player.avatar} shadow-md transition-all hover:scale-105 hover:border-[#FFD700]/60 active:scale-95`}
+                                                    >
+                                                        <UserIcon size={16} className="text-white/85" />
+                                                    </button>
+                                                    <span className="min-w-0 flex-1 truncate text-sm font-bold text-slate-200">{player.name}</span>
+                                                    {!alreadyFriend && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleAddFriendFromList(player)}
+                                                            className="shrink-0 rounded-lg border border-[#FFD700]/30 bg-[#FFD700]/10 px-2.5 py-2 text-[10px] font-black text-[#FFD700] transition-all hover:border-[#FFD700]/60 hover:bg-[#FFD700]/20 active:scale-95"
+                                                        >
+                                                            增加好友
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+
+                                {directoryView === 'friends' && directoryStatus === 'loaded' && (
+                                    <div>
+                                        <div className="border-b border-white/5 px-4 py-3 text-[10px] font-black tracking-[0.18em] text-slate-500">好友清單 · {loadedFriends.length}</div>
+                                        {loadedFriends.map(friend => (
+                                            <div
+                                                key={friend.id}
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={() => {
+                                                    setChatTab('chat');
+                                                    setDirectChatTarget(null);
+                                                    setSelectedFriendId(friend.id);
+                                                    setDirectoryView('conversations');
+                                                }}
+                                                onKeyDown={(event) => {
+                                                    if (event.key !== 'Enter' && event.key !== ' ') return;
+                                                    event.preventDefault();
+                                                    setChatTab('chat');
+                                                    setDirectChatTarget(null);
+                                                    setSelectedFriendId(friend.id);
+                                                    setDirectoryView('conversations');
+                                                }}
+                                                className="flex cursor-pointer items-center gap-3 border-b border-white/5 p-3 transition-colors hover:bg-white/5 focus:outline-none focus-visible:bg-white/5"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        openPlayerProfile(friend.name);
+                                                    }}
+                                                    aria-label={`查看 ${friend.name} 的玩家資訊`}
+                                                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 ${friend.avatar} shadow-md transition-all hover:scale-105 hover:border-[#FFD700]/60 active:scale-95`}
+                                                >
+                                                    <UserIcon size={16} className="text-white/85" />
+                                                </button>
+                                                <span className="min-w-0 flex-1 truncate text-sm font-bold text-slate-200">{friend.name}</span>
+                                            </div>
+                                        ))}
+                                        {loadedFriends.length === 0 && (
+                                            <div className="px-6 py-12 text-center text-xs text-slate-500">目前還沒有好友</div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
                             {user?.canAutoSend && (
-                                <div className="p-3 border-t border-white/5">
+                                <div className="border-t border-white/5 p-3">
                                     <button
-                                        onClick={() => setActiveAutoSendChannel('public')}
+                                        onClick={() => setActiveAutoSendChannel(chatTab === 'public' ? 'public' : 'private')}
                                         className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg
-                                                   bg-gradient-to-r from-emerald-400/10 to-emerald-500/5
-                                                   border border-emerald-400/25 text-emerald-400 text-xs font-semibold
-                                                   hover:from-emerald-400/20 hover:to-emerald-500/15 hover:border-emerald-400/50
-                                                   hover:shadow-[0_0_12px_rgba(52,211,153,0.15)]
+                                                   bg-gradient-to-r from-[#FFD700]/10 to-[#DAA520]/5
+                                                   border border-[#FFD700]/25 text-[#FFD700] text-xs font-semibold
+                                                   hover:from-[#FFD700]/20 hover:to-[#DAA520]/15 hover:border-[#FFD700]/50
+                                                   hover:shadow-[0_0_12px_rgba(255,215,0,0.15)]
                                                    active:scale-95 transition-all duration-150"
                                     >
                                         <Zap size={13} />
@@ -714,141 +852,6 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                         </div>
                     )}
 
-                    {chatTab === 'chat' && (
-                        <div className="flex-1 flex flex-col min-h-0">
-                            {/* Sidebar Tabs */}
-                            <div className="p-4 pb-0">
-                                <div className="flex p-1 bg-black/40 rounded-lg mb-3">
-                                    <button
-                                        onClick={() => setSidebarTab('friends')}
-                                        className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${sidebarTab === 'friends' ? 'bg-[#FFD700] text-black shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                    >
-                                        好友清單
-                                    </button>
-                                    <button
-                                        onClick={() => setSidebarTab('chats')}
-                                        className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${sidebarTab === 'chats' ? 'bg-[#FFD700] text-black shadow-md' : 'text-slate-400 hover:text-slate-200'}`}
-                                    >
-                                        對話內容
-                                    </button>
-                                </div>
-                            </div>
-
-
-                            <div className="flex-1 overflow-y-auto no-scrollbar">
-                                {sidebarTab === 'chats' ? (
-                                    /* Chat List Mode */
-                                    <>
-                                        {directChatTarget && (
-                                            <div
-                                                onClick={() => {
-                                                    setChatTab('chat');
-                                                    setSelectedFriendId(null);
-                                                }}
-                                                className="flex cursor-pointer items-center gap-3 border-l-4 border-[#FFD700] bg-[#FFD700]/10 p-4 transition-colors hover:bg-[#FFD700]/15"
-                                            >
-                                                <div className={`w-10 h-10 rounded-full ${directChatTarget.avatar || 'bg-slate-700'} flex items-center justify-center border border-[#FFD700]/40`}>
-                                                    <UserIcon size={20} className="text-white/80" />
-                                                </div>
-                                                <div className="min-w-0 flex-1">
-                                                    <div className="flex items-baseline justify-between gap-2">
-                                                        <span className="truncate text-sm font-bold text-[#FFD700]">{directChatTarget.name}</span>
-                                                        <span className="text-[10px] text-[#FFD700]/70">now</span>
-                                                    </div>
-                                                    <p className="truncate text-xs text-slate-400">臨時私人對話</p>
-                                                </div>
-                                            </div>
-                                        )}
-                                        {friends.map(friend => (
-                                            <div
-                                                key={friend.id}
-                                                onClick={() => {
-                                                    setChatTab('chat');
-                                                    setDirectChatTarget(null);
-                                                    setSelectedFriendId(friend.id);
-                                                }}
-                                                className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors ${chatTab === 'chat' && selectedFriendId === friend.id ? 'bg-white/10 border-l-4 border-[#FFD700]' : 'border-l-4 border-transparent'}`}
-                                            >
-                                                <div className="relative">
-                                                    <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
-                                                        <UserIcon size={20} className="text-white/80" />
-                                                    </div>
-                                                    <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex justify-between items-baseline mb-0.5">
-                                                        <span className={`text-sm font-bold truncate ${chatTab === 'chat' && selectedFriendId === friend.id ? 'text-[#FFD700]' : 'text-slate-200'}`}>
-                                                            {friend.name}
-                                                        </span>
-                                                        <span className="text-[10px] text-slate-500">10:30</span>
-                                                    </div>
-                                                    <p className="text-xs text-slate-400 truncate">
-                                                        {friend.status === 'playing' ? '正在遊玩: 雷神之錘' : friend.lastMsg}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </>
-                                ) : (
-                                    /* Friends List Mode (Simpler view) */
-                                    friends.map(friend => (
-                                        <div
-                                            key={friend.id}
-                                            onClick={() => {
-                                                setDirectChatTarget(null);
-                                                setSelectedFriendId(friend.id);
-                                            }}
-                                            className={`flex items-center gap-3 p-4 cursor-pointer hover:bg-white/5 transition-colors border-b border-white/5 ${selectedFriendId === friend.id ? 'bg-white/5' : ''}`}
-                                        >
-                                            <div className="relative">
-                                                <div className={`w-10 h-10 rounded-full ${friend.avatar} flex items-center justify-center border border-white/20`}>
-                                                    <UserIcon size={20} className="text-white/80" />
-                                                </div>
-                                                <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#0f061e] ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`}></div>
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex justify-between items-center">
-                                                    <span className={`text-sm font-bold truncate text-slate-200`}>
-                                                        {friend.name}
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-center gap-1.5 mt-1">
-                                                    <span className={`w-1.5 h-1.5 rounded-full ${friend.status === 'online' ? 'bg-green-500' : friend.status === 'playing' ? 'bg-yellow-500' : 'bg-slate-500'}`} />
-                                                    <span className="text-[10px] text-slate-500 truncate">
-                                                        {friend.status === 'online' ? 'Online' : friend.status === 'playing' ? 'Playing' : 'Offline'}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <button
-                                                onClick={(e) => confirmDeleteFriend(e, friend)}
-                                                className="p-2 bg-transparent rounded-full text-slate-600 hover:text-red-500 hover:bg-white/5 transition-all group"
-                                            >
-                                                <Trash2 size={16} className="transform scale-90" />
-                                            </button>
-                                        </div>
-                                    ))
-                                )}
-                            </div>
-
-                            {/* Auto-Send Settings Button — only visible for special players (canAutoSend: true) */}
-                            {user?.canAutoSend && (
-                                <div className="p-3 border-t border-white/5">
-                                    <button
-                                        onClick={() => setActiveAutoSendChannel('private')}
-                                        className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg
-                                                   bg-gradient-to-r from-[#FFD700]/10 to-[#DAA520]/5
-                                                   border border-[#FFD700]/25 text-[#FFD700] text-xs font-semibold
-                                                   hover:from-[#FFD700]/20 hover:to-[#DAA520]/15 hover:border-[#FFD700]/50
-                                                   hover:shadow-[0_0_12px_rgba(255,215,0,0.15)]
-                                                   active:scale-95 transition-all duration-150"
-                                    >
-                                        <Zap size={13} />
-                                        自動發送設定
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
                 </div>
                 {renderRightPanel()}
 

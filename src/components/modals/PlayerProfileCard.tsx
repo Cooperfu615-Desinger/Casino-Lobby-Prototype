@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Ban, Coins, Flag, Gamepad2, Gift, Hash, MessageCircle, ShieldAlert, Sparkles, UserMinus, UserPlus, X } from 'lucide-react';
+import { AtSign, Ban, Coins, Flag, Gamepad2, Gift, MessageCircle, ShieldAlert, Sparkles, UserMinus, UserPlus, X } from 'lucide-react';
 import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useSocial } from '../../context/SocialContext';
@@ -22,6 +22,7 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
 
     const playerIdentity = {
         playerId: profile.playerId,
+        account: profile.account,
         name: profile.name,
         avatar: profile.avatar,
         level: profile.level,
@@ -107,9 +108,17 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
                             </div>
 
                             <h2 className="mt-6 max-w-full truncate text-2xl font-black text-white">{profile.name}</h2>
-                            <div className="mt-2 flex items-center gap-2 rounded-full border border-white/10 bg-black/25 px-3 py-1 text-xs font-bold text-slate-300">
-                                <Hash size={12} className="text-[#FFD700]" />
-                                {profile.playerId}
+                            <div className="mt-3 w-full space-y-2 rounded-xl border border-white/10 bg-black/25 p-3 text-left">
+                                <div className="flex items-center gap-2">
+                                    <AtSign size={13} className="shrink-0 text-[#FFD700]" />
+                                    <span className="w-10 shrink-0 text-[10px] font-black text-slate-500">帳號</span>
+                                    <span className="min-w-0 truncate text-xs font-bold text-slate-200">{profile.account}</span>
+                                </div>
+                                <div className="flex items-center gap-2 border-t border-white/5 pt-2">
+                                    <Sparkles size={13} className="shrink-0 text-[#FFD700]" />
+                                    <span className="w-10 shrink-0 text-[10px] font-black text-slate-500">暱稱</span>
+                                    <span className="min-w-0 truncate text-xs font-bold text-slate-200">{profile.name}</span>
+                                </div>
                             </div>
                             <div className="mt-2 text-xs font-black text-[#FFD700]">Level {profile.level}</div>
                         </div>

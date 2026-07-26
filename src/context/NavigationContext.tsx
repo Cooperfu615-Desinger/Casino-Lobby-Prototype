@@ -17,6 +17,7 @@ export type EventsSubTab = 'daily' | 'events' | 'leaderboard' | 'filter';
 
 export interface ChatTargetPlayer {
     playerId: string;
+    account?: string;
     name: string;
     avatar?: string;
     level?: number;

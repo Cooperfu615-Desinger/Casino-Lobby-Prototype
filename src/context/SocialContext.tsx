@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { FRIENDS } from '../data/mockData';
-import type { Friend } from '../types/user';
+import { FRIENDS, ONLINE_PLAYERS } from '../data/mockData';
+import type { Friend, OnlinePlayer } from '../types/user';
 
 export interface SocialPlayerIdentity {
     playerId: string;
+    account?: string;
     name: string;
     avatar?: string;
 }
@@ -17,6 +18,8 @@ interface SocialContextType {
     addFriend: (player: SocialPlayerIdentity) => void;
     removeFriend: (playerId: string) => void;
     isFriendPlayer: (playerId?: string) => boolean;
+    requestFriendList: () => Promise<Friend[]>;
+    requestPlayerList: () => Promise<OnlinePlayer[]>;
     blockedPlayers: BlockedPlayer[];
     blockPlayer: (player: SocialPlayerIdentity) => void;
     unblockPlayer: (playerId: string) => void;
@@ -24,6 +27,11 @@ interface SocialContextType {
 }
 
 const SocialContext = createContext<SocialContextType | undefined>(undefined);
+const MOCK_DIRECTORY_DELAY = 650;
+
+const waitForMockDirectory = () => new Promise<void>((resolve) => {
+    setTimeout(resolve, MOCK_DIRECTORY_DELAY);
+});
 
 export const SocialProvider = ({ children }: { children: ReactNode }) => {
     const [friends, setFriends] = useState<Friend[]>(FRIENDS);
@@ -39,6 +47,7 @@ export const SocialProvider = ({ children }: { children: ReactNode }) => {
                 {
                     id: nextId,
                     playerId: player.playerId,
+                    account: player.account || `Player${nextId}`,
                     name: player.name,
                     avatar: player.avatar || 'bg-slate-700',
                     status: 'online',
@@ -57,6 +66,16 @@ export const SocialProvider = ({ children }: { children: ReactNode }) => {
         if (!playerId) return false;
         return friends.some(friend => friend.playerId === playerId);
     }, [friends]);
+
+    const requestFriendList = useCallback(async () => {
+        await waitForMockDirectory();
+        return friends.map(friend => ({ ...friend }));
+    }, [friends]);
+
+    const requestPlayerList = useCallback(async () => {
+        await waitForMockDirectory();
+        return ONLINE_PLAYERS.map(player => ({ ...player }));
+    }, []);
 
     const blockPlayer = useCallback((player: SocialPlayerIdentity) => {
         setBlockedPlayers(prev => {
@@ -79,11 +98,13 @@ export const SocialProvider = ({ children }: { children: ReactNode }) => {
         addFriend,
         removeFriend,
         isFriendPlayer,
+        requestFriendList,
+        requestPlayerList,
         blockedPlayers,
         blockPlayer,
         unblockPlayer,
         isBlockedPlayer,
-    }), [friends, addFriend, removeFriend, isFriendPlayer, blockedPlayers, blockPlayer, unblockPlayer, isBlockedPlayer]);
+    }), [friends, addFriend, removeFriend, isFriendPlayer, requestFriendList, requestPlayerList, blockedPlayers, blockPlayer, unblockPlayer, isBlockedPlayer]);
 
     return (
         <SocialContext.Provider value={value}>

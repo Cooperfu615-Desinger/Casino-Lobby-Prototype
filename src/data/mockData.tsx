@@ -158,20 +158,20 @@ export const GAME_SEATS: GameSeat[] = Array.from({ length: 3 }, (_, pageIndex) =
 ).flat();
 
 export const FRIENDS: Friend[] = [
-    { id: 1, playerId: getStablePlayerId('Jessica_99', 10001), name: 'Jessica_99', avatar: 'bg-pink-500', status: 'online', lastMsg: '要一起玩嗎？' },
-    { id: 2, playerId: getStablePlayerId('Tom888', 10002), name: 'Tom888', avatar: 'bg-blue-500', status: 'playing', lastMsg: '我剛中了Jackpot!' },
-    { id: 3, playerId: getStablePlayerId('GM_Support', 10003), name: 'GM_Support', avatar: 'bg-yellow-600', status: 'online', lastMsg: '您好，有什麼能幫您的？' },
-    { id: 4, playerId: getStablePlayerId('David_King', 10004), name: 'David_King', avatar: 'bg-green-600', status: 'offline', lastMsg: '下次見' },
-    { id: 5, playerId: getStablePlayerId('LuckyGirl', 10005), name: 'LuckyGirl', avatar: 'bg-purple-500', status: 'playing', lastMsg: '這個機台很軟！' },
+    { id: 1, playerId: getStablePlayerId('Jessica_99', 10001), account: 'Jessica9901', name: 'Jessica_99', avatar: 'bg-pink-500', status: 'online', lastMsg: '要一起玩嗎？' },
+    { id: 2, playerId: getStablePlayerId('Tom888', 10002), account: 'Tom88802', name: 'Tom888', avatar: 'bg-blue-500', status: 'playing', lastMsg: '我剛中了Jackpot!' },
+    { id: 3, playerId: getStablePlayerId('GM_Support', 10003), account: 'GMSupport03', name: 'GM_Support', avatar: 'bg-yellow-600', status: 'online', lastMsg: '您好，有什麼能幫您的？' },
+    { id: 4, playerId: getStablePlayerId('David_King', 10004), account: 'DavidKing04', name: 'David_King', avatar: 'bg-green-600', status: 'offline', lastMsg: '下次見' },
+    { id: 5, playerId: getStablePlayerId('LuckyGirl', 10005), account: 'LuckyGirl05', name: 'LuckyGirl', avatar: 'bg-purple-500', status: 'playing', lastMsg: '這個機台很軟！' },
 ];
 
 export const ONLINE_PLAYERS: OnlinePlayer[] = [
-    { id: 101, playerId: getStablePlayerId('DragonSlayer', 10101), name: 'DragonSlayer', avatar: 'bg-red-600', level: 50 },
-    { id: 102, playerId: getStablePlayerId('PokerFace_X', 10102), name: 'PokerFace_X', avatar: 'bg-slate-600', level: 22 },
-    { id: 103, playerId: getStablePlayerId('SlotQueen', 10103), name: 'SlotQueen', avatar: 'bg-purple-600', level: 15 },
-    { id: 104, playerId: getStablePlayerId('RichMan99', 10104), name: 'RichMan99', avatar: 'bg-yellow-600', level: 88 },
-    { id: 105, playerId: getStablePlayerId('Newbie01', 10105), name: 'Newbie01', avatar: 'bg-green-600', level: 2 },
-    { id: 106, playerId: getStablePlayerId('WinnerWinner', 10106), name: 'WinnerWinner', avatar: 'bg-blue-600', level: 34 },
+    { id: 101, playerId: getStablePlayerId('DragonSlayer', 10101), account: 'Dragon101', name: 'DragonSlayer', avatar: 'bg-red-600', level: 50 },
+    { id: 102, playerId: getStablePlayerId('PokerFace_X', 10102), account: 'PokerFace102', name: 'PokerFace_X', avatar: 'bg-slate-600', level: 22 },
+    { id: 103, playerId: getStablePlayerId('SlotQueen', 10103), account: 'SlotQueen103', name: 'SlotQueen', avatar: 'bg-purple-600', level: 15 },
+    { id: 104, playerId: getStablePlayerId('RichMan99', 10104), account: 'RichMan99104', name: 'RichMan99', avatar: 'bg-yellow-600', level: 88 },
+    { id: 105, playerId: getStablePlayerId('Newbie01', 10105), account: 'Newbie01105', name: 'Newbie01', avatar: 'bg-green-600', level: 2 },
+    { id: 106, playerId: getStablePlayerId('WinnerWinner', 10106), account: 'Winner106', name: 'WinnerWinner', avatar: 'bg-blue-600', level: 34 },
 ];
 
 export const CHAT_HISTORY: ChatMessage[] = [
@@ -558,9 +558,14 @@ export const getMockPlayerProfile = (name: string): PlayerProfile => {
     const isFriend = FRIENDS.some(f => f.name === name);
     const friendData = FRIENDS.find(f => f.name === name);
     const onlineData = ONLINE_PLAYERS.find(p => p.name === name);
+    const sanitizedAccount = name
+        .normalize('NFKC')
+        .replace(/[^\p{Script=Han}A-Za-z0-9]/gu, '');
+    const generatedAccount = Array.from(sanitizedAccount).slice(0, 20).join('') || 'Player';
 
     return {
         playerId: friendData?.playerId || onlineData?.playerId || getStablePlayerId(name),
+        account: friendData?.account || onlineData?.account || generatedAccount,
         name,
         avatar: friendData?.avatar || onlineData?.avatar || 'bg-slate-700',
         level: onlineData?.level || Math.floor(Math.random() * 50) + 1,
