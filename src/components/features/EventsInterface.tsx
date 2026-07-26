@@ -17,8 +17,8 @@ const EventsInterface = ({ onClose, initialTab = 'events' }: EventsInterfaceProp
     const [leaderboardType, setLeaderboardType] = useState<LeaderboardType>('multiplier');
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative flex h-[min(760px,92vh)] w-[94%] max-w-[1100px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="relative flex h-[min(680px,92vh)] w-[94%] max-w-[1100px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
                 <header className="relative z-20 flex-none border-b border-white/10 bg-gradient-to-r from-[#2a1244] via-[#1a0b2e] to-[#130720] px-5 pt-3.5">
                     <button
                         type="button"
