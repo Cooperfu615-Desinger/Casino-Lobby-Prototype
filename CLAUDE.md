@@ -1,8 +1,8 @@
-# CLAUDE.md — Casino Lobby Prototype
+# CLAUDE.md — 巨亨ONLINE APP Prototype
 
 ## 專案簡介
 
-這是一款**博弈娛樂城 APP Lobby 的互動原型**，定位為「活文件規格（Living Specification）」。
+這是 **巨亨ONLINE** 的 APP Lobby 互動原型，定位為「活文件規格（Living Specification）」。
 主要用途是提供給**美術、前端工程師**參考，對齊頁面版位、功能流程與跨模組互動節點。
 
 - 畫布尺寸：**1280 × 720 px**（固定解析度，動態縮放適配視口）

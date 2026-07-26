@@ -1,7 +1,8 @@
-# Casino Lobby Prototype 專案完整分析報告
+# 巨亨ONLINE APP Prototype 專案完整分析報告
 
 原始分析日期：2026-06-15  
 最新更新日期：2026-06-22  
+產品正式名稱：巨亨ONLINE
 分析分支：`phase-1-mvp`  
 專案路徑：`/Users/cooperfu/Desktop/casino-lobby-prototype`
 

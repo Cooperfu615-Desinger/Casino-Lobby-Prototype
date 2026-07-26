@@ -12,6 +12,7 @@ import type { ChatTargetPlayer, SupportDraft } from '../../context/NavigationCon
 import type { Friend, OnlinePlayer } from '../../types/user';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
 import { useNavigation } from '../../hooks/useNavigation';
+import { PRODUCT_NAME } from '../../config/brand';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [
@@ -35,7 +36,7 @@ const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
 };
 
 const SUPPORT_CHAT_HISTORY: ChatMessage[] = [
-    { id: 1, sender: '客服小幫手', text: '您好！我是 Golden Bet 客服，請問有什麼可以協助您的？', isMe: false, time: '14:00' },
+    { id: 1, sender: '客服小幫手', text: `您好！我是 ${PRODUCT_NAME} 客服，請問有什麼可以協助您的？`, isMe: false, time: '14:00' },
 ];
 
 const getCurrentTime = () => new Date().toLocaleTimeString('zh-TW', {

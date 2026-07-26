@@ -1,6 +1,7 @@
-# Casino Lobby Prototype 分析與 UI/UX 優化報告
+# 巨亨ONLINE APP Prototype 分析與 UI/UX 優化報告
 
 分析日期：2026-03-26
+產品正式名稱：巨亨ONLINE
 
 ## 1. 執行摘要
 

@@ -1,5 +1,5 @@
 /**
- * Casino Lobby Prototype — Screenshot Script
+ * 巨亨ONLINE APP Prototype — Screenshot Script
  * 執行：node screenshot.mjs
  * 輸出：docs/screenshots/
  */

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserCircle2 } from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
+import { PRODUCT_NAME } from '../../config/brand';
 
 interface GoogleLoginModalProps {
     onClose: () => void;
@@ -86,7 +87,7 @@ const GoogleLoginModal: React.FC<GoogleLoginModalProps> = ({ onClose, onLogin })
                             <div className="text-center space-y-2">
                                 <h3 className="text-xl font-bold text-gray-900">是否要使用 Google 帳號登入？</h3>
                                 <p className="text-sm text-gray-500 max-w-[280px]">
-                                    YOTA 將會獲取您的 Google 個人資料與頭像。
+                                    {PRODUCT_NAME} 將會獲取您的 Google 個人資料與頭像。
                                 </p>
                             </div>
 

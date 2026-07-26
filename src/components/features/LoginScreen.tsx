@@ -9,6 +9,7 @@ import LINELoginModal from '../modals/LINELoginModal';
 import AppleLoginModal from '../modals/AppleLoginModal';
 import GoogleLoginModal from '../modals/GoogleLoginModal';
 import PrototypeOverlay from '../common/PrototypeOverlay';
+import { PRODUCT_NAME } from '../../config/brand';
 
 // Apple Logo SVG（與 AppleLoginModal 一致）
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -87,8 +88,11 @@ const LoginScreen = () => {
 
                 {/* Main Logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center animate-in fade-in zoom-in duration-1000">
-                    <h1 className="text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-[0_0_25px_rgba(255,255,255,0.5)]">
-                        YOTA
+                    <h1
+                        aria-label={PRODUCT_NAME}
+                        className="whitespace-nowrap bg-gradient-to-b from-white to-slate-400 bg-clip-text text-6xl font-black tracking-[0.08em] text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.5)] sm:text-7xl lg:text-8xl"
+                    >
+                        {PRODUCT_NAME}
                     </h1>
                 </div>
 

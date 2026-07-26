@@ -40,7 +40,7 @@ const createMockRecords = (today: Date): GameRecord[] => {
         return {
             id: index + 1,
             time: today.getTime() - dayOffset * DAY_IN_MS - minuteOffset * 60_000,
-            game: GAMES[seed % GAMES.length]?.title ?? 'Golden Bet',
+            game: GAMES[seed % GAMES.length]?.title ?? '未命名遊戲',
             bet,
             win,
             balance,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserCircle2 } from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
+import { PRODUCT_NAME } from '../../config/brand';
 
 interface AppleLoginModalProps {
     onClose: () => void;
@@ -87,7 +88,7 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
                             <div className="text-center space-y-2">
                                 <h3 className="text-xl font-bold text-gray-900">是否要連結您的 Apple 帳號進行登入？</h3>
                                 <p className="text-sm text-gray-500 max-w-[280px]">
-                                    YOTA 將會獲取您的 Apple ID 個人資料。
+                                    {PRODUCT_NAME} 將會獲取您的 Apple ID 個人資料。
                                 </p>
                             </div>
 

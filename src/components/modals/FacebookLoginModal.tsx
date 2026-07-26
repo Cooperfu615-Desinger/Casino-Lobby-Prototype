@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Facebook, UserCircle2 } from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
+import { PRODUCT_NAME } from '../../config/brand';
 
 interface FacebookLoginModalProps {
     onClose: () => void;
@@ -82,7 +83,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                             <div className="text-center space-y-2">
                                 <h3 className="text-xl font-bold">Continue as Player?</h3>
                                 <p className="text-sm text-[#B0B3B8] max-w-[240px]">
-                                    YOTA will receive access to your name and profile picture.
+                                    {PRODUCT_NAME} will receive access to your name and profile picture.
                                 </p>
                             </div>
 

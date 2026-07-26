@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, Wifi } from 'lucide-react';
+import { PRODUCT_NAME } from '../../config/brand';
 
 interface BrandLoadingProps {
     onFinished: () => void;
@@ -64,8 +65,11 @@ const BrandLoading = ({ onFinished }: BrandLoadingProps) => {
 
                 {/* Brand Name */}
                 <div className="mb-4 text-center animate-in fade-in zoom-in duration-1000">
-                    <h1 className="text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-[0_0_25px_rgba(255,255,255,0.5)]">
-                        YOTA
+                    <h1
+                        aria-label={PRODUCT_NAME}
+                        className="whitespace-nowrap bg-gradient-to-b from-white to-slate-400 bg-clip-text text-6xl font-black tracking-[0.08em] text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.5)] sm:text-7xl lg:text-8xl"
+                    >
+                        {PRODUCT_NAME}
                     </h1>
                 </div>
 

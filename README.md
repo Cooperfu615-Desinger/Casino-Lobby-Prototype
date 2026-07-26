@@ -1,6 +1,6 @@
-# 🎰 Casino Lobby Prototype
+# 🎰 巨亨ONLINE APP Prototype
 
-> A high-fidelity React + TypeScript prototype for a modern casino lobby interface, designed as a **Living Specification** for development and design teams.
+> A high-fidelity React + TypeScript prototype for **巨亨ONLINE**, designed as a **Living Specification** for development and design teams.
 
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
@@ -11,7 +11,7 @@
 
 ## 📖 專案簡介
 
-這是一個針對 **Casino Lobby** 設計的高階互動原型，使用 React 18 + Vite + TypeScript 構建。本專案不僅是一個視覺展示，更是一份 **Living Specification（活規格書）**，作為開發與美術團隊的 **單一事實來源 (Single Source of Truth)**。
+這是 **巨亨ONLINE** 的高階互動 APP 原型，使用 React 18 + Vite + TypeScript 構建。本專案不僅是一個視覺展示，更是一份 **Living Specification（活規格書）**，作為開發與美術團隊的 **單一事實來源 (Single Source of Truth)**。
 
 ### 🎯 設計目標
 

@@ -337,7 +337,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                                 <label className="block text-slate-400 text-xs font-bold uppercase mb-2">帳號 (Account)</label>
                                                 <input
                                                     type="text"
-                                                    value="yota_player01"
+                                                    value="PlayerDemo01"
                                                     disabled
                                                     className="w-full bg-slate-800/50 border border-white/5 rounded-lg p-3 text-slate-400 cursor-not-allowed"
                                                 />
@@ -361,7 +361,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                             </div>
                                             <div>
                                                 <div className="text-[#1877F2] font-bold text-sm">已連結 Facebook 帳號</div>
-                                                <div className="text-white font-bold text-lg">YotaTest999</div>
+                                                <div className="text-white font-bold text-lg">SocialDemo999</div>
                                             </div>
                                         </div>
                                     )}
@@ -373,7 +373,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                             </div>
                                             <div>
                                                 <div className="text-[#06C755] font-bold text-sm">已連結 LINE 帳號</div>
-                                                <div className="text-white font-bold text-lg">YotaTest777</div>
+                                                <div className="text-white font-bold text-lg">SocialDemo777</div>
                                             </div>
                                         </div>
                                     )}
@@ -387,7 +387,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                                             </div>
                                             <div>
                                                 <div className="text-slate-300 font-bold text-sm">已連結 Apple ID</div>
-                                                <div className="text-white font-bold text-lg">YotaTest777</div>
+                                                <div className="text-white font-bold text-lg">SocialDemo777</div>
                                             </div>
                                         </div>
                                     )}
