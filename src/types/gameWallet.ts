@@ -1,4 +1,4 @@
-import type { Game, GameSeat } from './game';
+import type { Game } from './game';
 
 export type GameWalletKey =
     | 'stored-gold'
@@ -10,7 +10,6 @@ export type GameWalletKey =
 export interface GameSession {
     game: Game;
     wallet: GameWalletKey;
-    seat?: GameSeat;
 }
 
 export interface GameWalletOption {

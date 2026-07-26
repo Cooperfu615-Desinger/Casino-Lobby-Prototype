@@ -25,12 +25,11 @@ import UserModal from '../modals/UserModal';
 import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import GameLaunchModal from '../modals/GameLaunchModal';
-import SeatSelectionModal from '../modals/SeatSelectionModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
 import useRecentGames from '../../hooks/useRecentGames';
 
 // Types
-import type { Game, GameSeat, GameSession, GameWalletKey } from '../../types';
+import type { Game, GameSession, GameWalletKey } from '../../types';
 
 interface LobbyLayoutProps {
     onPlayGame: (session: GameSession) => void;
@@ -57,7 +56,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const [activeCategory, setActiveCategory] = useState<LobbyCategoryId>('all');
     const [legalTab, setLegalTab] = useState<TermsTab | null>(null);
     const [launchGame, setLaunchGame] = useState<Game | null>(null);
-    const [seatSelection, setSeatSelection] = useState<{ game: Game; wallet: GameWalletKey } | null>(null);
 
     const categoryCounts = LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
         if (!category.gameCategory) {
@@ -86,22 +84,10 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
         setLaunchGame(game);
     };
 
-    const handleQuickPlay = (wallet: GameWalletKey) => {
+    const handleEnterGame = (wallet: GameWalletKey) => {
         if (!launchGame) return;
         onPlayGame({ game: launchGame, wallet });
         setLaunchGame(null);
-    };
-
-    const handleOpenSeatSelection = (wallet: GameWalletKey) => {
-        if (!launchGame) return;
-        setSeatSelection({ game: launchGame, wallet });
-        setLaunchGame(null);
-    };
-
-    const handleEnterSeat = (seat: GameSeat) => {
-        if (!seatSelection) return;
-        onPlayGame({ game: seatSelection.game, wallet: seatSelection.wallet, seat });
-        setSeatSelection(null);
     };
 
     return (
@@ -142,17 +128,8 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {launchGame && (
                 <GameLaunchModal
                     game={launchGame}
-                    onQuickPlay={handleQuickPlay}
-                    onChooseSeat={handleOpenSeatSelection}
+                    onEnterGame={handleEnterGame}
                     onClose={() => setLaunchGame(null)}
-                />
-            )}
-            {seatSelection && (
-                <SeatSelectionModal
-                    game={seatSelection.game}
-                    wallet={seatSelection.wallet}
-                    onClose={() => setSeatSelection(null)}
-                    onEnterSeat={handleEnterSeat}
                 />
             )}
 

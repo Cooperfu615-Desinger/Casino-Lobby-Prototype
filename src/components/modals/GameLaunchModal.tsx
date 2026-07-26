@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Armchair, BookOpen, Check, Info, Play, WalletCards, X } from 'lucide-react';
+import { BookOpen, Check, Info, Play, WalletCards, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useRewardCards } from '../../context/RewardCardContext';
 import { buildGameWalletOptions } from '../../utils/gameWallets';
@@ -7,8 +7,7 @@ import type { Game, GameWalletKey, GameWalletOption } from '../../types';
 
 interface GameLaunchModalProps {
     game: Game;
-    onQuickPlay: (wallet: GameWalletKey) => void;
-    onChooseSeat: (wallet: GameWalletKey) => void;
+    onEnterGame: (wallet: GameWalletKey) => void;
     onClose: () => void;
 }
 
@@ -30,7 +29,7 @@ const GAME_RULES: Record<Game['category'], string[]> = {
     ],
 };
 
-const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunchModalProps) => {
+const GameLaunchModal = ({ game, onEnterGame, onClose }: GameLaunchModalProps) => {
     const { user } = useAuth();
     const { availableActivityGoldBalance, availableActivitySilverBalance } = useRewardCards();
     const [activeTab, setActiveTab] = useState<'details' | 'rules'>('details');
@@ -130,7 +129,7 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
                                 </span>
                                 <div>
                                     <h3 className="text-xs font-black text-white">選擇遊戲幣別</h3>
-                                    <p className="text-[9px] text-slate-500">快速進入與選位都會沿用本次選擇</p>
+                                    <p className="text-[9px] text-slate-500">選定後將以此錢包進入遊戲</p>
                                 </div>
                             </div>
                             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[9px] font-black text-slate-400">
@@ -149,27 +148,19 @@ const GameLaunchModal = ({ game, onQuickPlay, onChooseSeat, onClose }: GameLaunc
                         </div>
                     </section>
 
-                    <div className="mt-4 grid grid-cols-2 gap-3">
+                    <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-[#FFD700]/25 bg-gradient-to-r from-[#FFD700]/10 via-purple-500/5 to-transparent p-4">
+                        <div className="min-w-0">
+                            <span className="text-[9px] font-black tracking-[0.18em] text-[#FFD700]">READY TO ENTER</span>
+                            <p className="mt-1 text-xs font-bold text-slate-300">遊戲模式與機台將於遊戲內設定</p>
+                        </div>
                         <button
                             type="button"
-                            onClick={() => canEnter && onQuickPlay(selectedWallet)}
+                            onClick={() => canEnter && onEnterGame(selectedWallet)}
                             disabled={!canEnter}
-                            className="group flex min-h-[96px] flex-col items-start rounded-2xl border border-[#FFD700]/30 bg-gradient-to-br from-[#FFD700]/18 to-[#FFD700]/5 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-[#FFD700]/55 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40"
+                            className="flex min-w-48 shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 px-5 py-3.5 text-sm font-black text-black shadow-lg shadow-amber-500/10 transition-all hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40"
                         >
-                            <span className="text-[9px] font-black tracking-[0.18em] text-[#FFD700]">QUICK PLAY</span>
-                            <strong className="mt-2 flex items-center gap-2 text-lg font-black text-white"><Play size={17} fill="currentColor" />快速遊玩</strong>
-                            <small className="mt-auto text-[10px] text-[#ffe7a3]">系統自動配置空閒機台</small>
-                        </button>
-
-                        <button
-                            type="button"
-                            onClick={() => canEnter && onChooseSeat(selectedWallet)}
-                            disabled={!canEnter}
-                            className="group flex min-h-[96px] flex-col items-start rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition-all hover:-translate-y-0.5 hover:border-purple-300/35 hover:bg-white/10 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                            <span className="text-[9px] font-black tracking-[0.18em] text-purple-300">SEAT MAP</span>
-                            <strong className="mt-2 flex items-center gap-2 text-lg font-black text-white"><Armchair size={17} />選擇機台</strong>
-                            <small className="mt-auto text-[10px] text-slate-400">查看機台狀態與統計後入座</small>
+                            <Play size={16} fill="currentColor" />
+                            確認幣別並進入遊戲
                         </button>
                     </div>
                 </div>

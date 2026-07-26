@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Armchair, CheckCircle2, Gauge, LogOut, WalletCards } from 'lucide-react';
+import { CheckCircle2, Gauge, LogOut, WalletCards } from 'lucide-react';
 import slotBg from '../../assets/slot_demo.jpg';
 import { useAuth } from '../../context/AuthContext';
 import { useRewardCards } from '../../context/RewardCardContext';
@@ -67,9 +67,7 @@ const GameRoom = ({ session, onExit }: GameRoomProps) => {
                     <div className="min-w-0">
                         <p className="text-[8px] font-black tracking-[0.22em] text-[#FFD700]">LIVE GAME SESSION</p>
                         <h1 className="truncate text-lg font-black">{session.game.title}</h1>
-                        <p className="text-[10px] font-bold text-slate-400">
-                            {session.game.provider}{session.seat ? `・機台 ${session.seat.seatNo}` : '・快速配置機台'}
-                        </p>
+                        <p className="text-[10px] font-bold text-slate-400">{session.game.provider}</p>
                     </div>
                 </div>
 
@@ -83,15 +81,6 @@ const GameRoom = ({ session, onExit }: GameRoomProps) => {
                             </strong>
                         </div>
                     </div>
-                    {session.seat && (
-                        <div className="flex items-center gap-2 rounded-2xl border border-white/15 bg-[#18092b]/90 px-3 py-2 shadow-lg backdrop-blur-md">
-                            <Armchair size={16} className="text-purple-300" />
-                            <div>
-                                <p className="text-[8px] font-black text-slate-400">已選機台</p>
-                                <strong className="block text-sm font-black">{session.seat.seatNo}</strong>
-                            </div>
-                        </div>
-                    )}
                     <button
                         type="button"
                         onClick={onExit}
