@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Facebook, UserCircle2 } from 'lucide-react';
+import { CheckCircle2, Facebook, UserCircle2 } from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
 import { PRODUCT_NAME } from '../../config/brand';
 
@@ -8,7 +8,7 @@ interface FacebookLoginModalProps {
     onLogin: () => void;
 }
 
-type Status = 'connecting' | 'confirm' | 'logging_in';
+type Status = 'connecting' | 'confirm' | 'logging_in' | 'success';
 
 const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogin }) => {
     const [status, setStatus] = useState<Status>('connecting');
@@ -26,9 +26,12 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
     const handleConfirm = () => {
         setStatus('logging_in');
         setTimeout(() => {
-            onLogin(); // Trigger parent login
-            onClose(); // Close modal
-        }, 1500);
+            setStatus('success');
+            setTimeout(() => {
+                onLogin();
+                onClose();
+            }, 650);
+        }, 900);
     };
 
     return (
@@ -43,7 +46,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                             onClick={onClose}
                             className="absolute left-4 text-[#B0B3B8] hover:text-[#E4E6EB] text-sm font-medium"
                         >
-                            Cancel
+                            取消
                         </button>
                     )}
                     <div className="flex items-center gap-2">
@@ -63,7 +66,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                             <div className="w-20 h-20 bg-[#1877F2] rounded-full flex items-center justify-center shadow-lg shadow-blue-900/50">
                                 <Facebook size={48} className="text-white fill-current animate-spin-slow" />
                             </div>
-                            <span className="text-[#B0B3B8] font-medium tracking-wide">Connecting to Facebook...</span>
+                            <span className="text-[#B0B3B8] font-medium tracking-wide">正在連接 Facebook...</span>
                         </div>
                     )}
 
@@ -81,9 +84,9 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                             </div>
 
                             <div className="text-center space-y-2">
-                                <h3 className="text-xl font-bold">Continue as Player?</h3>
+                                <h3 className="text-xl font-bold">允許 {PRODUCT_NAME} 使用此帳號登入？</h3>
                                 <p className="text-sm text-[#B0B3B8] max-w-[240px]">
-                                    {PRODUCT_NAME} will receive access to your name and profile picture.
+                                    將建立示範帳號，不會取得真實社群資料。
                                 </p>
                             </div>
 
@@ -92,13 +95,13 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                                     onClick={handleConfirm}
                                     className="w-full bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center"
                                 >
-                                    Continue as Player
+                                    允許並繼續
                                 </button>
                                 <button
                                     onClick={onClose}
                                     className="w-full bg-[#3A3B3C] hover:bg-[#4E4F50] text-[#E4E6EB] font-bold py-3 px-4 rounded-lg transition-colors"
                                 >
-                                    Cancel
+                                    取消
                                 </button>
                             </div>
                         </div>
@@ -108,7 +111,15 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                     {status === 'logging_in' && (
                         <div className="flex flex-col items-center gap-6">
                             <div className="w-16 h-16 border-4 border-[#3A3B3C] border-t-[#1877F2] rounded-full animate-spin"></div>
-                            <span className="text-[#E4E6EB] font-medium">Logging in...</span>
+                            <span className="text-[#E4E6EB] font-medium">正在建立安全連線...</span>
+                        </div>
+                    )}
+
+                    {status === 'success' && (
+                        <div className="flex flex-col items-center gap-5 text-center">
+                            <CheckCircle2 size={64} className="text-emerald-400" />
+                            <strong className="text-xl font-black text-white">登入成功</strong>
+                            <span className="text-sm text-[#B0B3B8]">即將進入遊戲大廳</span>
                         </div>
                     )}
 
@@ -117,7 +128,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
                 {/* Footer */}
                 <div className="border-t border-[#3e4042] p-4 text-center">
                     <span className="text-xs text-[#B0B3B8]">
-                        <span className="font-bold">Privacy Policy</span> • <span className="font-bold">Terms of Service</span>
+                        <span className="font-bold">隱私權政策</span> • <span className="font-bold">服務條款</span>
                     </span>
                 </div>
 

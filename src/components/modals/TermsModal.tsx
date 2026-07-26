@@ -11,6 +11,7 @@ interface TermsModalProps {
     title?: string;
     readOnly?: boolean;
     confirmLabel?: string;
+    registrationReview?: boolean;
 }
 
 const TermsModal = ({
@@ -20,6 +21,7 @@ const TermsModal = ({
     title = '註冊帳號 - 條款審閱',
     readOnly = false,
     confirmLabel = '下一步',
+    registrationReview = false,
 }: TermsModalProps) => {
     const [activeTab, setActiveTab] = useState<TermsTab>(initialTab);
     const [isAgreed, setIsAgreed] = useState(false);
@@ -114,8 +116,26 @@ const TermsModal = ({
 如有爭議，雙方同意以台北地方法院為第一審管轄法院。`
     };
 
+    const registrationSections = [
+        {
+            index: '01',
+            title: '帳號與資格',
+            content: '使用者須年滿十八歲並妥善保管登入資訊。所有註冊、登入及驗證流程在本原型中均為前端 Mock，不會傳送真實資料。',
+        },
+        {
+            index: '02',
+            title: '遊戲與點數',
+            content: '平台點數僅用於原型操作展示。儲值、贈禮、兌換、提款及交易結果不構成真實金流或權利義務。',
+        },
+        {
+            index: '03',
+            title: '理性娛樂',
+            content: '請依自身狀況安排遊戲時間。若操作影響日常生活，應立即停止並尋求適當協助。',
+        },
+    ];
+
     return (
-        <PrototypeOverlay>
+        <PrototypeOverlay layer={registrationReview ? 'auth' : 'modal'}>
             <div className="relative w-[600px] max-h-[640px] bg-[#1a0b2e] border border-white/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-white/10">
@@ -130,31 +150,69 @@ const TermsModal = ({
                 </div>
 
                 {/* Tabs */}
-                <div className="flex border-b border-white/10">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex-1 py-3 px-4 text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === tab.id
-                                ? 'text-[#FFD700] border-b-2 border-[#FFD700] bg-white/5'
-                                : 'text-slate-400 hover:text-white hover:bg-white/5'
-                                }`}
-                        >
-                            {tab.icon}
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
+                {!registrationReview && (
+                    <div className="flex border-b border-white/10">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`flex-1 py-3 px-4 text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === tab.id
+                                    ? 'text-[#FFD700] border-b-2 border-[#FFD700] bg-white/5'
+                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                    }`}
+                            >
+                                {tab.icon}
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
 
                 {/* Content - Height restricted for always-visible footer */}
-                <div className="max-h-[250px] overflow-y-auto p-6 custom-scrollbar">
-                    <pre className="whitespace-pre-wrap text-sm text-slate-300 font-sans leading-relaxed">
-                        {termsContent[activeTab]}
-                    </pre>
+                <div className={`${registrationReview ? 'max-h-[380px]' : 'max-h-[250px]'} overflow-y-auto p-6 custom-scrollbar`}>
+                    {registrationReview ? (
+                        <div>
+                            <p className="mb-4 text-sm leading-relaxed text-slate-400">
+                                請完整審閱下列內容。此文件用於呈現 APP 對齊後的原型操作流程。
+                            </p>
+                            <div className="divide-y divide-white/10">
+                                {registrationSections.map((section) => (
+                                    <section key={section.index} className="grid grid-cols-[38px_1fr] gap-3 py-4 first:pt-0">
+                                        <span className="text-xs font-black tracking-widest text-purple-300">{section.index}</span>
+                                        <div>
+                                            <h3 className="mb-1.5 text-sm font-black text-white">{section.title}</h3>
+                                            <p className="text-xs leading-6 text-slate-400">{section.content}</p>
+                                        </div>
+                                    </section>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <pre className="whitespace-pre-wrap text-sm text-slate-300 font-sans leading-relaxed">
+                            {termsContent[activeTab]}
+                        </pre>
+                    )}
                 </div>
 
                 {/* Footer with Checkbox and Button */}
-                {readOnly ? (
+                {registrationReview ? (
+                    <div className="flex justify-end gap-3 border-t border-white/10 bg-black/20 p-6">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="rounded-full border border-purple-400/40 px-6 py-3 text-sm font-black text-purple-200 transition-all hover:bg-purple-400/10 active:scale-95"
+                        >
+                            稍後再看
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onAgree}
+                            className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] px-7 py-3 text-sm font-black text-black transition-all hover:brightness-110 active:scale-95"
+                        >
+                            我已閱讀並了解 <ArrowRight size={18} />
+                        </button>
+                    </div>
+                ) : readOnly ? (
                     <div className="p-6 border-t border-white/10 bg-black/20">
                         <button
                             onClick={onClose}

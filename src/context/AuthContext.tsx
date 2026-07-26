@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { TRANSACTION_HISTORY } from '../data/mockData';
 import type { Transaction } from '../types/transaction';
 import type { CurrencyBalance, CurrencyType } from '../types/user';
@@ -11,6 +11,8 @@ import {
 
 export interface User {
     name: string;
+    account: string;
+    authProvider: AuthProviderType;
     avatar: string; // Tailwind class for background color (legacy, kept for compatibility)
     avatarId: number; // Selected avatar ID (1–20), see AVATARS in mockData
     vipLevel: number;
@@ -22,10 +24,17 @@ export interface User {
     canAutoSend?: boolean; // Special player permission: enables auto-send feature
 }
 
+export type AuthProviderType = 'account' | 'guest' | 'phone' | 'facebook' | 'line' | 'apple' | 'google';
+
 interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
-    login: (username?: string, password?: string) => void;
+    login: (
+        account?: string,
+        password?: string,
+        provider?: AuthProviderType,
+        displayName?: string,
+    ) => void;
     loginAsGuest: () => void;
     logout: () => void;
     updateUser: (updates: Partial<User>) => void;
@@ -42,6 +51,69 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const DEFAULT_WALLET_AMOUNT = 10_000_000;
+const AUTH_STORAGE_KEY = 'jh_app_auth_user';
+
+type StoredAuthUser = Pick<User, 'name' | 'account' | 'authProvider' | 'avatarId' | 'id'>;
+
+const createMockUser = ({
+    name,
+    account,
+    authProvider,
+    avatarId = 1,
+    id,
+}: StoredAuthUser): User => {
+    const isGuest = authProvider === 'guest';
+    return {
+        name,
+        account,
+        authProvider,
+        avatar: isGuest
+            ? 'bg-gradient-to-br from-gray-400 to-gray-600'
+            : 'bg-gradient-to-br from-pink-400 to-purple-500',
+        avatarId,
+        vipLevel: isGuest ? 0 : 6,
+        vipDepositTotal: isGuest ? 0 : 128000,
+        vipBetTotal: isGuest ? 0 : 3560000,
+        balance: {
+            gold: DEFAULT_WALLET_AMOUNT,
+            silver: DEFAULT_WALLET_AMOUNT,
+            bronze: DEFAULT_WALLET_AMOUNT,
+        },
+        vault_gold: 0,
+        id,
+        canAutoSend: !isGuest,
+    };
+};
+
+const loadStoredUser = (): User | null => {
+    if (typeof window === 'undefined') return null;
+
+    try {
+        const storedUser = window.localStorage.getItem(AUTH_STORAGE_KEY);
+        if (!storedUser) return null;
+        const parsedUser = JSON.parse(storedUser) as Partial<StoredAuthUser>;
+        if (
+            typeof parsedUser.name !== 'string' ||
+            typeof parsedUser.id !== 'string' ||
+            typeof parsedUser.account !== 'string' ||
+            typeof parsedUser.authProvider !== 'string'
+        ) {
+            window.localStorage.removeItem(AUTH_STORAGE_KEY);
+            return null;
+        }
+
+        return createMockUser({
+            name: parsedUser.name,
+            account: parsedUser.account,
+            authProvider: parsedUser.authProvider as AuthProviderType,
+            avatarId: typeof parsedUser.avatarId === 'number' ? parsedUser.avatarId : 1,
+            id: parsedUser.id,
+        });
+    } catch {
+        window.localStorage.removeItem(AUTH_STORAGE_KEY);
+        return null;
+    }
+};
 
 const createTransaction = (transaction: Omit<Transaction, 'id' | 'date' | 'status'>): Transaction => ({
     ...transaction,
@@ -58,50 +130,55 @@ const createTransaction = (transaction: Omit<Transaction, 'id' | 'date' | 'statu
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(loadStoredUser);
     const [transactions, setTransactions] = useState<Transaction[]>(() => [...TRANSACTION_HISTORY]);
+
+    useEffect(() => {
+        if (user) {
+            const storedUser: StoredAuthUser = {
+                name: user.name,
+                account: user.account,
+                authProvider: user.authProvider,
+                avatarId: user.avatarId,
+                id: user.id,
+            };
+            window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(storedUser));
+        } else {
+            window.localStorage.removeItem(AUTH_STORAGE_KEY);
+        }
+    }, [user]);
 
     const prependTransaction = (transaction: Omit<Transaction, 'id' | 'date' | 'status'>) => {
         setTransactions(prev => [createTransaction(transaction), ...prev]);
     };
 
-    const login = (username?: string, _password?: string) => {
+    const login = (
+        account?: string,
+        _password?: string,
+        provider: AuthProviderType = 'account',
+        displayName?: string,
+    ) => {
         // Mock login logic
-        const mockUser: User = {
-            name: username || '奧黛麗一本123456789',
-            avatar: 'bg-gradient-to-br from-pink-400 to-purple-500',
+        const resolvedAccount = account || 'jhplayer888';
+        const mockUser = createMockUser({
+            name: displayName || account || '奧黛麗一本123456789',
+            account: resolvedAccount,
+            authProvider: provider,
             avatarId: 1,
-            vipLevel: 6,
-            vipDepositTotal: 128000,
-            vipBetTotal: 3560000,
-            balance: {
-                gold: DEFAULT_WALLET_AMOUNT,
-                silver: DEFAULT_WALLET_AMOUNT,
-                bronze: DEFAULT_WALLET_AMOUNT
-            },
-            vault_gold: 0,
             id: '123456789',
-            canAutoSend: true // Special player flag: enables auto-send feature in chat
-        };
+        });
         setUser(mockUser);
     };
 
     const loginAsGuest = () => {
-        const guestUser: User = {
-            name: 'Guest_' + Math.floor(Math.random() * 10000),
-            avatar: 'bg-gradient-to-br from-gray-400 to-gray-600',
+        const guestNumber = Math.floor(1000 + Math.random() * 9000);
+        const guestUser = createMockUser({
+            name: `訪客${guestNumber}`,
+            account: `guest${guestNumber}`,
+            authProvider: 'guest',
             avatarId: 1,
-            vipLevel: 0,
-            vipDepositTotal: 0,
-            vipBetTotal: 0,
-            balance: {
-                gold: DEFAULT_WALLET_AMOUNT,
-                silver: DEFAULT_WALLET_AMOUNT,
-                bronze: DEFAULT_WALLET_AMOUNT
-            },
-            vault_gold: 0,
-            id: 'guest-' + Date.now()
-        };
+            id: 'guest-' + Date.now(),
+        });
         setUser(guestUser);
     };
 

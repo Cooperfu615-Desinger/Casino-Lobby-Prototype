@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UserCircle2 } from 'lucide-react';
+import { CheckCircle2, UserCircle2 } from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
 import { PRODUCT_NAME } from '../../config/brand';
 
@@ -8,7 +8,7 @@ interface AppleLoginModalProps {
     onLogin: () => void;
 }
 
-type Status = 'connecting' | 'confirm' | 'logging_in';
+type Status = 'connecting' | 'confirm' | 'logging_in' | 'success';
 
 // Apple logo SVG component
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -33,9 +33,12 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
     const handleConfirm = () => {
         setStatus('logging_in');
         setTimeout(() => {
-            onLogin(); // Trigger parent login
-            onClose(); // Close modal
-        }, 1500);
+            setStatus('success');
+            setTimeout(() => {
+                onLogin();
+                onClose();
+            }, 650);
+        }, 900);
     };
 
     return (
@@ -86,9 +89,9 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
                             </div>
 
                             <div className="text-center space-y-2">
-                                <h3 className="text-xl font-bold text-gray-900">是否要連結您的 Apple 帳號進行登入？</h3>
+                                <h3 className="text-xl font-bold text-gray-900">允許 {PRODUCT_NAME} 使用此帳號登入？</h3>
                                 <p className="text-sm text-gray-500 max-w-[280px]">
-                                    {PRODUCT_NAME} 將會獲取您的 Apple ID 個人資料。
+                                    將建立示範帳號，不會取得真實社群資料。
                                 </p>
                             </div>
 
@@ -98,7 +101,7 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
                                     className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2"
                                 >
                                     <AppleLogo className="w-5 h-5" />
-                                    確認
+                                    允許並繼續
                                 </button>
                                 <button
                                     onClick={onClose}
@@ -115,6 +118,14 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
                         <div className="flex flex-col items-center gap-6">
                             <div className="w-16 h-16 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>
                             <span className="text-gray-700 font-medium">正在登入...</span>
+                        </div>
+                    )}
+
+                    {status === 'success' && (
+                        <div className="flex flex-col items-center gap-5 text-center">
+                            <CheckCircle2 size={64} className="text-emerald-500" />
+                            <strong className="text-xl font-black text-gray-900">登入成功</strong>
+                            <span className="text-sm text-gray-500">即將進入遊戲大廳</span>
                         </div>
                     )}
 

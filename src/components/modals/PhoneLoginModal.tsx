@@ -1,159 +1,225 @@
-import React, { useState } from 'react';
-import { X, Smartphone, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import {
+    AlertCircle,
+    ArrowLeft,
+    ArrowRight,
+    CheckCircle2,
+    LoaderCircle,
+    Smartphone,
+    X,
+} from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
 
 interface PhoneLoginModalProps {
     onClose: () => void;
-    onLogin: () => void;
+    onLogin: (phoneNumber: string) => void;
 }
 
-type Step = 'phone' | 'otp';
+type PhoneLoginStage = 'phone' | 'code' | 'logging' | 'success';
 
-const PhoneLoginModal: React.FC<PhoneLoginModalProps> = ({ onClose, onLogin }) => {
-    const [step, setStep] = useState<Step>('phone');
+const delay = (milliseconds: number) =>
+    new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+const PhoneLoginModal = ({ onClose, onLogin }: PhoneLoginModalProps) => {
+    const [stage, setStage] = useState<PhoneLoginStage>('phone');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [otp, setOtp] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [verificationCode, setVerificationCode] = useState('');
+    const [countdown, setCountdown] = useState(0);
+    const [error, setError] = useState('');
 
-    // Step 1: Request OTP
-    const handleGetCode = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!phoneNumber) return;
-
-        setIsLoading(true);
-
-        // Simulate API call to send SMS
-        setTimeout(() => {
-            setIsLoading(false);
-            setStep('otp');
-            // Show simple toast or alert here if needed, but the UI change is usually enough feedback
-            // For now, we'll just transition
+    useEffect(() => {
+        if (countdown <= 0) return;
+        const timer = window.setInterval(() => {
+            setCountdown((current) => Math.max(0, current - 1));
         }, 1000);
+        return () => window.clearInterval(timer);
+    }, [countdown]);
+
+    const normalizedPhone = phoneNumber.replace(/\D/g, '').slice(0, 10);
+
+    const sendCode = () => {
+        setError('');
+        if (!/^09\d{8}$/.test(normalizedPhone)) {
+            setError('請輸入正確的 10 碼手機號碼');
+            return;
+        }
+        setPhoneNumber(normalizedPhone);
+        setVerificationCode('');
+        setCountdown(60);
+        setStage('code');
     };
 
-    // Step 2: Verify OTP and Login
-    const handleVerifyLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (otp.length < 4) return;
+    const handleVerify = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setError('');
+        if (verificationCode !== '123456') {
+            setError('Mock 驗證碼為 123456');
+            return;
+        }
 
-        setIsLoading(true);
-
-        // Simulate API call to verify OTP
-        setTimeout(() => {
-            setIsLoading(false);
-            onLogin(); // Trigger parent login flow
-            onClose(); // Close modal
-        }, 1500);
+        setStage('logging');
+        await delay(850);
+        setStage('success');
+        await delay(650);
+        onLogin(normalizedPhone);
     };
 
-    const handleResend = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-            alert("驗證碼已重新發送！");
-        }, 1000);
-    };
+    const canClose = stage === 'phone' || stage === 'code';
 
     return (
         <PrototypeOverlay layer="auth">
-            {/* Modal Container */}
-            <div className="relative w-96 bg-[#1a0b2e] border border-emerald-500/30 rounded-3xl p-8 shadow-[0_0_50px_rgba(16,185,129,0.2)] animate-in zoom-in-95 duration-200">
+            <div className="relative flex h-[520px] w-[420px] flex-col overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-[#201139] via-[#160a27] to-[#0d0418] p-8 text-white shadow-[0_0_50px_rgba(16,185,129,0.18)] animate-in zoom-in-95 duration-200">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.12),_transparent_38%)]" />
+                {canClose && (
+                    <button
+                        aria-label="關閉手機登入"
+                        onClick={onClose}
+                        className="absolute right-4 top-4 z-10 rounded-full p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
+                    >
+                        <X size={22} />
+                    </button>
+                )}
 
-                {/* Close Button */}
-                <button
-                    aria-label="關閉"
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
-                >
-                    <X size={24} />
-                </button>
+                {stage === 'phone' && (
+                    <form
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            sendCode();
+                        }}
+                        className="relative flex h-full flex-col"
+                        noValidate
+                    >
+                        <div className="text-center">
+                            <span className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-emerald-400/12 text-emerald-300">
+                                <Smartphone size={29} />
+                            </span>
+                            <p className="text-[10px] font-black tracking-[0.24em] text-emerald-300">MOBILE SIGN IN</p>
+                            <h2 className="mt-1 text-2xl font-black">手機登入</h2>
+                            <p className="mt-2 text-xs font-bold leading-relaxed text-slate-400">輸入台灣手機號碼以接收一次性驗證碼</p>
+                        </div>
 
-                {/* Header */}
-                <h2 className="text-2xl font-bold text-white mb-2 text-center tracking-wide flex items-center justify-center gap-2">
-                    <Smartphone className="text-emerald-400" />
-                    {step === 'phone' ? '手機登入' : '輸入驗證碼'}
-                </h2>
-                <p className="text-center text-slate-400 text-xs mb-8">
-                    {step === 'phone'
-                        ? 'Mobile Login'
-                        : `Verification Code sent to ${phoneNumber}`
-                    }
-                </p>
-
-                {/* Step 1: Phone Input Form */}
-                {step === 'phone' && (
-                    <form onSubmit={handleGetCode} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-xs text-emerald-400 pl-4 uppercase font-bold tracking-wider">Mobile Number</label>
+                        <div className="mt-9 space-y-2">
+                            <label htmlFor="phone-login-number" className="pl-2 text-xs font-black tracking-wider text-emerald-300">
+                                手機號碼
+                            </label>
                             <input
+                                id="phone-login-number"
                                 type="tel"
+                                inputMode="numeric"
+                                autoComplete="tel"
                                 value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                                placeholder="0912-345-678"
-                                className="w-full bg-black/40 border border-emerald-500/20 rounded-full py-3.5 px-6 text-white text-center text-lg focus:outline-none focus:border-emerald-500 focus:bg-black/60 transition-all font-mono tracking-widest placeholder:text-slate-600 placeholder:font-sans placeholder:tracking-normal"
+                                onChange={(event) => setPhoneNumber(event.target.value.replace(/\D/g, '').slice(0, 10))}
+                                placeholder="09xxxxxxxx"
+                                className="w-full rounded-full border border-emerald-500/20 bg-black/40 px-6 py-3.5 text-center font-mono text-lg tracking-widest text-white outline-none transition-all placeholder:font-sans placeholder:tracking-normal placeholder:text-slate-600 focus:border-emerald-400 focus:bg-black/60"
+                                aria-describedby="phone-login-error"
                                 autoFocus
                             />
+                            {error && (
+                                <p id="phone-login-error" role="alert" className="flex items-center justify-center gap-1 text-xs font-bold text-red-300">
+                                    <AlertCircle size={13} /> {error}
+                                </p>
+                            )}
                         </div>
 
                         <button
                             type="submit"
-                            disabled={!phoneNumber || isLoading}
-                            className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold py-4 rounded-full shadow-lg hover:shadow-emerald-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 group tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="mt-auto flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 py-4 font-black tracking-widest text-white shadow-lg transition-all hover:brightness-110 active:scale-95"
                         >
-                            {isLoading ? (
-                                <span className="animate-spin">⌛</span>
-                            ) : (
-                                <>
-                                    取得驗證碼 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                </>
-                            )}
+                            發送驗證碼 <ArrowRight size={18} />
                         </button>
                     </form>
                 )}
 
-                {/* Step 2: OTP Input Form */}
-                {step === 'otp' && (
-                    <form onSubmit={handleVerifyLogin} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-xs text-emerald-400 pl-4 uppercase font-bold tracking-wider">Enter 4-Digit Code</label>
-                            <input
-                                type="text"
-                                maxLength={4}
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} // Only numbers
-                                placeholder="____"
-                                className="w-full bg-black/40 border border-emerald-500/20 rounded-full py-3.5 px-6 text-white text-center text-2xl focus:outline-none focus:border-emerald-500 focus:bg-black/60 transition-all font-mono tracking-[1em] placeholder:text-slate-700 disabled:opacity-50"
-                                autoFocus
-                            />
+                {stage === 'code' && (
+                    <form onSubmit={handleVerify} className="relative flex h-full flex-col" noValidate>
+                        <div className="text-center">
+                            <span className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-emerald-400/12 text-emerald-300">
+                                <Smartphone size={29} />
+                            </span>
+                            <p className="text-[10px] font-black tracking-[0.24em] text-emerald-300">VERIFY MOBILE</p>
+                            <h2 className="mt-1 text-2xl font-black">輸入驗證碼</h2>
+                            <p className="mt-2 text-xs font-bold text-slate-400">驗證碼已傳送至 {normalizedPhone}</p>
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={otp.length !== 4 || isLoading}
-                            className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold py-4 rounded-full shadow-lg hover:shadow-emerald-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 group tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {isLoading ? (
-                                <span className="animate-spin">⌛</span>
-                            ) : (
-                                <>
-                                    登入 <CheckCircle2 size={18} />
-                                </>
+                        <div className="mt-7 space-y-2">
+                            <div className="flex items-center justify-between px-2">
+                                <label htmlFor="phone-login-code" className="text-xs font-black tracking-wider text-emerald-300">
+                                    6 位數驗證碼
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={sendCode}
+                                    disabled={countdown > 0}
+                                    className="text-[11px] font-black text-emerald-300 transition-colors hover:text-emerald-200 disabled:text-slate-600"
+                                >
+                                    {countdown > 0 ? `${countdown}s 後重發` : '重新發送'}
+                                </button>
+                            </div>
+                            <input
+                                id="phone-login-code"
+                                type="text"
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                maxLength={6}
+                                value={verificationCode}
+                                onChange={(event) => setVerificationCode(event.target.value.replace(/\D/g, '').slice(0, 6))}
+                                placeholder="000000"
+                                className="w-full rounded-full border border-emerald-500/20 bg-black/40 px-6 py-3.5 text-center font-mono text-2xl tracking-[0.55em] text-white outline-none transition-all placeholder:text-slate-700 focus:border-emerald-400 focus:bg-black/60"
+                                aria-describedby="phone-code-helper phone-code-error"
+                                autoFocus
+                            />
+                            <p id="phone-code-helper" className="text-center text-[11px] font-bold text-slate-500">
+                                原型測試驗證碼：<span className="text-emerald-300">123456</span>
+                            </p>
+                            {error && (
+                                <p id="phone-code-error" role="alert" className="flex items-center justify-center gap-1 text-xs font-bold text-red-300">
+                                    <AlertCircle size={13} /> {error}
+                                </p>
                             )}
-                        </button>
+                        </div>
 
-                        <div className="text-center">
+                        <div className="mt-auto flex gap-3">
                             <button
                                 type="button"
-                                onClick={handleResend}
-                                disabled={isLoading}
-                                className="text-xs text-slate-500 hover:text-emerald-400 transition-colors underline decoration-dotted"
+                                onClick={() => {
+                                    setStage('phone');
+                                    setError('');
+                                    setCountdown(0);
+                                }}
+                                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-emerald-400/35 py-4 text-sm font-black text-emerald-200 transition-all hover:bg-emerald-400/10 active:scale-95"
                             >
-                                沒收到？重新發送
+                                <ArrowLeft size={17} /> 修改號碼
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={verificationCode.length !== 6}
+                                className="flex flex-[1.35] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 py-4 text-sm font-black tracking-wider text-white transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35"
+                            >
+                                驗證並登入 <ArrowRight size={17} />
                             </button>
                         </div>
                     </form>
                 )}
 
+                {(stage === 'logging' || stage === 'success') && (
+                    <div className="relative flex h-full flex-col items-center justify-center text-center" aria-live="polite">
+                        {stage === 'logging' ? (
+                            <>
+                                <LoaderCircle size={52} className="mb-5 animate-spin text-emerald-300" />
+                                <h2 className="text-2xl font-black">正在建立安全連線</h2>
+                                <p className="mt-2 text-sm font-bold text-slate-400">正在驗證手機登入資訊</p>
+                            </>
+                        ) : (
+                            <>
+                                <span className="mb-5 grid h-20 w-20 place-items-center rounded-full bg-emerald-400 text-emerald-950 shadow-[0_0_40px_rgba(74,222,128,0.28)]">
+                                    <CheckCircle2 size={42} />
+                                </span>
+                                <h2 className="text-2xl font-black">登入成功</h2>
+                                <p className="mt-2 text-sm font-bold text-slate-400">即將進入遊戲大廳</p>
+                            </>
+                        )}
+                    </div>
+                )}
             </div>
         </PrototypeOverlay>
     );
