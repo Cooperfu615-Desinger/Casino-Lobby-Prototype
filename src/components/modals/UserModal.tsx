@@ -109,8 +109,8 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         </button>
                     </div>
 
-                    <h2 className="-mt-2 mb-1 text-xl font-bold text-white">{user?.name}</h2>
-                    <div className="-mt-1 mb-4 flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-slate-400">
+                    <h2 className="-mt-3 mb-1 text-base font-bold text-white">{user?.name}</h2>
+                    <div className="-mt-2 mb-4 flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[10px] text-slate-400">
                         ID: {user?.id} <button className="hover:text-white"><Copy size={12} /></button>
                     </div>
 
@@ -125,7 +125,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
 
                         <button
                             onClick={() => setActiveView('edit')}
-                            className={`flex h-[35px] w-full items-center justify-between rounded-xl border px-3 text-[13px] transition-colors ${activeView === 'edit' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
+                            className={`flex h-[35px] w-full items-center justify-between rounded-xl border px-3 text-xs transition-colors ${activeView === 'edit' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
                         >
                             <div className="flex items-center gap-3">
                                 <UserCog size={16} />
@@ -136,7 +136,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
 
                         <button
                             onClick={() => setActiveView('history')}
-                            className={`flex h-[35px] w-full items-center justify-between rounded-xl border px-3 text-[13px] transition-colors ${activeView === 'history' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
+                            className={`flex h-[35px] w-full items-center justify-between rounded-xl border px-3 text-xs transition-colors ${activeView === 'history' ? 'bg-white/20 text-white border-white/30' : 'text-slate-300 hover:bg-white/5 hover:text-white border-transparent hover:border-white/10'}`}
                         >
                             <div className="flex items-center gap-3">
                                 <ScrollText size={16} />

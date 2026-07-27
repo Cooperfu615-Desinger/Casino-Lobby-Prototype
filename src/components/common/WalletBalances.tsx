@@ -44,7 +44,7 @@ const WalletBalances = ({
                     key={wallet.key}
                     className={`min-w-0 border bg-black/25 transition-all ${isCompact
                         ? 'rounded-xl border-white/10 px-2 py-1.5 shadow-md'
-                        : 'flex h-[60px] flex-col justify-between rounded-xl border-white/5 px-3 py-2'
+                        : 'flex h-[53px] flex-col justify-between rounded-xl border-white/5 px-3 py-2'
                         } ${isAnimating && wallet.key === 'gold' ? 'scale-105 border-[#FFD700]/70 shadow-[0_0_18px_rgba(255,215,0,0.36)]' : ''}`}
                 >
                     <div className={`flex items-center gap-1.5 ${isCompact ? 'mb-0.5' : 'mb-1'}`}>
@@ -58,7 +58,7 @@ const WalletBalances = ({
                         </span>
                     </div>
                     <div
-                        className={`${isCompact ? 'text-xs' : 'text-lg'} truncate text-right font-mono font-black tabular-nums`}
+                        className={`${isCompact ? 'text-xs' : '-mt-2.5 mb-[3px] text-xs'} truncate text-right font-mono font-black leading-none tabular-nums`}
                         style={{ color: wallet.color }}
                     >
                         {balance[wallet.key].toLocaleString()}

@@ -374,14 +374,10 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
             case 'public':
                 return (
                     <div className="flex-1 flex flex-col bg-[#160b29] relative">
-                        <div className="h-14 border-b border-white/10 flex justify-between items-center pl-6 pr-16 bg-[#1a0b2e]">
+                        <div className="flex h-14 items-center border-b border-white/10 bg-[#1a0b2e] pl-6 pr-16">
                             <div className="flex items-center gap-3">
                                 <Globe size={18} className="text-[#FFD700]" />
                                 <h3 className="text-white font-bold text-sm">公共頻道 (World Chat)</h3>
-                            </div>
-                            <div className="text-xs text-slate-500 flex items-center gap-1">
-                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                                1,208 人在線
                             </div>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-3">
