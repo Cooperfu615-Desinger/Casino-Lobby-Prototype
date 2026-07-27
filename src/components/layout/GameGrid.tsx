@@ -1,41 +1,37 @@
 import { useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight, Clock3, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock3, Heart, Search, SearchX, SlidersHorizontal, X } from 'lucide-react';
 import GameCard from '../common/GameCard';
 import { GAMES } from '../../data/mockData';
-import type { Game } from '../../types';
-import { LOBBY_CATEGORIES, type LobbyCategoryId } from './CategorySidebar';
+import type { Game, LobbyGameFilters } from '../../types';
+import { filterGamesByLobbyFilters } from '../../utils/gameFilters';
 
 interface GameGridProps {
     onPlayGame: (game: Game) => void;
-    activeCategory: LobbyCategoryId;
+    filters: LobbyGameFilters;
     recentGameIds: number[];
+    favoriteGameIds: number[];
+    onToggleFavorite: (gameId: number) => void;
 }
 
 type SortMode = 'hot' | 'az' | 'za' | 'latest';
 
-const ACTIVE_EVENT_GAME_IDS = new Set([2, 5, 8, 10, 14, 21]);
-
-const GameGrid = ({ onPlayGame, activeCategory, recentGameIds }: GameGridProps) => {
+const GameGrid = ({
+    onPlayGame,
+    filters,
+    recentGameIds,
+    favoriteGameIds,
+    onToggleFavorite,
+}: GameGridProps) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedProvider, setSelectedProvider] = useState('all');
     const [sortMode, setSortMode] = useState<SortMode>('hot');
     const [showRecentOnly, setShowRecentOnly] = useState(false);
-    const selectedCategory = LOBBY_CATEGORIES.find((category) => category.id === activeCategory) ?? LOBBY_CATEGORIES[0];
-    const providers = useMemo(() => Array.from(new Set(GAMES.map((game) => game.provider))).sort(), []);
 
     const filteredGames = useMemo(() => {
-        const categoryGames = activeCategory === 'all'
-            ? GAMES
-            : activeCategory === 'event'
-                ? GAMES.filter((game) => ACTIVE_EVENT_GAME_IDS.has(game.id))
-                : selectedCategory.gameCategory
-                    ? GAMES.filter((game) => game.category === selectedCategory.gameCategory)
-                    : [];
+        const lobbyFilteredGames = filterGamesByLobbyFilters(GAMES, filters, favoriteGameIds);
         const normalizedQuery = searchQuery.trim().toLowerCase();
         const recentOrder = new Map(recentGameIds.map((id, index) => [id, index]));
-        const result = categoryGames.filter((game) => {
+        const result = lobbyFilteredGames.filter((game) => {
             if (showRecentOnly && !recentOrder.has(game.id)) return false;
-            if (selectedProvider !== 'all' && game.provider !== selectedProvider) return false;
             if (!normalizedQuery) return true;
             return [game.title, game.description, game.provider]
                 .some((value) => value.toLowerCase().includes(normalizedQuery));
@@ -48,7 +44,7 @@ const GameGrid = ({ onPlayGame, activeCategory, recentGameIds }: GameGridProps) 
         if (sortMode === 'za') return result.sort((a, b) => b.title.localeCompare(a.title));
         if (sortMode === 'latest') return result.sort((a, b) => Number(Boolean(b.isNew)) - Number(Boolean(a.isNew)) || b.id - a.id);
         return result.sort((a, b) => Number(Boolean(b.hasJackpot)) - Number(Boolean(a.hasJackpot)) || a.id - b.id);
-    }, [activeCategory, recentGameIds, searchQuery, selectedCategory.gameCategory, selectedProvider, showRecentOnly, sortMode]);
+    }, [favoriteGameIds, filters, recentGameIds, searchQuery, showRecentOnly, sortMode]);
 
     return (
         <main className="absolute bottom-[90px] left-0 right-0 top-[130px] flex flex-col overflow-hidden px-12 transition-all duration-300 no-scrollbar">
@@ -105,25 +101,9 @@ const GameGrid = ({ onPlayGame, activeCategory, recentGameIds }: GameGridProps) 
                         </select>
                         <ChevronRight className="pointer-events-none absolute right-2 rotate-90" size={12} />
                     </label>
-                </div>
-
-                <div className="mt-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-                    <span className="mr-1 shrink-0 text-[9px] font-black tracking-[0.16em] text-slate-500">PROVIDER</span>
-                    {['all', ...providers].map((provider) => (
-                        <button
-                            key={provider}
-                            type="button"
-                            onClick={() => setSelectedProvider(provider)}
-                            aria-pressed={selectedProvider === provider}
-                            className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-bold transition-colors ${selectedProvider === provider
-                                ? 'border-purple-300/50 bg-purple-500/25 text-purple-100'
-                                : 'border-white/5 bg-white/[0.03] text-slate-500 hover:bg-white/10 hover:text-white'
-                                }`}
-                        >
-                            {provider === 'all' ? '全部廠商' : provider}
-                        </button>
-                    ))}
-                    <span className="ml-auto shrink-0 text-[10px] font-bold text-slate-500">{filteredGames.length} 款</span>
+                    <span className="flex h-9 min-w-14 shrink-0 items-center justify-center rounded-xl border border-[#FFD700]/20 bg-[#FFD700]/8 px-3 text-[10px] font-black text-[#FFD700]">
+                        {filteredGames.length} 款
+                    </span>
                 </div>
             </section>
 
@@ -141,19 +121,33 @@ const GameGrid = ({ onPlayGame, activeCategory, recentGameIds }: GameGridProps) 
                                 onClick={() => onPlayGame(game)}
                                 className={game.size === 'large' ? 'row-span-2' : ''}
                                 compact
+                                isFavorite={favoriteGameIds.includes(game.id)}
+                                onToggleFavorite={() => onToggleFavorite(game.id)}
                             />
                         ))}
                     </div>
                 ) : (
                     <div className="mx-auto w-full max-w-xl rounded-[28px] border border-dashed border-white/15 bg-black/20 p-8 text-center">
-                        <div className="mb-3 text-4xl">{showRecentOnly ? '🕘' : selectedCategory.icon}</div>
+                        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-400">
+                            {filters.favoritesOnly
+                                ? <Heart size={24} className="fill-current text-[#FFD700]" />
+                                : showRecentOnly
+                                    ? <Clock3 size={24} />
+                                    : <SearchX size={24} />}
+                        </div>
                         <h3 className="mb-2 text-xl font-black text-white">
-                            {showRecentOnly && recentGameIds.length === 0 ? '尚無最近遊戲' : '找不到符合條件的遊戲'}
+                            {filters.favoritesOnly && favoriteGameIds.length === 0
+                                ? '尚無我的最愛'
+                                : showRecentOnly && recentGameIds.length === 0
+                                    ? '尚無最近遊戲'
+                                    : '找不到符合條件的遊戲'}
                         </h3>
                         <p className="text-sm leading-relaxed text-slate-400">
-                            {showRecentOnly && recentGameIds.length === 0
+                            {filters.favoritesOnly && favoriteGameIds.length === 0
+                                ? '點擊遊戲卡右上角愛心，即可建立你的收藏清單。'
+                                : showRecentOnly && recentGameIds.length === 0
                                 ? '開啟任一遊戲後，便會顯示在最近遊戲清單。'
-                                : '請調整搜尋字詞、廠商或分類條件後再試一次。'}
+                                : '請調整搜尋、最近遊戲或左側篩選條件後再試一次。'}
                         </p>
                     </div>
                 )}

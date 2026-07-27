@@ -28,7 +28,13 @@ const GameRoom = ({ session, onExit }: GameRoomProps) => {
         stored: user?.balance ?? { gold: 0, silver: 0, bronze: 0 },
         activityGold: availableActivityGoldBalance,
         activitySilver: availableActivitySilverBalance,
-    }), [availableActivityGoldBalance, availableActivitySilverBalance, user?.balance]);
+        supportedWallets: session.game.supportedWallets,
+    }), [
+        availableActivityGoldBalance,
+        availableActivitySilverBalance,
+        session.game.supportedWallets,
+        user?.balance,
+    ]);
     const selectedWallet = walletOptions.find(option => option.key === session.wallet);
     const rewardCardCurrency: RewardCardCurrency | null = session.wallet === 'activity-gold'
         ? 'activity-gold'

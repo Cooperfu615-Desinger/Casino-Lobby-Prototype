@@ -9,6 +9,7 @@ import type { Package, SalePackage, Transaction, OfferPackage } from '../types/t
 import type { EventItem } from '../types/event';
 import type { InboxMessage } from '../types/inbox';
 import type { ClubRewardItem, UserClubStats, ClubEvent, EventTemplate } from '../types/club';
+import type { GameWalletKey } from '../types/gameWallet';
 import { PRODUCT_NAME } from '../config/brand';
 
 // Re-export types for backward compatibility
@@ -64,7 +65,7 @@ export const AVATARS: AvatarItem[] = [
 ];
 
 // --- Mock Data ---
-const BASE_GAMES: Array<Omit<Game, 'provider' | 'description' | 'rtp' | 'volatility' | 'paylines' | 'maxMultiplier'>> = [
+const BASE_GAMES: Array<Omit<Game, 'provider' | 'description' | 'rtp' | 'volatility' | 'paylines' | 'maxMultiplier' | 'supportedWallets'>> = [
     { id: 1, title: 'Ace Blackjack', category: 'card', image: 'bg-red-900', icon: '♠️', size: 'large', hasJackpot: true },
     { id: 2, title: 'Gates of Olympus', category: 'slot', image: 'bg-purple-800', icon: '⚡', size: 'large', hasJackpot: true },
     { id: 3, title: 'Mystic Genie', category: 'slot', image: 'bg-indigo-800', icon: '🧞' },
@@ -90,6 +91,13 @@ const BASE_GAMES: Array<Omit<Game, 'provider' | 'description' | 'rtp' | 'volatil
 ];
 
 const GAME_PROVIDERS = ['JH Gaming', 'PG Soft', 'Evolution'] as const;
+const GAME_WALLET_SUPPORT_ROTATION: GameWalletKey[][] = [
+    ['stored-gold', 'stored-silver', 'activity-gold'],
+    ['stored-gold', 'activity-gold', 'activity-silver', 'bronze'],
+    ['stored-silver', 'activity-silver', 'bronze'],
+    ['stored-gold', 'stored-silver', 'bronze'],
+    ['stored-gold', 'stored-silver', 'activity-gold', 'activity-silver', 'bronze'],
+];
 const GAME_DESCRIPTIONS: Record<Game['category'], string> = {
     slot: '多線獎勵與特色回合，累積連線可觸發額外加成。',
     card: '經典牌桌規則搭配快速節奏，適合策略型玩家。',
@@ -109,6 +117,7 @@ export const GAMES: Game[] = BASE_GAMES.map((game, index) => ({
             ? `${1_000 + game.id * 100}x`
             : `${4_000 + game.id * 500}x`,
     isNew: game.id >= 18,
+    supportedWallets: [...GAME_WALLET_SUPPORT_ROTATION[index % GAME_WALLET_SUPPORT_ROTATION.length]],
 }));
 
 const OCCUPIED_SEAT_IDS = new Set([

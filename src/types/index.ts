@@ -3,6 +3,13 @@
 // Game
 export type { Game, GameCategory, GameSeat, SeatTrendMetric, SeatFreeGameStats } from './game';
 export type { GameSession, GameWalletKey, GameWalletOption } from './gameWallet';
+export type {
+    GameCurrencyFilter,
+    LobbyCategoryId,
+    LobbyFilterSection,
+    LobbyGameFilters,
+} from './gameFilter';
+export { DEFAULT_LOBBY_GAME_FILTERS } from './gameFilter';
 
 // User
 export type { Friend, OnlinePlayer, FriendStatus } from './user';

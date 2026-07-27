@@ -23,7 +23,6 @@ import ModalContainer from './components/ModalContainer';
 import PrototypeStage from './components/common/PrototypeStage';
 import ToastContainer from './components/common/ToastContainer';
 import LoadingOverlay from './components/common/LoadingOverlay';
-import AgeGateModal from './components/modals/AgeGateModal';
 import RewardConversionModal from './components/modals/RewardConversionModal';
 
 // Types
@@ -48,7 +47,6 @@ const MainContent = () => {
 
 function App() {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
-    const [isAgeGateResolved, setIsAgeGateResolved] = useState(false);
 
     return (
         <PrototypeStage>
@@ -63,8 +61,6 @@ function App() {
                                         <SocialProvider>
                                             {isInitialLoad ? (
                                                 <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                                            ) : !isAgeGateResolved ? (
-                                                <AgeGateModal onContinue={() => setIsAgeGateResolved(true)} />
                                             ) : (
                                                 <>
                                                     <MainContent />

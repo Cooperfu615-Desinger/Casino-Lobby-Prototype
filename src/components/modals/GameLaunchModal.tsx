@@ -7,6 +7,7 @@ import type { Game, GameWalletKey, GameWalletOption } from '../../types';
 
 interface GameLaunchModalProps {
     game: Game;
+    initialWallet?: GameWalletKey;
     onEnterGame: (wallet: GameWalletKey) => void;
     onClose: () => void;
 }
@@ -29,7 +30,7 @@ const GAME_RULES: Record<Game['category'], string[]> = {
     ],
 };
 
-const GameLaunchModal = ({ game, onEnterGame, onClose }: GameLaunchModalProps) => {
+const GameLaunchModal = ({ game, initialWallet, onEnterGame, onClose }: GameLaunchModalProps) => {
     const { user } = useAuth();
     const { availableActivityGoldBalance, availableActivitySilverBalance } = useRewardCards();
     const [activeTab, setActiveTab] = useState<'details' | 'rules'>('details');
@@ -37,16 +38,21 @@ const GameLaunchModal = ({ game, onEnterGame, onClose }: GameLaunchModalProps) =
         stored: user?.balance ?? { gold: 0, silver: 0, bronze: 0 },
         activityGold: availableActivityGoldBalance,
         activitySilver: availableActivitySilverBalance,
-    }), [availableActivityGoldBalance, availableActivitySilverBalance, user?.balance]);
-    const [selectedWallet, setSelectedWallet] = useState<GameWalletKey>('stored-gold');
+        supportedWallets: game.supportedWallets,
+    }), [availableActivityGoldBalance, availableActivitySilverBalance, game.supportedWallets, user?.balance]);
+    const [selectedWallet, setSelectedWallet] = useState<GameWalletKey>(
+        initialWallet && game.supportedWallets.includes(initialWallet)
+            ? initialWallet
+            : game.supportedWallets[0] ?? 'stored-gold',
+    );
     const selectedOption = walletOptions.find(option => option.key === selectedWallet);
     const canEnter = Boolean(selectedOption?.enabled);
 
     useEffect(() => {
-        if (selectedOption?.enabled) return;
+        if (selectedOption?.enabled || (initialWallet && selectedWallet === initialWallet)) return;
         const nextAvailableWallet = walletOptions.find(option => option.enabled);
         if (nextAvailableWallet) setSelectedWallet(nextAvailableWallet.key);
-    }, [selectedOption?.enabled, walletOptions]);
+    }, [initialWallet, selectedOption?.enabled, selectedWallet, walletOptions]);
 
     return (
         <div className="absolute inset-0 z-[130] flex items-center justify-center">
@@ -133,7 +139,7 @@ const GameLaunchModal = ({ game, onEnterGame, onClose }: GameLaunchModalProps) =
                                 </div>
                             </div>
                             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[9px] font-black text-slate-400">
-                                {walletOptions.filter(option => option.enabled).length} 個可用
+                                {walletOptions.filter(option => option.enabled).length} 個可用・{game.supportedWallets.length} 個支援
                             </span>
                         </div>
                         <div className="grid grid-cols-5 gap-2">
@@ -207,7 +213,11 @@ const WalletOptionButton = ({
             <span className="block truncate pr-3 text-[9px] font-black">{option.shortLabel}</span>
             <strong className="mt-1 block truncate text-[11px] font-black">{option.balance.toLocaleString()}</strong>
             <small className="mt-1 block truncate text-[7px] text-current opacity-60">
-                {option.enabled ? (option.isActivity ? '獎勵卡可用' : '錢包可用') : '目前不可用'}
+                {option.enabled
+                    ? (option.isActivity ? '獎勵卡可用' : '錢包可用')
+                    : option.unavailableReason === '此遊戲不支援此幣別'
+                        ? '遊戲不支援'
+                        : '目前不可用'}
             </small>
         </button>
     );

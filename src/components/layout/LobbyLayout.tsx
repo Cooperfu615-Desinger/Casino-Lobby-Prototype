@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigation } from '../../hooks/useNavigation';
 
 // Layout Components
@@ -7,7 +7,7 @@ import NotificationTicker from './NotificationTicker';
 import BottomNavigation from './BottomNavigation';
 import LobbyButtons from './LobbyButtons';
 import JpNotification from './JpNotification';
-import CategorySidebar, { LOBBY_CATEGORIES, type LobbyCategoryId } from './CategorySidebar';
+import CategorySidebar, { LOBBY_CATEGORIES } from './CategorySidebar';
 import GameGrid from './GameGrid';
 import SettingsMenu from './SettingsMenu';
 
@@ -26,10 +26,26 @@ import LanguageModal from '../modals/LanguageModal';
 import TermsModal, { type TermsTab } from '../modals/TermsModal';
 import GameLaunchModal from '../modals/GameLaunchModal';
 import { useUserPreferences } from '../../context/UserPreferencesContext';
+import useFavoriteGames from '../../hooks/useFavoriteGames';
 import useRecentGames from '../../hooks/useRecentGames';
+import { GAMES } from '../../data/mockData';
+import {
+    countGamesByCategory,
+    countGamesByWallet,
+    filterGamesByLobbyFilters,
+    GAME_CURRENCY_OPTIONS,
+} from '../../utils/gameFilters';
 
 // Types
-import type { Game, GameSession, GameWalletKey } from '../../types';
+import {
+    DEFAULT_LOBBY_GAME_FILTERS,
+    type Game,
+    type GameCurrencyFilter,
+    type GameSession,
+    type GameWalletKey,
+    type LobbyCategoryId,
+    type LobbyGameFilters,
+} from '../../types';
 
 interface LobbyLayoutProps {
     onPlayGame: (session: GameSession) => void;
@@ -49,28 +65,46 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     } = useNavigation();
     const { themeMode } = useUserPreferences();
     const { recentGameIds, recordRecentGame } = useRecentGames();
+    const { favoriteGameIds, toggleFavoriteGame } = useFavoriteGames();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
     const [isLangModalOpen, setLangModalOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const [activeCategory, setActiveCategory] = useState<LobbyCategoryId>('all');
+    const [gameFilters, setGameFilters] = useState<LobbyGameFilters>(DEFAULT_LOBBY_GAME_FILTERS);
     const [legalTab, setLegalTab] = useState<TermsTab | null>(null);
     const [launchGame, setLaunchGame] = useState<Game | null>(null);
 
-    const categoryCounts = LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
-        if (!category.gameCategory) {
-            counts[category.id] = category.id === 'all' ? 22 : category.id === 'event' ? 6 : 0;
+    const providers = useMemo(
+        () => Array.from(new Set(GAMES.map((game) => game.provider))).sort(),
+        [],
+    );
+    const categoryCounts = useMemo(
+        () => LOBBY_CATEGORIES.reduce<Partial<Record<LobbyCategoryId, number>>>((counts, category) => {
+            counts[category.id] = countGamesByCategory(GAMES, category.id);
             return counts;
-        }
-
-        counts[category.id] = counts[category.id] ?? 0;
-        counts[category.id] = category.gameCategory === 'slot'
-            ? 17
-            : category.gameCategory === 'card'
-                ? 3
-                : 2;
-        return counts;
-    }, {});
+        }, {}),
+        [],
+    );
+    const providerCounts = useMemo(
+        () => GAMES.reduce<Record<string, number>>((counts, game) => {
+            counts[game.provider] = (counts[game.provider] ?? 0) + 1;
+            return counts;
+        }, {}),
+        [],
+    );
+    const currencyCounts = useMemo(
+        () => GAME_CURRENCY_OPTIONS.reduce<Partial<Record<GameCurrencyFilter, number>>>((counts, option) => {
+            counts[option.key] = option.key === 'all'
+                ? GAMES.length
+                : countGamesByWallet(GAMES, option.key);
+            return counts;
+        }, {}),
+        [],
+    );
+    const filteredResultCount = useMemo(
+        () => filterGamesByLobbyFilters(GAMES, gameFilters, favoriteGameIds).length,
+        [favoriteGameIds, gameFilters],
+    );
 
     const backgroundGradient = themeMode === 'day'
         ? 'from-[#6dcbff] via-[#8b7bff] to-[#f4c36f]'
@@ -82,6 +116,10 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     const handleGameCardClick = (game: Game) => {
         recordRecentGame(game.id);
         setLaunchGame(game);
+    };
+
+    const handleFiltersChange = (updates: Partial<LobbyGameFilters>) => {
+        setGameFilters((current) => ({ ...current, ...updates }));
     };
 
     const handleEnterGame = (wallet: GameWalletKey) => {
@@ -128,6 +166,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             {launchGame && (
                 <GameLaunchModal
                     game={launchGame}
+                    initialWallet={gameFilters.currency === 'all' ? undefined : gameFilters.currency}
                     onEnterGame={handleEnterGame}
                     onClose={() => setLaunchGame(null)}
                 />
@@ -150,16 +189,24 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             <CategorySidebar
                 isOpen={isCategoryOpen}
                 onToggle={() => setIsCategoryOpen(!isCategoryOpen)}
-                activeCategory={activeCategory}
-                onSelectCategory={setActiveCategory}
+                filters={gameFilters}
+                onFiltersChange={handleFiltersChange}
+                onResetFilters={() => setGameFilters(DEFAULT_LOBBY_GAME_FILTERS)}
                 categoryCounts={categoryCounts}
+                providers={providers}
+                providerCounts={providerCounts}
+                currencyCounts={currencyCounts}
+                favoriteCount={favoriteGameIds.length}
+                resultCount={filteredResultCount}
             />
 
             {/* Game Grid */}
             <GameGrid
                 onPlayGame={handleGameCardClick}
-                activeCategory={activeCategory}
+                filters={gameFilters}
                 recentGameIds={recentGameIds}
+                favoriteGameIds={favoriteGameIds}
+                onToggleFavorite={toggleFavoriteGame}
             />
 
             {/* Lobby Floating Buttons */}

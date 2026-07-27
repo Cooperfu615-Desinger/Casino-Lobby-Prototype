@@ -1,4 +1,5 @@
 // Game related types
+import type { GameWalletKey } from './gameWallet';
 
 export interface Game {
     id: number;
@@ -15,6 +16,7 @@ export interface Game {
     size?: 'standard' | 'large';
     hasJackpot?: boolean;
     isNew?: boolean;
+    supportedWallets: GameWalletKey[];
 }
 
 export type GameCategory = 'card' | 'slot' | 'fish';
