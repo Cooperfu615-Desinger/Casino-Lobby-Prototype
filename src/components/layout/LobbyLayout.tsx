@@ -64,7 +64,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
         goToGames,
     } = useNavigation();
     const { themeMode } = useUserPreferences();
-    const { recentGameIds, recordRecentGame } = useRecentGames();
+    const { recordRecentGame } = useRecentGames();
     const { favoriteGameIds, toggleFavoriteGame } = useFavoriteGames();
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isUserModalOpen, setUserModalOpen] = useState(false);
@@ -204,7 +204,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             <GameGrid
                 onPlayGame={handleGameCardClick}
                 filters={gameFilters}
-                recentGameIds={recentGameIds}
                 favoriteGameIds={favoriteGameIds}
                 onToggleFavorite={toggleFavoriteGame}
             />
