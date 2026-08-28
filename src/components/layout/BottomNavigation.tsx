@@ -23,14 +23,12 @@ const NAV_ITEMS = [
  *   - Left icon: w-20 (80px) × 1.5 = 120px visual width + label
  *   - Right icon: w-16 (64px) × 1.5 = 96px visual width + label
  *
- * We align the 8-button floating strip to sit between them
- * at the same vertical baseline.
+ * The glass bar spans the full Lobby width. The button track keeps the
+ * original side insets so the two promotional buttons remain unobstructed.
  */
-const NAV_H = 100;                // Enough for 42px icon + padding + label
-const BOTTOM = 40;                // Bottom offset in px
-const LEFT_INSET = 190;           // Dodge left promo (48 + ~72 scaled width)
-const RIGHT_INSET = 190;           // Dodge right promo (48 + ~72 scaled width)
-const FADE_W = 92;                // Fade mask width
+const NAV_H = 112;                // Enough for 42px icon + padding + label
+const BOTTOM = 0;                 // Full-width bottom glass bar
+const TRACK_INSET = 'clamp(12px, calc((100% - 900px) / 2), 190px)';
 
 const BottomNavigation = () => {
     const { currentView, navigate, chatInitialTab, eventsInitialTab } = useNavigation();
@@ -117,46 +115,33 @@ const BottomNavigation = () => {
             className="lobby-bottom-nav absolute z-50 pointer-events-none"
             style={{
                 bottom: `${BOTTOM}px`,
-                left: `${LEFT_INSET}px`,
-                right: `${RIGHT_INSET}px`,
+                left: 0,
+                right: 0,
                 height: `${NAV_H}px`,
             }}
         >
-            {/* Scroll viewport — clips buttons outside the 8-slot window */}
+            {/* Full-width glass viewport; the track keeps space for promo buttons. */}
             <div
-                className="lobby-bottom-nav__viewport relative w-full h-full overflow-hidden pointer-events-auto rounded-[28px]"
-                style={{
-                    maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.65) 8%, black 18%, black 82%, rgba(0,0,0,0.65) 92%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.65) 8%, black 18%, black 82%, rgba(0,0,0,0.65) 92%, transparent 100%)',
-                }}
+                className="lobby-bottom-nav__viewport relative h-full w-full overflow-hidden pointer-events-auto rounded-none"
             >
                 <div
-                    className="absolute inset-y-0 left-0 pointer-events-none z-10"
+                    className="lobby-bottom-nav__track-shell relative h-full overflow-hidden"
                     style={{
-                        width: `${FADE_W}px`,
-                        background: 'linear-gradient(to right, rgba(8,12,46,0.68) 0%, rgba(8,12,46,0.32) 42%, rgba(8,12,46,0.08) 76%, transparent 100%)',
-                        filter: 'blur(10px)',
+                        marginLeft: TRACK_INSET,
+                        marginRight: TRACK_INSET,
                     }}
-                />
-                <div
-                    className="absolute inset-y-0 right-0 pointer-events-none z-10"
-                    style={{
-                        width: `${FADE_W}px`,
-                        background: 'linear-gradient(to left, rgba(8,12,46,0.68) 0%, rgba(8,12,46,0.32) 42%, rgba(8,12,46,0.08) 76%, transparent 100%)',
-                        filter: 'blur(10px)',
-                    }}
-                />
-
-                {/* Scrollable track: 3 sets wide */}
-                <div
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    className="flex h-full overflow-x-auto touch-pan-x
-                        [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 >
-                    {renderSet(0)}
-                    {renderSet(1)}
-                    {renderSet(2)}
+                    {/* Scrollable track: 3 sets wide */}
+                    <div
+                        ref={scrollRef}
+                        onScroll={handleScroll}
+                        className="flex h-full overflow-x-auto touch-pan-x
+                            [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        {renderSet(0)}
+                        {renderSet(1)}
+                        {renderSet(2)}
+                    </div>
                 </div>
             </div>
         </nav>

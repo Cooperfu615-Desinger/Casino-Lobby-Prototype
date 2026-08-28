@@ -154,7 +154,7 @@ const CategorySidebar = ({
             />
 
             <aside className="lobby-filter-rail pointer-events-auto absolute left-3 top-[142px] flex h-[436px] w-[92px] flex-col overflow-hidden rounded-[22px] border border-[#FFD700]/20 bg-[#12071f]/97 shadow-[0_24px_70px_rgba(0,0,0,0.58),0_0_32px_rgba(255,215,0,0.05)] backdrop-blur-2xl animate-category-panel-in">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.13),_transparent_34%),linear-gradient(180deg,_rgba(124,58,237,0.08),_transparent_60%)]" />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(117,140,255,0.18),_transparent_34%),linear-gradient(180deg,_rgba(105,116,244,0.12),_transparent_60%)]" />
 
                 <header className="relative flex h-12 shrink-0 items-center justify-between border-b border-white/10 bg-black/20 px-3">
                     <span className="text-[8px] font-black tracking-[0.2em] text-[#FFD700]">FILTER</span>
@@ -209,7 +209,7 @@ const CategorySidebar = ({
                     role="dialog"
                     aria-label={`${activeSectionMeta.label}篩選`}
                 >
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,215,0,0.12),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(124,58,237,0.18),_transparent_42%)]" />
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(117,140,255,0.16),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(105,116,244,0.2),_transparent_42%)]" />
 
                     <header className="relative flex h-[66px] shrink-0 items-center justify-between border-b border-white/10 bg-black/15 px-4">
                         <div>
