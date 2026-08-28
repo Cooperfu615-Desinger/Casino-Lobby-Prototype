@@ -13,9 +13,10 @@ const NavButton = ({ icon: Icon, label, active, onClick, colorTheme, disabled = 
   <button
     onClick={onClick}
     disabled={disabled}
+    aria-label={label}
     tabIndex={disabled ? -1 : undefined}
     className={`
-      relative flex flex-col items-center justify-end gap-1 w-full h-full transition-all duration-300
+      relative flex flex-col items-center justify-center w-full h-full transition-all duration-300
       ${active ? '-translate-y-2' : 'hover:opacity-90'}
       disabled:pointer-events-none
     `}
@@ -29,10 +30,6 @@ const NavButton = ({ icon: Icon, label, active, onClick, colorTheme, disabled = 
       <Icon size={60} strokeWidth={2.2} />
     </div>
 
-    {/* Label */}
-    <span className="text-[12px] font-bold text-white drop-shadow whitespace-nowrap leading-none tracking-wide">
-      {label}
-    </span>
   </button>
 );
 

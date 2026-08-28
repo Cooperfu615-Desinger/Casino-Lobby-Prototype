@@ -49,7 +49,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
             </div>
 
             {/* Center: BUY & SALE Buttons (Absolutely Positioned) */}
-            <div className="lobby-header__trade-actions pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center gap-6 transform translate-y-2 z-40">
+            <div className="lobby-header__trade-actions pointer-events-auto absolute left-1/2 -translate-x-1/2 -mt-[15px] flex items-center gap-6 transform translate-y-2 z-40">
                 <ActionButton label="BUY" type="buy" onClick={() => navigate('bank')} />
                 <ActionButton label="SALE" type="sale" onClick={() => openModal('promotion', { startIndex: 0 })} />
             </div>

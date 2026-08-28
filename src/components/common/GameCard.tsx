@@ -40,8 +40,8 @@ const GameCard = ({
                 {/* Jackpot Ticker */}
                 {game.hasJackpot && <JackpotTicker />}
 
-                {/* Card Frame (Glossy Gold Border) */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-[#FFD700] via-[#B8860B] to-[#8B4513] p-[3px] shadow-lg">
+                {/* Card Frame (Glossy White Border) */}
+                <div className="absolute inset-0 rounded-xl bg-white p-[3px] shadow-lg">
                     <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-b from-white/30 to-transparent opacity-50"></div>
                 </div>
 
