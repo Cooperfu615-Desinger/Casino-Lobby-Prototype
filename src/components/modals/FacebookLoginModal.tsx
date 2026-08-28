@@ -37,7 +37,7 @@ const FacebookLoginModal: React.FC<FacebookLoginModalProps> = ({ onClose, onLogi
     return (
         <PrototypeOverlay layer="auth">
             {/* Modal Container - Facebook Dark Mode Style */}
-            <div className="w-[400px] bg-[#242526] rounded-xl overflow-hidden shadow-2xl border border-[#3e4042] text-[#E4E6EB] animate-in zoom-in-95 duration-200 font-sans">
+            <div className="juheng-auth-provider-panel w-[400px] bg-[#242526] rounded-xl overflow-hidden shadow-2xl border border-[#3e4042] text-[#E4E6EB] animate-in zoom-in-95 duration-200 font-sans">
 
                 {/* Header */}
                 <div className="bg-[#242526] border-b border-[#3e4042] p-4 flex items-center justify-center relative">

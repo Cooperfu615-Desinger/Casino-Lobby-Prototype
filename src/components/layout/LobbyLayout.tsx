@@ -129,7 +129,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     };
 
     return (
-        <div className="relative w-full h-full bg-[#1a0b2e] overflow-hidden font-sans selection:bg-[#FFD700] selection:text-black shadow-2xl border border-slate-800">
+        <div className="relative w-full h-full bg-[#10184A] overflow-hidden font-sans selection:bg-[#8B8FFF] selection:text-white shadow-2xl border border-slate-800">
 
             {/* Background Texture */}
             <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${backgroundGradient}`}></div>

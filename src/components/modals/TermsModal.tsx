@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { X, FileText, Shield, ScrollText, CheckSquare, Square, ArrowRight } from 'lucide-react';
+import { X, FileText, Shield, ScrollText, FileCheck2, CheckSquare, Square, ArrowRight } from 'lucide-react';
 import PrototypeOverlay from '../common/PrototypeOverlay';
 
-export type TermsTab = 'terms' | 'privacy' | 'service';
+export type TermsTab = 'terms' | 'privacy' | 'service' | 'personal';
 
 interface TermsModalProps {
     onClose: () => void;
@@ -34,6 +34,7 @@ const TermsModal = ({
         { id: 'terms' as const, label: '使用者規章', icon: <FileText size={16} /> },
         { id: 'privacy' as const, label: '隱私權政策', icon: <Shield size={16} /> },
         { id: 'service' as const, label: '服務條款', icon: <ScrollText size={16} /> },
+        { id: 'personal' as const, label: '個人資料使用同意書', icon: <FileCheck2 size={16} /> },
     ];
 
     const termsContent = {
@@ -113,7 +114,24 @@ const TermsModal = ({
 
 伍、準據法與管轄
 本條款之解釋與適用，以中華民國法律為準據法。
-如有爭議，雙方同意以台北地方法院為第一審管轄法院。`
+如有爭議，雙方同意以台北地方法院為第一審管轄法院。`,
+
+        personal: `個人資料使用同意書
+
+一、同意蒐集之個人資料
+本人同意巨亨ONLINE於提供註冊、登入、遊戲、社群、客服及金融 Mock 操作展示之必要範圍內，蒐集本人提供的帳號、手機號碼、社群登入識別資訊、裝置資訊及操作紀錄。
+
+二、資料使用目的
+上述資料僅用於身分驗證、帳號安全、服務通知、遊戲功能提供、客服處理、系統維運與原型流程展示，不作為真實金流或其他未經同意用途。
+
+三、資料利用期間與方式
+資料於服務期間及完成相關服務所需期間內，以電子方式處理及利用。除法令要求、委外維運或提供服務所必要之合作夥伴外，不會任意提供予第三人。
+
+四、當事人權利
+本人得依法請求查詢、閱覽、製給複製本、補充、更正、停止蒐集處理利用或刪除個人資料。行使權利時，可能需要完成身分確認程序。
+
+五、同意與撤回
+本人已閱讀並了解本同意書內容，並同意巨亨ONLINE依上述目的使用個人資料。撤回同意可能影響部分帳號、驗證或服務功能的使用。`
     };
 
     const registrationSections = [
@@ -136,14 +154,17 @@ const TermsModal = ({
 
     return (
         <PrototypeOverlay layer={registrationReview ? 'auth' : 'modal'}>
-            <div className="relative w-[600px] max-h-[640px] bg-[#1a0b2e] border border-white/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
+            <div className="juheng-modal-panel juheng-legal-modal relative w-[600px] max-h-[640px] bg-[#1a0b2e] border border-white/20 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/10">
-                    <h2 className="text-xl font-bold text-white">{title}</h2>
+                <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-6 py-5">
+                    <div>
+                        <p className="mb-1 text-[10px] font-black uppercase tracking-[0.28em] text-[#AEB2FF]">Platform documents</p>
+                        <h2 className="text-xl font-black tracking-wide text-white">{title}</h2>
+                    </div>
                     <button
                         aria-label="關閉"
                         onClick={onClose}
-                        className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                        className="rounded-full border border-white/15 bg-white/[0.06] p-2 text-slate-300 transition-colors hover:border-[#AEB2FF]/70 hover:bg-white/10 hover:text-white"
                     >
                         <X size={24} />
                     </button>
@@ -151,14 +172,14 @@ const TermsModal = ({
 
                 {/* Tabs */}
                 {!registrationReview && (
-                    <div className="flex border-b border-white/10">
+                    <div className="flex gap-2 border-b border-white/10 bg-black/20 p-2">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex-1 py-3 px-4 text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === tab.id
-                                    ? 'text-[#FFD700] border-b-2 border-[#FFD700] bg-white/5'
-                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                className={`flex-1 rounded-xl border px-3 py-3 text-sm font-black flex items-center justify-center gap-2 transition-all ${activeTab === tab.id
+                                    ? 'border-[#AEB2FF]/80 bg-gradient-to-r from-[#8B8FFF] to-[#5048D8] text-white shadow-[0_0_18px_rgba(116,125,255,0.34)]'
+                                    : 'border-transparent text-slate-400 hover:border-white/10 hover:bg-white/5 hover:text-white'
                                     }`}
                             >
                                 {tab.icon}
@@ -169,7 +190,7 @@ const TermsModal = ({
                 )}
 
                 {/* Content - Height restricted for always-visible footer */}
-                <div className={`${registrationReview ? 'max-h-[380px]' : 'max-h-[250px]'} overflow-y-auto p-6 custom-scrollbar`}>
+                <div className={`${registrationReview ? 'max-h-[380px]' : 'max-h-[250px]'} juheng-legal-body overflow-y-auto p-6 custom-scrollbar`}>
                     {registrationReview ? (
                         <div>
                             <p className="mb-4 text-sm leading-relaxed text-slate-400">
@@ -178,7 +199,7 @@ const TermsModal = ({
                             <div className="divide-y divide-white/10">
                                 {registrationSections.map((section) => (
                                     <section key={section.index} className="grid grid-cols-[38px_1fr] gap-3 py-4 first:pt-0">
-                                        <span className="text-xs font-black tracking-widest text-purple-300">{section.index}</span>
+                                        <span className="text-xs font-black tracking-widest text-[#BFC5FF]">{section.index}</span>
                                         <div>
                                             <h3 className="mb-1.5 text-sm font-black text-white">{section.title}</h3>
                                             <p className="text-xs leading-6 text-slate-400">{section.content}</p>
@@ -200,14 +221,14 @@ const TermsModal = ({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-full border border-purple-400/40 px-6 py-3 text-sm font-black text-purple-200 transition-all hover:bg-purple-400/10 active:scale-95"
+                            className="rounded-full border border-[#8B8FFF]/50 px-6 py-3 text-sm font-black text-[#DCE0FF] transition-all hover:bg-[#8B8FFF]/10 active:scale-95"
                         >
                             稍後再看
                         </button>
                         <button
                             type="button"
                             onClick={onAgree}
-                            className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FFD700] to-[#DAA520] px-7 py-3 text-sm font-black text-black transition-all hover:brightness-110 active:scale-95"
+                            className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8B8FFF] to-[#5048D8] px-7 py-3 text-sm font-black text-white transition-all hover:brightness-110 active:scale-95"
                         >
                             我已閱讀並了解 <ArrowRight size={18} />
                         </button>
@@ -216,7 +237,7 @@ const TermsModal = ({
                     <div className="p-6 border-t border-white/10 bg-black/20">
                         <button
                             onClick={onClose}
-                            className="w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95"
+                            className="w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-[#8B8FFF] to-[#5048D8] text-white hover:brightness-110 active:scale-95"
                         >
                             {confirmLabel} <ArrowRight size={20} />
                         </button>
@@ -228,7 +249,7 @@ const TermsModal = ({
                             onClick={() => setIsAgreed(!isAgreed)}
                         >
                             {isAgreed ? (
-                                <CheckSquare size={24} className="text-[#FFD700]" />
+                                <CheckSquare size={24} className="text-[#AEB2FF]" />
                             ) : (
                                 <Square size={24} className="text-slate-400 group-hover:text-white transition-colors" />
                             )}
@@ -241,7 +262,7 @@ const TermsModal = ({
                             onClick={onAgree}
                             disabled={!isAgreed}
                             className={`w-full py-4 rounded-full font-black text-lg flex items-center justify-center gap-2 transition-all ${isAgreed
-                                ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95'
+                                ? 'bg-gradient-to-r from-[#8B8FFF] to-[#5048D8] text-white hover:brightness-110 active:scale-95'
                                 : 'bg-slate-700 text-slate-400 cursor-not-allowed'
                                 }`}
                         >

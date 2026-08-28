@@ -34,8 +34,8 @@ const GUIDE_ITEMS = [
 
 const LobbyGuideModal = ({ onClose }: LobbyGuideModalProps) => {
     return (
-        <div className="absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative w-[720px] max-w-[92vw] rounded-[28px] border border-white/10 bg-[#1a0b2e] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="juheng-modal-backdrop absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="juheng-modal-panel relative w-[720px] max-w-[92vw] rounded-[28px] border border-white/10 bg-[#1a0b2e] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                 <div className="border-b border-white/10 bg-black/20 px-8 py-6">
                     <button
                         type="button"

@@ -26,9 +26,9 @@ const HistoryModal = ({ onClose }: HistoryModalProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
             {/* Modal */}
-            <div className="relative w-[90%] max-w-4xl bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[500px]">
+            <div className="juheng-modal-panel relative w-[90%] max-w-4xl bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[500px]">
 
                 {/* Header */}
                 <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 px-6 py-5 flex justify-between items-center border-b border-white/10">

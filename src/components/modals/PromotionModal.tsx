@@ -72,7 +72,7 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
     return (
         <div
             onClick={handleBackdropClick}
-            className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-300"
+            className="juheng-modal-backdrop absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-300"
         >
             {/* Left Arrow - Outside Card */}
             <button
@@ -97,7 +97,7 @@ const PromotionModal = ({ onClose, startIndex = 0 }: PromotionModalProps) => {
             {/* Main Card - Centered */}
             <div
                 key={currentItem.id}
-                className="relative w-[360px] bg-gradient-to-b from-[#2a1b42] via-[#1f1035] to-[#150923] border-2 border-[#FFD700]/50 rounded-3xl p-8 flex flex-col shadow-[0_0_80px_rgba(255,215,0,0.25),0_20px_60px_rgba(0,0,0,0.5)] transform transition-all duration-300 animate-in zoom-in-95"
+                className="juheng-modal-panel relative w-[360px] bg-gradient-to-b from-[#2a1b42] via-[#1f1035] to-[#150923] border-2 border-[#FFD700]/50 rounded-3xl p-8 flex flex-col shadow-[0_0_80px_rgba(255,215,0,0.25),0_20px_60px_rgba(0,0,0,0.5)] transform transition-all duration-300 animate-in zoom-in-95"
             >
                 {/* Close Button */}
                 <button

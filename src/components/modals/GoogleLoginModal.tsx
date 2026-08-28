@@ -43,7 +43,7 @@ const GoogleLoginModal: React.FC<GoogleLoginModalProps> = ({ onClose, onLogin })
 
     return (
         <PrototypeOverlay layer="auth">
-            <div className="w-[400px] bg-white rounded-2xl overflow-hidden shadow-2xl text-gray-800 animate-in zoom-in-95 duration-200 font-sans">
+            <div className="juheng-auth-provider-panel w-[400px] bg-white rounded-2xl overflow-hidden shadow-2xl text-gray-800 animate-in zoom-in-95 duration-200 font-sans">
 
                 {/* Header */}
                 <div className="bg-white border-b border-gray-200 p-4 flex items-center justify-center relative">

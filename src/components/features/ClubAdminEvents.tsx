@@ -43,8 +43,8 @@ const ClubAdminEvents = ({ onBack }: ClubAdminEventsProps) => {
 
             {/* Create Event Modal */}
             {isCreateModalOpen && (
-                <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
-                    <div className="w-full max-w-lg bg-[#1a0b2e] border-2 border-[#FFD700]/50 rounded-2xl flex flex-col relative shadow-2xl">
+                <div className="juheng-modal-backdrop absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+                    <div className="juheng-modal-panel w-full max-w-lg bg-[#1a0b2e] border-2 border-[#FFD700]/50 rounded-2xl flex flex-col relative shadow-2xl">
                         <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-[#150923]/50">
                             <h3 className="text-white font-bold text-lg flex items-center gap-2">
                                 <Plus className="text-[#FFD700]" size={20} />

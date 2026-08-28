@@ -2,6 +2,277 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --juheng-bg: #080b2b;
+  --juheng-bg-card: #111744;
+  --juheng-bg-card-raised: #1c2564;
+  --juheng-purple-dark: #2b267d;
+  --juheng-purple: #5048d8;
+  --juheng-purple-mid: #6974f4;
+  --juheng-purple-light: #8b8fff;
+  --juheng-purple-glow: #bfc5ff;
+  --juheng-gold: #8b8fff;
+  --juheng-gold-light: #dce0ff;
+  --juheng-gold-dark: #5048d8;
+  --juheng-text: #eef0ff;
+  --juheng-text-muted: #c5caf2;
+  --juheng-auth-top: #a7b0ff;
+  --juheng-auth-mid: #7079ff;
+  --juheng-auth-bottom: #4b46cf;
+  --juheng-success-top: #a3ffd1;
+  --juheng-success-bottom: #1ab16d;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--juheng-bg);
+  color: var(--juheng-text);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
+/* Shared modal language: overlays stay dark and blurred while each surface carries
+   the bright blue-violet game-platform treatment. */
+.juheng-modal-backdrop {
+  background: rgba(0, 0, 0, 0.74) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.juheng-modal-panel {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(155deg, rgba(35, 43, 116, 0.98), rgba(8, 11, 43, 0.99)) !important;
+  border: 1px solid rgba(174, 187, 255, 0.38) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.68), 0 0 34px rgba(105, 116, 244, 0.26) !important;
+  color: var(--juheng-text);
+}
+
+.juheng-auth-surface {
+  background: linear-gradient(180deg, var(--juheng-auth-top) 0%, var(--juheng-auth-mid) 50%, var(--juheng-auth-bottom) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  border-radius: 24px !important;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.22), 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 24px rgba(105, 116, 244, 0.32) !important;
+  color: #fff;
+}
+
+.juheng-modal-panel::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(167, 176, 255, 0.16), transparent 30%),
+    radial-gradient(circle at 100% 100%, rgba(80, 72, 216, 0.22), transparent 38%);
+  content: "";
+}
+
+.juheng-modal-panel button:focus-visible,
+.prototype-overlay button:focus-visible,
+.prototype-overlay input:focus-visible,
+.prototype-overlay textarea:focus-visible,
+.prototype-overlay select:focus-visible {
+  outline: 2px solid rgba(196, 255, 254, 0.9);
+  outline-offset: 2px;
+}
+
+/* PrototypeOverlay provides the translucent glass rim used by the Figma/Nuxt
+   auth family. The child remains the actual modal component, so its behavior and
+   internal layout are unchanged. */
+.prototype-overlay {
+  padding: 12px;
+}
+
+.prototype-overlay--auth {
+  background: rgba(0, 0, 0, 0.76) !important;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+.prototype-overlay-panel--auth {
+  max-width: calc(100% - 16px);
+  max-height: calc(100% - 16px);
+  padding: 9px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.7), 0 0 26px rgba(105, 116, 244, 0.32);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.prototype-overlay-panel--auth > :first-child {
+  max-height: 100%;
+  overflow: auto;
+  border-color: rgba(255, 255, 255, 0.42) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg, var(--juheng-auth-top) 0%, var(--juheng-auth-mid) 50%, var(--juheng-auth-bottom) 100%) !important;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.26), inset 0 0 0 4px rgba(98, 114, 255, 0.48), 0 0 18px rgba(105, 116, 244, 0.34) !important;
+  color: #fff;
+}
+
+.juheng-auth-account-panel {
+  width: min(560px, calc(100vw - 44px)) !important;
+  min-height: 510px;
+}
+
+.prototype-overlay-panel--auth .text-slate-400 {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.prototype-overlay-panel--auth .text-slate-500 {
+  color: rgba(255, 255, 255, 0.68) !important;
+}
+
+.prototype-overlay-panel--auth .text-slate-600 {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+.prototype-overlay-panel--auth .text-\[\#FFD700\] {
+  color: var(--juheng-gold-light) !important;
+}
+
+.prototype-overlay-panel--modal {
+  max-width: calc(100% - 16px);
+  max-height: calc(100% - 16px);
+  padding: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 30px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 24px rgba(105, 116, 244, 0.26);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.prototype-overlay-panel--modal > :first-child {
+  max-height: 100%;
+  overflow: auto;
+  border-radius: 22px !important;
+}
+
+/* The provider dialogs used to mimic each provider's website. They now keep
+   their brand marks while sharing the product's auth surface and hierarchy. */
+.juheng-auth-provider-panel {
+  background: linear-gradient(180deg, var(--juheng-auth-top), var(--juheng-auth-mid) 52%, var(--juheng-auth-bottom)) !important;
+  border-color: rgba(255, 255, 255, 0.42) !important;
+  border-radius: 18px !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.22), 0 0 18px rgba(105, 116, 244, 0.32) !important;
+}
+
+.juheng-auth-provider-panel > div:first-child,
+.juheng-auth-provider-panel > div:last-child {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.juheng-auth-provider-panel > div:nth-child(2) {
+  background: transparent !important;
+}
+
+.juheng-auth-provider-panel .text-gray-900,
+.juheng-auth-provider-panel .text-gray-800,
+.juheng-auth-provider-panel .text-gray-700 {
+  color: #fff !important;
+}
+
+.juheng-auth-provider-panel .text-gray-500,
+.juheng-auth-provider-panel .text-gray-400 {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.juheng-auth-provider-panel .bg-gray-100,
+.juheng-auth-provider-panel .bg-gray-200 {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #fff !important;
+}
+
+.juheng-auth-provider-panel .border-gray-100,
+.juheng-auth-provider-panel .border-gray-200 {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+.juheng-auth-provider-panel .bg-white {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.juheng-auth-provider-panel button.bg-black {
+  background: linear-gradient(180deg, var(--juheng-auth-top), var(--juheng-auth-bottom)) !important;
+  color: #fff !important;
+}
+
+.juheng-auth-provider-panel button.bg-gray-100,
+.juheng-auth-provider-panel button.bg-gray-200 {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+}
+
+/* Keep the auth forms within the prototype stage at 1280×720. */
+.prototype-overlay-panel--auth input,
+.prototype-overlay-panel--auth textarea,
+.prototype-overlay-panel--auth select {
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.prototype-overlay-panel--auth input::placeholder,
+.prototype-overlay-panel--auth textarea::placeholder {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.prototype-overlay-panel--auth input:focus,
+.prototype-overlay-panel--auth textarea:focus,
+.prototype-overlay-panel--auth select:focus {
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14) !important;
+}
+
+.prototype-overlay-panel--auth button.bg-gradient-to-r {
+  background-image: linear-gradient(180deg, var(--juheng-auth-top), var(--juheng-auth-bottom)) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 26px rgba(75, 70, 207, 0.34);
+}
+
+/* Legacy utility accents are remapped here so existing screens share one
+   bright blue-violet language without changing their interaction logic. */
+:where([class*="text-[#FFD700]"], [class*="text-[#F5C842]"], [class*="text-yellow-"], [class*="text-amber-"]) {
+  color: var(--juheng-purple-glow) !important;
+}
+
+:where([class*="bg-[#FFD700]"], [class*="bg-yellow-"], [class*="bg-amber-"]) {
+  background-color: var(--juheng-purple-mid) !important;
+}
+
+:where([class*="border-[#FFD700]"], [class*="border-[#F5C842]"], [class*="border-yellow-"], [class*="border-amber-"]) {
+  border-color: rgba(174, 187, 255, 0.68) !important;
+}
+
+:where([class*="ring-[#FFD700]"]) {
+  --tw-ring-color: rgba(174, 187, 255, 0.85) !important;
+}
+
+:where([class*="from-[#FFD700]"], [class*="from-yellow-"], [class*="from-amber-"]) {
+  background-image: linear-gradient(135deg, var(--juheng-auth-top), var(--juheng-auth-bottom)) !important;
+}
+
+:where([class*="from-[#FFD700]"][class*="text-black"], [class*="from-yellow-"][class*="text-black"], [class*="from-amber-"][class*="text-black"]) {
+  color: #fff !important;
+}
+
+:where([class*="focus:border-[#FFD700]"]):focus,
+:where([class*="focus:border-[#F5C842]"]):focus {
+  border-color: rgba(174, 187, 255, 0.86) !important;
+}
+
 /* Custom scrollbar hiding */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

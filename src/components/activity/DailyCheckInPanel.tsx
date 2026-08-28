@@ -212,8 +212,8 @@ const DailyCheckInPanel = () => {
             </div>
 
             {makeupTarget && (
-                <div className="absolute inset-0 z-[150] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onMouseDown={event => event.target === event.currentTarget && setMakeupTarget(null)}>
-                    <div className="relative w-full max-w-sm rounded-2xl border border-purple-300/20 bg-gradient-to-br from-[#2a1b42] to-[#140722] p-6 text-center shadow-2xl">
+                <div className="juheng-modal-backdrop absolute inset-0 z-[150] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onMouseDown={event => event.target === event.currentTarget && setMakeupTarget(null)}>
+                    <div className="juheng-modal-panel relative w-full max-w-sm rounded-2xl border border-purple-300/20 bg-gradient-to-br from-[#2a1b42] to-[#140722] p-6 text-center shadow-2xl">
                         <button type="button" onClick={() => setMakeupTarget(null)} aria-label="關閉補簽確認" className="absolute right-4 top-4 text-slate-500 hover:text-white"><X size={18} /></button>
                         <RotateCcw className="mx-auto text-purple-300" size={32} />
                         <h3 className="mt-3 text-xl font-black text-white">補簽 {makeupTarget} 日</h3>

@@ -26,8 +26,8 @@ const AvatarSelectModal = ({ onClose }: AvatarSelectModalProps) => {
     const hasChanges = tempAvatarId !== (user?.avatarId ?? 1);
 
     return (
-        <div className="absolute inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
-            <div className="w-[480px] bg-[#1a0b2e] border border-white/20 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
+        <div className="juheng-modal-backdrop absolute inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
+            <div className="juheng-modal-panel w-[480px] bg-[#1a0b2e] border border-white/20 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
 
                 {/* ── Header ── */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">

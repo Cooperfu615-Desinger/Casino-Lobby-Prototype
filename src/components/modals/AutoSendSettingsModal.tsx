@@ -91,11 +91,11 @@ const AutoSendSettingsModal = ({ isOpen, onClose, channelType, settings, onSave 
     return (
         /* Backdrop */
         <div
-            className="absolute inset-0 z-[120] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
+            className="juheng-modal-backdrop absolute inset-0 z-[120] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
             onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
         >
             {/* ── Modal Panel: Single Column, 480px width ── */}
-            <div className="relative w-[480px] bg-[#1a0b2e] border border-white/15 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="juheng-modal-panel relative w-[480px] bg-[#1a0b2e] border border-white/15 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden animate-in zoom-in-95 duration-200">
 
                 {/* ── Header ── */}
                 <div className={`flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-[#0f061e] to-[#1a0b2e] border-b border-white/10`}>

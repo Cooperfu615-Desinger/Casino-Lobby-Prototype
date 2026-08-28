@@ -44,7 +44,7 @@ const AppleLoginModal: React.FC<AppleLoginModalProps> = ({ onClose, onLogin }) =
     return (
         <PrototypeOverlay layer="auth">
             {/* Modal Container - Apple Style (Clean, Minimal) */}
-            <div className="w-[400px] bg-white rounded-2xl overflow-hidden shadow-2xl text-gray-900 animate-in zoom-in-95 duration-200 font-sans">
+            <div className="juheng-auth-provider-panel w-[400px] bg-white rounded-2xl overflow-hidden shadow-2xl text-gray-900 animate-in zoom-in-95 duration-200 font-sans">
 
                 {/* Header */}
                 <div className="bg-black p-4 flex items-center justify-center relative">

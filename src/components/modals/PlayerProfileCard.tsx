@@ -78,8 +78,8 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative grid h-[560px] w-[720px] grid-cols-[250px_1fr] overflow-hidden rounded-2xl border border-white/15 bg-[#10051f] shadow-[0_24px_80px_rgba(0,0,0,0.65)] animate-in zoom-in-95 duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="juheng-modal-panel relative grid h-[560px] w-[720px] grid-cols-[250px_1fr] overflow-hidden rounded-2xl border border-white/15 bg-[#10051f] shadow-[0_24px_80px_rgba(0,0,0,0.65)] animate-in zoom-in-95 duration-200">
 
                 {/* Close Button */}
                 <button
@@ -222,7 +222,7 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
 
                 {showBlockConfirm && (
                     <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
-                        <div className="w-[360px] rounded-2xl border border-red-400/30 bg-[#1a0b2e] p-5 text-center shadow-2xl animate-in zoom-in-95 duration-150">
+                        <div className="juheng-modal-panel w-[360px] rounded-2xl border border-red-400/30 bg-[#1a0b2e] p-5 text-center shadow-2xl animate-in zoom-in-95 duration-150">
                             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/15 text-red-300">
                                 <Ban size={24} />
                             </div>

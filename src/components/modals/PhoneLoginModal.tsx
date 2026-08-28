@@ -68,7 +68,7 @@ const PhoneLoginModal = ({ onClose, onLogin }: PhoneLoginModalProps) => {
 
     return (
         <PrototypeOverlay layer="auth">
-            <div className="relative flex h-[520px] w-[420px] flex-col overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-[#201139] via-[#160a27] to-[#0d0418] p-8 text-white shadow-[0_0_50px_rgba(16,185,129,0.18)] animate-in zoom-in-95 duration-200">
+            <div className="juheng-auth-form-panel relative flex h-[520px] w-[420px] flex-col overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-[#201139] via-[#160a27] to-[#0d0418] p-8 text-white shadow-[0_0_50px_rgba(16,185,129,0.18)] animate-in zoom-in-95 duration-200">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.12),_transparent_38%)]" />
                 {canClose && (
                     <button

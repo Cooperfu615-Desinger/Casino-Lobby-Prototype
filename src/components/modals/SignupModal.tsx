@@ -80,7 +80,7 @@ const SignupModal = ({ onClose, onSuccess }: SignupModalProps) => {
     return (
         <>
             <PrototypeOverlay layer="auth">
-                <div className="relative h-[600px] w-[680px] max-h-[640px] overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#2a1b42] via-[#1a0b2e] to-[#0d0418] p-7 shadow-[0_0_60px_rgba(0,0,0,0.65),0_0_32px_rgba(255,215,0,0.08)] animate-in zoom-in-95 duration-200">
+                <div className="juheng-auth-form-panel relative h-[600px] w-[680px] max-h-[640px] overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#2a1b42] via-[#1a0b2e] to-[#0d0418] p-7 shadow-[0_0_60px_rgba(0,0,0,0.65),0_0_32px_rgba(255,215,0,0.08)] animate-in zoom-in-95 duration-200">
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.1),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(126,34,206,0.18),_transparent_40%)]" />
 
                     {stage === 'form' ? (

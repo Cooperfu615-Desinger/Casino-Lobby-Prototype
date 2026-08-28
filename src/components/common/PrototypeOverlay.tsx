@@ -24,9 +24,9 @@ const PrototypeOverlay = ({
     backdropClassName = 'bg-black/80 backdrop-blur-md',
 }: PrototypeOverlayProps) => (
     <div
-        className={`absolute inset-0 ${OVERLAY_LAYER_CLASSES[layer]} flex items-center justify-center ${backdropClassName} animate-in fade-in duration-200 ${className}`}
+        className={`prototype-overlay prototype-overlay--${layer} absolute inset-0 ${OVERLAY_LAYER_CLASSES[layer]} flex items-center justify-center ${backdropClassName} animate-in fade-in duration-200 ${className}`}
     >
-        <div className={`relative max-h-[640px] ${panelClassName}`}>
+        <div className={`prototype-overlay-panel prototype-overlay-panel--${layer} relative max-h-[640px] ${panelClassName}`}>
             {children}
         </div>
     </div>

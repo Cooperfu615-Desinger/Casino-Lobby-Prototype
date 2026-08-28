@@ -43,10 +43,10 @@ const PaymentModal = ({ packageInfo = DEFAULT_PACKAGE_INFO, onClose }: PaymentMo
     };
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
 
             {/* Modal */}
-            <div className="relative w-[90%] max-w-md bg-[#1a0b2e] border border-[#FFD700] rounded-2xl shadow-[0_0_50px_rgba(255,215,0,0.3)] overflow-hidden flex flex-col">
+            <div className="juheng-modal-panel relative w-[90%] max-w-md bg-[#1a0b2e] border border-[#FFD700] rounded-2xl shadow-[0_0_50px_rgba(255,215,0,0.3)] overflow-hidden flex flex-col">
 
                 {/* Header */}
                 <div className="bg-white/5 px-6 py-4 flex justify-between items-center border-b border-white/5">

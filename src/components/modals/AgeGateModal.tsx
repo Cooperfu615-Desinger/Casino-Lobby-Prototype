@@ -6,7 +6,7 @@ interface AgeGateModalProps {
 
 const AgeGateModal = ({ onContinue }: AgeGateModalProps) => (
     <div
-        className="absolute inset-0 z-[9999] flex items-center justify-center bg-black/80 p-6 backdrop-blur-md animate-in fade-in duration-200"
+        className="juheng-modal-backdrop absolute inset-0 z-[9999] flex items-center justify-center bg-black/80 p-6 backdrop-blur-md animate-in fade-in duration-200"
         role="dialog"
         aria-modal="true"
         aria-labelledby="age-gate-title"
@@ -14,7 +14,7 @@ const AgeGateModal = ({ onContinue }: AgeGateModalProps) => (
             if (event.target === event.currentTarget) onContinue();
         }}
     >
-        <div className="relative w-full max-w-[460px] overflow-hidden rounded-[30px] border border-white/25 bg-gradient-to-br from-[#888fff] via-[#5b63e8] to-[#393f9d] p-8 text-center shadow-[0_28px_90px_rgba(0,0,0,0.7),0_0_52px_rgba(139,92,246,0.3)] animate-in zoom-in-95 duration-200">
+        <div className="juheng-auth-surface relative w-full max-w-[460px] overflow-hidden rounded-[30px] border border-white/25 bg-gradient-to-br from-[#888fff] via-[#5b63e8] to-[#393f9d] p-8 text-center shadow-[0_28px_90px_rgba(0,0,0,0.7),0_0_52px_rgba(139,92,246,0.3)] animate-in zoom-in-95 duration-200">
             <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[#FFD700]/20 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-28 -right-20 h-64 w-64 rounded-full bg-purple-950/35 blur-3xl" />
 

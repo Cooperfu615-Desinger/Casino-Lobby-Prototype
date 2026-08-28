@@ -36,7 +36,7 @@ const GameLaunchModal = ({ game, initialWallet, onEnterGame, onClose }: GameLaun
     }, [initialWallet, selectedOption?.enabled, selectedWallet, walletOptions]);
 
     return (
-        <div className="absolute inset-0 z-[130] flex items-center justify-center">
+        <div className="juheng-modal-backdrop absolute inset-0 z-[130] flex items-center justify-center">
             <button
                 type="button"
                 aria-label="關閉遊戲操作彈窗"
@@ -45,7 +45,7 @@ const GameLaunchModal = ({ game, initialWallet, onEnterGame, onClose }: GameLaun
             />
 
             <article
-                className="relative w-[700px] max-w-[calc(100%-32px)] overflow-hidden rounded-[28px] border border-[#FFD700]/25 bg-gradient-to-br from-[#21103a]/98 to-[#10051f]/98 shadow-[0_28px_90px_rgba(0,0,0,0.58)] animate-in fade-in zoom-in-95 duration-200"
+                className="juheng-modal-panel relative w-[700px] max-w-[calc(100%-32px)] overflow-hidden rounded-[28px] border border-[#FFD700]/25 bg-gradient-to-br from-[#21103a]/98 to-[#10051f]/98 shadow-[0_28px_90px_rgba(0,0,0,0.58)] animate-in fade-in zoom-in-95 duration-200"
                 role="dialog"
                 aria-modal="true"
                 aria-label={`${game.title} 遊戲啟動`}

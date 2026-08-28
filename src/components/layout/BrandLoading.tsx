@@ -56,7 +56,7 @@ const BrandLoading = ({ onFinished }: BrandLoadingProps) => {
     }, [onFinished]);
 
     return (
-        <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#2c003e] to-black font-sans text-white">
+        <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#20246D] to-[#05071C] font-sans text-white">
 
             {/* Background Texture */}
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none"></div>
@@ -76,7 +76,7 @@ const BrandLoading = ({ onFinished }: BrandLoadingProps) => {
                 {/* Tip */}
                 <div className="bg-white/5 px-6 py-2 rounded-full border border-white/10 backdrop-blur-sm mb-12 animate-pulse">
                     <p className="text-slate-400 text-sm font-medium tracking-wide flex items-center gap-2">
-                        <Sparkles size={14} className="text-[#FFD700]" />
+                        <Sparkles size={14} className="text-[#AEB2FF]" />
                         {tip}
                     </p>
                 </div>
@@ -97,7 +97,7 @@ const BrandLoading = ({ onFinished }: BrandLoadingProps) => {
                     {/* Progress Bar */}
                     <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-[#FFD700] shadow-[0_0_15px_#d946ef] transition-all duration-150 ease-out"
+                            className="h-full bg-gradient-to-r from-[#A7B0FF] via-[#7079FF] to-[#4B46CF] shadow-[0_0_15px_#7079FF] transition-all duration-150 ease-out"
                             style={{ width: `${progress}%` }}
                         ></div>
                     </div>

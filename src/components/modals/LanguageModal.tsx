@@ -53,8 +53,8 @@ const LanguageModal = ({ onClose }: LanguageModalProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
-            <div className="w-full max-w-2xl bg-[#1a0b2e] border-2 border-white/10 rounded-3xl p-6 flex flex-col relative shadow-2xl">
+        <div className="juheng-modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+            <div className="juheng-modal-panel w-full max-w-2xl bg-[#1a0b2e] border-2 border-white/10 rounded-3xl p-6 flex flex-col relative shadow-2xl">
                 <button
                     onClick={onClose}
                     aria-label="關閉語言設定"

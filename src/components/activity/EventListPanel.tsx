@@ -102,8 +102,8 @@ const EventListPanel = () => {
             )}
 
             {selectedEvent && (
-                <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md" onMouseDown={(event) => event.target === event.currentTarget && setSelectedEvent(null)}>
-                    <article className="relative w-full max-w-lg overflow-hidden rounded-[26px] border border-white/15 bg-gradient-to-br from-[#27133f] to-[#10051f] shadow-2xl">
+                <div className="juheng-modal-backdrop fixed inset-0 z-[150] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md" onMouseDown={(event) => event.target === event.currentTarget && setSelectedEvent(null)}>
+                    <article className="juheng-modal-panel relative w-full max-w-lg overflow-hidden rounded-[26px] border border-white/15 bg-gradient-to-br from-[#27133f] to-[#10051f] shadow-2xl">
                         <div className={`relative overflow-hidden border-b border-white/10 bg-gradient-to-r p-6 ${selectedEvent.bg}`}>
                             <div className="absolute -bottom-12 right-0 opacity-10">{isValidElement(selectedEvent.icon) ? cloneElement(selectedEvent.icon, { size: 180 } as Record<string, unknown>) : selectedEvent.icon}</div>
                             <button type="button" onClick={() => setSelectedEvent(null)} aria-label="關閉活動詳情" className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white/70 hover:text-white"><X size={18} /></button>

@@ -24,8 +24,8 @@ const BlacklistModal = ({ onClose }: BlacklistModalProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-6 backdrop-blur-md animate-in fade-in duration-200">
-            <div className="relative flex h-[520px] w-[720px] flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#10051f] shadow-[0_24px_80px_rgba(0,0,0,0.68)] animate-in zoom-in-95 duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-6 backdrop-blur-md animate-in fade-in duration-200">
+            <div className="juheng-modal-panel relative flex h-[520px] w-[720px] flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#10051f] shadow-[0_24px_80px_rgba(0,0,0,0.68)] animate-in zoom-in-95 duration-200">
                 <div className="absolute inset-x-0 top-0 h-28 bg-[radial-gradient(circle_at_top_left,_rgba(239,68,68,0.26),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(255,215,0,0.13),_transparent_32%)]" />
 
                 <header className="relative flex h-24 items-center justify-between border-b border-white/10 px-6">

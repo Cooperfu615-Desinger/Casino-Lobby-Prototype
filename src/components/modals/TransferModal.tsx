@@ -93,8 +93,8 @@ const TransferModal = ({ onClose }: TransferModalProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-            <div className="relative w-[90%] max-w-[500px] bg-gradient-to-b from-[#1a0b2e] to-[#2d1b4e] border border-[#FFD700]/30 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] p-0 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[1100] flex items-center justify-center bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+            <div className="juheng-modal-panel relative w-[90%] max-w-[500px] bg-gradient-to-b from-[#1a0b2e] to-[#2d1b4e] border border-[#FFD700]/30 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] p-0 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
 
                 {/* Close Button */}
                 <button

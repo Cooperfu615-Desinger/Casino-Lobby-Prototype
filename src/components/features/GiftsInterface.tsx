@@ -68,8 +68,8 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative flex h-[min(700px,92vh)] w-[94%] max-w-[1080px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="juheng-modal-panel relative flex h-[min(700px,92vh)] w-[94%] max-w-[1080px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
                 <header className="relative flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-[#2a1244] via-[#1a0b2e] to-[#130720] px-6 py-4">
                     <div className="flex items-center gap-3">
                         <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#FFD700]/30 bg-[#FFD700]/10 text-[#FFD700] shadow-[0_0_24px_rgba(255,215,0,0.08)]">
@@ -122,8 +122,8 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
                 </div>
 
                 {deleteTarget && (
-                    <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
-                        <div className="w-full max-w-sm rounded-2xl border border-red-400/25 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
+                    <div className="juheng-modal-backdrop absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+                        <div className="juheng-modal-panel w-full max-w-sm rounded-2xl border border-red-400/25 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
                             <Trash2 className="mx-auto text-red-300" size={30} />
                             <h3 className="mt-3 text-xl font-black text-white">刪除獎勵卡？</h3>
                             <p className="mt-2 text-xs leading-6 text-slate-400">刪除「{deleteTarget.title}」後，本次瀏覽期間無法再次領取。</p>
@@ -136,8 +136,8 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
                 )}
 
                 {ruleTitle && (
-                    <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
-                        <div className="w-full max-w-sm rounded-2xl border border-purple-300/20 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
+                    <div className="juheng-modal-backdrop absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+                        <div className="juheng-modal-panel w-full max-w-sm rounded-2xl border border-purple-300/20 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
                             <Info className="mx-auto text-purple-300" size={30} />
                             <h3 className="mt-3 text-xl font-black text-white">{ruleTitle}</h3>
                             <p className="mt-2 text-xs leading-6 text-slate-400">

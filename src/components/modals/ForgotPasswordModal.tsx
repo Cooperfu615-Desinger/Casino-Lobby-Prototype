@@ -164,7 +164,7 @@ const ForgotPasswordModal = ({
 
     return (
         <PrototypeOverlay layer="auth">
-            <div className="relative flex h-[600px] w-[650px] max-h-[640px] flex-col overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#281840] via-[#190b2c] to-[#0d0418] p-7 text-white shadow-[0_0_60px_rgba(0,0,0,0.7),0_0_34px_rgba(168,85,247,0.08)] animate-in zoom-in-95 duration-200">
+            <div className="juheng-auth-form-panel relative flex h-[600px] w-[650px] max-h-[640px] flex-col overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#281840] via-[#190b2c] to-[#0d0418] p-7 text-white shadow-[0_0_60px_rgba(0,0,0,0.7),0_0_34px_rgba(168,85,247,0.08)] animate-in zoom-in-95 duration-200">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.08),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(126,34,206,0.16),_transparent_42%)]" />
 
                 {canClose && (

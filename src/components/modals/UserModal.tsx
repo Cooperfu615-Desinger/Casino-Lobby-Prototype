@@ -91,8 +91,8 @@ const UserModal = ({ onClose }: UserModalProps) => {
     ];
 
     return (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/90 p-3 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="flex h-[600px] max-h-[calc(100%-24px)] w-full max-w-[900px] overflow-hidden rounded-2xl border border-white/10 bg-[#1a0b2e] shadow-2xl">
+        <div className="juheng-modal-backdrop absolute inset-0 z-[100] flex items-center justify-center bg-black/90 p-3 backdrop-blur-md animate-in fade-in duration-300">
+            <div className="juheng-modal-panel flex h-[600px] max-h-[calc(100%-24px)] w-full max-w-[900px] overflow-hidden rounded-2xl border border-white/10 bg-[#1a0b2e] shadow-2xl">
 
                 {/* Sidebar / Left Info */}
                 <div className="relative flex w-[300px] flex-col items-center border-r border-white/10 bg-[#120822] p-5 text-center">
@@ -445,11 +445,11 @@ const UserModal = ({ onClose }: UserModalProps) => {
             {/* Binding Confirmation Modal */}
             {bindingConfirm && (
                 <div
-                    className="absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
+                    className="juheng-modal-backdrop absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
                     onClick={() => !bindingLoading && setBindingConfirm(null)}
                 >
                     <div
-                        className="bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-white/20 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200"
+                        className="juheng-modal-panel bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-white/20 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3 className="text-xl font-bold text-white mb-4 text-center">帳號綁定</h3>
@@ -487,11 +487,11 @@ const UserModal = ({ onClose }: UserModalProps) => {
             {/* VIP Target Overlay */}
             {showVipTarget && (
                 <div
-                    className="absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
+                    className="juheng-modal-backdrop absolute inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
                     onClick={() => setShowVipTarget(false)}
                 >
                     <div
-                        className="max-h-[calc(100%-36px)] w-full max-w-[760px] overflow-hidden rounded-2xl border border-[#FFD700]/30 bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200"
+                        className="juheng-modal-panel max-h-[calc(100%-36px)] w-full max-w-[760px] overflow-hidden rounded-2xl border border-[#FFD700]/30 bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="relative overflow-hidden border-b border-white/10 p-5">

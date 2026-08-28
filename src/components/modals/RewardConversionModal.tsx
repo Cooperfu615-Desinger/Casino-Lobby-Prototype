@@ -21,8 +21,8 @@ const RewardConversionModal = ({ onViewRecords }: RewardConversionModalProps) =>
     };
 
     return (
-        <div className="fixed inset-0 z-[240] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-in fade-in duration-200" onMouseDown={event => event.target === event.currentTarget && markConversionNoticeRead()}>
-            <article className={`relative w-full max-w-md overflow-hidden rounded-[28px] border bg-gradient-to-br from-[#2a163c] to-[#10051f] p-7 text-center shadow-2xl animate-in zoom-in-95 duration-200 ${isGold ? 'border-[#FFD700]/35' : 'border-slate-200/30'}`}>
+        <div className="juheng-modal-backdrop fixed inset-0 z-[240] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-in fade-in duration-200" onMouseDown={event => event.target === event.currentTarget && markConversionNoticeRead()}>
+            <article className={`juheng-modal-panel relative w-full max-w-md overflow-hidden rounded-[28px] border bg-gradient-to-br from-[#2a163c] to-[#10051f] p-7 text-center shadow-2xl animate-in zoom-in-95 duration-200 ${isGold ? 'border-[#FFD700]/35' : 'border-slate-200/30'}`}>
                 <Sparkles className={`absolute -right-10 -top-10 opacity-10 ${isGold ? 'text-[#FFD700]' : 'text-slate-100'}`} size={180} />
                 <div className={`relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border text-xl font-black ${isGold ? 'border-[#FFD700]/40 bg-[#FFD700]/15 text-[#FFD700]' : 'border-slate-200/30 bg-slate-200/10 text-slate-100'}`}>
                     {isGold ? '金' : '銀'}

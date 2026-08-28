@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useAuth, type AuthProviderType } from '../../context/AuthContext';
 import { PRODUCT_NAME } from '../../config/brand';
+import logoImage from '../../assets/new_logo-transparent.png';
 import { getAccountValidationError } from '../../utils/account';
 import PrototypeOverlay from '../common/PrototypeOverlay';
 import AppleLoginModal from '../modals/AppleLoginModal';
@@ -168,20 +169,19 @@ const LoginScreen = () => {
     };
 
     return (
-        <div className="relative flex h-full w-full flex-col items-center overflow-hidden bg-gradient-to-b from-[#2c003e] to-black font-sans text-white">
+        <div className="relative flex h-full w-full flex-col items-center overflow-hidden bg-gradient-to-b from-[#20246D] to-[#05071C] font-sans text-white">
             <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
 
             <div className="absolute right-6 top-6 font-mono text-sm tracking-wider text-white/50">
                 v1.000.18 (Feature Alignment)
             </div>
 
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-in text-center fade-in zoom-in duration-1000">
-                <h1
-                    aria-label={PRODUCT_NAME}
-                    className="whitespace-nowrap bg-gradient-to-b from-white to-slate-400 bg-clip-text text-6xl font-black tracking-[0.08em] text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.5)] sm:text-7xl lg:text-8xl"
-                >
-                    {PRODUCT_NAME}
-                </h1>
+            <div className="absolute left-1/2 top-[7%] flex w-[560px] max-w-[68vw] -translate-x-1/2 justify-center animate-in fade-in zoom-in duration-1000">
+                <img
+                    src={logoImage}
+                    alt={PRODUCT_NAME}
+                    className="h-auto max-h-[360px] w-full object-contain drop-shadow-[0_16px_34px_rgba(0,0,0,0.55)]"
+                />
             </div>
 
             <div className="absolute bottom-20 left-0 right-0 z-10 flex w-full animate-in flex-col items-center gap-5 px-12 fade-in slide-in-from-bottom-10 delay-300 duration-700">
@@ -189,7 +189,7 @@ const LoginScreen = () => {
                     <button
                         aria-label="帳號登入"
                         onClick={() => openAccountLogin()}
-                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-pink-600 text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:from-fuchsia-600 hover:to-pink-700"
+                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-[#A7B0FF] to-[#4B46CF] text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
                     >
                         <User size={24} className="text-indigo-100 transition-colors group-hover:text-white" />
                         <span className="text-[10px] font-bold tracking-wide">帳號</span>
@@ -198,7 +198,7 @@ const LoginScreen = () => {
                     <button
                         aria-label="遊客登入"
                         onClick={handleGuestLogin}
-                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-amber-500 text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:bg-amber-400"
+                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-[#A7B0FF] to-[#4B46CF] text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
                     >
                         <UserCircle2 size={24} className="text-amber-100 transition-colors group-hover:text-white" />
                         <span className="text-[10px] font-bold tracking-wide">遊客</span>
@@ -215,9 +215,9 @@ const LoginScreen = () => {
                     <button
                         aria-label="手機登入"
                         onClick={() => setActiveOverlay('phone')}
-                        className="group flex h-[72px] w-[72px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
+                        className="group flex h-[72px] w-[72px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-[#8B8FFF] to-[#5048D8] text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
                     >
-                        <Smartphone size={22} className="text-emerald-100 transition-colors group-hover:text-white" />
+                        <Smartphone size={22} className="text-[#EEF0FF] transition-colors group-hover:text-white" />
                         <span className="text-[10px] font-bold tracking-wide">手機</span>
                     </button>
 
@@ -275,7 +275,7 @@ const LoginScreen = () => {
 
             {activeOverlay === 'accountLogin' && (
                 <PrototypeOverlay layer="auth">
-                    <div className="relative flex min-h-[470px] w-[430px] flex-col overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#24143a] via-[#1a0b2e] to-[#0d0418] p-8 shadow-[0_0_50px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200">
+                    <div className="juheng-auth-account-panel relative flex min-h-[470px] w-[430px] flex-col overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#24143a] via-[#1a0b2e] to-[#0d0418] p-8 shadow-[0_0_50px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200">
                         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.08),_transparent_38%)]" />
 
                         {accountStage === 'idle' ? (

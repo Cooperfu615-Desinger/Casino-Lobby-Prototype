@@ -37,7 +37,7 @@ const LINELoginModal: React.FC<LINELoginModalProps> = ({ onClose, onLogin }) => 
     return (
         <PrototypeOverlay layer="auth">
             {/* Modal Container - LINE Style */}
-            <div className="w-[400px] bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200 text-gray-800 animate-in zoom-in-95 duration-200 font-sans">
+            <div className="juheng-auth-provider-panel w-[400px] bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200 text-gray-800 animate-in zoom-in-95 duration-200 font-sans">
 
                 {/* Header */}
                 <div className="bg-[#06C755] p-4 flex items-center justify-center relative">

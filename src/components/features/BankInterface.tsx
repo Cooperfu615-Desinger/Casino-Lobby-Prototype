@@ -50,8 +50,8 @@ const BankInterface = ({ onClose, initialTab = 'deposit' }: BankInterfaceProps) 
     ];
 
     return (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="relative flex h-[min(680px,92vh)] w-[94%] max-w-[1040px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="juheng-modal-backdrop fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="juheng-modal-panel relative flex h-[min(680px,92vh)] w-[94%] max-w-[1040px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
                 <header className="relative flex-none border-b border-white/10 bg-gradient-to-r from-[#2a1244] via-[#1a0b2e] to-[#130720] px-6 pb-3 pt-4">
                     <button type="button" aria-label="關閉銀行中心" onClick={onClose} className="absolute right-5 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white/55 hover:bg-white/10 hover:text-white">
                         <X size={19} />
