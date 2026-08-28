@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, Wifi } from 'lucide-react';
 import { PRODUCT_NAME } from '../../config/brand';
+import logoImage from '../../assets/new_logo_2-transparent.png';
 
 interface BrandLoadingProps {
     onFinished: () => void;
@@ -64,13 +65,12 @@ const BrandLoading = ({ onFinished }: BrandLoadingProps) => {
             <div className="relative z-10 flex flex-col items-center w-full max-w-2xl px-8 h-full justify-center">
 
                 {/* Brand Name */}
-                <div className="mb-4 text-center animate-in fade-in zoom-in duration-1000">
-                    <h1
-                        aria-label={PRODUCT_NAME}
-                        className="whitespace-nowrap bg-gradient-to-b from-white to-slate-400 bg-clip-text text-6xl font-black tracking-[0.08em] text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.5)] sm:text-7xl lg:text-8xl"
-                    >
-                        {PRODUCT_NAME}
-                    </h1>
+                <div className="mb-4 flex w-[520px] max-w-[84vw] justify-center animate-in fade-in zoom-in duration-1000">
+                    <img
+                        src={logoImage}
+                        alt={PRODUCT_NAME}
+                        className="h-auto max-h-[280px] w-full object-contain drop-shadow-[0_16px_34px_rgba(0,0,0,0.55)]"
+                    />
                 </div>
 
                 {/* Tip */}

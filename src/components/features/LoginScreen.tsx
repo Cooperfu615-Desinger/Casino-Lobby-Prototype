@@ -189,7 +189,7 @@ const LoginScreen = () => {
                     <button
                         aria-label="帳號登入"
                         onClick={() => openAccountLogin()}
-                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-[#A7B0FF] to-[#4B46CF] text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
+                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-pink-600 text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:from-fuchsia-600 hover:to-pink-700"
                     >
                         <User size={24} className="text-indigo-100 transition-colors group-hover:text-white" />
                         <span className="text-[10px] font-bold tracking-wide">帳號</span>
@@ -198,7 +198,7 @@ const LoginScreen = () => {
                     <button
                         aria-label="遊客登入"
                         onClick={handleGuestLogin}
-                        className="group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-[#A7B0FF] to-[#4B46CF] text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
+                        className="login-guest-button group flex h-[80px] w-[80px] flex-col items-center justify-center gap-1 rounded-2xl bg-amber-500 text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:bg-amber-400"
                     >
                         <UserCircle2 size={24} className="text-amber-100 transition-colors group-hover:text-white" />
                         <span className="text-[10px] font-bold tracking-wide">遊客</span>
@@ -215,9 +215,9 @@ const LoginScreen = () => {
                     <button
                         aria-label="手機登入"
                         onClick={() => setActiveOverlay('phone')}
-                        className="group flex h-[72px] w-[72px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-[#8B8FFF] to-[#5048D8] text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
+                        className="group flex h-[72px] w-[72px] flex-col items-center justify-center gap-1 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:brightness-110"
                     >
-                        <Smartphone size={22} className="text-[#EEF0FF] transition-colors group-hover:text-white" />
+                        <Smartphone size={22} className="text-emerald-100 transition-colors group-hover:text-white" />
                         <span className="text-[10px] font-bold tracking-wide">手機</span>
                     </button>
 

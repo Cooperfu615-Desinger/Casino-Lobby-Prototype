@@ -273,6 +273,17 @@ body {
   border-color: rgba(174, 187, 255, 0.86) !important;
 }
 
+/* The three primary login entries retain their original product roles.
+   Third-party provider colors and this guest amber are intentionally exempt
+   from the generic bright blue-violet accent remap. */
+.login-guest-button {
+  background-color: #f59e0b !important;
+}
+
+.login-guest-button:hover {
+  background-color: #fbbf24 !important;
+}
+
 /* Custom scrollbar hiding */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
