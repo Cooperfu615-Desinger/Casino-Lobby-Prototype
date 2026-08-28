@@ -275,6 +275,11 @@ body {
 
 /* Lobby visual hierarchy: keep the game cards prominent over a calm,
    blue-violet glass surface while preserving each screen's existing content. */
+.lobby-frame-surface {
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+}
+
 .lobby-shell {
   background: #05071c;
 }
@@ -325,8 +330,49 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(174, 187, 255, 0.22);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 14px 36px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(20px) saturate(125%);
-  -webkit-backdrop-filter: blur(20px) saturate(125%);
+}
+
+.lobby-profile-entry {
+  min-height: 72px;
+  padding: 6px 12px 6px 6px;
+  border: 1px solid rgba(204, 214, 255, 0.12);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(52, 67, 164, 0.28), rgba(8, 12, 46, 0.18));
+}
+
+.lobby-wallet-cluster {
+  padding: 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.lobby-wallet-grid {
+  gap: 6px;
+}
+
+.lobby-wallet-field {
+  min-height: 56px;
+  border-color: rgba(204, 214, 255, 0.2) !important;
+  background: linear-gradient(145deg, rgba(54, 68, 164, 0.48), rgba(8, 12, 46, 0.44)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 18px rgba(0, 0, 0, 0.16) !important;
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+}
+
+.lobby-wallet-cluster:hover .lobby-wallet-field {
+  border-color: rgba(204, 214, 255, 0.42) !important;
+  background: linear-gradient(145deg, rgba(73, 89, 201, 0.6), rgba(12, 17, 63, 0.5)) !important;
+}
+
+.lobby-header__settings {
+  min-height: 48px;
+  min-width: 48px;
+  border-color: rgba(204, 214, 255, 0.24) !important;
+  background: rgba(19, 29, 94, 0.46) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 18px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .lobby-wallet-card {
@@ -375,6 +421,34 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 20px 52px rgba(0, 0, 0, 0.38), 0 0 24px rgba(105, 116, 244, 0.2);
   backdrop-filter: blur(20px) saturate(135%);
   -webkit-backdrop-filter: blur(20px) saturate(135%);
+}
+
+.lobby-settings-menu {
+  background: linear-gradient(155deg, rgba(35, 49, 139, 0.8), rgba(8, 12, 46, 0.82)) !important;
+  border-color: rgba(204, 214, 255, 0.3) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 70px rgba(0, 0, 0, 0.56) !important;
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+}
+
+.lobby-action-button--buy {
+  background: linear-gradient(180deg, #8affb8 0%, #25f184 42%, #00b95c 100%) !important;
+  border-color: rgba(220, 255, 234, 0.86) !important;
+  box-shadow: 0 0 28px rgba(57, 255, 136, 0.58), 0 10px 24px rgba(0, 62, 35, 0.42) !important;
+}
+
+.lobby-action-button--sale {
+  background: linear-gradient(180deg, #ff9aa7 0%, #ff536b 42%, #e90031 100%) !important;
+  border-color: rgba(255, 222, 227, 0.86) !important;
+  box-shadow: 0 0 28px rgba(255, 55, 88, 0.56), 0 10px 24px rgba(74, 0, 18, 0.42) !important;
+}
+
+.lobby-promo-button {
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.32));
+}
+
+.lobby-promo-button:hover {
+  filter: drop-shadow(0 14px 28px rgba(105, 116, 244, 0.34));
 }
 
 /* The three primary login entries retain their original product roles.

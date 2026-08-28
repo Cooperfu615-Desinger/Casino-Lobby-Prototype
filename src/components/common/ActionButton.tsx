@@ -11,7 +11,7 @@ const ActionButton = ({ label, type, onClick }: ActionButtonProps) => {
     return (
         <button
             onClick={onClick}
-            className={`
+            className={`lobby-action-button ${isBuy ? 'lobby-action-button--buy' : 'lobby-action-button--sale'}
         relative group overflow-hidden rounded-full px-8 py-2 min-w-[140px] shadow-lg transform transition-all hover:scale-105 active:scale-95 border-2 border-white/20
         ${isBuy
                     ? 'bg-gradient-to-b from-green-500 to-green-700 shadow-green-900/50'

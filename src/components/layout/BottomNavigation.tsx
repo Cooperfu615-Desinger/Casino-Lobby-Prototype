@@ -112,7 +112,7 @@ const BottomNavigation = () => {
 
     return (
         <nav
-            className="lobby-bottom-nav absolute z-50 pointer-events-none"
+            className="lobby-frame-surface lobby-footer lobby-bottom-nav absolute z-50 pointer-events-none"
             style={{
                 bottom: `${BOTTOM}px`,
                 left: 0,
@@ -122,7 +122,7 @@ const BottomNavigation = () => {
         >
             {/* Full-width glass viewport; the track keeps space for promo buttons. */}
             <div
-                className="lobby-bottom-nav__viewport relative h-full w-full overflow-hidden pointer-events-auto rounded-none"
+                className="lobby-frame-surface lobby-bottom-nav__viewport relative h-full w-full overflow-hidden pointer-events-auto rounded-none"
             >
                 <div
                     className="lobby-bottom-nav__track-shell relative h-full overflow-hidden"
