@@ -24,7 +24,7 @@ const GameGrid = ({
     );
 
     return (
-        <main className="absolute bottom-[90px] left-0 right-0 top-[130px] flex flex-col overflow-hidden px-12 transition-all duration-300 no-scrollbar">
+        <main className="lobby-game-grid absolute bottom-[90px] left-0 right-0 top-[130px] z-10 flex flex-col overflow-hidden px-12 transition-all duration-300 no-scrollbar">
             <div className="relative flex min-h-0 flex-1 items-center">
                 <div className="absolute left-4 top-1/2 z-20 -translate-y-1/2 animate-pulse">
                     <ChevronLeft className="text-white/40 drop-shadow-lg" size={48} />

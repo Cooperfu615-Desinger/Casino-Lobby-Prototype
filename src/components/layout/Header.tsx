@@ -18,7 +18,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
     const { navigate } = useNavigation();
 
     return (
-        <header className="absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
+        <header className="lobby-header absolute top-0 left-0 right-0 h-[88px] flex justify-between items-center px-6 z-40 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
 
             {/* Left Section: User Info */}
             <div className="flex items-center gap-6 pointer-events-auto z-50">
@@ -60,7 +60,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                     type="button"
                     onClick={() => navigate('bank')}
                     aria-label="開啟銀行中心"
-                    className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-black/45 p-2 shadow-lg transition-all hover:border-[#FFD700]/40 hover:bg-black/60 active:scale-[0.99]"
+                    className="lobby-wallet-card min-w-0 flex-1 rounded-2xl border border-white/10 bg-black/45 p-2 shadow-lg transition-all hover:border-[#FFD700]/40 hover:bg-black/60 active:scale-[0.99]"
                 >
                     <WalletBalances
                         balance={user?.balance}

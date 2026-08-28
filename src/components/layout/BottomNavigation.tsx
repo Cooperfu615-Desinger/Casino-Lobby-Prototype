@@ -114,7 +114,7 @@ const BottomNavigation = () => {
 
     return (
         <nav
-            className="absolute z-50 pointer-events-none"
+            className="lobby-bottom-nav absolute z-50 pointer-events-none"
             style={{
                 bottom: `${BOTTOM}px`,
                 left: `${LEFT_INSET}px`,
@@ -124,7 +124,7 @@ const BottomNavigation = () => {
         >
             {/* Scroll viewport — clips buttons outside the 8-slot window */}
             <div
-                className="relative w-full h-full overflow-hidden pointer-events-auto rounded-[28px]"
+                className="lobby-bottom-nav__viewport relative w-full h-full overflow-hidden pointer-events-auto rounded-[28px]"
                 style={{
                     maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.65) 8%, black 18%, black 82%, rgba(0,0,0,0.65) 92%, transparent 100%)',
                     WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.65) 8%, black 18%, black 82%, rgba(0,0,0,0.65) 92%, transparent 100%)',
@@ -134,7 +134,7 @@ const BottomNavigation = () => {
                     className="absolute inset-y-0 left-0 pointer-events-none z-10"
                     style={{
                         width: `${FADE_W}px`,
-                        background: 'linear-gradient(to right, rgba(28,10,48,0.68) 0%, rgba(28,10,48,0.32) 42%, rgba(28,10,48,0.08) 76%, transparent 100%)',
+                        background: 'linear-gradient(to right, rgba(8,12,46,0.68) 0%, rgba(8,12,46,0.32) 42%, rgba(8,12,46,0.08) 76%, transparent 100%)',
                         filter: 'blur(10px)',
                     }}
                 />
@@ -142,7 +142,7 @@ const BottomNavigation = () => {
                     className="absolute inset-y-0 right-0 pointer-events-none z-10"
                     style={{
                         width: `${FADE_W}px`,
-                        background: 'linear-gradient(to left, rgba(28,10,48,0.68) 0%, rgba(28,10,48,0.32) 42%, rgba(28,10,48,0.08) 76%, transparent 100%)',
+                        background: 'linear-gradient(to left, rgba(8,12,46,0.68) 0%, rgba(8,12,46,0.32) 42%, rgba(8,12,46,0.08) 76%, transparent 100%)',
                         filter: 'blur(10px)',
                     }}
                 />

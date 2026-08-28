@@ -130,7 +130,7 @@ const CategorySidebar = ({
                     aria-label="展開遊戲篩選"
                     aria-expanded="false"
                     aria-controls="lobby-filter-drawer"
-                    className="group relative flex h-11 w-11 items-center justify-center rounded-2xl border border-[#FFD700]/30 bg-[#140922]/94 text-[#FFD700] shadow-[0_10px_28px_rgba(0,0,0,0.38),0_0_20px_rgba(255,215,0,0.06)] backdrop-blur-xl transition-all hover:scale-105 hover:border-[#FFD700]/55 hover:bg-[#FFD700]/12 hover:text-white active:scale-95"
+                    className="lobby-filter-toggle group relative flex h-11 w-11 items-center justify-center rounded-2xl border border-[#FFD700]/30 bg-[#140922]/94 text-[#FFD700] shadow-[0_10px_28px_rgba(0,0,0,0.38),0_0_20px_rgba(255,215,0,0.06)] backdrop-blur-xl transition-all hover:scale-105 hover:border-[#FFD700]/55 hover:bg-[#FFD700]/12 hover:text-white active:scale-95"
                 >
                     <SlidersHorizontal size={19} />
                     <span className="pointer-events-none absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full border border-[#140922] bg-[#FFD700] px-1 text-[9px] font-black text-black">
@@ -153,7 +153,7 @@ const CategorySidebar = ({
                 className="pointer-events-auto absolute inset-0 cursor-default bg-black/5 animate-overlay-fade-in"
             />
 
-            <aside className="pointer-events-auto absolute left-3 top-[142px] flex h-[436px] w-[92px] flex-col overflow-hidden rounded-[22px] border border-[#FFD700]/20 bg-[#12071f]/97 shadow-[0_24px_70px_rgba(0,0,0,0.58),0_0_32px_rgba(255,215,0,0.05)] backdrop-blur-2xl animate-category-panel-in">
+            <aside className="lobby-filter-rail pointer-events-auto absolute left-3 top-[142px] flex h-[436px] w-[92px] flex-col overflow-hidden rounded-[22px] border border-[#FFD700]/20 bg-[#12071f]/97 shadow-[0_24px_70px_rgba(0,0,0,0.58),0_0_32px_rgba(255,215,0,0.05)] backdrop-blur-2xl animate-category-panel-in">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.13),_transparent_34%),linear-gradient(180deg,_rgba(124,58,237,0.08),_transparent_60%)]" />
 
                 <header className="relative flex h-12 shrink-0 items-center justify-between border-b border-white/10 bg-black/20 px-3">
@@ -205,7 +205,7 @@ const CategorySidebar = ({
 
             {activeSection && activeSectionMeta && (
                 <section
-                    className="pointer-events-auto absolute left-[114px] top-[142px] flex h-[436px] w-[310px] flex-col overflow-hidden rounded-[24px] border border-[#FFD700]/22 bg-[#160922]/98 shadow-[0_26px_80px_rgba(0,0,0,0.64),0_0_34px_rgba(124,58,237,0.12)] backdrop-blur-2xl animate-category-panel-in"
+                    className="lobby-filter-detail pointer-events-auto absolute left-[114px] top-[142px] flex h-[436px] w-[310px] flex-col overflow-hidden rounded-[24px] border border-[#FFD700]/22 bg-[#160922]/98 shadow-[0_26px_80px_rgba(0,0,0,0.64),0_0_34px_rgba(124,58,237,0.12)] backdrop-blur-2xl animate-category-panel-in"
                     role="dialog"
                     aria-label={`${activeSectionMeta.label}篩選`}
                 >

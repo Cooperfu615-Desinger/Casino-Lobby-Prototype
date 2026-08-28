@@ -273,6 +273,97 @@ body {
   border-color: rgba(174, 187, 255, 0.86) !important;
 }
 
+/* Lobby visual hierarchy: keep the game cards prominent over a calm,
+   blue-violet glass surface while preserving each screen's existing content. */
+.lobby-shell {
+  background: #05071c;
+}
+
+.lobby-background-base {
+  opacity: 0.95;
+}
+
+.lobby-ambient {
+  mix-blend-mode: screen;
+}
+
+.lobby-texture {
+  opacity: 0.12 !important;
+}
+
+.lobby-main-surface {
+  position: absolute;
+  z-index: 0;
+  left: 20px;
+  right: 20px;
+  top: 118px;
+  bottom: 70px;
+  overflow: hidden;
+  border: 1px solid rgba(174, 187, 255, 0.14);
+  border-radius: 32px;
+  background: linear-gradient(145deg, rgba(35, 48, 132, 0.4), rgba(8, 12, 46, 0.62));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 24px 70px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.lobby-main-surface::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: radial-gradient(circle at 12% 12%, rgba(117, 140, 255, 0.13), transparent 28%),
+    radial-gradient(circle at 90% 86%, rgba(80, 72, 216, 0.14), transparent 32%);
+}
+
+.lobby-main-surface--day {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: linear-gradient(145deg, rgba(224, 232, 255, 0.3), rgba(159, 174, 255, 0.2));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.44), 0 24px 70px rgba(69, 82, 170, 0.16);
+}
+
+.lobby-header {
+  background: linear-gradient(180deg, rgba(4, 7, 27, 0.94), rgba(7, 10, 38, 0.7) 70%, transparent) !important;
+  border-bottom: 1px solid rgba(174, 187, 255, 0.1);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+.lobby-wallet-card {
+  background: linear-gradient(135deg, rgba(18, 25, 75, 0.84), rgba(5, 8, 32, 0.66)) !important;
+  border-color: rgba(174, 187, 255, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 30px rgba(0, 0, 0, 0.18) !important;
+}
+
+.lobby-notification-ticker {
+  background: linear-gradient(90deg, rgba(8, 12, 46, 0.82), rgba(22, 29, 86, 0.72), rgba(8, 12, 46, 0.82)) !important;
+  border-color: rgba(174, 187, 255, 0.14) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.lobby-filter-toggle {
+  background: linear-gradient(145deg, rgba(48, 62, 160, 0.88), rgba(17, 24, 76, 0.96)) !important;
+  border-color: rgba(174, 187, 255, 0.46) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38), 0 0 20px rgba(105, 116, 244, 0.18) !important;
+}
+
+.lobby-filter-rail,
+.lobby-filter-detail {
+  background: linear-gradient(155deg, rgba(23, 33, 104, 0.96), rgba(8, 12, 45, 0.98)) !important;
+  border-color: rgba(174, 187, 255, 0.26) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.58), 0 0 32px rgba(105, 116, 244, 0.14) !important;
+}
+
+.lobby-bottom-nav__viewport {
+  background: linear-gradient(180deg, rgba(8, 12, 46, 0.6), rgba(8, 12, 46, 0.92)) !important;
+  border: 1px solid rgba(174, 187, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 40px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.lobby-jackpot-panel {
+  background: linear-gradient(145deg, rgba(23, 33, 104, 0.96), rgba(8, 12, 45, 0.98)) !important;
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.38), 0 0 24px rgba(105, 116, 244, 0.16);
+}
+
 /* The three primary login entries retain their original product roles.
    Third-party provider colors and this guest amber are intentionally exempt
    from the generic bright blue-violet accent remap. */

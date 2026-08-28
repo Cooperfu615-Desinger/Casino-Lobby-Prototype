@@ -93,7 +93,7 @@ const JpNotification = () => {
                 ${isVisible ? 'translate-x-0' : 'translate-x-[120%]'}
             `}
         >
-            <div className={`bg-[#1a0b2e]/95 backdrop-blur-md border ${style.border} rounded-2xl p-4 ${style.glow}`}>
+            <div className={`lobby-jackpot-panel bg-[#1a0b2e]/95 backdrop-blur-md border ${style.border} rounded-2xl p-4 ${style.glow}`}>
 
                 {/* Header row */}
                 <div className="flex items-center gap-2 mb-3">

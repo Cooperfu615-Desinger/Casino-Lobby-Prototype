@@ -2,7 +2,7 @@ import { Megaphone } from 'lucide-react';
 
 const NotificationTicker = () => {
     return (
-        <div className="absolute top-[88px] left-0 right-0 z-30 bg-black/50 backdrop-blur-sm border-y border-white/5 h-9 flex items-center overflow-hidden">
+        <div className="lobby-notification-ticker absolute top-[88px] left-0 right-0 z-30 bg-black/50 backdrop-blur-sm border-y border-white/5 h-9 flex items-center overflow-hidden">
             <Megaphone size={16} className="text-[#FFD700] ml-6 flex-shrink-0 animate-pulse" />
             <div className="overflow-hidden w-full ml-4">
                 <p className="text-white text-sm whitespace-nowrap animate-marquee font-medium tracking-wide">

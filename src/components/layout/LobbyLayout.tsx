@@ -107,11 +107,11 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     );
 
     const backgroundGradient = themeMode === 'day'
-        ? 'from-[#6dcbff] via-[#8b7bff] to-[#f4c36f]'
-        : 'from-[#4B0082] via-[#240046] to-[#100020]';
+        ? 'from-[#75A4FF] via-[#8B91FF] to-[#C6D0FF]'
+        : 'from-[#28378F] via-[#151E62] to-[#05071C]';
     const ambientGlow = themeMode === 'day'
-        ? 'bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.28),_transparent_34%),radial-gradient(circle_at_bottom_left,_rgba(255,213,128,0.18),_transparent_30%)]'
-        : 'bg-[radial-gradient(circle_at_top_right,_rgba(255,215,0,0.12),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(168,85,247,0.16),_transparent_32%)]';
+        ? 'bg-[radial-gradient(circle_at_top_right,_rgba(230,238,255,0.38),_transparent_34%),radial-gradient(circle_at_bottom_left,_rgba(155,171,255,0.22),_transparent_30%)]'
+        : 'bg-[radial-gradient(circle_at_top_right,_rgba(117,140,255,0.24),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(80,72,216,0.22),_transparent_32%)]';
 
     const handleGameCardClick = (game: Game) => {
         recordRecentGame(game.id);
@@ -129,12 +129,13 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
     };
 
     return (
-        <div className="relative w-full h-full bg-[#10184A] overflow-hidden font-sans selection:bg-[#8B8FFF] selection:text-white shadow-2xl border border-slate-800">
+        <div className="lobby-shell relative w-full h-full overflow-hidden font-sans selection:bg-[#8B8FFF] selection:text-white shadow-2xl border border-slate-800">
 
             {/* Background Texture */}
-            <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${backgroundGradient}`}></div>
-            <div className={`absolute inset-0 ${ambientGlow}`}></div>
-            <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] ${themeMode === 'day' ? 'opacity-10 mix-blend-soft-light' : 'opacity-20'}`}></div>
+            <div className={`lobby-background-base absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] ${backgroundGradient}`}></div>
+            <div className={`lobby-ambient absolute inset-0 ${ambientGlow}`}></div>
+            <div className={`lobby-texture absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] ${themeMode === 'day' ? 'opacity-10 mix-blend-soft-light' : 'opacity-20'}`}></div>
+            <div className={`lobby-main-surface lobby-main-surface--${themeMode}`} aria-hidden="true" />
 
             {/* Modal Overlays */}
             {isSettingsOpen && (
