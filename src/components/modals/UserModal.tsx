@@ -44,7 +44,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
             onClose={onClose}
             closeLabel="關閉玩家資料"
             frameClassName="h-[min(700px,94vh)] w-[96%] max-w-[1040px]"
-            bodyClassName="p-0 overflow-hidden"
+            bodyClassName="p-0 !overflow-hidden"
             headerContent={(
                 <LobbyModalTabs
                     items={tabs}
@@ -62,7 +62,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     {activeTab === 'profile' && <PersonalProfilePanel />}
                     {activeTab === 'bindings' && <AccountBindingPanel />}
                     {activeTab === 'vip' && <VipLevelPanel />}
-                    {activeTab === 'history' && <GameRecordsPanel onBack={() => setActiveTab('profile')} />}
+                    {activeTab === 'history' && <GameRecordsPanel />}
                 </main>
 
                 {showAvatarSelect && <AvatarSelectModal onClose={() => setShowAvatarSelect(false)} />}

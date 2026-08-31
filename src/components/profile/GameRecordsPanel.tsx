@@ -1,10 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { GAMES } from '../../data/mockData';
-
-interface GameRecordsPanelProps {
-    onBack: () => void;
-}
+import { LobbyModalButton } from '../common/LobbyModalPrimitives';
 
 interface GameRecord {
     id: number;
@@ -48,7 +45,7 @@ const createMockRecords = (today: Date): GameRecord[] => {
     }).sort((a, b) => b.time - a.time);
 };
 
-const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
+const GameRecordsPanel = () => {
     const today = useMemo(() => new Date(), []);
     const earliestDate = useMemo(() => {
         const date = new Date(today);
@@ -84,23 +81,19 @@ const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
     };
 
     return (
-        <div className="flex min-h-0 flex-1 animate-in flex-col slide-in-from-right duration-300">
-            <div className="mb-4 flex items-center gap-4">
-                <button
-                    type="button"
-                    onClick={onBack}
-                    className="text-slate-400 transition-colors hover:text-white"
-                    aria-label="返回個人資料"
-                >
-                    <ArrowLeft size={24} />
-                </button>
+        <div className="flex h-full min-h-0 flex-col animate-in slide-in-from-right duration-300">
+            <div className="mb-4 flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-[10px] font-black tracking-[0.2em] text-[#FFD700]">GAME HISTORY</p>
-                    <h3 className="text-xl font-bold text-white">遊戲紀錄</h3>
+                    <p className="text-[9px] font-black tracking-[0.22em] text-white/55">GAME HISTORY</p>
+                    <h3 className="mt-1 text-xl font-black text-white">遊戲紀錄</h3>
+                    <p className="mt-1 text-xs leading-5 text-white/58">選擇最近 30 天內的開始與結束日期，查詢 Mock 遊戲紀錄。</p>
                 </div>
+                <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/16 bg-white/8 px-3 py-1.5 text-[10px] font-black text-white/54">
+                    <CalendarDays size={12} /> 最近 30 天
+                </span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/15 p-4">
+            <div className="rounded-2xl border border-white/14 bg-[#263990]/24 p-4">
                 <div className="grid grid-cols-[1fr_1fr_auto] items-end gap-3">
                     <DateField
                         id="game-record-start"
@@ -118,22 +111,17 @@ const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
                         max={maxDate}
                         onChange={setEndDate}
                     />
-                    <button
-                        type="button"
-                        onClick={handleQuery}
-                        disabled={!rangeValid}
-                        className="flex h-[42px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 px-5 text-sm font-black text-black shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-                    >
+                    <LobbyModalButton onClick={handleQuery} disabled={!rangeValid} className="h-[42px] min-w-[105px] px-5">
                         <Search size={15} />
                         查詢
-                    </button>
+                    </LobbyModalButton>
                 </div>
                 {!rangeValid && startDate && endDate && (
                     <p className="mt-2 text-xs font-bold text-red-300">開始日期不可晚於結束日期</p>
                 )}
             </div>
 
-            <div className="mt-3 flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/15">
+            <div className="mt-3 flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/14 bg-[#263990]/24">
                 {!hasQueried ? (
                     <EmptyState text="請選擇日期區間後查詢" />
                 ) : results.length === 0 ? (
@@ -142,7 +130,7 @@ const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
                     <>
                         <div className="min-h-0 flex-1 overflow-auto custom-scrollbar">
                             <table className="w-full border-collapse text-xs">
-                                <thead className="sticky top-0 z-10 bg-[#211239] text-slate-400">
+                                <thead className="sticky top-0 z-10 bg-[#3449a6]/95 text-white/58 backdrop-blur-md">
                                     <tr>
                                         <th className="px-3 py-3 text-center font-bold">編號</th>
                                         <th className="px-3 py-3 text-left font-bold">遊戲名稱</th>
@@ -153,11 +141,11 @@ const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
                                 </thead>
                                 <tbody>
                                     {pagedResults.map((record, index) => (
-                                        <tr key={record.id} className="border-t border-white/5 text-white transition-colors hover:bg-white/5">
-                                            <td className="px-3 py-2.5 text-center text-slate-500">{pageStart + index + 1}</td>
+                                        <tr key={record.id} className="border-t border-white/7 text-white transition-colors hover:bg-white/7">
+                                            <td className="px-3 py-2.5 text-center text-white/42">{pageStart + index + 1}</td>
                                             <td className="max-w-36 truncate px-3 py-2.5 font-bold">{record.game}</td>
                                             <td className="px-3 py-2.5 text-right font-mono">{record.bet.toLocaleString()}</td>
-                                            <td className={`px-3 py-2.5 text-right font-mono font-black ${record.win > 0 ? 'text-emerald-300' : record.win < 0 ? 'text-red-300' : 'text-slate-400'}`}>
+                                            <td className={`px-3 py-2.5 text-right font-mono font-black ${record.win > 0 ? 'text-emerald-200' : record.win < 0 ? 'text-red-200' : 'text-white/48'}`}>
                                                 {record.win > 0 ? '+' : ''}{record.win.toLocaleString()}
                                             </td>
                                             <td className="px-3 py-2.5 text-right font-mono">{record.balance.toLocaleString()}</td>
@@ -168,7 +156,7 @@ const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
                         </div>
 
                         {totalPages > 1 && (
-                            <div className="flex items-center justify-center gap-2 border-t border-white/10 px-3 py-3">
+                            <div className="flex items-center justify-center gap-2 border-t border-white/12 px-3 py-3">
                                 <PageButton
                                     label="上一頁"
                                     disabled={currentPage === 1}
@@ -176,7 +164,7 @@ const GameRecordsPanel = ({ onBack }: GameRecordsPanelProps) => {
                                 >
                                     <ChevronLeft size={15} />
                                 </PageButton>
-                                <span className="min-w-20 text-center text-xs font-bold text-slate-300">
+                                <span className="min-w-20 text-center text-xs font-bold text-white/68">
                                     {currentPage} / {totalPages}
                                 </span>
                                 <PageButton
@@ -206,7 +194,7 @@ interface DateFieldProps {
 
 const DateField = ({ id, label, value, min, max, onChange }: DateFieldProps) => (
     <label htmlFor={id} className="min-w-0">
-        <span className="mb-1.5 block text-[10px] font-black tracking-wider text-slate-400">{label}</span>
+        <span className="mb-1.5 block text-[10px] font-black tracking-wider text-white/55">{label}</span>
         <input
             id={id}
             type="date"
@@ -214,7 +202,7 @@ const DateField = ({ id, label, value, min, max, onChange }: DateFieldProps) => 
             min={min}
             max={max}
             onChange={(event) => onChange(event.target.value)}
-            className="h-[42px] w-full rounded-xl border border-white/10 bg-black/25 px-3 text-xs font-bold text-white outline-none transition-colors focus:border-[#FFD700]"
+            className="lobby-profile-field__input h-[42px] w-full rounded-xl px-3 text-xs font-bold"
         />
     </label>
 );
@@ -232,14 +220,14 @@ const PageButton = ({ label, disabled, onClick, children }: PageButtonProps) => 
         onClick={onClick}
         disabled={disabled}
         aria-label={label}
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-purple-400/20 bg-purple-500/10 text-purple-200 transition-colors hover:bg-purple-500/20 disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/18 bg-white/9 text-white transition-colors hover:bg-white/16 disabled:cursor-not-allowed disabled:opacity-30"
     >
         {children}
     </button>
 );
 
 const EmptyState = ({ text }: { text: string }) => (
-    <div className="flex flex-1 items-center justify-center px-4 py-12 text-center text-sm font-bold text-slate-500">
+    <div className="flex flex-1 items-center justify-center px-4 py-12 text-center text-sm font-bold text-white/42">
         {text}
     </div>
 );
