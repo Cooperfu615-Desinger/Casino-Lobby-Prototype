@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
     Crown,
     Link2,
@@ -44,7 +45,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
             onClose={onClose}
             closeLabel="關閉玩家資料"
             frameClassName="h-[min(700px,94vh)] w-[96%] max-w-[1040px]"
-            bodyClassName="p-0 !overflow-hidden"
+            bodyClassName="p-0 !overflow-clip"
             headerContent={(
                 <LobbyModalTabs
                     items={tabs}
@@ -65,7 +66,10 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     {activeTab === 'history' && <GameRecordsPanel />}
                 </main>
 
-                {showAvatarSelect && <AvatarSelectModal onClose={() => setShowAvatarSelect(false)} />}
+                {showAvatarSelect && createPortal(
+                    <AvatarSelectModal onClose={() => setShowAvatarSelect(false)} />,
+                    document.body,
+                )}
             </div>
         </LobbyModalShell>
     );
