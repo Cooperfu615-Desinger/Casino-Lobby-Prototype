@@ -21,7 +21,17 @@ export interface User {
     balance: CurrencyBalance;
     vault_gold: number; // New: Gold in the vault
     id: string;
+    birthday: string;
+    email: string;
+    phoneNumber: string;
+    bio: string;
+    bindings: AccountBindingState;
     canAutoSend?: boolean; // Special player permission: enables auto-send feature
+}
+
+export interface AccountBindingState {
+    phone: boolean;
+    google: boolean;
 }
 
 export type AuthProviderType = 'account' | 'guest' | 'phone' | 'facebook' | 'line' | 'apple' | 'google';
@@ -53,7 +63,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const DEFAULT_WALLET_AMOUNT = 10_000_000;
 const AUTH_STORAGE_KEY = 'jh_app_auth_user';
 
-type StoredAuthUser = Pick<User, 'name' | 'account' | 'authProvider' | 'avatarId' | 'id'>;
+type StoredAuthUser = Pick<
+    User,
+    'name' | 'account' | 'authProvider' | 'avatarId' | 'id' | 'birthday' | 'email' | 'phoneNumber' | 'bio' | 'bindings'
+>;
+type MockUserSeed = Pick<StoredAuthUser, 'name' | 'account' | 'authProvider' | 'avatarId' | 'id'>
+    & Partial<Pick<StoredAuthUser, 'birthday' | 'email' | 'phoneNumber' | 'bio' | 'bindings'>>;
 
 const createMockUser = ({
     name,
@@ -61,8 +76,18 @@ const createMockUser = ({
     authProvider,
     avatarId = 1,
     id,
-}: StoredAuthUser): User => {
+    birthday = '',
+    email = '',
+    phoneNumber,
+    bio = '幸運女神眷顧我！',
+    bindings,
+}: MockUserSeed): User => {
     const isGuest = authProvider === 'guest';
+    const resolvedPhoneNumber = phoneNumber ?? (authProvider === 'phone' ? account : '');
+    const resolvedBindings = bindings ?? {
+        phone: authProvider === 'phone',
+        google: authProvider === 'google',
+    };
     return {
         name,
         account,
@@ -81,6 +106,11 @@ const createMockUser = ({
         },
         vault_gold: 0,
         id,
+        birthday,
+        email,
+        phoneNumber: resolvedPhoneNumber,
+        bio,
+        bindings: resolvedBindings,
         canAutoSend: !isGuest,
     };
 };
@@ -108,6 +138,15 @@ const loadStoredUser = (): User | null => {
             authProvider: parsedUser.authProvider as AuthProviderType,
             avatarId: typeof parsedUser.avatarId === 'number' ? parsedUser.avatarId : 1,
             id: parsedUser.id,
+            birthday: typeof parsedUser.birthday === 'string' ? parsedUser.birthday : '',
+            email: typeof parsedUser.email === 'string' ? parsedUser.email : '',
+            phoneNumber: typeof parsedUser.phoneNumber === 'string' ? parsedUser.phoneNumber : undefined,
+            bio: typeof parsedUser.bio === 'string' ? parsedUser.bio : undefined,
+            bindings: parsedUser.bindings
+                && typeof parsedUser.bindings.phone === 'boolean'
+                && typeof parsedUser.bindings.google === 'boolean'
+                ? parsedUser.bindings
+                : undefined,
         });
     } catch {
         window.localStorage.removeItem(AUTH_STORAGE_KEY);
@@ -141,6 +180,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 authProvider: user.authProvider,
                 avatarId: user.avatarId,
                 id: user.id,
+                birthday: user.birthday,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                bio: user.bio,
+                bindings: user.bindings,
             };
             window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(storedUser));
         } else {

@@ -350,6 +350,16 @@ body {
   padding-inline: 8px;
 }
 
+.lobby-profile-tabs {
+  flex-wrap: wrap;
+}
+
+.lobby-profile-tabs .lobby-modal-tab {
+  min-width: 118px;
+  flex: 1;
+  padding-inline: 12px;
+}
+
 .lobby-reward-card {
   background:
     linear-gradient(145deg, rgba(45, 61, 165, 0.44), rgba(35, 44, 128, 0.46));
