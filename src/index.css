@@ -177,6 +177,14 @@ body {
   background-color: rgba(24, 34, 112, 0.2) !important;
 }
 
+.lobby-modal-surface :where(
+  [class*="bg-[#2a1b42]"],
+  [class*="bg-[#0f0518]"],
+  [class*="bg-[#1a0b2e]"]
+) {
+  background-color: rgba(38, 51, 146, 0.38) !important;
+}
+
 .lobby-modal-header {
   position: relative;
   z-index: 2;
@@ -267,6 +275,35 @@ body {
   min-height: 0;
   flex: 1;
   overflow-y: auto;
+}
+
+.lobby-modal-surface.custom-scrollbar,
+.lobby-modal-surface .custom-scrollbar,
+.lobby-modal-body.custom-scrollbar {
+  scrollbar-color: rgba(255, 255, 255, 0.32) transparent;
+  scrollbar-width: thin;
+}
+
+.lobby-modal-surface.custom-scrollbar::-webkit-scrollbar,
+.lobby-modal-surface .custom-scrollbar::-webkit-scrollbar,
+.lobby-modal-body.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.lobby-modal-surface.custom-scrollbar::-webkit-scrollbar-track,
+.lobby-modal-surface .custom-scrollbar::-webkit-scrollbar-track,
+.lobby-modal-body.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lobby-modal-surface.custom-scrollbar::-webkit-scrollbar-thumb,
+.lobby-modal-surface .custom-scrollbar::-webkit-scrollbar-thumb,
+.lobby-modal-body.custom-scrollbar::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
+  background-clip: padding-box;
 }
 
 .lobby-modal-tabs,

@@ -43,8 +43,8 @@ const LobbyModalShell = ({
     <div className={`lobby-modal-overlay fixed inset-0 ${layerClassName}`}>
         <button
             type="button"
-            aria-label={closeLabel}
-            tabIndex={closeOnBackdrop ? 0 : -1}
+            aria-hidden="true"
+            tabIndex={-1}
             className={`lobby-modal-backdrop absolute inset-0 ${closeOnBackdrop ? 'cursor-default' : 'cursor-default pointer-events-none'}`}
             onClick={closeOnBackdrop ? onClose : undefined}
         />
