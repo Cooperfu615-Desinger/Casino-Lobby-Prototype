@@ -3,7 +3,7 @@ import { Flame, Swords, Crown, Stars } from 'lucide-react';
 
 // Import types from dedicated type files
 import type { Game, GameSeat } from '../types/game';
-import type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile, VIPLevelRule, VIPTargetDetail } from '../types/user';
+import type { Friend, OnlinePlayer, UserStats, Achievement, PlayerProfile, VIPLevelRule } from '../types/user';
 import type { ChatMessage, ClubChatMessage } from '../types/chat';
 import type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
 import type { EventItem } from '../types/event';
@@ -14,7 +14,7 @@ import { PRODUCT_NAME } from '../config/brand';
 
 // Re-export types for backward compatibility
 export type { Game } from '../types/game';
-export type { Friend, OnlinePlayer, UserStats, Achievement, VIPPrivilege, PlayerProfile } from '../types/user';
+export type { Friend, OnlinePlayer, UserStats, Achievement, PlayerProfile } from '../types/user';
 
 export type { ChatMessage, ClubChatMessage } from '../types/chat';
 export type { Package, SalePackage, Transaction, OfferPackage } from '../types/transaction';
@@ -354,213 +354,23 @@ export const ACHIEVEMENTS: Achievement[] = [
     { id: 6, title: '傳奇玩家', description: '達到 VIP 等級 10', icon: '⭐', achieved: false, claimed: false, condition: 'VIP 等級達 10', reward: 1000000 }
 ];
 
-export const VIP_PRIVILEGES: VIPPrivilege[] = [
-    { id: 1, title: '返水', description: '依 VIP 等級享有對應返水比例', icon: '↗' },
-    { id: 2, title: '手續費減免', description: '依 VIP 等級享有對應手續費減免', icon: '%' },
-];
-
-export const VIP_TARGET_DETAILS: VIPTargetDetail[] = [
-    {
-        level: 0,
-        name: 'VIP 0',
-        themeColor: '#94A3B8',
-        rebate: '0%',
-        feeDiscount: '無折扣',
-        maintainRequirement: '無保級條件',
-        note: '完成首次儲值與投注即可開始累積 VIP 進度。',
-    },
-    {
-        level: 1,
-        name: 'VIP 1',
-        themeColor: '#CD7F32',
-        rebate: '0.2%',
-        feeDiscount: '減免 1%',
-        maintainRequirement: '每月有效投注 80,000，或月儲值 2,000',
-        note: '完成基礎儲值與投注門檻後，開始享有返水與手續費減免。',
-    },
-    {
-        level: 2,
-        name: 'VIP 2',
-        themeColor: '#C0C7D1',
-        rebate: '0.4%',
-        feeDiscount: '減免 2%',
-        maintainRequirement: '每月有效投注 160,000，或月儲值 5,000',
-        note: '開始取得穩定回饋，適合中低頻但持續遊玩的玩家。',
-    },
-    {
-        level: 3,
-        name: 'VIP 3',
-        themeColor: '#F5C842',
-        rebate: '0.6%',
-        feeDiscount: '減免 3%',
-        maintainRequirement: '每月有效投注 320,000，或月儲值 12,000',
-        note: '返水與手續費減免隨等級穩定提升。',
-    },
-    {
-        level: 4,
-        name: 'VIP 4',
-        themeColor: '#60A5FA',
-        rebate: '0.8%',
-        feeDiscount: '減免 4%',
-        maintainRequirement: '每月有效投注 560,000，或月儲值 22,000',
-        note: '持續累積儲值與投注，可提高兩項核心回饋。',
-    },
-    {
-        level: 5,
-        name: 'VIP 5',
-        themeColor: '#A855F7',
-        rebate: '1.0%',
-        feeDiscount: '減免 5%',
-        maintainRequirement: '每月有效投注 900,000，或月儲值 35,000',
-        note: '進入高階會員層級，返水與手續費減免同步提升。',
-    },
-    {
-        level: 6,
-        name: 'VIP 6',
-        themeColor: '#EC4899',
-        rebate: '1.2%',
-        feeDiscount: '減免 6%',
-        maintainRequirement: '每月有效投注 1,300,000，或月儲值 50,000',
-        note: '適合穩定投注與儲值玩家，開始享有高階回饋節奏。',
-    },
-    {
-        level: 7,
-        name: 'VIP 7',
-        themeColor: '#F97316',
-        rebate: '1.4%',
-        feeDiscount: '減免 7%',
-        maintainRequirement: '每月有效投注 1,800,000，或月儲值 75,000',
-        note: '高階 VIP 目標，享有更高返水與手續費減免。',
-    },
-    {
-        level: 8,
-        name: 'VIP 8',
-        themeColor: '#22D3EE',
-        rebate: '1.6%',
-        feeDiscount: '減免 8%',
-        maintainRequirement: '每月有效投注 2,400,000，或月儲值 105,000',
-        note: '針對核心玩家提供更高且穩定的核心回饋。',
-    },
-    {
-        level: 9,
-        name: 'VIP 9',
-        themeColor: '#FACC15',
-        rebate: '1.8%',
-        feeDiscount: '減免 9%',
-        maintainRequirement: '每月有效投注 3,100,000，或月儲值 140,000',
-        note: '接近最高層級，兩項核心回饋進一步提升。',
-    },
-    {
-        level: 10,
-        name: 'VIP 10',
-        themeColor: '#FFFFFF',
-        rebate: '2.0%',
-        feeDiscount: '減免 10%',
-        maintainRequirement: '每月有效投注 4,000,000，或月儲值 180,000',
-        note: '最高 VIP 等級，享有最高返水與手續費減免。',
-    },
-];
-
 export const VIP_LEVEL_RULES: VIPLevelRule[] = [
-    {
-        level: 0,
-        requiredDeposit: 0,
-        requiredBet: 0,
-        rewards: [
-            { label: '返水', value: '0%' },
-            { label: '手續費減免', value: '無折扣' },
-        ],
-    },
-    {
-        level: 1,
-        requiredDeposit: 5000,
-        requiredBet: 120000,
-        rewards: [
-            { label: '返水', value: '0.2%' },
-            { label: '手續費減免', value: '減免 1%' },
-        ],
-    },
-    {
-        level: 2,
-        requiredDeposit: 12000,
-        requiredBet: 350000,
-        rewards: [
-            { label: '返水', value: '0.4%' },
-            { label: '手續費減免', value: '減免 2%' },
-        ],
-    },
-    {
-        level: 3,
-        requiredDeposit: 25000,
-        requiredBet: 800000,
-        rewards: [
-            { label: '返水', value: '0.6%' },
-            { label: '手續費減免', value: '減免 3%' },
-        ],
-    },
-    {
-        level: 4,
-        requiredDeposit: 45000,
-        requiredBet: 1400000,
-        rewards: [
-            { label: '返水', value: '0.8%' },
-            { label: '手續費減免', value: '減免 4%' },
-        ],
-    },
-    {
-        level: 5,
-        requiredDeposit: 70000,
-        requiredBet: 2100000,
-        rewards: [
-            { label: '返水', value: '1.0%' },
-            { label: '手續費減免', value: '減免 5%' },
-        ],
-    },
-    {
-        level: 6,
-        requiredDeposit: 105000,
-        requiredBet: 3000000,
-        rewards: [
-            { label: '返水', value: '1.2%' },
-            { label: '手續費減免', value: '減免 6%' },
-        ],
-    },
-    {
-        level: 7,
-        requiredDeposit: 150000,
-        requiredBet: 4200000,
-        rewards: [
-            { label: '返水', value: '1.4%' },
-            { label: '手續費減免', value: '減免 7%' },
-        ],
-    },
-    {
-        level: 8,
-        requiredDeposit: 210000,
-        requiredBet: 5600000,
-        rewards: [
-            { label: '返水', value: '1.6%' },
-            { label: '手續費減免', value: '減免 8%' },
-        ],
-    },
-    {
-        level: 9,
-        requiredDeposit: 280000,
-        requiredBet: 7300000,
-        rewards: [
-            { label: '返水', value: '1.8%' },
-            { label: '手續費減免', value: '減免 9%' },
-        ],
-    },
-    {
-        level: 10,
-        requiredDeposit: 360000,
-        requiredBet: 9200000,
-        rewards: [
-            { label: '返水', value: '2.0%' },
-            { label: '手續費減免', value: '減免 10%' },
-        ],
-    },
+    { level: 0, name: '鐵牌', accentColor: '#B8C3D9', upgradeLifetimeDeposit: 0, upgradeMonthlyBet: 0, upgradeBinding: 'none', retentionEnabled: false, retentionMonthlyDeposit: null, retentionMonthlyBet: null, retentionActiveDays: null, rewardCurrency: null, rewardAmount: null, p2pGiftFeeRate: 5 },
+    { level: 1, name: '銅牌', accentColor: '#E59A62', upgradeLifetimeDeposit: 1_000, upgradeMonthlyBet: 10_000, upgradeBinding: 'none', retentionEnabled: false, retentionMonthlyDeposit: null, retentionMonthlyBet: null, retentionActiveDays: null, rewardCurrency: 'bronze', rewardAmount: 1_000, p2pGiftFeeRate: 5 },
+    { level: 2, name: '銀牌', accentColor: '#DCE8FF', upgradeLifetimeDeposit: null, upgradeMonthlyBet: null, upgradeBinding: 'none', retentionEnabled: false, retentionMonthlyDeposit: null, retentionMonthlyBet: null, retentionActiveDays: null, rewardCurrency: 'bronze', rewardAmount: 5_000, p2pGiftFeeRate: 5 },
+    { level: 3, name: '金牌', accentColor: '#FFD76A', upgradeLifetimeDeposit: 5_000, upgradeMonthlyBet: 50_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 2_500, retentionMonthlyBet: 25_000, retentionActiveDays: 8, rewardCurrency: 'silver', rewardAmount: 100, p2pGiftFeeRate: 5 },
+    { level: 4, name: '白金', accentColor: '#B9D8FF', upgradeLifetimeDeposit: 10_000, upgradeMonthlyBet: 100_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 5_000, retentionMonthlyBet: 50_000, retentionActiveDays: 12, rewardCurrency: 'silver', rewardAmount: 250, p2pGiftFeeRate: 5 },
+    { level: 5, name: '琥珀', accentColor: '#FFC77A', upgradeLifetimeDeposit: 20_000, upgradeMonthlyBet: 200_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 10_000, retentionMonthlyBet: 100_000, retentionActiveDays: 16, rewardCurrency: 'silver', rewardAmount: 500, p2pGiftFeeRate: 5 },
+    { level: 6, name: '翡翠', accentColor: '#70F0C2', upgradeLifetimeDeposit: 35_000, upgradeMonthlyBet: 350_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 18_000, retentionMonthlyBet: 180_000, retentionActiveDays: 16, rewardCurrency: 'silver', rewardAmount: 1_000, p2pGiftFeeRate: 5 },
+    { level: 7, name: '藍寶石', accentColor: '#77C6FF', upgradeLifetimeDeposit: 55_000, upgradeMonthlyBet: 550_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 28_000, retentionMonthlyBet: 280_000, retentionActiveDays: 20, rewardCurrency: 'silver', rewardAmount: 1_800, p2pGiftFeeRate: 5 },
+    { level: 8, name: '紅寶石', accentColor: '#FF7C9F', upgradeLifetimeDeposit: 80_000, upgradeMonthlyBet: 800_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 40_000, retentionMonthlyBet: 400_000, retentionActiveDays: 20, rewardCurrency: 'silver', rewardAmount: 2_800, p2pGiftFeeRate: 5 },
+    { level: 9, name: '鑽石', accentColor: '#E8F4FF', upgradeLifetimeDeposit: 100_000, upgradeMonthlyBet: 1_000_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 50_000, retentionMonthlyBet: 500_000, retentionActiveDays: 24, rewardCurrency: 'silver', rewardAmount: 4_000, p2pGiftFeeRate: 5 },
+    { level: 10, name: '黑耀', accentColor: '#9CA7D9', upgradeLifetimeDeposit: 150_000, upgradeMonthlyBet: 2_000_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 75_000, retentionMonthlyBet: 1_000_000, retentionActiveDays: 24, rewardCurrency: 'silver', rewardAmount: 6_000, p2pGiftFeeRate: 5 },
+    { level: 11, name: '宗師', accentColor: '#B694FF', upgradeLifetimeDeposit: 250_000, upgradeMonthlyBet: 3_500_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 120_000, retentionMonthlyBet: 1_750_000, retentionActiveDays: 25, rewardCurrency: 'silver', rewardAmount: 10_000, p2pGiftFeeRate: 5 },
+    { level: 12, name: '王者', accentColor: '#FFE87B', upgradeLifetimeDeposit: 400_000, upgradeMonthlyBet: 6_000_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 200_000, retentionMonthlyBet: 3_000_000, retentionActiveDays: 25, rewardCurrency: 'silver', rewardAmount: 18_000, p2pGiftFeeRate: 5 },
+    { level: 13, name: '傳奇', accentColor: '#FF9D76', upgradeLifetimeDeposit: 650_000, upgradeMonthlyBet: 10_000_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 320_000, retentionMonthlyBet: 5_000_000, retentionActiveDays: 26, rewardCurrency: 'silver', rewardAmount: 30_000, p2pGiftFeeRate: 5 },
+    { level: 14, name: '神話', accentColor: '#D28BFF', upgradeLifetimeDeposit: 1_000_000, upgradeMonthlyBet: 16_000_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 500_000, retentionMonthlyBet: 8_000_000, retentionActiveDays: 26, rewardCurrency: 'silver', rewardAmount: 50_000, p2pGiftFeeRate: 5 },
+    { level: 15, name: '至尊', accentColor: '#FFF2A8', upgradeLifetimeDeposit: 1_500_000, upgradeMonthlyBet: 25_000_000, upgradeBinding: 'none', retentionEnabled: true, retentionMonthlyDeposit: 750_000, retentionMonthlyBet: 12_500_000, retentionActiveDays: 28, rewardCurrency: 'silver', rewardAmount: 88_888, p2pGiftFeeRate: 5 },
 ];
 
 export const getMockPlayerProfile = (name: string): PlayerProfile => {

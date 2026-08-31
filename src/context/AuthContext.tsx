@@ -16,8 +16,13 @@ export interface User {
     avatar: string; // Tailwind class for background color (legacy, kept for compatibility)
     avatarId: number; // Selected avatar ID (1–20), see AVATARS in mockData
     vipLevel: number;
-    vipDepositTotal: number;
-    vipBetTotal: number;
+    vipHighestLevel: number;
+    vipLifetimeDeposit: number;
+    vipLifetimeBet: number;
+    vipMonthlyDeposit: number;
+    vipMonthlyBet: number;
+    vipMonthlyActiveDays: number;
+    vipUpgradeProtected: boolean;
     balance: CurrencyBalance;
     vault_gold: number; // New: Gold in the vault
     id: string;
@@ -97,8 +102,13 @@ const createMockUser = ({
             : 'bg-gradient-to-br from-pink-400 to-purple-500',
         avatarId,
         vipLevel: isGuest ? 0 : 6,
-        vipDepositTotal: isGuest ? 0 : 128000,
-        vipBetTotal: isGuest ? 0 : 3560000,
+        vipHighestLevel: isGuest ? 0 : 6,
+        vipLifetimeDeposit: isGuest ? 0 : 48_600,
+        vipLifetimeBet: isGuest ? 0 : 8_920_000,
+        vipMonthlyDeposit: isGuest ? 0 : 21_500,
+        vipMonthlyBet: isGuest ? 0 : 428_000,
+        vipMonthlyActiveDays: isGuest ? 0 : 18,
+        vipUpgradeProtected: !isGuest,
         balance: {
             gold: DEFAULT_WALLET_AMOUNT,
             silver: DEFAULT_WALLET_AMOUNT,

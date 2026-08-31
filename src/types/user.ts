@@ -67,32 +67,21 @@ export interface Achievement {
     reward: number;
 }
 
-// VIP privilege item
-export interface VIPPrivilege {
-    id: number;
-    title: string;
-    description: string;
-    icon: string; // emoji
-}
-
-export interface VIPRewardItem {
-    label: string;
-    value: string;
-}
-
-export interface VIPTargetDetail {
-    level: number;
-    name: string;
-    themeColor: string;
-    rebate: string;
-    feeDiscount: string;
-    maintainRequirement: string;
-    note: string;
-}
+export type VIPBindingRequirement = 'none' | 'phone' | 'email' | 'phone_email';
+export type VIPRewardCurrency = 'bronze' | 'silver' | null;
 
 export interface VIPLevelRule {
     level: number;
-    requiredDeposit: number;
-    requiredBet: number;
-    rewards: VIPRewardItem[];
+    name: string;
+    accentColor: string;
+    upgradeLifetimeDeposit: number | null;
+    upgradeMonthlyBet: number | null;
+    upgradeBinding: VIPBindingRequirement;
+    retentionEnabled: boolean;
+    retentionMonthlyDeposit: number | null;
+    retentionMonthlyBet: number | null;
+    retentionActiveDays: number | null;
+    rewardCurrency: VIPRewardCurrency;
+    rewardAmount: number | null;
+    p2pGiftFeeRate: number;
 }
