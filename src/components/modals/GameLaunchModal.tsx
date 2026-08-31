@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Check, Play, WalletCards, X } from 'lucide-react';
+import { Check, Play, WalletCards } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useRewardCards } from '../../context/RewardCardContext';
 import { buildGameWalletOptions } from '../../utils/gameWallets';
 import type { Game, GameWalletKey, GameWalletOption } from '../../types';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 interface GameLaunchModalProps {
     game: Game;
@@ -36,40 +37,19 @@ const GameLaunchModal = ({ game, initialWallet, onEnterGame, onClose }: GameLaun
     }, [initialWallet, selectedOption?.enabled, selectedWallet, walletOptions]);
 
     return (
-        <div className="juheng-modal-backdrop absolute inset-0 z-[130] flex items-center justify-center">
-            <button
-                type="button"
-                aria-label="關閉遊戲操作彈窗"
-                className="absolute inset-0 bg-black/65 backdrop-blur-sm"
-                onClick={onClose}
-            />
-
-            <article
-                className="juheng-modal-panel relative w-[700px] max-w-[calc(100%-32px)] overflow-hidden rounded-[28px] border border-[#FFD700]/25 bg-gradient-to-br from-[#21103a]/98 to-[#10051f]/98 shadow-[0_28px_90px_rgba(0,0,0,0.58)] animate-in fade-in zoom-in-95 duration-200"
-                role="dialog"
-                aria-modal="true"
-                aria-label={`${game.title} 遊戲啟動`}
-            >
-                <div className="relative flex items-center gap-4 border-b border-white/10 p-5 pr-16">
-                    <div className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[24px] border border-white/15 bg-gradient-to-br ${game.image} text-4xl shadow-lg`}>
-                        {game.icon}
-                    </div>
-                    <div className="min-w-0">
-                        <p className="text-[9px] font-black tracking-[0.22em] text-[#FFD700]">GAME ENTRY</p>
-                        <h2 className="mt-1 truncate text-2xl font-black text-white">{game.title}</h2>
-                        <p className="mt-1 text-xs font-bold text-slate-400">{game.provider}・RTP {game.rtp}%</p>
-                    </div>
-                    <button
-                        type="button"
-                        aria-label="關閉"
-                        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/20 text-white/55 transition-colors hover:bg-white/10 hover:text-white"
-                        onClick={onClose}
-                    >
-                        <X size={19} />
-                    </button>
-                </div>
-
-                <div className="p-5">
+        <LobbyModalShell
+            title={game.title}
+            eyebrow="GAME ENTRY"
+            icon={<span className="text-xl">{game.icon}</span>}
+            onClose={onClose}
+            closeLabel="關閉遊戲操作彈窗"
+            closeOnBackdrop
+            ariaLabel={`${game.title} 遊戲啟動`}
+            layerClassName="z-[130]"
+            frameClassName="h-[min(430px,84vh)] w-[94%] max-w-[760px]"
+            bodyClassName="p-5"
+            headerContent={<p className="text-[10px] font-bold text-slate-300">{game.provider}・RTP {game.rtp}%</p>}
+        >
                     <section className="rounded-2xl border border-white/10 bg-black/20 p-3" aria-label="遊戲幣別">
                         <div className="mb-2.5 flex items-center justify-between gap-3">
                             <div className="flex items-center gap-2">
@@ -108,9 +88,7 @@ const GameLaunchModal = ({ game, initialWallet, onEnterGame, onClose }: GameLaun
                             進入遊戲
                         </button>
                     </div>
-                </div>
-            </article>
-        </div>
+        </LobbyModalShell>
     );
 };
 

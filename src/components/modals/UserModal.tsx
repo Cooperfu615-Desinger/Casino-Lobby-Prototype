@@ -7,6 +7,7 @@ import AvatarDisplay from '../common/AvatarDisplay';
 import AvatarSelectModal from './AvatarSelectModal';
 import WalletBalances from '../common/WalletBalances';
 import GameRecordsPanel from '../profile/GameRecordsPanel';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 interface UserModalProps {
     onClose: () => void;
@@ -91,11 +92,20 @@ const UserModal = ({ onClose }: UserModalProps) => {
     ];
 
     return (
-        <div className="juheng-modal-backdrop absolute inset-0 z-[100] flex items-center justify-center bg-black/90 p-3 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="juheng-modal-panel flex h-[600px] max-h-[calc(100%-24px)] w-full max-w-[900px] overflow-hidden rounded-2xl border border-white/10 bg-[#1a0b2e] shadow-2xl">
+        <LobbyModalShell
+            title="玩家資料"
+            eyebrow="PLAYER PROFILE"
+            icon={<UserCircle2 size={21} />}
+            onClose={onClose}
+            closeLabel="關閉玩家資料"
+            frameClassName="h-[min(700px,94vh)] w-[96%] max-w-[960px]"
+            bodyClassName="p-0 overflow-hidden"
+        >
+            <div className="relative h-full min-h-0">
+            <div className="flex h-full min-h-0 w-full overflow-hidden">
 
                 {/* Sidebar / Left Info */}
-                <div className="relative flex w-[300px] flex-col items-center border-r border-white/10 bg-[#120822] p-5 text-center">
+                <div className="lobby-profile-sidebar relative flex w-[300px] flex-col items-center border-r border-white/10 p-5 text-center">
                     <div className="group relative mb-3">
                         <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-[#FFD700] bg-slate-800 p-1 shadow-[0_0_24px_rgba(255,215,0,0.28)]">
                             <AvatarDisplay avatarId={user?.avatarId} size="lg" />
@@ -182,16 +192,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                 </div>
 
                 {/* Main Content / Right Info */}
-                <div className="relative flex flex-1 flex-col bg-gradient-to-br from-[#1a0b2e] to-[#2a1b42] p-5">
-                    <button
-                        onClick={onClose}
-                        className="absolute -right-px -top-1 z-10 flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
-                        title="關閉"
-                        aria-label="關閉玩家資料"
-                    >
-                        <X size={24} />
-                    </button>
-
+                <div className="lobby-profile-main relative flex flex-1 flex-col p-5">
                     {activeView === 'overview' ? (
                         <div className="flex h-full flex-col">
                             <div className="flex min-h-0 flex-1 flex-col pr-1">
@@ -449,7 +450,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     onClick={() => !bindingLoading && setBindingConfirm(null)}
                 >
                     <div
-                        className="juheng-modal-panel bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] rounded-2xl p-6 border border-white/20 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-200"
+                        className="lobby-modal-dialog-card mx-4 w-full max-w-sm p-6 animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3 className="text-xl font-bold text-white mb-4 text-center">帳號綁定</h3>
@@ -491,7 +492,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                     onClick={() => setShowVipTarget(false)}
                 >
                     <div
-                        className="juheng-modal-panel max-h-[calc(100%-36px)] w-full max-w-[760px] overflow-hidden rounded-2xl border border-[#FFD700]/30 bg-gradient-to-br from-[#2a1b42] to-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200"
+                        className="lobby-modal-dialog-card max-h-[calc(100%-36px)] w-full max-w-[760px] overflow-hidden animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="relative overflow-hidden border-b border-white/10 p-5">
@@ -592,7 +593,8 @@ const UserModal = ({ onClose }: UserModalProps) => {
             {showAvatarSelect && (
                 <AvatarSelectModal onClose={() => setShowAvatarSelect(false)} />
             )}
-        </div>
+            </div>
+        </LobbyModalShell>
     );
 };
 

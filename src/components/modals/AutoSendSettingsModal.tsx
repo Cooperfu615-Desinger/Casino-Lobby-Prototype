@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { X, MessageSquare, Smile, Save, Globe, MessageCircle, Clock } from 'lucide-react';
+import { MessageSquare, Smile, Save, Globe, MessageCircle, Clock } from 'lucide-react';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 // ─────────────────────────────────────────────
 // Types
@@ -73,8 +74,6 @@ const AutoSendSettingsModal = ({ isOpen, onClose, channelType, settings, onSave 
     const channelLabel = isPublic ? '公共頻道' : '私聊頻道';
     const ChannelIcon = isPublic ? Globe : MessageCircle;
     const accentColor = isPublic ? 'text-emerald-400' : 'text-[#FFD700]';
-    const accentBorderColor = isPublic ? 'border-emerald-400/30' : 'border-[#FFD700]/30';
-    const accentBgColor = isPublic ? 'bg-emerald-400/10' : 'bg-[#FFD700]/10';
 
     const handleSave = () => {
         onSave({ ...draft });
@@ -89,50 +88,25 @@ const AutoSendSettingsModal = ({ isOpen, onClose, channelType, settings, onSave 
     };
 
     return (
-        /* Backdrop */
-        <div
-            className="juheng-modal-backdrop absolute inset-0 z-[120] flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
-            onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-        >
-            {/* ── Modal Panel: Single Column, 480px width ── */}
-            <div className="juheng-modal-panel relative w-[480px] bg-[#1a0b2e] border border-white/15 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden animate-in zoom-in-95 duration-200">
-
-                {/* ── Header ── */}
-                <div className={`flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-[#0f061e] to-[#1a0b2e] border-b border-white/10`}>
-                    <div className="flex items-center gap-2.5">
-                        <div className={`w-8 h-8 rounded-lg ${accentBgColor} border ${accentBorderColor} flex items-center justify-center`}>
-                            <ChannelIcon size={16} className={accentColor} />
-                        </div>
-                        <div>
-                            <h2 className="text-white font-bold text-sm leading-none flex items-center gap-2">
-                                {channelLabel}自動發送
-                                {draft.enabled && (
-                                    <span className="flex items-center gap-1 text-[10px] font-normal text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded-sm border border-emerald-400/20">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                        已啟用
-                                    </span>
-                                )}
-                            </h2>
-                            <p className="text-slate-500 text-[10px] mt-1">Special Player Feature</p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <ToggleSwitch
-                            enabled={draft.enabled}
-                            onChange={(v) => setDraft((s) => ({ ...s, enabled: v }))}
-                        />
-                        <div className="w-px h-6 bg-white/10" />
-                        <button
-                            onClick={onClose}
-                            aria-label="關閉設定"
-                            className="p-1.5 rounded-full text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
-                        >
-                            <X size={16} />
-                        </button>
-                    </div>
+        <LobbyModalShell
+            title={`${channelLabel}自動發送`}
+            eyebrow="SPECIAL PLAYER FEATURE"
+            icon={<ChannelIcon size={18} className={accentColor} />}
+            onClose={onClose}
+            closeLabel="關閉自動發送設定"
+            closeOnBackdrop
+            layerClassName="z-[120]"
+            frameClassName="h-[min(570px,88vh)] w-[94%] max-w-[520px]"
+            bodyClassName="p-0"
+            headerContent={(
+                <div className="flex items-center justify-between gap-4">
+                    <span className={`text-[10px] font-black ${draft.enabled ? 'text-emerald-200' : 'text-slate-400'}`}>
+                        {draft.enabled ? '● 已啟用' : '目前停用'}
+                    </span>
+                    <ToggleSwitch enabled={draft.enabled} onChange={(value) => setDraft((state) => ({ ...state, enabled: value }))} />
                 </div>
-
+            )}
+        >
                 {/* ── Body ── */}
                 <div className="p-5 space-y-5">
 
@@ -251,8 +225,7 @@ const AutoSendSettingsModal = ({ isOpen, onClose, channelType, settings, onSave 
                         {justSaved ? '已儲存！' : '儲存設定'}
                     </button>
                 </div>
-            </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

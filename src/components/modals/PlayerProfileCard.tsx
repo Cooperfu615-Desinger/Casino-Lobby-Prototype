@@ -1,9 +1,10 @@
 import { useState, type ReactNode } from 'react';
-import { AtSign, Ban, Coins, Flag, Gamepad2, Gift, MessageCircle, ShieldAlert, Sparkles, UserMinus, UserPlus, X } from 'lucide-react';
+import { AtSign, Ban, Coins, Flag, Gamepad2, Gift, MessageCircle, ShieldAlert, Sparkles, UserMinus, UserPlus } from 'lucide-react';
 import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useSocial } from '../../context/SocialContext';
 import type { PlayerProfile } from '../../types/user';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 interface PlayerProfileCardProps {
     profile: PlayerProfile;
@@ -78,19 +79,18 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
     };
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="juheng-modal-panel relative grid h-[560px] w-[720px] grid-cols-[250px_1fr] overflow-hidden rounded-2xl border border-white/15 bg-[#10051f] shadow-[0_24px_80px_rgba(0,0,0,0.65)] animate-in zoom-in-95 duration-200">
-
-                {/* Close Button */}
-                <button
-                    aria-label="關閉玩家資訊"
-                    onClick={onClose}
-                    className="absolute right-4 top-4 z-20 rounded-full bg-black/40 p-2 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-                >
-                    <X size={20} />
-                </button>
-
-                <aside className="relative flex flex-col justify-between overflow-hidden border-r border-white/10 bg-gradient-to-b from-[#2a1244] via-[#1a0b2e] to-[#0a0314] p-5">
+        <LobbyModalShell
+            title={profile.name}
+            eyebrow="PLAYER CARD"
+            icon={<span className="text-sm font-black">{profile.name.charAt(0).toUpperCase()}</span>}
+            onClose={onClose}
+            closeLabel="關閉玩家資訊"
+            layerClassName="z-[200]"
+            frameClassName="h-[min(680px,92vh)] w-[94%] max-w-[820px]"
+            bodyClassName="p-0 overflow-hidden"
+        >
+            <div className="relative grid h-full min-h-0 grid-cols-[250px_1fr] overflow-hidden">
+                <aside className="lobby-profile-aside relative flex flex-col justify-between overflow-hidden border-r border-white/10 p-5">
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,215,0,0.15),_transparent_36%),radial-gradient(circle_at_bottom,_rgba(168,85,247,0.18),_transparent_42%)]" />
 
                     <div className="relative">
@@ -222,7 +222,7 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
 
                 {showBlockConfirm && (
                     <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
-                        <div className="juheng-modal-panel w-[360px] rounded-2xl border border-red-400/30 bg-[#1a0b2e] p-5 text-center shadow-2xl animate-in zoom-in-95 duration-150">
+                        <div className="lobby-modal-dialog-card w-[360px] border-red-300/35 p-5 text-center animate-in zoom-in-95 duration-150">
                             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/15 text-red-300">
                                 <Ban size={24} />
                             </div>
@@ -250,7 +250,7 @@ const PlayerProfileCard = ({ profile, onClose }: PlayerProfileCardProps) => {
                     </div>
                 )}
             </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { X, Lock, ImageIcon, Layers } from 'lucide-react';
+import { Lock, ImageIcon, Layers } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 import { AVATARS } from '../../data/mockData';
+import LobbyModalShell from '../common/LobbyModalShell';
+import { LobbyModalButton, LobbyModalTabs } from '../common/LobbyModalPrimitives';
 
 interface AvatarSelectModalProps {
     onClose: () => void;
@@ -24,43 +26,24 @@ const AvatarSelectModal = ({ onClose }: AvatarSelectModalProps) => {
     };
 
     const hasChanges = tempAvatarId !== (user?.avatarId ?? 1);
+    const tabs = [
+        { id: 'avatar' as const, label: '頭像', icon: <ImageIcon size={15} /> },
+        { id: 'frame' as const, label: '頭像框', icon: <Layers size={15} /> },
+    ];
 
     return (
-        <div className="juheng-modal-backdrop absolute inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
-            <div className="juheng-modal-panel w-[480px] bg-[#1a0b2e] border border-white/20 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
-
-                {/* ── Header ── */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-                    <h3 className="text-lg font-bold text-white tracking-wide">選擇頭像</h3>
-                    <button
-                        aria-label="關閉"
-                        onClick={onClose}
-                        className="text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition-colors"
-                    >
-                        <X size={20} />
-                    </button>
-                </div>
-
-                {/* ── Tabs ── */}
-                <div className="flex border-b border-white/10">
-                    {([
-                        { id: 'avatar' as Tab, label: '頭像',   Icon: ImageIcon },
-                        { id: 'frame'  as Tab, label: '頭像框', Icon: Layers    },
-                    ] as const).map(({ id, label, Icon }) => (
-                        <button
-                            key={id}
-                            onClick={() => setActiveTab(id)}
-                            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold transition-all ${
-                                activeTab === id
-                                    ? 'text-[#FFD700] border-b-2 border-[#FFD700] bg-white/5'
-                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                            }`}
-                        >
-                            <Icon size={15} />
-                            {label}
-                        </button>
-                    ))}
-                </div>
+        <LobbyModalShell
+            title="選擇頭像"
+            eyebrow="PROFILE CUSTOMIZATION"
+            icon={<ImageIcon size={20} />}
+            onClose={onClose}
+            closeLabel="關閉頭像選擇"
+            layerClassName="z-[120]"
+            frameClassName="h-[min(540px,88vh)] w-[94%] max-w-[520px]"
+            bodyClassName="p-0"
+            headerContent={<LobbyModalTabs items={tabs} value={activeTab} onChange={setActiveTab} ariaLabel="頭像設定分類" />}
+        >
+            <div className="flex min-h-full flex-col">
 
                 {/* ── Content ── */}
                 <div className="flex-1 p-5 min-h-[280px]">
@@ -135,21 +118,17 @@ const AvatarSelectModal = ({ onClose }: AvatarSelectModalProps) => {
                 </div>
 
                 {/* ── Footer ── */}
-                <div className="px-5 pb-5 pt-3 border-t border-white/10">
-                    <button
+                <div className="border-t border-white/10 px-5 pb-5 pt-3">
+                    <LobbyModalButton
                         onClick={handleSave}
                         disabled={!hasChanges || activeTab === 'frame'}
-                        className={`w-full py-3 rounded-xl font-black text-base tracking-wide transition-all ${
-                            hasChanges && activeTab !== 'frame'
-                                ? 'bg-gradient-to-r from-[#FFD700] to-[#DAA520] text-black hover:brightness-110 active:scale-95 shadow-lg'
-                                : 'bg-white/10 text-slate-500 cursor-not-allowed'
-                        }`}
+                        fullWidth
                     >
                         儲存
-                    </button>
+                    </LobbyModalButton>
                 </div>
             </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

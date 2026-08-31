@@ -112,7 +112,7 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
                     )}
                 {deleteTarget && (
                     <div className="juheng-modal-backdrop absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
-                        <div className="juheng-modal-panel w-full max-w-sm rounded-2xl border border-red-400/25 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
+                        <div className="lobby-modal-dialog-card w-full max-w-sm border-red-300/30 p-6 text-center">
                             <Trash2 className="mx-auto text-red-300" size={30} />
                             <h3 className="mt-3 text-xl font-black text-white">刪除獎勵卡？</h3>
                             <p className="mt-2 text-xs leading-6 text-slate-400">刪除「{deleteTarget.title}」後，本次瀏覽期間無法再次領取。</p>
@@ -126,7 +126,7 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
 
                 {ruleTitle && (
                     <div className="juheng-modal-backdrop absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
-                        <div className="juheng-modal-panel w-full max-w-sm rounded-2xl border border-purple-300/20 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
+                        <div className="lobby-modal-dialog-card w-full max-w-sm border-white/25 p-6 text-center">
                             <Info className="mx-auto text-purple-300" size={30} />
                             <h3 className="mt-3 text-xl font-black text-white">{ruleTitle}</h3>
                             <p className="mt-2 text-xs leading-6 text-slate-400">

@@ -1,6 +1,7 @@
-import { Ban, Clock3, Hash, ShieldCheck, Unlock, UserX, X } from 'lucide-react';
+import { Ban, Clock3, Hash, ShieldCheck, Unlock, UserX } from 'lucide-react';
 import { useSocial, type BlockedPlayer } from '../../context/SocialContext';
 import { useUI } from '../../context/UIContext';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 interface BlacklistModalProps {
     onClose: () => void;
@@ -24,36 +25,23 @@ const BlacklistModal = ({ onClose }: BlacklistModalProps) => {
     };
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-6 backdrop-blur-md animate-in fade-in duration-200">
-            <div className="juheng-modal-panel relative flex h-[520px] w-[720px] flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#10051f] shadow-[0_24px_80px_rgba(0,0,0,0.68)] animate-in zoom-in-95 duration-200">
-                <div className="absolute inset-x-0 top-0 h-28 bg-[radial-gradient(circle_at_top_left,_rgba(239,68,68,0.26),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(255,215,0,0.13),_transparent_32%)]" />
-
-                <header className="relative flex h-24 items-center justify-between border-b border-white/10 px-6">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-red-300/25 bg-red-500/15 text-red-200">
-                            <Ban size={24} />
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-black text-white">黑名單管理</h2>
-                            <p className="mt-1 text-xs font-bold text-slate-400">已封鎖玩家無法私訊，也無法查看個人資料</p>
-                        </div>
-                    </div>
-
-                    <div className="mr-12 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-black text-slate-200">
-                        {blockedPlayers.length} 位玩家
-                    </div>
-
-                    <button
-                        type="button"
-                        aria-label="關閉黑名單管理"
-                        onClick={onClose}
-                        className="absolute right-4 top-4 rounded-full bg-black/35 p-2 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-                    >
-                        <X size={20} />
-                    </button>
-                </header>
-
-                <main className="relative flex-1 min-h-0 p-5">
+        <LobbyModalShell
+            title="黑名單管理"
+            eyebrow="SAFETY & PRIVACY"
+            icon={<Ban size={21} />}
+            onClose={onClose}
+            closeLabel="關閉黑名單管理"
+            layerClassName="z-[200]"
+            frameClassName="h-[min(620px,90vh)] w-[94%] max-w-[780px]"
+            bodyClassName="p-5"
+            headerContent={(
+                <div className="flex items-center justify-between gap-4 text-xs font-bold text-slate-300">
+                    <span>已封鎖玩家無法私訊，也無法查看個人資料</span>
+                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-white">{blockedPlayers.length} 位玩家</span>
+                </div>
+            )}
+        >
+                <main className="relative h-full min-h-0">
                     {blockedPlayers.length === 0 ? (
                         <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-center">
                             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-emerald-300/25 bg-emerald-400/10 text-emerald-200">
@@ -78,8 +66,7 @@ const BlacklistModal = ({ onClose }: BlacklistModalProps) => {
                         </div>
                     )}
                 </main>
-            </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

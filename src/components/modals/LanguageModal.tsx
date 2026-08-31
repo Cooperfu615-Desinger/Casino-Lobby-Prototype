@@ -1,6 +1,7 @@
-import { X, Check } from 'lucide-react';
+import { Check, Globe } from 'lucide-react';
 import { useUserPreferences, Language } from '../../context/UserPreferencesContext';
 import { useUI } from '../../context/UIContext';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 interface LanguageModalProps {
     onClose: () => void;
@@ -53,18 +54,16 @@ const LanguageModal = ({ onClose }: LanguageModalProps) => {
     };
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
-            <div className="juheng-modal-panel w-full max-w-2xl bg-[#1a0b2e] border-2 border-white/10 rounded-3xl p-6 flex flex-col relative shadow-2xl">
-                <button
-                    onClick={onClose}
-                    aria-label="關閉語言設定"
-                    className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-                >
-                    <X size={24} />
-                </button>
-
-                <h2 className="text-2xl font-bold text-white mb-6 text-center">選擇語言 (Select Language)</h2>
-
+        <LobbyModalShell
+            title="選擇語言"
+            eyebrow="SELECT LANGUAGE"
+            icon={<Globe size={21} />}
+            onClose={onClose}
+            closeLabel="關閉語言設定"
+            layerClassName="z-[120]"
+            frameClassName="h-[min(470px,84vh)] w-[94%] max-w-2xl"
+            bodyClassName="p-6"
+        >
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {LANGUAGES.map((lang) => {
                         const isActive = lang.id === currentLanguage;
@@ -105,8 +104,7 @@ const LanguageModal = ({ onClose }: LanguageModalProps) => {
                 <p className="mt-8 text-center text-slate-500 text-xs">
                     本階段僅保存語言選擇流程，原型介面文案維持繁體中文。
                 </p>
-            </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

@@ -15,6 +15,7 @@ interface LobbyModalShellProps {
     bodyClassName?: string;
     layerClassName?: string;
     closeOnBackdrop?: boolean;
+    closeDisabled?: boolean;
 }
 
 /**
@@ -37,6 +38,7 @@ const LobbyModalShell = ({
     bodyClassName = 'p-4',
     layerClassName = 'z-[100]',
     closeOnBackdrop = false,
+    closeDisabled = false,
 }: LobbyModalShellProps) => (
     <div className={`lobby-modal-overlay fixed inset-0 ${layerClassName}`}>
         <button
@@ -67,6 +69,7 @@ const LobbyModalShell = ({
                         type="button"
                         aria-label={closeLabel}
                         onClick={onClose}
+                        disabled={closeDisabled}
                         className="lobby-modal-close"
                     >
                         <X size={20} />
