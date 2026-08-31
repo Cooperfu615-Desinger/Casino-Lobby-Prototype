@@ -1,13 +1,8 @@
 import { useState, type ReactNode } from 'react';
 import {
-    AtSign,
-    CalendarDays,
     CheckCircle2,
     Crown,
-    FileText,
-    Hash,
     Link2,
-    Mail,
     Phone,
     ScrollText,
     UserCircle2,
@@ -17,6 +12,7 @@ import { useAuth, type User } from '../../context/AuthContext';
 import LobbyModalShell from '../common/LobbyModalShell';
 import { LobbyModalTabs } from '../common/LobbyModalPrimitives';
 import PlayerSummaryPanel from '../profile/PlayerSummaryPanel';
+import PersonalProfilePanel from '../profile/PersonalProfilePanel';
 import VipLevelPanel from '../profile/VipLevelPanel';
 import GameRecordsPanel from '../profile/GameRecordsPanel';
 import AvatarSelectModal from './AvatarSelectModal';
@@ -64,7 +60,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                 <PlayerSummaryPanel user={user} onSelectAvatar={() => setShowAvatarSelect(true)} />
 
                 <main className="lobby-profile-main relative min-w-0 flex-1 overflow-hidden p-5">
-                    {activeTab === 'profile' && <ProfileFoundationView user={user} />}
+                    {activeTab === 'profile' && <PersonalProfilePanel />}
                     {activeTab === 'bindings' && <BindingFoundationView user={user} />}
                     {activeTab === 'vip' && <VipLevelPanel />}
                     {activeTab === 'history' && <GameRecordsPanel onBack={() => setActiveTab('profile')} />}
@@ -75,43 +71,6 @@ const UserModal = ({ onClose }: UserModalProps) => {
         </LobbyModalShell>
     );
 };
-
-const ProfileFoundationView = ({ user }: { user: User }) => (
-    <div className="flex h-full min-h-0 flex-col overflow-y-auto pr-1 custom-scrollbar">
-        <div>
-            <p className="text-[9px] font-black tracking-[0.22em] text-white/55">PERSONAL INFORMATION</p>
-            <h3 className="mt-1 text-xl font-black text-white">個人資料</h3>
-            <p className="mt-1 text-xs leading-5 text-white/58">確認帳號識別與聯絡資訊；下一階段將加入編輯與一次性設定流程。</p>
-        </div>
-
-        <section className="mt-4 grid grid-cols-2 gap-3">
-            <ProfileField icon={<AtSign size={15} />} label="帳號" value={user.account} />
-            <ProfileField icon={<UserRound size={15} />} label="暱稱" value={user.name} />
-            <ProfileField icon={<Hash size={15} />} label="ID" value={user.id} />
-            <ProfileField icon={<CalendarDays size={15} />} label="生日" value={user.birthday || '尚未設定'} muted={!user.birthday} />
-            <ProfileField icon={<Mail size={15} />} label="電子郵件" value={user.email || '尚未設定'} muted={!user.email} />
-            <ProfileField icon={<Phone size={15} />} label="手機號碼" value={user.phoneNumber || '尚未綁定'} muted={!user.phoneNumber} />
-        </section>
-
-        <section className="mt-3 rounded-2xl border border-white/14 bg-[#263990]/24 p-4">
-            <div className="flex items-center gap-2 text-white">
-                <FileText size={15} />
-                <span className="text-xs font-black">個人簡介</span>
-            </div>
-            <p className="mt-2 text-sm leading-6 text-white/72">{user.bio || '尚未填寫個人簡介'}</p>
-        </section>
-    </div>
-);
-
-const ProfileField = ({ icon, label, value, muted = false }: { icon: ReactNode; label: string; value: string; muted?: boolean }) => (
-    <article className="rounded-2xl border border-white/14 bg-[#263990]/24 p-4">
-        <div className="flex items-center gap-2 text-white/58">
-            {icon}
-            <span className="text-[10px] font-black">{label}</span>
-        </div>
-        <strong className={`mt-2 block truncate text-sm ${muted ? 'text-white/42' : 'text-white'}`}>{value}</strong>
-    </article>
-);
 
 const BindingFoundationView = ({ user }: { user: User }) => (
     <div className="flex h-full min-h-0 flex-col overflow-y-auto pr-1 custom-scrollbar">
