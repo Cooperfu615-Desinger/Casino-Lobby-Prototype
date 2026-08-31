@@ -7,12 +7,12 @@ import {
     Play,
     Sparkles,
     Trash2,
-    X,
 } from 'lucide-react';
 import { useRewardCards } from '../../context/RewardCardContext';
 import { useUI } from '../../context/UIContext';
 import { useNavigation } from '../../hooks/useNavigation';
 import type { RewardCard, RewardCardStatus } from '../../types/rewardCard';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 interface GiftsInterfaceProps {
     onClose: () => void;
@@ -68,24 +68,15 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
     };
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="juheng-modal-panel relative flex h-[min(700px,92vh)] w-[94%] max-w-[1080px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
-                <header className="relative flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-[#2a1244] via-[#1a0b2e] to-[#130720] px-6 py-4">
-                    <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#FFD700]/30 bg-[#FFD700]/10 text-[#FFD700] shadow-[0_0_24px_rgba(255,215,0,0.08)]">
-                            <CreditCard size={22} />
-                        </div>
-                        <div>
-                            <p className="text-[8px] font-black tracking-[0.24em] text-[#FFD700]/70">REWARD CARD WALLET</p>
-                            <h2 className="mt-0.5 text-xl font-black text-white">獎勵卡</h2>
-                        </div>
-                    </div>
-                    <button type="button" onClick={onClose} aria-label="關閉獎勵卡" className="flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white/55 hover:bg-white/10 hover:text-white">
-                        <X size={19} />
-                    </button>
-                </header>
-
-                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+        <LobbyModalShell
+            title="獎勵卡"
+            eyebrow="REWARD CARD WALLET"
+            icon={<CreditCard size={22} />}
+            onClose={onClose}
+            closeLabel="關閉獎勵卡"
+            frameClassName="h-[min(700px,92vh)] w-[94%] max-w-[1080px]"
+            bodyClassName="p-5"
+        >
                     <section className="mb-4 grid gap-3 sm:grid-cols-2">
                         <WalletSummary tone="gold" label="活動金幣" amount={activityGoldBalance} />
                         <WalletSummary tone="silver" label="活動銀幣" amount={activitySilverBalance} />
@@ -119,8 +110,6 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
                             ))}
                         </section>
                     )}
-                </div>
-
                 {deleteTarget && (
                     <div className="juheng-modal-backdrop absolute inset-0 z-30 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
                         <div className="juheng-modal-panel w-full max-w-sm rounded-2xl border border-red-400/25 bg-gradient-to-br from-[#2a163c] to-[#130720] p-6 text-center shadow-2xl">
@@ -149,8 +138,7 @@ const GiftsInterface = ({ onClose }: GiftsInterfaceProps) => {
                         </div>
                     </div>
                 )}
-            </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 
@@ -190,9 +178,9 @@ const RewardCardItem = ({ card, onActivate, onPause, onDelete, onShowRule }: Rew
             : 'border-white/10 bg-white/5 text-slate-300';
 
     return (
-        <article className={`relative overflow-hidden rounded-[22px] border p-5 ${isGold
-            ? 'border-[#FFD700]/25 bg-gradient-to-br from-[#2c1c26] via-[#21102f] to-[#130720]'
-            : 'border-slate-200/20 bg-gradient-to-br from-[#202438] via-[#21102f] to-[#130720]'
+        <article className={`lobby-reward-card relative overflow-hidden rounded-[22px] border p-5 ${isGold
+            ? 'lobby-reward-card--gold border-[#FFD700]/25'
+            : 'lobby-reward-card--silver border-slate-200/20'
             }`}>
             <CreditCard className={`absolute -right-6 -top-8 opacity-[0.06] ${isGold ? 'text-[#FFD700]' : 'text-slate-100'}`} size={150} />
             <header className="relative flex items-start gap-3">

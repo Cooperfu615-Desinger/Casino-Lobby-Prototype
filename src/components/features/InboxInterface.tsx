@@ -1,9 +1,11 @@
 import { useState, useCallback, useMemo } from 'react';
-import { BellRing, Building2, Clock, Gift, Loader2, Mail, MailOpen, Trash2, X } from 'lucide-react';
+import { BellRing, Building2, Clock, Gift, Loader2, Mail, MailOpen, Trash2 } from 'lucide-react';
 import { INBOX_MESSAGES } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import type { InboxMessage } from '../../types/inbox';
+import LobbyModalShell from '../common/LobbyModalShell';
+import { LobbyModalTabs } from '../common/LobbyModalPrimitives';
 
 interface InboxInterfaceProps {
     onClose: () => void;
@@ -106,20 +108,22 @@ const InboxInterface = ({ onClose }: InboxInterfaceProps) => {
         setSelectedMsgId(messages.find(message => message.type === filter)?.id ?? null);
     }, [messages]);
 
+    const filterTabs = [
+        { id: 'promo' as const, label: '營運公告', icon: <Building2 size={14} />, count: filterCounts.promo },
+        { id: 'system' as const, label: '系統通知', icon: <BellRing size={14} />, count: filterCounts.system },
+    ];
+
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            {/* Modal Container */}
-            <div className="juheng-modal-panel relative w-[90%] max-w-[1000px] h-[600px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex animate-in zoom-in-95 duration-200">
-
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 z-20 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                    aria-label="關閉功能"
-                >
-                    <X size={20} />
-                </button>
-
+        <LobbyModalShell
+            title="信箱"
+            eyebrow="MESSAGE CENTER"
+            icon={<Mail size={21} />}
+            onClose={onClose}
+            closeLabel="關閉信箱"
+            frameClassName="h-[min(680px,92vh)] w-[94%] max-w-[1040px]"
+            bodyClassName="p-0 overflow-hidden"
+        >
+            <div className="flex h-full min-h-0">
                 {/* Left Panel: Message List */}
                 <div className="w-[35%] bg-[#0f061e] border-r border-white/10 flex flex-col">
                     <div className="h-14 flex items-center px-4 border-b border-white/5 gap-2">
@@ -131,49 +135,19 @@ const InboxInterface = ({ onClose }: InboxInterfaceProps) => {
                     </div>
 
                     {/* Message Filters */}
-                    <div
-                        className="grid grid-cols-2 gap-2 border-b border-white/5 bg-black/10 px-3 py-2.5"
-                        role="tablist"
-                        aria-label="信件篩選"
-                    >
-                        <button
-                            type="button"
-                            role="tab"
-                            aria-selected={activeFilter === 'promo'}
-                            onClick={() => handleFilterChange('promo')}
-                            className={`relative flex min-h-10 items-center justify-center gap-1.5 rounded-xl border px-2 text-[11px] font-black transition-all active:scale-[0.98] ${activeFilter === 'promo'
-                                ? 'border-[#FFD700]/45 bg-[#FFD700]/12 text-[#FFD700] shadow-[inset_0_0_16px_rgba(255,215,0,0.05)]'
-                                : 'border-white/8 bg-white/[0.035] text-slate-400 hover:border-white/15 hover:bg-white/[0.07] hover:text-white'
-                                }`}
-                        >
-                            <Building2 size={14} />
-                            營運公告
-                            <span className={`rounded-full px-1.5 py-0.5 text-[9px] ${activeFilter === 'promo' ? 'bg-[#FFD700] text-black' : 'bg-white/8 text-slate-500'}`}>
-                                {filterCounts.promo}
-                            </span>
-                            {unreadCounts.promo > 0 && (
-                                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-red-400 shadow-[0_0_7px_rgba(248,113,113,0.8)]" />
-                            )}
-                        </button>
-                        <button
-                            type="button"
-                            role="tab"
-                            aria-selected={activeFilter === 'system'}
-                            onClick={() => handleFilterChange('system')}
-                            className={`relative flex min-h-10 items-center justify-center gap-1.5 rounded-xl border px-2 text-[11px] font-black transition-all active:scale-[0.98] ${activeFilter === 'system'
-                                ? 'border-purple-300/40 bg-purple-500/16 text-purple-100 shadow-[inset_0_0_16px_rgba(168,85,247,0.06)]'
-                                : 'border-white/8 bg-white/[0.035] text-slate-400 hover:border-white/15 hover:bg-white/[0.07] hover:text-white'
-                                }`}
-                        >
-                            <BellRing size={14} />
-                            系統通知
-                            <span className={`rounded-full px-1.5 py-0.5 text-[9px] ${activeFilter === 'system' ? 'bg-purple-200 text-purple-950' : 'bg-white/8 text-slate-500'}`}>
-                                {filterCounts.system}
-                            </span>
-                            {unreadCounts.system > 0 && (
-                                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-red-400 shadow-[0_0_7px_rgba(248,113,113,0.8)]" />
-                            )}
-                        </button>
+                    <div className="border-b border-white/10 p-3">
+                        <LobbyModalTabs
+                            items={filterTabs}
+                            value={activeFilter}
+                            onChange={handleFilterChange}
+                            ariaLabel="信件篩選"
+                            className="lobby-inbox-tabs"
+                        />
+                        {(unreadCounts.promo > 0 || unreadCounts.system > 0) && (
+                            <p className="mt-2 text-center text-[9px] font-bold text-white/55">
+                                未讀：營運 {unreadCounts.promo}・系統 {unreadCounts.system}
+                            </p>
+                        )}
                     </div>
 
                     {/* Message List */}
@@ -328,7 +302,7 @@ const InboxInterface = ({ onClose }: InboxInterfaceProps) => {
                     )}
                 </div>
             </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

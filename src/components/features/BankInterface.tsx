@@ -5,12 +5,13 @@ import {
     Landmark,
     SlidersHorizontal,
     Sparkles,
-    X,
 } from 'lucide-react';
 import { PACKAGES, OFFER_PACKAGES } from '../../data/mockData';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import type { Transaction, TransactionStatus } from '../../types/transaction';
+import LobbyModalShell from '../common/LobbyModalShell';
+import { LobbyModalTabs } from '../common/LobbyModalPrimitives';
 
 interface BankInterfaceProps {
     onClose: () => void;
@@ -43,46 +44,32 @@ const BankInterface = ({ onClose, initialTab = 'deposit' }: BankInterfaceProps) 
         return matchesCategory && matchesStatus;
     }), [recordCategory, recordStatus, transactions]);
 
-    const tabs: Array<{ key: BankTab; label: string; icon: React.ReactNode }> = [
-        { key: 'deposit', label: '儲值', icon: <Gem size={15} /> },
-        { key: 'offers', label: '優惠', icon: <Sparkles size={15} /> },
-        { key: 'records', label: '紀錄', icon: <History size={15} /> },
+    const tabs = [
+        { id: 'deposit' as const, label: '儲值', icon: <Gem size={15} /> },
+        { id: 'offers' as const, label: '優惠', icon: <Sparkles size={15} /> },
+        { id: 'records' as const, label: '紀錄', icon: <History size={15} /> },
     ];
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="juheng-modal-panel relative flex h-[min(680px,92vh)] w-[94%] max-w-[1040px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
-                <header className="relative flex-none border-b border-white/10 bg-gradient-to-r from-[#2a1244] via-[#1a0b2e] to-[#130720] px-6 pb-3 pt-4">
-                    <button type="button" aria-label="關閉銀行中心" onClick={onClose} className="absolute right-5 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white/55 hover:bg-white/10 hover:text-white">
-                        <X size={19} />
-                    </button>
-                    <div className="flex items-center gap-3 pr-12">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#FFD700]/25 bg-[#FFD700]/10 text-[#FFD700]">
-                            <Landmark size={20} />
-                        </div>
-                        <div>
-                            <p className="text-[8px] font-black tracking-[0.22em] text-[#FFD700]/70">APP WALLET SERVICES</p>
-                            <h2 className="text-xl font-black text-white">銀行中心</h2>
-                        </div>
-                    </div>
-                    <nav className="mt-3 flex max-w-lg gap-2" aria-label="銀行功能">
-                        {tabs.map(tab => (
-                            <button
-                                key={tab.key}
-                                type="button"
-                                onClick={() => setActiveTab(tab.key)}
-                                className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all ${activeTab === tab.key
-                                    ? 'bg-[#FFD700] text-black shadow-lg shadow-[#FFD700]/15'
-                                    : 'border border-white/5 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-                                    }`}
-                            >
-                                {tab.icon}{tab.label}
-                            </button>
-                        ))}
-                    </nav>
-                </header>
-
-                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+        <LobbyModalShell
+            title="銀行中心"
+            eyebrow="APP WALLET SERVICES"
+            icon={<Landmark size={21} />}
+            onClose={onClose}
+            closeLabel="關閉銀行中心"
+            layerClassName="z-[1000]"
+            frameClassName="h-[min(680px,92vh)] w-[94%] max-w-[1040px]"
+            bodyClassName="p-5"
+            headerContent={(
+                <LobbyModalTabs
+                    items={tabs}
+                    value={activeTab}
+                    onChange={setActiveTab}
+                    ariaLabel="銀行功能"
+                    className="max-w-lg"
+                />
+            )}
+        >
                     {activeTab === 'deposit' && (
                         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                             {PACKAGES.map(pkg => (
@@ -175,9 +162,7 @@ const BankInterface = ({ onClose, initialTab = 'deposit' }: BankInterfaceProps) 
                             </div>
                         </div>
                     )}
-                </div>
-            </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

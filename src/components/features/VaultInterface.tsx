@@ -11,7 +11,6 @@ import {
     Send,
     ShieldCheck,
     Wallet,
-    X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
@@ -21,6 +20,8 @@ import {
     GOLD_TO_SILVER_RATE,
     type WalletExchangeDirection,
 } from '../../utils/walletExchange';
+import LobbyModalShell from '../common/LobbyModalShell';
+import { LobbyModalTabs } from '../common/LobbyModalPrimitives';
 
 interface VaultInterfaceProps {
     onClose: () => void;
@@ -129,46 +130,32 @@ const VaultInterface = ({ onClose, initialTab = 'vault', receiverId: initialRece
         }, 700);
     };
 
-    const tabs: Array<{ key: VaultTab; label: string; icon: React.ReactNode }> = [
-        { key: 'vault', label: '保險箱', icon: <ShieldCheck size={15} /> },
-        { key: 'gifts', label: '贈禮／轉點', icon: <Gift size={15} /> },
-        { key: 'exchange', label: '兌換', icon: <ArrowLeftRight size={15} /> },
+    const tabs = [
+        { id: 'vault' as const, label: '保險箱', icon: <ShieldCheck size={15} /> },
+        { id: 'gifts' as const, label: '贈禮／轉點', icon: <Gift size={15} /> },
+        { id: 'exchange' as const, label: '兌換', icon: <ArrowLeftRight size={15} /> },
     ];
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="juheng-modal-panel relative flex h-[min(680px,92vh)] w-[94%] max-w-[1040px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#1a0b2e] shadow-2xl animate-in zoom-in-95 duration-200">
-                <header className="relative flex-none border-b border-white/10 bg-gradient-to-r from-[#122d3e] via-[#1a0b2e] to-[#130720] px-6 pb-3 pt-4">
-                    <button type="button" aria-label="關閉保險箱" onClick={onClose} className="absolute right-5 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white/55 hover:bg-white/10 hover:text-white">
-                        <X size={19} />
-                    </button>
-                    <div className="flex items-center gap-3 pr-12">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-400/10 text-cyan-200">
-                            <ShieldCheck size={21} />
-                        </div>
-                        <div>
-                            <p className="text-[8px] font-black tracking-[0.22em] text-cyan-200/60">SECURE ASSET CENTER</p>
-                            <h2 className="text-xl font-black text-white">保險箱</h2>
-                        </div>
-                    </div>
-                    <nav className="mt-3 flex max-w-xl gap-2" aria-label="保險箱功能">
-                        {tabs.map(tab => (
-                            <button
-                                key={tab.key}
-                                type="button"
-                                onClick={() => setActiveTab(tab.key)}
-                                className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all ${activeTab === tab.key
-                                    ? 'bg-gradient-to-r from-cyan-300 to-teal-400 text-[#06232b] shadow-lg shadow-cyan-400/10'
-                                    : 'border border-white/5 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-                                    }`}
-                            >
-                                {tab.icon}{tab.label}
-                            </button>
-                        ))}
-                    </nav>
-                </header>
-
-                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+        <LobbyModalShell
+            title="保險箱"
+            eyebrow="SECURE ASSET CENTER"
+            icon={<ShieldCheck size={21} />}
+            onClose={onClose}
+            closeLabel="關閉保險箱"
+            layerClassName="z-[1000]"
+            frameClassName="h-[min(680px,92vh)] w-[94%] max-w-[1040px]"
+            bodyClassName="p-5"
+            headerContent={(
+                <LobbyModalTabs
+                    items={tabs}
+                    value={activeTab}
+                    onChange={setActiveTab}
+                    ariaLabel="保險箱功能"
+                    className="max-w-xl"
+                />
+            )}
+        >
                     {activeTab === 'vault' && (
                         <div className="grid h-full gap-4 lg:grid-cols-[0.82fr_1.18fr]">
                             <section className="space-y-3">
@@ -295,9 +282,7 @@ const VaultInterface = ({ onClose, initialTab = 'vault', receiverId: initialRece
                             </section>
                         </div>
                     )}
-                </div>
-            </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 

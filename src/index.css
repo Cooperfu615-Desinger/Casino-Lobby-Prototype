@@ -158,6 +158,25 @@ body {
   color: rgba(255, 255, 255, 0.42) !important;
 }
 
+/* Transitional adapter for feature panes that previously owned deep-purple
+   backgrounds. Keeping the mapping here lets migrated features inherit one
+   maintainable light-blue glass palette without touching semantic colors. */
+.lobby-modal-surface :where(
+  .bg-\[\#0f061e\],
+  .bg-\[\#160b29\],
+  .bg-\[\#1a0b2e\],
+  .bg-\[\#120822\],
+  .bg-\[\#12071f\],
+  .bg-\[\#160922\],
+  .bg-\[\#1a0f2e\]
+) {
+  background-color: rgba(34, 48, 143, 0.3) !important;
+}
+
+.lobby-modal-surface :where(.bg-black\/20, .bg-black\/25, .bg-black\/30) {
+  background-color: rgba(24, 34, 112, 0.2) !important;
+}
+
 .lobby-modal-header {
   position: relative;
   z-index: 2;
@@ -280,6 +299,30 @@ body {
 .lobby-modal-tab-count--active {
   color: #fff;
   background: rgba(255, 255, 255, 0.2);
+}
+
+.lobby-inbox-tabs .lobby-modal-tab {
+  min-width: 0;
+  flex: 1;
+  padding-inline: 8px;
+}
+
+.lobby-reward-card {
+  background:
+    linear-gradient(145deg, rgba(45, 61, 165, 0.44), rgba(35, 44, 128, 0.46));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 12px 28px rgba(30, 38, 112, 0.13);
+}
+
+.lobby-reward-card--gold {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 226, 118, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(54, 68, 166, 0.5), rgba(35, 44, 128, 0.48));
+}
+
+.lobby-reward-card--silver {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(235, 241, 255, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(59, 74, 170, 0.5), rgba(35, 44, 128, 0.48));
 }
 
 .lobby-modal-section,

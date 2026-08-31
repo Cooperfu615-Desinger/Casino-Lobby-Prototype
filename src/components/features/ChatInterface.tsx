@@ -13,6 +13,7 @@ import type { Friend, OnlinePlayer } from '../../types/user';
 import AutoSendSettingsModal, { AutoSendSettings } from '../modals/AutoSendSettingsModal';
 import { useNavigation } from '../../hooks/useNavigation';
 import { PRODUCT_NAME } from '../../config/brand';
+import LobbyModalShell from '../common/LobbyModalShell';
 
 const MOCK_SPECIFIC_CHATS: Record<number, ChatMessage[]> = {
     1: [
@@ -288,7 +289,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
         <button
             onClick={() => setChatTab(id)}
             className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 rounded-lg transition-all ${chatTab === id
-                ? 'bg-white/10 text-[#FFD700]'
+                ? 'bg-white/18 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.22)]'
                 : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'
                 }`}
         >
@@ -623,9 +624,16 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
     };
 
     return (
-        <div className="juheng-modal-backdrop fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            {/* Modal Container */}
-            <div className="juheng-modal-panel relative w-[90%] max-w-[1000px] h-[600px] bg-[#1a0b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex animate-in zoom-in-95 duration-200">
+        <LobbyModalShell
+            title={chatTab === 'support' ? '線上客服' : '聊天中心'}
+            eyebrow="PLAYER COMMUNICATION"
+            icon={chatTab === 'support' ? <Headphones size={21} /> : <MessageCircle size={21} />}
+            onClose={onClose}
+            closeLabel="關閉聊天中心"
+            frameClassName="h-[min(680px,92vh)] w-[94%] max-w-[1060px]"
+            bodyClassName="p-0 overflow-hidden"
+        >
+            <div className="relative flex h-full min-h-0">
 
                 {/* Toast Notification */}
                 {toastMessage && (
@@ -634,18 +642,6 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                         {toastMessage}
                     </div>
                 )}
-
-
-
-                {/* Close Button */}
-                <button
-                    aria-label="關閉功能"
-                    onClick={onClose}
-                    className="absolute top-4 right-4 z-20 bg-black/40 text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                >
-                    <X size={20} />
-                </button>
-
                 {/* Left Panel */}
                 <div className="w-[30%] bg-[#0f061e] border-r border-white/10 flex flex-col pt-2">
                     <div className="flex justify-between px-2 pt-2 pb-1 border-b border-white/5">
@@ -866,7 +862,7 @@ const ChatInterface = ({ initialTab, initialTargetPlayer, supportDraft, onClose 
                     />
                 )}
             </div>
-        </div>
+        </LobbyModalShell>
     );
 };
 
