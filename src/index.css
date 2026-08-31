@@ -10,12 +10,12 @@
   --juheng-purple: #5048d8;
   --juheng-purple-mid: #6974f4;
   --juheng-purple-light: #8b8fff;
-  --juheng-purple-glow: #bfc5ff;
+  --juheng-purple-glow: #ffffff;
   --juheng-gold: #8b8fff;
-  --juheng-gold-light: #dce0ff;
+  --juheng-gold-light: #ffffff;
   --juheng-gold-dark: #5048d8;
-  --juheng-text: #eef0ff;
-  --juheng-text-muted: #c5caf2;
+  --juheng-text: #ffffff;
+  --juheng-text-muted: #a8adb8;
   --juheng-auth-top: #a7b0ff;
   --juheng-auth-mid: #7079ff;
   --juheng-auth-bottom: #4b46cf;
@@ -242,10 +242,11 @@ body {
   box-shadow: 0 10px 26px rgba(75, 70, 207, 0.34);
 }
 
-/* Legacy utility accents are remapped here so existing screens share one
-   bright blue-violet language without changing their interaction logic. */
+/* Legacy accent utilities keep backgrounds, selected states, borders, and
+   focus rings in the blue-violet theme. Their text and icon color is white,
+   so ordinary system content does not inherit a pale-blue cast. */
 :where([class*="text-[#FFD700]"], [class*="text-[#F5C842]"], [class*="text-yellow-"], [class*="text-amber-"]) {
-  color: var(--juheng-purple-glow) !important;
+  color: #ffffff !important;
 }
 
 :where([class*="bg-[#FFD700]"], [class*="bg-yellow-"], [class*="bg-amber-"]) {
