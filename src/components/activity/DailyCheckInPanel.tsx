@@ -13,6 +13,7 @@ import { useActivity } from '../../context/ActivityContext';
 import { useAuth } from '../../context/AuthContext';
 import { useRewardCards } from '../../context/RewardCardContext';
 import { useUI } from '../../context/UIContext';
+import { LobbyModalButton, LobbyModalSection } from '../common/LobbyModalPrimitives';
 
 type MilestoneReward =
     | { type: 'checkpoint'; label: '里程碑' }
@@ -92,7 +93,7 @@ const DailyCheckInPanel = () => {
 
     return (
         <div className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-            <section className="mb-3 flex items-center justify-between gap-4 rounded-2xl border border-[#FFD700]/20 bg-gradient-to-r from-[#FFD700]/10 via-purple-500/5 to-transparent px-4 py-3">
+            <LobbyModalSection tone="highlight" className="mb-3 flex items-center justify-between gap-4 px-4 py-3">
                 <div className="min-w-0">
                     <div className="flex items-center gap-2">
                         <p className="text-[8px] font-black tracking-[0.22em] text-[#FFD700]">DAILY MISSION</p>
@@ -101,19 +102,19 @@ const DailyCheckInPanel = () => {
                     <h3 className="mt-1 text-lg font-black text-white">本月已完成 {totalCheckIns} 天</h3>
                     <p className="mt-0.5 text-[10px] text-slate-400">完成簽到以推進銅幣與活動幣獎勵卡里程碑</p>
                 </div>
-                <button
-                    type="button"
+                <LobbyModalButton
                     onClick={handleTodayCheckIn}
                     disabled={todayChecked}
-                    className="flex min-w-28 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 px-4 py-2.5 text-xs font-black text-black shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:cursor-default disabled:bg-none disabled:bg-emerald-500/15 disabled:text-emerald-300 disabled:shadow-none"
+                    tone={todayChecked ? 'success' : 'primary'}
+                    className="min-w-28"
                 >
                     {todayChecked ? <Check size={15} /> : <CalendarCheck size={15} />}
                     {todayChecked ? '今日已簽到' : '立即簽到'}
-                </button>
-            </section>
+                </LobbyModalButton>
+            </LobbyModalSection>
 
             <div className="grid gap-3 xl:grid-cols-[0.92fr_1.08fr]">
-                <section className="rounded-2xl border border-white/10 bg-black/20 p-3.5">
+                <LobbyModalSection className="p-3.5">
                     <div className="mb-3 flex items-center justify-between">
                         <div className="flex items-center gap-2 text-xs font-black text-white">
                             <Gift size={15} className="text-[#FFD700]" />
@@ -164,9 +165,9 @@ const DailyCheckInPanel = () => {
                         <RewardLegend tone="silver" label="活動銀幣" detail="第 15 天" />
                         <RewardLegend tone="gold" label="活動金幣" detail="第 20 天" />
                     </div>
-                </section>
+                </LobbyModalSection>
 
-                <section className="rounded-2xl border border-white/10 bg-black/20 p-3.5">
+                <LobbyModalSection className="p-3.5">
                     <div className="mb-2.5 flex items-center justify-between">
                         <h4 className="text-xs font-black text-white">本月簽到</h4>
                         <div className="flex gap-2 text-[8px] font-bold text-slate-500">
@@ -208,7 +209,7 @@ const DailyCheckInPanel = () => {
                         <RotateCcw size={12} className="text-purple-300" />
                         漏簽日可支付 {MAKEUP_COST} 銀幣補簽；目前漏簽 {missedDays.length} 天。
                     </div>
-                </section>
+                </LobbyModalSection>
             </div>
 
             {makeupTarget && (

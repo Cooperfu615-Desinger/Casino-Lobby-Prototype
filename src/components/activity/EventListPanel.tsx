@@ -4,6 +4,7 @@ import { EVENTS_LIST } from '../../data/mockData';
 import { useActivity } from '../../context/ActivityContext';
 import { useUI } from '../../context/UIContext';
 import type { EventItem } from '../../types/event';
+import { LobbyModalButton, LobbyModalSection, LobbyModalTabs } from '../common/LobbyModalPrimitives';
 
 type EventListStatus = 'active' | 'upcoming' | 'ended';
 
@@ -35,24 +36,14 @@ const EventListPanel = () => {
 
     return (
         <div className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-            <div className="mb-4 flex rounded-xl border border-white/10 bg-black/20 p-1" role="tablist" aria-label="活動狀態">
-                {STATUS_TABS.map((tab) => (
-                    <button
-                        key={tab.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={activeStatus === tab.id}
-                        onClick={() => setActiveStatus(tab.id)}
-                        className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs font-black transition-colors ${activeStatus === tab.id
-                            ? 'bg-white/10 text-[#FFD700]'
-                            : 'text-slate-500 hover:text-white'
-                            }`}
-                    >
-                        {tab.label}
-                        <span className={`rounded-full px-1.5 py-0.5 text-[9px] ${activeStatus === tab.id ? 'bg-[#FFD700]/15' : 'bg-white/5'}`}>{counts[tab.id]}</span>
-                    </button>
-                ))}
-            </div>
+            <LobbyModalTabs
+                items={STATUS_TABS.map((tab) => ({ ...tab, count: counts[tab.id] }))}
+                value={activeStatus}
+                onChange={setActiveStatus}
+                ariaLabel="活動狀態"
+                variant="secondary"
+                className="mb-4 mt-0"
+            />
 
             <div className="grid grid-cols-2 gap-4 pb-6">
                 {filteredEvents.map((event) => {
@@ -91,14 +82,14 @@ const EventListPanel = () => {
             </div>
 
             {activeStatus === 'ended' && (
-                <div className="mb-6 rounded-2xl border border-white/10 bg-black/20 p-4">
+                <LobbyModalSection className="mb-6 p-4">
                     <div className="mb-3 flex items-center gap-2 text-sm font-black text-[#FFD700]"><Trophy size={17} />活動獲獎名單</div>
                     {[['🥇', '玩家***旺', '400,000 銀幣'], ['🥈', '玩家***福', '200,000 銀幣'], ['🥉', '玩家***星', '100,000 銀幣']].map((row) => (
                         <div key={row[1]} className="grid grid-cols-[40px_1fr_auto] border-t border-white/5 py-2 text-xs">
                             <span>{row[0]}</span><span className="font-bold text-white">{row[1]}</span><span className="font-black text-[#FFD700]">{row[2]}</span>
                         </div>
                     ))}
-                </div>
+                </LobbyModalSection>
             )}
 
             {selectedEvent && (
@@ -115,11 +106,11 @@ const EventListPanel = () => {
                                 <InfoCell label="活動期間" value={`${selectedEvent.startTime} ～ ${selectedEvent.endTime}`} />
                             </div>
                             <p className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4 text-xs leading-7 text-slate-300">{selectedEvent.details}</p>
-                            <button
-                                type="button"
+                            <LobbyModalButton
                                 onClick={handleJoin}
                                 disabled={selectedEvent.status === 'upcoming' || selectedEvent.status === 'ended' || joinedEventIds.includes(selectedEvent.id)}
-                                className="mt-5 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 py-3 text-sm font-black text-black shadow-lg hover:brightness-110 disabled:cursor-default disabled:bg-none disabled:bg-white/5 disabled:text-slate-500 disabled:shadow-none"
+                                className="mt-5"
+                                fullWidth
                             >
                                 {joinedEventIds.includes(selectedEvent.id)
                                     ? '已完成 Mock 報名'
@@ -128,7 +119,7 @@ const EventListPanel = () => {
                                         : selectedEvent.status === 'ended'
                                             ? '活動已結束'
                                             : '立即參與'}
-                            </button>
+                            </LobbyModalButton>
                         </div>
                     </article>
                 </div>

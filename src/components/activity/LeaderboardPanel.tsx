@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Crown } from 'lucide-react';
+import { LobbyModalSection } from '../common/LobbyModalPrimitives';
 
 export type LeaderboardType = 'multiplier' | 'win' | 'rich';
 
@@ -67,7 +68,7 @@ const LeaderboardPanel = ({ type }: { type: LeaderboardType }) => {
 
     return (
         <div key={type} className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-            <div className="mb-4 flex items-center justify-between rounded-xl border border-white/10 bg-black/15 px-4 py-2.5">
+            <LobbyModalSection tone="soft" className="mb-4 flex items-center justify-between px-4 py-2.5">
                 <div>
                     <p className="text-[9px] font-black tracking-[0.2em] text-[#FFD700]">LIVE RANKING</p>
                     <p className="mt-0.5 text-xs font-bold text-slate-400">榜單顯示前 10 名玩家</p>
@@ -76,7 +77,7 @@ const LeaderboardPanel = ({ type }: { type: LeaderboardType }) => {
                     <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.65)]" />
                     {lastUpdate}更新
                 </div>
-            </div>
+            </LobbyModalSection>
 
             <div className="mx-auto mb-4 grid max-w-2xl grid-cols-3 items-end gap-3 px-3 pt-4">
                 <PodiumEntry entry={topThree[1]} place="second" />
@@ -84,7 +85,7 @@ const LeaderboardPanel = ({ type }: { type: LeaderboardType }) => {
                 <PodiumEntry entry={topThree[2]} place="third" />
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+            <LobbyModalSection className="overflow-hidden p-0">
                 <div className="grid grid-cols-[56px_1fr_170px] px-4 py-2 text-[9px] font-black uppercase tracking-wider text-slate-600">
                     <span className="text-center">Rank</span><span>Player / Game</span><span className="text-right">Score</span>
                 </div>
@@ -98,7 +99,7 @@ const LeaderboardPanel = ({ type }: { type: LeaderboardType }) => {
                         <span className="text-right font-mono text-xs font-black text-purple-200">{entry.amount}</span>
                     </div>
                 ))}
-            </div>
+            </LobbyModalSection>
         </div>
     );
 };
