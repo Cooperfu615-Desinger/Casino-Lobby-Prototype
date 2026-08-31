@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import {
-    Crown,
-    Link2,
-    ScrollText,
-    UserCircle2,
-    UserRound,
-} from 'lucide-react';
+import { UserCircle2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import LobbyModalShell from '../common/LobbyModalShell';
 import { LobbyModalTabs } from '../common/LobbyModalPrimitives';
@@ -31,10 +25,10 @@ const UserModal = ({ onClose }: UserModalProps) => {
     if (!user) return null;
 
     const tabs = [
-        { id: 'profile' as const, label: '個人資料', icon: <UserRound size={15} /> },
-        { id: 'bindings' as const, label: '帳號綁定', icon: <Link2 size={15} /> },
-        { id: 'vip' as const, label: 'VIP 等級', icon: <Crown size={15} /> },
-        { id: 'history' as const, label: '遊戲紀錄', icon: <ScrollText size={15} /> },
+        { id: 'profile' as const, label: '個人資料' },
+        { id: 'bindings' as const, label: '帳號綁定' },
+        { id: 'vip' as const, label: 'VIP 等級' },
+        { id: 'history' as const, label: '遊戲紀錄' },
     ];
 
     return (
@@ -46,24 +40,25 @@ const UserModal = ({ onClose }: UserModalProps) => {
             closeLabel="關閉玩家資料"
             frameClassName="h-[min(700px,94vh)] w-[96%] max-w-[1040px]"
             bodyClassName="p-0 !overflow-clip"
-            headerContent={(
-                <LobbyModalTabs
-                    items={tabs}
-                    value={activeTab}
-                    onChange={setActiveTab}
-                    ariaLabel="玩家資料分類"
-                    className="lobby-profile-tabs"
-                />
-            )}
         >
             <div className="relative flex h-full min-h-0">
                 <PlayerSummaryPanel user={user} onSelectAvatar={() => setShowAvatarSelect(true)} />
 
-                <main className="lobby-profile-main relative min-w-0 flex-1 overflow-hidden p-5">
-                    {activeTab === 'profile' && <PersonalProfilePanel />}
-                    {activeTab === 'bindings' && <AccountBindingPanel />}
-                    {activeTab === 'vip' && <VipLevelPanel />}
-                    {activeTab === 'history' && <GameRecordsPanel />}
+                <main className="lobby-profile-main relative flex min-w-0 flex-1 flex-col overflow-hidden p-5">
+                    <LobbyModalTabs
+                        items={tabs}
+                        value={activeTab}
+                        onChange={setActiveTab}
+                        ariaLabel="玩家資料分類"
+                        className="lobby-profile-tabs lobby-profile-tabs--content"
+                    />
+
+                    <div className="min-h-0 flex-1 overflow-hidden">
+                        {activeTab === 'profile' && <PersonalProfilePanel />}
+                        {activeTab === 'bindings' && <AccountBindingPanel />}
+                        {activeTab === 'vip' && <VipLevelPanel />}
+                        {activeTab === 'history' && <GameRecordsPanel />}
+                    </div>
                 </main>
 
                 {showAvatarSelect && createPortal(

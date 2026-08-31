@@ -351,13 +351,20 @@ body {
 }
 
 .lobby-profile-tabs {
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .lobby-profile-tabs .lobby-modal-tab {
   min-width: 118px;
   flex: 1;
   padding-inline: 12px;
+}
+
+.lobby-profile-tabs--content {
+  flex: none;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
 }
 
 .lobby-reward-card {
