@@ -81,7 +81,7 @@ const VipLevelPanel = () => {
                     </div>
 
                     <div className="mt-3 flex flex-col gap-2">
-                        <BenefitRow label="P2P 贈禮手續費" value={`${currentRule.p2pGiftFeeRate}%`} />
+                        <BenefitRow label="贈禮手續費" value={`${currentRule.p2pGiftFeeRate}%`} />
                         <BenefitRow label="本級升級獎勵" value={rewardLabel(currentRule)} />
                         <BenefitRow label="獎勵狀態" value={currentLevel === 0 ? '不適用' : '已發放'} />
                     </div>
@@ -220,7 +220,7 @@ const VipLevelTableModal = ({ currentLevel, onClose }: { currentLevel: number; o
         >
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-[10px] text-white/62">
                 <p>升級條件採全數達成；保級條件啟用時亦採全數達成。</p>
-                <span className="rounded-full bg-white/9 px-3 py-1 font-normal">P2P 贈禮手續費：現行費率 5%</span>
+                <span className="rounded-full bg-white/9 px-3 py-1 font-normal">贈禮手續費：現行費率 5%</span>
             </div>
 
             <div className="min-h-0 flex-1 overflow-auto rounded-2xl bg-[#263990]/18 px-2 custom-scrollbar">
@@ -231,7 +231,7 @@ const VipLevelTableModal = ({ currentLevel, onClose }: { currentLevel: number; o
                             <th className="w-[29%] px-3 py-3">升級條件</th>
                             <th className="w-[31%] px-3 py-3">保級條件</th>
                             <th className="px-3 py-3">升級獎勵</th>
-                            <th className="rounded-r-xl px-3 py-3">P2P 手續費</th>
+                            <th className="rounded-r-xl px-3 py-3">贈禮手續費</th>
                         </tr>
                     </thead>
                     <tbody>
