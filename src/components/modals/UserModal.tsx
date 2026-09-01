@@ -25,7 +25,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
     if (!user) return null;
 
     const tabs = [
-        { id: 'profile' as const, label: '個人資料' },
+        { id: 'profile' as const, label: '基本資料' },
         { id: 'bindings' as const, label: '帳號綁定' },
         { id: 'vip' as const, label: 'VIP 等級' },
         { id: 'history' as const, label: '遊戲紀錄' },
@@ -33,11 +33,11 @@ const UserModal = ({ onClose }: UserModalProps) => {
 
     return (
         <LobbyModalShell
-            title="玩家資料"
+            title="個人資訊"
             eyebrow="PLAYER PROFILE"
             icon={<UserCircle2 size={21} />}
             onClose={onClose}
-            closeLabel="關閉玩家資料"
+            closeLabel="關閉個人資訊"
             frameClassName="h-[min(700px,94vh)] w-[96%] max-w-[1040px]"
             bodyClassName="p-0 !overflow-clip"
         >
@@ -49,7 +49,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         items={tabs}
                         value={activeTab}
                         onChange={setActiveTab}
-                        ariaLabel="玩家資料分類"
+                        ariaLabel="個人資訊分類"
                         className="lobby-profile-tabs lobby-profile-tabs--content"
                     />
 

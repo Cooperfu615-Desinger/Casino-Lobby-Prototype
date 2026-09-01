@@ -92,7 +92,7 @@ const PersonalProfilePanel = () => {
             });
             setIsSaving(false);
             setConfirmOneTimeFields(false);
-            showToast('個人資料已更新', 'success');
+            showToast('基本資料已更新', 'success');
         }, 500);
     };
 
@@ -120,7 +120,7 @@ const PersonalProfilePanel = () => {
                 <div className="flex items-start justify-between gap-4">
                     <div>
                         <p className="text-[9px] font-black tracking-[0.22em] text-white/55">PERSONAL INFORMATION</p>
-                        <h3 className="mt-1 text-xl font-black text-white">個人資料</h3>
+                        <h3 className="mt-1 text-xl font-black text-white">基本資料</h3>
                         <p className="mt-1 text-xs leading-5 text-white/58">暱稱與簡介可隨時修改；生日與電子郵件設定後不可再次變更。</p>
                     </div>
                     <span className="rounded-full border border-white/16 bg-white/8 px-3 py-1.5 text-[10px] font-black text-white/54">

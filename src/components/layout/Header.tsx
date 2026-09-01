@@ -25,7 +25,7 @@ const Header = ({ onOpenUserModal, onOpenSettings, isSettingsOpen }: HeaderProps
                 {/* User Info (Clickable) */}
                 <button
                     type="button"
-                    aria-label="開啟玩家資料"
+                    aria-label="開啟個人資訊"
                     onClick={onOpenUserModal}
                     className="lobby-profile-entry flex items-center gap-4 cursor-pointer hover:brightness-110 transition-all shrink-0"
                 >
