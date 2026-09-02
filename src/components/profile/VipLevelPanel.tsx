@@ -15,21 +15,30 @@ import {
     WalletCards,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useUI } from '../../context/UIContext';
 import { VIP_LEVEL_RULES } from '../../data/mockData';
 import type { VIPBindingRequirement, VIPLevelRule } from '../../types/user';
 import LobbyModalShell from '../common/LobbyModalShell';
+import { LobbyModalButton, LobbyModalTabs } from '../common/LobbyModalPrimitives';
 
 const MAX_VIP_LEVEL = VIP_LEVEL_RULES[VIP_LEVEL_RULES.length - 1]?.level ?? 15;
 
 const VipLevelPanel = () => {
-    const { user } = useAuth();
-    const [showLevelTable, setShowLevelTable] = useState(false);
+    const { user, claimVipLevelReward } = useAuth();
+    const { showToast } = useUI();
+    const [showMechanism, setShowMechanism] = useState(false);
     const currentLevel = Math.max(0, Math.min(user?.vipLevel ?? 0, MAX_VIP_LEVEL));
     const currentRule = getLevelRule(currentLevel);
     const nextRule = VIP_LEVEL_RULES.find(rule => rule.level > currentLevel) ?? null;
     const isMaxLevel = nextRule === null;
     const lifetimeDeposit = user?.vipLifetimeDeposit ?? 0;
     const monthlyBet = user?.vipMonthlyBet ?? 0;
+    const hasReward = currentLevel > 0 && !!currentRule.rewardCurrency && (currentRule.rewardAmount ?? 0) > 0;
+    const rewardClaimed = user?.vipClaimedRewardLevels.includes(currentLevel) ?? false;
+
+    const handleClaimReward = () => {
+        if (claimVipLevelReward()) showToast(`已領取 VIP ${currentLevel} 升級獎勵：${rewardLabel(currentRule)}`, 'success');
+    };
 
     return (
         <div className="relative flex h-full min-h-0 flex-col overflow-y-auto pr-1 custom-scrollbar">
@@ -57,11 +66,11 @@ const VipLevelPanel = () => {
 
                             <button
                                 type="button"
-                                onClick={() => setShowLevelTable(true)}
+                                onClick={() => setShowMechanism(true)}
                                 className="mt-auto flex w-fit items-center gap-1.5 rounded-xl bg-[#263990]/42 px-3 py-2 text-[10px] font-medium text-white transition hover:bg-[#263990]/62"
                             >
                                 <Table2 size={13} />
-                                查看全部等級
+                                VIP機制說明
                                 <ChevronRight size={12} />
                             </button>
                         </div>
@@ -69,7 +78,8 @@ const VipLevelPanel = () => {
                         <div className="flex flex-col gap-2">
                             <HeroStat label="歷史累積儲值" value={formatNumber(user?.vipLifetimeDeposit ?? 0)} />
                             <HeroStat label="歷史累積投注" value={formatNumber(user?.vipLifetimeBet ?? 0)} />
-                            <HeroStat label="本月活躍天數" value={`${user?.vipMonthlyActiveDays ?? 0} 天`} />
+                            {/* New mechanism placeholder; intentionally independent of retention active days. */}
+                            <HeroStat label="活躍指數" value="0" />
                         </div>
                     </div>
                 </section>
@@ -83,10 +93,15 @@ const VipLevelPanel = () => {
                     <div className="mt-3 flex flex-col gap-2">
                         <BenefitRow label="贈禮手續費" value={`${currentRule.p2pGiftFeeRate}%`} />
                         <BenefitRow label="本級升級獎勵" value={rewardLabel(currentRule)} />
-                        <BenefitRow label="獎勵狀態" value={currentLevel === 0 ? '不適用' : '已發放'} />
+                        <LobbyModalButton
+                            fullWidth
+                            onClick={handleClaimReward}
+                            disabled={!hasReward || rewardClaimed}
+                            className="!min-h-[46px] disabled:!bg-none disabled:!bg-[#656b7b] disabled:!text-white/65 disabled:!shadow-none disabled:!opacity-100"
+                        >
+                            {hasReward ? rewardClaimed ? '已領取' : '可領取' : '無可領取獎勵'}
+                        </LobbyModalButton>
                     </div>
-
-                    <p className="mt-3 rounded-xl bg-[#1c2a77]/24 px-3 py-2 text-[9px] font-normal leading-4 text-white/44">已取得的等級獎勵不會因重新升級而重複發放。</p>
                 </section>
             </div>
 
@@ -142,8 +157,8 @@ const VipLevelPanel = () => {
                 <RetentionCard rule={currentRule} user={user} />
             </div>
 
-            {showLevelTable && createPortal(
-                <VipLevelTableModal currentLevel={currentLevel} onClose={() => setShowLevelTable(false)} />,
+            {showMechanism && createPortal(
+                <VipMechanismModal currentLevel={currentLevel} onClose={() => setShowMechanism(false)} />,
                 document.body,
             )}
         </div>
@@ -200,30 +215,35 @@ const RetentionCard = ({ rule, user }: { rule: VIPLevelRule; user: ReturnType<ty
     );
 };
 
-const VipLevelTableModal = ({ currentLevel, onClose }: { currentLevel: number; onClose: () => void }) => {
+const VipMechanismModal = ({ currentLevel, onClose }: { currentLevel: number; onClose: () => void }) => {
+    const [tab, setTab] = useState<'overview' | 'rules'>('overview');
     const currentRowRef = useRef<HTMLTableRowElement>(null);
 
     useEffect(() => {
-        currentRowRef.current?.scrollIntoView({ block: 'center' });
-    }, []);
+        if (tab === 'overview') currentRowRef.current?.scrollIntoView({ block: 'center' });
+    }, [tab, currentLevel]);
 
     return (
         <LobbyModalShell
-            title="VIP 等級總覽"
-            eyebrow="VIP LEVEL OVERVIEW"
+            title="VIP機制說明"
+            eyebrow="VIP GUIDE"
             icon={<Table2 size={20} />}
             onClose={onClose}
-            closeLabel="關閉 VIP 等級總覽"
+            closeLabel="關閉 VIP機制說明"
             layerClassName="z-[140]"
             frameClassName="h-[min(660px,92vh)] w-[96%] max-w-[1160px]"
             bodyClassName="flex min-h-0 flex-col p-4"
+            headerContent={(
+                <LobbyModalTabs
+                    items={[{ id: 'overview', label: '等級總覽' }, { id: 'rules', label: '規則說明' }]}
+                    value={tab}
+                    onChange={setTab}
+                    ariaLabel="VIP機制說明分類"
+                />
+            )}
         >
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-[10px] text-white/62">
-                <p>升級條件採全數達成；保級條件啟用時亦採全數達成。</p>
-                <span className="rounded-full bg-white/9 px-3 py-1 font-normal">贈禮手續費：現行費率 5%</span>
-            </div>
-
-            <div className="min-h-0 flex-1 overflow-auto rounded-2xl bg-[#263990]/18 px-2 custom-scrollbar">
+            {tab === 'rules' ? <VipRulesPanel /> : (
+            <div role="tabpanel" aria-label="等級總覽" className="min-h-0 flex-1 overflow-auto rounded-2xl bg-[#263990]/18 px-2 custom-scrollbar">
                 <table className="w-full min-w-[980px] border-separate border-spacing-y-2 text-left">
                     <thead className="sticky top-0 z-10 bg-[#667de5] text-[9px] font-normal tracking-[0.06em] text-white/72">
                         <tr>
@@ -262,9 +282,34 @@ const VipLevelTableModal = ({ currentLevel, onClose }: { currentLevel: number; o
                     </tbody>
                 </table>
             </div>
+            )}
         </LobbyModalShell>
     );
 };
+
+const VipRulesPanel = () => (
+    <div role="tabpanel" aria-label="規則說明" className="grid min-h-0 gap-3 overflow-y-auto custom-scrollbar md:grid-cols-2">
+        <VipRuleCard title="升級" icon={<Crown size={19} />}>
+            每日 00:00 審核升級，需同時達成目標等級的所有已設定條件。符合多個等級時，升至符合條件的最高等級。
+        </VipRuleCard>
+        <VipRuleCard title="保級" icon={<ShieldCheck size={19} />}>
+            每月 1 日結算上月保級進度，需同時達成目前等級的所有已啟用條件。未設定保級門檻的等級可無條件保級。
+        </VipRuleCard>
+        <VipRuleCard title="降級" icon={<CalendarDays size={19} />}>
+            結算時先判斷升級；未升級才檢查保級。保級未達標則下降一級，最低為 VIP 0；待結算月份曾升級者享有升級保護，不因該月保級不足而降級。
+        </VipRuleCard>
+        <VipRuleCard title="獎勵領取" icon={<Gift size={19} />}>
+            本級有升級獎勵時，可於「等級權益」點擊「可領取」，獎勵將加入對應幣別錢包。每個等級限領一次，領取後顯示「已領取」；重新升回相同等級不會重複發放。VIP 0 無升級獎勵。
+        </VipRuleCard>
+    </div>
+);
+
+const VipRuleCard = ({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) => (
+    <section className="rounded-2xl bg-[#263990]/30 p-5">
+        <h3 className="flex items-center gap-2 text-base font-normal text-white">{icon}{title}</h3>
+        <p className="mt-3 text-sm font-normal leading-7 text-white/80">{children}</p>
+    </section>
+);
 
 const UpgradeRuleSummary = ({ rule }: { rule: VIPLevelRule }) => {
     if (rule.level === 0) return <span className="text-[10px] font-bold text-white/72">新註冊</span>;

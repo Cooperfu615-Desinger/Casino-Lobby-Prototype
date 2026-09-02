@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { TRANSACTION_HISTORY } from '../data/mockData';
+import { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
+import { TRANSACTION_HISTORY, VIP_LEVEL_RULES } from '../data/mockData';
+import { applyVipRewardClaim } from '../utils/vipRewardClaim';
 import type { Transaction } from '../types/transaction';
 import type { CurrencyBalance, CurrencyType } from '../types/user';
 import {
@@ -23,6 +24,7 @@ export interface User {
     vipMonthlyBet: number;
     vipMonthlyActiveDays: number;
     vipUpgradeProtected: boolean;
+    vipClaimedRewardLevels: number[];
     balance: CurrencyBalance;
     vault_gold: number; // New: Gold in the vault
     id: string;
@@ -58,6 +60,7 @@ interface AuthContextType {
     transactions: Transaction[];
     completeDeposit: (amount: number, method: 'App Store' | 'Google Play', price: string) => boolean;
     addWalletReward: (currency: CurrencyType, amount: number, source: string, transactionType?: Transaction['type']) => boolean;
+    claimVipLevelReward: () => boolean;
     depositToVault: (amount: number) => boolean;
     withdrawFromVault: (amount: number) => boolean;
     transferFromVault: (receiverId: string, amount: number) => boolean;
@@ -109,6 +112,7 @@ const createMockUser = ({
         vipMonthlyBet: isGuest ? 0 : 428_000,
         vipMonthlyActiveDays: isGuest ? 0 : 18,
         vipUpgradeProtected: !isGuest,
+        vipClaimedRewardLevels: [],
         balance: {
             gold: DEFAULT_WALLET_AMOUNT,
             silver: DEFAULT_WALLET_AMOUNT,
@@ -181,6 +185,8 @@ const createTransaction = (transaction: Omit<Transaction, 'id' | 'date' | 'statu
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(loadStoredUser);
     const [transactions, setTransactions] = useState<Transaction[]>(() => [...TRANSACTION_HISTORY]);
+    // Synchronous guard covers repeated clicks before React has committed the new state.
+    const vipRewardClaims = useRef(new Set<number>());
 
     useEffect(() => {
         if (user) {
@@ -221,6 +227,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             avatarId: 1,
             id: '123456789',
         });
+        vipRewardClaims.current.clear();
         setUser(mockUser);
     };
 
@@ -233,10 +240,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             avatarId: 1,
             id: 'guest-' + Date.now(),
         });
+        vipRewardClaims.current.clear();
         setUser(guestUser);
     };
 
     const logout = () => {
+        vipRewardClaims.current.clear();
         setUser(null);
     };
 
@@ -284,6 +293,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             type: transactionType,
             amount: `${amount.toLocaleString()} ${currencyLabel}`,
             method: source,
+        });
+        return true;
+    };
+
+    const claimVipLevelReward = () => {
+        if (!user || vipRewardClaims.current.has(user.vipLevel)) return false;
+        const rule = VIP_LEVEL_RULES.find(item => item.level === user.vipLevel);
+        if (!rule || !applyVipRewardClaim(user, rule)) return false;
+
+        vipRewardClaims.current.add(rule.level);
+        setUser(prev => prev && prev.id === user.id && prev.account === user.account
+            ? applyVipRewardClaim(prev, rule) ?? prev
+            : prev);
+        prependTransaction({
+            type: 'free_reward',
+            amount: `${rule.rewardAmount!.toLocaleString()} ${rule.rewardCurrency === 'bronze' ? '銅幣' : '銀幣'}`,
+            method: `VIP ${rule.level} 升級獎勵`,
         });
         return true;
     };
@@ -396,6 +422,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             transactions,
             completeDeposit,
             addWalletReward,
+            claimVipLevelReward,
             depositToVault,
             withdrawFromVault,
             transferFromVault,
