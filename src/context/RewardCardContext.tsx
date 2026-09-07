@@ -19,6 +19,7 @@ interface RewardCardContextType {
     hasClaimedMilestone: (days: number) => boolean;
     getActiveCardByCurrency: (currency: RewardCardCurrency) => RewardCard | null;
     claimRewardCard: (days: number) => RewardCard | null;
+    grantPromoRewardCard: (definition: RewardCardDefinition, sourceLabel: string) => boolean;
     activateRewardCard: (id: string) => boolean;
     pauseRewardCard: (id: string) => boolean;
     deleteRewardCard: (id: string) => boolean;
@@ -86,6 +87,12 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
             }
             return item;
         }));
+        return true;
+    };
+
+    const grantPromoRewardCard = (definition: RewardCardDefinition, sourceLabel: string) => {
+        if (!user || cardsRef.current.some(card => card.id === definition.id) || isRewardCardExpired(definition)) return false;
+        saveCards([...cardsRef.current, { ...definition, sourceLabel, status: 'inactive', currentBalance: definition.amount, convertedAmount: 0, recoveredAmount: 0, convertedAt: '' }]);
         return true;
     };
 
@@ -180,6 +187,7 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
         hasClaimedMilestone,
         getActiveCardByCurrency,
         claimRewardCard,
+        grantPromoRewardCard,
         activateRewardCard,
         pauseRewardCard,
         deleteRewardCard,

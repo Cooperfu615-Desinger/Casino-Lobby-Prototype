@@ -15,6 +15,7 @@ export interface RewardCardDefinition {
 }
 
 export interface RewardCard extends RewardCardDefinition {
+    sourceLabel?: string;
     sourceCardIds?: string[];
     mergedIntoId?: string;
     sourceCount?: number;

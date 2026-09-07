@@ -4,6 +4,7 @@ import type { User } from '../../context/AuthContext';
 import AvatarDisplay from '../common/AvatarDisplay';
 import WalletBalances from '../common/WalletBalances';
 import { useUI } from '../../context/UIContext';
+import { useActivityBalances } from '../../hooks/useActivityBalances';
 
 interface PlayerSummaryPanelProps {
     user: User;
@@ -13,6 +14,7 @@ interface PlayerSummaryPanelProps {
 /** Persistent identity summary shared by every player-profile tab. */
 const PlayerSummaryPanel = ({ user, onSelectAvatar }: PlayerSummaryPanelProps) => {
     const { showToast } = useUI();
+    const activity = useActivityBalances();
     const copyInvitationCode = async () => {
         if (user.authProvider === 'guest' || !user.invitationCode) return;
         try {
@@ -61,9 +63,16 @@ const PlayerSummaryPanel = ({ user, onSelectAvatar }: PlayerSummaryPanelProps) =
         <section className="mt-3 rounded-2xl border border-white/15 bg-[#263990]/24 p-3">
             <div className="mb-2 flex items-center justify-between">
                 <span className="text-[11px] font-black text-white">錢包餘額</span>
-                <span className="text-[9px] font-bold text-white/52">金・銀・銅</span>
             </div>
-            <WalletBalances balance={user.balance} variant="cards" />
+            <WalletBalances balance={user.balance} variant="profile" />
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-white/15 pt-2" aria-label="活動額度">
+                {[['活動金', activity.gold], ['活動銀', activity.silver]].map(([label, amount]) => (
+                    <div key={label} className="min-w-0 rounded-lg bg-black/15 px-2 py-1.5">
+                        <p className="text-[9px] text-white/65">{label}</p>
+                        <strong className="mt-1 block truncate text-right font-mono text-[10px] tabular-nums text-white">{amount.toLocaleString()}</strong>
+                    </div>
+                ))}
+            </div>
         </section>
 
         <p className="mt-auto pt-2 text-center text-[9px] leading-3 text-white/45">

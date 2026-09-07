@@ -6,11 +6,13 @@ import { useNavigation } from '../../hooks/useNavigation';
 import { LobbyModalButton, LobbyModalSection } from '../common/LobbyModalPrimitives';
 import type { RewardCard, RewardCardStatus } from '../../types/rewardCard';
 import { canMergeRewardCard, createMergedRewardCard, isRewardCardExpired } from '../../utils/rewardCardMerge';
+import { useActivityBalances } from '../../hooks/useActivityBalances';
 
 const STATUS: Record<RewardCardStatus, string> = { inactive: '未啟用', active: '使用中', paused: '已停用', converted: '已轉換', merged: '已合併' };
 
 const RewardCardsPanel = ({ onClose }: { onClose: () => void }) => {
-    const { rewardCards, availableActivitySilverBalance, activateRewardCard, pauseRewardCard, deleteRewardCard, mergeRewardCards } = useRewardCards();
+    const { rewardCards, activateRewardCard, pauseRewardCard, deleteRewardCard, mergeRewardCards } = useRewardCards();
+    const activity = useActivityBalances();
     const { showToast } = useUI();
     const { navigate } = useNavigation();
     const [merging, setMerging] = useState(false);
@@ -19,7 +21,6 @@ const RewardCardsPanel = ({ onClose }: { onClose: () => void }) => {
     const [rule, setRule] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
     const cards = rewardCards.filter(card => card.status !== 'merged');
-    const total = cards.filter(card => ['inactive', 'active', 'paused'].includes(card.status) && !isRewardCardExpired(card)).reduce((sum, card) => sum + card.currentBalance, 0);
     const preview = createMergedRewardCard(rewardCards, selected, 'merge-preview');
     const reset = () => { setMerging(false); setSelected([]); };
     const act = (success: boolean, message: string) => showToast(success ? message : '操作失敗，請確認卡片狀態與有效期限', success ? 'success' : 'error');
@@ -35,9 +36,9 @@ const RewardCardsPanel = ({ onClose }: { onClose: () => void }) => {
             </div>
             <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto pr-1 custom-scrollbar">
                 <LobbyModalSection className="mb-3 grid grid-cols-2 gap-4 p-4">
-                    <Metric label="活動銀幣卡片餘額" value={total} />
-                    <Metric label="目前可用" value={availableActivitySilverBalance} />
-                    <p className="col-span-2 text-[10px] text-white/65">卡片餘額包含有效的未啟用、使用中與已停用卡片；只有使用中額度可用於遊戲。</p>
+                    <div><Metric label="活動金幣" value={activity.gold} /><p className="mt-1 text-[10px] text-white/65">使用規則待確認</p></div>
+                    <div><Metric label="活動銀幣" value={activity.silver} /><p className="mt-1 text-[10px] text-white/65">目前可用 {activity.availableSilver.toLocaleString()}</p></div>
+                    <p className="col-span-2 text-[10px] text-white/65">活動銀幣餘額包含有效的未啟用、使用中與已停用卡片；啟用後可用於遊戲。活動金幣可由優惠碼領取，目前僅入帳與顯示，使用規則待確認。</p>
                 </LobbyModalSection>
                 {cards.length === 0 ? <div className="flex min-h-64 flex-col items-center justify-center gap-4 text-center">
                     <CreditCard size={42} className="text-white/70" /><h3 className="text-lg">目前沒有獎勵卡</h3>
@@ -51,7 +52,7 @@ const RewardCardsPanel = ({ onClose }: { onClose: () => void }) => {
                         return <article key={card.id} aria-label={card.title + (card.milestoneDay ? ` 第 ${card.milestoneDay} 天` : '')} className={`lobby-reward-card lobby-reward-card--silver min-w-0 rounded-2xl border p-3 ${selected.includes(card.id) ? 'border-white bg-white/15' : 'border-white/25'}`}>
                             <header className="flex items-center gap-3">
                                 {merging && <input type="checkbox" aria-label={`選取 ${card.title}${card.milestoneDay ? ` 第 ${card.milestoneDay} 天` : ''}`} checked={selected.includes(card.id)} disabled={!eligible} onChange={() => setSelected(current => current.includes(card.id) ? current.filter(id => id !== card.id) : [...current, card.id])} className="h-5 w-5 accent-indigo-500 disabled:opacity-30" />}
-                                <CreditCard size={23} /><div className="flex-1"><h4 className="text-base font-semibold">{card.title}</h4><p className="mt-1 text-[10px] text-white/65">{card.sourceCardIds ? `由 ${card.sourceCount} 張獎勵卡合併` : `每日任務・第 ${card.milestoneDay} 天`}</p></div>
+                                <CreditCard size={23} /><div className="flex-1"><h4 className="text-base font-semibold">{card.title}</h4><p className="mt-1 text-[10px] text-white/65">{card.sourceCardIds ? `由 ${card.sourceCount} 張獎勵卡合併` : card.sourceLabel ?? `每日任務・第 ${card.milestoneDay} 天`}</p></div>
                                 <span className={`rounded-full px-2 py-1 text-[10px] ${card.status === 'active' ? 'bg-emerald-500/30' : 'bg-white/10'}`}>{expired && card.status !== 'converted' ? '已過期' : STATUS[card.status]}</span>
                             </header>
                             <div className="mt-4 grid grid-cols-3 gap-3"><Metric label="目前餘額" value={card.currentBalance} /><Metric label="卡片總金額" value={card.amount} /><Metric label="轉換上限" value={card.conversionLimit} /></div>
@@ -74,7 +75,7 @@ const RewardCardsPanel = ({ onClose }: { onClose: () => void }) => {
             </div>}
             {(deleteTarget || rule) && <div className="absolute inset-0 z-30 flex items-center justify-center rounded-xl bg-black/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={deleteTarget ? '刪除獎勵卡' : '獎勵卡規則說明'}>
                 <div className="lobby-modal-dialog-card w-full max-w-md p-5"><h3 className="mb-3 text-lg">{deleteTarget ? '刪除獎勵卡？' : '獎勵卡規則說明'}</h3>
-                    <p className="text-xs leading-6">{deleteTarget ? '刪除後無法恢復，對應每日任務獎勵也無法再次領取。' : '同時只能啟用一張活動銀幣卡；啟用另一張時，原卡自動停用。流水達成後依轉換上限轉入銀幣錢包，超額部分回收。未啟用或已停用且未過期的卡片可合併；所有額度與流水加總，期限採最晚到期日。合併後原卡失效，新卡需重新啟用。'}</p>
+                    <p className="text-xs leading-6">{deleteTarget ? '刪除後無法恢復，原每日任務或優惠碼也無法再次領取。' : '同時只能啟用一張活動銀幣卡；啟用另一張時，原卡自動停用。流水達成後依轉換上限轉入銀幣錢包，超額部分回收。未啟用或已停用且未過期的卡片可合併；所有額度與流水加總，期限採最晚到期日。合併後原卡失效，新卡需重新啟用。'}</p>
                     <div className="mt-4 flex justify-end gap-2"><LobbyModalButton tone="secondary" onClick={() => { setDeleteTarget(null); setRule(false); }}>{deleteTarget ? '取消' : '我知道了'}</LobbyModalButton>{deleteTarget && <LobbyModalButton tone="danger" onClick={() => { act(deleteRewardCard(deleteTarget.id), '獎勵卡已刪除'); setDeleteTarget(null); }}>確認刪除</LobbyModalButton>}</div>
                 </div>
             </div>}

@@ -6,7 +6,8 @@ import {
     SlidersHorizontal,
     Sparkles,
 } from 'lucide-react';
-import { PACKAGES, OFFER_PACKAGES } from '../../data/mockData';
+import { PACKAGES } from '../../data/mockData';
+import PromoCodePanel from './PromoCodePanel';
 import { useUI } from '../../context/UIContext';
 import { useAuth } from '../../context/AuthContext';
 import type { Transaction, TransactionStatus } from '../../types/transaction';
@@ -94,30 +95,7 @@ const BankInterface = ({ onClose, initialTab = 'deposit' }: BankInterfaceProps) 
                         </div>
                     )}
 
-                    {activeTab === 'offers' && (
-                        <div>
-                            <p className="mb-4 text-xs text-slate-400">APP Store／Google Play 專屬優惠方案</p>
-                            <div className="grid gap-4 md:grid-cols-2">
-                                {OFFER_PACKAGES.filter(offer => offer.id !== 2 && offer.id !== 6).map(offer => (
-                                    <button
-                                        key={offer.id}
-                                        type="button"
-                                        onClick={() => openModal('payment', { packageInfo: offer })}
-                                        className={`relative min-h-[190px] overflow-hidden rounded-2xl bg-gradient-to-br p-5 text-left shadow-xl transition-all hover:-translate-y-1 ${offer.gradient}`}
-                                    >
-                                        <Sparkles className="absolute -bottom-8 -right-5 text-white/10" size={120} />
-                                        <span className="relative inline-block rounded-full bg-black/30 px-3 py-1 text-[9px] font-black text-white">{offer.tag}</span>
-                                        <h3 className="relative mt-3 text-lg font-black text-white">{offer.title}</h3>
-                                        <p className="relative mt-1 text-xs text-white/70">{offer.description}</p>
-                                        <div className="relative mt-5 flex items-end justify-between">
-                                            <div><span className="block text-[8px] font-black tracking-wider text-white/50">COINS</span><strong className="text-lg text-[#FFD700]">{offer.coins}</strong></div>
-                                            <div className="text-right"><strong className="block text-lg text-white">{offer.price}</strong><span className="text-xs text-white/45 line-through">{offer.original}</span></div>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                    {activeTab === 'offers' && <PromoCodePanel />}
 
                     {activeTab === 'records' && (
                         <div>

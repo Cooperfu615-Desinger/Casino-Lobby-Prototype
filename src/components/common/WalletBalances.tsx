@@ -22,7 +22,7 @@ const EMPTY_BALANCE: CurrencyBalance = {
 
 interface WalletBalancesProps {
     balance?: CurrencyBalance;
-    variant?: 'cards' | 'compact';
+    variant?: 'cards' | 'compact' | 'profile';
     className?: string;
     isAnimating?: boolean;
 }
@@ -34,6 +34,17 @@ const WalletBalances = ({
     isAnimating = false,
 }: WalletBalancesProps) => {
     const isCompact = variant === 'compact';
+
+    if (variant === 'profile') return (
+        <div aria-label="錢包餘額" className={`grid gap-1 ${className}`}>
+            {WALLET_ITEMS.map((wallet, index) => (
+                <div key={wallet.key} title={wallet.label} aria-label={`${wallet.label} ${balance[wallet.key].toLocaleString()}`} className="flex h-8 min-w-0 items-center justify-between gap-2 rounded-lg bg-black/20 px-3">
+                    <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full border border-white/40" style={{ backgroundColor: ['#FFD45C', '#DDE3EC', '#C88A58'][index] }} />
+                    <strong aria-hidden="true" className="truncate font-mono text-xs tabular-nums text-white">{balance[wallet.key].toLocaleString()}</strong>
+                </div>
+            ))}
+        </div>
+    );
 
     return (
         <div

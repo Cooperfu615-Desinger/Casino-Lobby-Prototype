@@ -9,6 +9,7 @@ import { NavigationProvider } from './context/NavigationContext';
 import { SocialProvider } from './context/SocialContext';
 import { ActivityProvider } from './context/ActivityContext';
 import { RewardCardProvider } from './context/RewardCardContext';
+import { PromoCodeProvider } from './context/PromoCodeContext';
 
 // Components - Layout
 import BrandLoading from './components/layout/BrandLoading';
@@ -57,18 +58,20 @@ function App() {
                         <UIProvider>
                             <NavigationProvider>
                                 <RewardCardProvider>
-                                    <ActivityProvider>
-                                        <SocialProvider>
-                                            {isInitialLoad ? (
-                                                <BrandLoading onFinished={() => setIsInitialLoad(false)} />
-                                            ) : (
-                                                <>
-                                                    <MainContent />
-                                                    <ModalContainer />
-                                                </>
-                                            )}
-                                        </SocialProvider>
-                                    </ActivityProvider>
+                                    <PromoCodeProvider>
+                                        <ActivityProvider>
+                                            <SocialProvider>
+                                                {isInitialLoad ? (
+                                                    <BrandLoading onFinished={() => setIsInitialLoad(false)} />
+                                                ) : (
+                                                    <>
+                                                        <MainContent />
+                                                        <ModalContainer />
+                                                    </>
+                                                )}
+                                            </SocialProvider>
+                                        </ActivityProvider>
+                                    </PromoCodeProvider>
                                 </RewardCardProvider>
                             </NavigationProvider>
                             {/* Global UI Components - Always rendered */}

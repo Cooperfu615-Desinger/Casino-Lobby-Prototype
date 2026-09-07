@@ -60,6 +60,7 @@ interface AuthContextType {
     updateBalance: (newBalance: Partial<CurrencyBalance>) => void;
     updateAvatar: (id: number) => void;
     transactions: Transaction[];
+    recordPromoReward: (amount: string, source: string) => void;
     completeDeposit: (amount: number, method: 'App Store' | 'Google Play', price: string) => boolean;
     addWalletReward: (currency: CurrencyType, amount: number, source: string, transactionType?: Transaction['type']) => boolean;
     claimVipLevelReward: () => boolean;
@@ -426,6 +427,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             updateBalance,
             updateAvatar,
             transactions,
+            recordPromoReward: (amount, source) => prependTransaction({ type: 'free_reward', amount, method: source }),
             completeDeposit,
             addWalletReward,
             claimVipLevelReward,
