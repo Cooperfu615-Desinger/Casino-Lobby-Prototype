@@ -15,7 +15,6 @@ import SettingsMenu from './SettingsMenu';
 import ChatInterface from '../features/ChatInterface';
 import EventsInterface from '../features/EventsInterface';
 import InboxInterface from '../features/InboxInterface';
-import GiftsInterface from '../features/GiftsInterface';
 import BankInterface from '../features/BankInterface';
 import VaultInterface from '../features/VaultInterface';
 
@@ -153,7 +152,7 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
                     />
                 </>
             )}
-            {isUserModalOpen && <UserModal onClose={() => setUserModalOpen(false)} />}
+            {(isUserModalOpen || currentView === 'gifts') && <UserModal key={currentView === 'gifts' ? 'rewards' : 'profile'} initialTab={currentView === 'gifts' ? 'rewards' : 'profile'} onClose={() => { setUserModalOpen(false); if (currentView === 'gifts') goToGames(); }} />}
             {isLangModalOpen && <LanguageModal onClose={() => setLangModalOpen(false)} />}
             {legalTab && (
                 <TermsModal
@@ -231,9 +230,6 @@ const LobbyLayout = ({ onPlayGame }: LobbyLayoutProps) => {
             )}
             {currentView === 'inbox' && (
                 <InboxInterface onClose={goToGames} />
-            )}
-            {currentView === 'gifts' && (
-                <GiftsInterface onClose={goToGames} />
             )}
             {currentView === 'bank' && (
                 <BankInterface onClose={goToGames} initialTab={bankInitialTab} />

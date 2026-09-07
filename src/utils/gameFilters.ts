@@ -16,7 +16,6 @@ export const GAME_CURRENCY_OPTIONS: Array<{
     { key: 'all', label: '全部幣別', shortLabel: '全部' },
     { key: 'stored-gold', label: '金幣', shortLabel: '金幣' },
     { key: 'stored-silver', label: '銀幣', shortLabel: '銀幣' },
-    { key: 'activity-gold', label: '活動金幣', shortLabel: '活動金' },
     { key: 'activity-silver', label: '活動銀幣', shortLabel: '活動銀' },
     { key: 'bronze', label: '銅幣', shortLabel: '銅幣' },
 ];

@@ -15,13 +15,12 @@ interface GameLaunchModalProps {
 
 const GameLaunchModal = ({ game, initialWallet, onEnterGame, onClose }: GameLaunchModalProps) => {
     const { user } = useAuth();
-    const { availableActivityGoldBalance, availableActivitySilverBalance } = useRewardCards();
+    const { availableActivitySilverBalance } = useRewardCards();
     const walletOptions = useMemo(() => buildGameWalletOptions({
         stored: user?.balance ?? { gold: 0, silver: 0, bronze: 0 },
-        activityGold: availableActivityGoldBalance,
         activitySilver: availableActivitySilverBalance,
         supportedWallets: game.supportedWallets,
-    }), [availableActivityGoldBalance, availableActivitySilverBalance, game.supportedWallets, user?.balance]);
+    }), [availableActivitySilverBalance, game.supportedWallets, user?.balance]);
     const [selectedWallet, setSelectedWallet] = useState<GameWalletKey>(
         initialWallet && game.supportedWallets.includes(initialWallet)
             ? initialWallet

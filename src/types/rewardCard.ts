@@ -1,6 +1,6 @@
-export type RewardCardCurrency = 'activity-gold' | 'activity-silver';
+export type RewardCardCurrency = 'activity-silver';
 
-export type RewardCardStatus = 'inactive' | 'active' | 'paused' | 'converted';
+export type RewardCardStatus = 'inactive' | 'active' | 'paused' | 'converted' | 'merged';
 
 export interface RewardCardDefinition {
     id: string;
@@ -15,6 +15,9 @@ export interface RewardCardDefinition {
 }
 
 export interface RewardCard extends RewardCardDefinition {
+    sourceCardIds?: string[];
+    mergedIntoId?: string;
+    sourceCount?: number;
     status: RewardCardStatus;
     currentBalance: number;
     convertedAmount: number;
@@ -39,6 +42,17 @@ export interface RewardCardConversionNotice {
 
 export const REWARD_CARD_DEFINITIONS: RewardCardDefinition[] = [
     {
+        id: 'daily-10-activity-silver',
+        milestoneDay: 10,
+        title: '活動銀幣',
+        currency: 'activity-silver',
+        amount: 10_000,
+        totalTurnover: 0,
+        turnoverTarget: 100_000,
+        conversionLimit: 10_000,
+        expiresAt: '2026/12/31',
+    },
+    {
         id: 'daily-15-activity-silver',
         milestoneDay: 15,
         title: '活動銀幣',
@@ -50,10 +64,10 @@ export const REWARD_CARD_DEFINITIONS: RewardCardDefinition[] = [
         expiresAt: '2026/12/31',
     },
     {
-        id: 'daily-20-activity-gold',
+        id: 'daily-20-activity-silver',
         milestoneDay: 20,
-        title: '活動金幣',
-        currency: 'activity-gold',
+        title: '活動銀幣',
+        currency: 'activity-silver',
         amount: 5_000,
         totalTurnover: 0,
         turnoverTarget: 100_000,

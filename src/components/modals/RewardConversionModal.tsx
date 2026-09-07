@@ -14,7 +14,6 @@ const RewardConversionModal = ({ onViewRecords }: RewardConversionModalProps) =>
 
     if (!notice) return null;
 
-    const isGold = notice.sourceCurrency === 'activity-gold';
     const goToRecords = () => {
         markConversionNoticeRead();
         onViewRecords?.();
@@ -33,9 +32,9 @@ const RewardConversionModal = ({ onViewRecords }: RewardConversionModalProps) =>
             frameClassName="h-[min(560px,88vh)] w-[94%] max-w-md"
             bodyClassName="p-7 text-center"
         >
-                <Sparkles className={`absolute -right-10 -top-10 opacity-10 ${isGold ? 'text-[#FFD700]' : 'text-slate-100'}`} size={180} />
-                <div className={`relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border text-xl font-black ${isGold ? 'border-[#FFD700]/40 bg-[#FFD700]/15 text-[#FFD700]' : 'border-slate-200/30 bg-slate-200/10 text-slate-100'}`}>
-                    {isGold ? '金' : '銀'}
+                <Sparkles className="absolute -right-10 -top-10 text-slate-100 opacity-10" size={180} />
+                <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200/30 bg-slate-200/10 text-xl font-black text-slate-100">
+                    銀
                 </div>
                 <p className="relative mt-4 text-sm text-slate-400">恭喜獲得 {notice.destinationLabel} <b className="text-white">{notice.convertedAmount.toLocaleString()}</b></p>
 

@@ -2,7 +2,6 @@ import type { Game } from './game';
 
 export type GameWalletKey =
     | 'stored-gold'
-    | 'activity-gold'
     | 'stored-silver'
     | 'activity-silver'
     | 'bronze';

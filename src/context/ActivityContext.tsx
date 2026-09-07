@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 
 interface ActivityContextType {
+    totalCheckIns: number;
     checkedDays: number[];
     claimedMilestones: number[];
     joinedEventIds: number[];
@@ -20,7 +21,10 @@ const ActivityContext = createContext<ActivityContextType | undefined>(undefined
 
 export const ActivityProvider = ({ children }: { children: ReactNode }) => {
     const [checkedDays, setCheckedDays] = useState<number[]>(createInitialCheckedDays);
-    const [claimedMilestones, setClaimedMilestones] = useState<number[]>([5, 7].filter(days => days <= checkedDays.length));
+    // Demo cumulative progress is independent of the actual calendar so rewards remain reachable early in a month.
+    const [initialCheckedCount] = useState(() => checkedDays.length);
+    const totalCheckIns = 20 + checkedDays.length - initialCheckedCount;
+    const [claimedMilestones, setClaimedMilestones] = useState<number[]>([5, 7]);
     const [joinedEventIds, setJoinedEventIds] = useState<number[]>([]);
 
     const checkInDay = useCallback((day: number) => {
@@ -42,13 +46,14 @@ export const ActivityProvider = ({ children }: { children: ReactNode }) => {
     }, [joinedEventIds]);
 
     const value = useMemo(() => ({
+        totalCheckIns,
         checkedDays,
         claimedMilestones,
         joinedEventIds,
         checkInDay,
         claimMilestone,
         joinEvent,
-    }), [checkedDays, claimedMilestones, joinedEventIds, checkInDay, claimMilestone, joinEvent]);
+    }), [totalCheckIns, checkedDays, claimedMilestones, joinedEventIds, checkInDay, claimMilestone, joinEvent]);
 
     return <ActivityContext.Provider value={value}>{children}</ActivityContext.Provider>;
 };

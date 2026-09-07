@@ -405,8 +405,8 @@ const CompactChoice = ({
 
 const CurrencyMark = ({ currency }: { currency: GameCurrencyFilter }) => {
     if (currency === 'all') return <Dices size={16} />;
-    const isGold = currency === 'stored-gold' || currency === 'activity-gold';
-    const isActivity = currency === 'activity-gold' || currency === 'activity-silver';
+    const isGold = currency === 'stored-gold';
+    const isActivity = currency === 'activity-silver';
     return (
         <span className={`relative flex h-6 w-6 items-center justify-center rounded-full border text-[9px] font-black ${isGold
             ? 'border-[#FFD700]/55 bg-[#FFD700]/12 text-[#FFD700]'

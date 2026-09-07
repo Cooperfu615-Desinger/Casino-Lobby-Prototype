@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import {
     CalendarCheck,
     Check,
-    Coins,
     CreditCard,
     Gift,
     LockKeyhole,
@@ -14,18 +13,16 @@ import { useAuth } from '../../context/AuthContext';
 import { useRewardCards } from '../../context/RewardCardContext';
 import { useUI } from '../../context/UIContext';
 import { LobbyModalButton, LobbyModalSection } from '../common/LobbyModalPrimitives';
+import { REWARD_CARD_DEFINITIONS } from '../../types/rewardCard';
 
 type MilestoneReward =
     | { type: 'checkpoint'; label: '里程碑' }
-    | { type: 'bronze'; label: '銅幣'; amount: number }
-    | { type: 'card'; label: '活動銀幣' | '活動金幣'; amount: number };
+    | { type: 'card'; label: '活動銀幣'; amount: number };
 
 const MILESTONES: Array<{ days: number; reward: MilestoneReward }> = [
     { days: 5, reward: { type: 'checkpoint', label: '里程碑' } },
     { days: 7, reward: { type: 'checkpoint', label: '里程碑' } },
-    { days: 10, reward: { type: 'bronze', label: '銅幣', amount: 10_000_000 } },
-    { days: 15, reward: { type: 'card', label: '活動銀幣', amount: 10_000 } },
-    { days: 20, reward: { type: 'card', label: '活動金幣', amount: 5_000 } },
+    ...REWARD_CARD_DEFINITIONS.map(card => ({ days: card.milestoneDay, reward: { type: 'card' as const, label: '活動銀幣' as const, amount: card.amount } })),
     { days: 25, reward: { type: 'checkpoint', label: '里程碑' } },
     { days: 30, reward: { type: 'checkpoint', label: '里程碑' } },
 ];
@@ -37,12 +34,11 @@ const DailyCheckInPanel = () => {
     const today = now.getDate();
     const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     const monthLabel = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}`;
-    const { checkedDays, claimedMilestones, checkInDay, claimMilestone } = useActivity();
-    const { user, updateBalance, addWalletReward } = useAuth();
+    const { checkedDays, totalCheckIns, claimedMilestones, checkInDay, claimMilestone } = useActivity();
+    const { user, updateBalance } = useAuth();
     const { claimRewardCard } = useRewardCards();
     const { showToast, triggerBalanceAnimation } = useUI();
     const [makeupTarget, setMakeupTarget] = useState<number | null>(null);
-    const totalCheckIns = checkedDays.length;
     const todayChecked = checkedDays.includes(today);
     const missedDays = Array.from({ length: Math.max(0, today - 1) }, (_, index) => index + 1)
         .filter(day => !checkedDays.includes(day));
@@ -54,14 +50,6 @@ const DailyCheckInPanel = () => {
 
     const handleMilestoneClaim = (days: number, reward: MilestoneReward) => {
         if (totalCheckIns < days || claimedMilestones.includes(days)) return;
-
-        if (reward.type === 'bronze') {
-            if (!addWalletReward('bronze', reward.amount, `每日任務・第 ${days} 天`)) return;
-            claimMilestone(days);
-            triggerBalanceAnimation();
-            showToast(`已領取 ${reward.amount.toLocaleString()} 銅幣`, 'success');
-            return;
-        }
 
         if (reward.type === 'card') {
             const card = claimRewardCard(days);
@@ -100,7 +88,7 @@ const DailyCheckInPanel = () => {
                         <span className="rounded-full border border-white/10 bg-black/20 px-2 py-0.5 text-[8px] font-bold text-slate-400">{monthLabel}</span>
                     </div>
                     <h3 className="mt-1 text-lg font-black text-white">本月已完成 {totalCheckIns} 天</h3>
-                    <p className="mt-0.5 text-[10px] text-slate-400">完成簽到以推進銅幣與活動幣獎勵卡里程碑</p>
+                    <p className="mt-0.5 text-[10px] text-slate-400">完成簽到以推進活動銀幣獎勵卡里程碑</p>
                 </div>
                 <LobbyModalButton
                     onClick={handleTodayCheckIn}
@@ -144,7 +132,7 @@ const DailyCheckInPanel = () => {
                                         {claimed
                                             ? <Check size={15} />
                                             : reached
-                                                ? reward.type === 'card' ? <CreditCard size={15} /> : reward.type === 'bronze' ? <Coins size={15} /> : <Gift size={15} />
+                                                ? reward.type === 'card' ? <CreditCard size={15} /> : <Gift size={15} />
                                                 : <LockKeyhole size={14} />}
                                     </span>
                                     <span className="min-w-0">
@@ -161,9 +149,9 @@ const DailyCheckInPanel = () => {
                     </div>
 
                     <div className="mt-3 grid grid-cols-3 gap-2">
-                        <RewardLegend tone="bronze" label="銅幣" detail="第 10 天" />
+                        <RewardLegend tone="silver" label="活動銀幣" detail="第 10 天" />
                         <RewardLegend tone="silver" label="活動銀幣" detail="第 15 天" />
-                        <RewardLegend tone="gold" label="活動金幣" detail="第 20 天" />
+                        <RewardLegend tone="silver" label="活動銀幣" detail="第 20 天" />
                     </div>
                 </LobbyModalSection>
 

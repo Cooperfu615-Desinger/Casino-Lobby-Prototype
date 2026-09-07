@@ -3,14 +3,12 @@ import type { GameWalletKey, GameWalletOption } from '../types/gameWallet';
 
 interface GameWalletBalances {
     stored: CurrencyBalance;
-    activityGold: number;
     activitySilver: number;
     supportedWallets?: GameWalletKey[];
 }
 
 export const buildGameWalletOptions = ({
     stored,
-    activityGold,
     activitySilver,
     supportedWallets,
 }: GameWalletBalances): GameWalletOption[] => {
@@ -32,16 +30,6 @@ export const buildGameWalletOptions = ({
             tone: 'silver',
             isActivity: false,
             enabled: stored.silver > 0,
-        },
-        {
-            key: 'activity-gold',
-            label: '活動金幣',
-            shortLabel: '活動金',
-            balance: activityGold,
-            tone: 'gold',
-            isActivity: true,
-            enabled: activityGold > 0,
-            unavailableReason: '需先啟用金幣獎勵卡',
         },
         {
             key: 'activity-silver',
@@ -77,7 +65,6 @@ export const buildGameWalletOptions = ({
 export const getGameWalletLabel = (key: GameWalletKey) => {
     const labels: Record<GameWalletKey, string> = {
         'stored-gold': '金幣',
-        'activity-gold': '活動金幣',
         'stored-silver': '銀幣',
         'activity-silver': '活動銀幣',
         bronze: '銅幣',

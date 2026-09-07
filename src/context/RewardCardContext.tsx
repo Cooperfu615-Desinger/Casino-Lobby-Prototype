@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 import {
     REWARD_CARD_DEFINITIONS,
@@ -8,13 +8,12 @@ import {
     type RewardCardDefinition,
 } from '../types/rewardCard';
 import { calculateRewardCardConversion } from '../utils/rewardCardConversion';
+import { createMergedRewardCard, isRewardCardExpired } from '../utils/rewardCardMerge';
 
 interface RewardCardContextType {
     rewardCards: RewardCard[];
     pendingConversionNotice: RewardCardConversionNotice | null;
-    activityGoldBalance: number;
     activitySilverBalance: number;
-    availableActivityGoldBalance: number;
     availableActivitySilverBalance: number;
     getDefinitionByMilestone: (days: number) => RewardCardDefinition | null;
     hasClaimedMilestone: (days: number) => boolean;
@@ -23,6 +22,7 @@ interface RewardCardContextType {
     activateRewardCard: (id: string) => boolean;
     pauseRewardCard: (id: string) => boolean;
     deleteRewardCard: (id: string) => boolean;
+    mergeRewardCards: (ids: string[]) => RewardCard | null;
     completeRewardCardConversion: (id: string) => RewardCardConversionNotice | null;
     markConversionNoticeRead: () => void;
 }
@@ -41,16 +41,22 @@ const formatTimestamp = () => new Intl.DateTimeFormat('zh-TW', {
 export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
     const { user, addWalletReward } = useAuth();
     const [rewardCards, setRewardCards] = useState<RewardCard[]>([]);
+    const cardsRef = useRef<RewardCard[]>([]);
+    const claimedDays = useRef(new Set<number>());
+    const saveCards = (cards: RewardCard[]) => {
+        cardsRef.current = cards;
+        setRewardCards(cards);
+    };
     const [pendingConversionNotice, setPendingConversionNotice] = useState<RewardCardConversionNotice | null>(null);
 
     const getDefinitionByMilestone = (days: number) =>
         REWARD_CARD_DEFINITIONS.find(card => card.milestoneDay === days) ?? null;
 
     const hasClaimedMilestone = (days: number) =>
-        rewardCards.some(card => card.milestoneDay === days);
+        claimedDays.current.has(days);
 
     const getActiveCardByCurrency = (currency: RewardCardCurrency) =>
-        rewardCards.find(card => card.currency === currency && card.status === 'active') ?? null;
+        cardsRef.current.find(card => card.currency === currency && card.status === 'active' && !isRewardCardExpired(card)) ?? null;
 
     const claimRewardCard = (days: number) => {
         const definition = getDefinitionByMilestone(days);
@@ -64,15 +70,16 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
             recoveredAmount: 0,
             convertedAt: '',
         };
-        setRewardCards(current => [...current, card]);
+        claimedDays.current.add(days);
+        saveCards([...cardsRef.current, card]);
         return card;
     };
 
     const activateRewardCard = (id: string) => {
-        const card = rewardCards.find(item => item.id === id);
-        if (!card || !['inactive', 'paused'].includes(card.status)) return false;
+        const card = cardsRef.current.find(item => item.id === id);
+        if (!card || !['inactive', 'paused'].includes(card.status) || isRewardCardExpired(card)) return false;
 
-        setRewardCards(current => current.map(item => {
+        saveCards(cardsRef.current.map(item => {
             if (item.id === id) return { ...item, status: 'active' };
             if (item.currency === card.currency && item.status === 'active') {
                 return { ...item, status: 'paused' };
@@ -83,33 +90,32 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const pauseRewardCard = (id: string) => {
-        const card = rewardCards.find(item => item.id === id);
+        const card = cardsRef.current.find(item => item.id === id);
         if (!card || card.status !== 'active') return false;
-        setRewardCards(current => current.map(item =>
+        saveCards(cardsRef.current.map(item =>
             item.id === id ? { ...item, status: 'paused' } : item
         ));
         return true;
     };
 
     const deleteRewardCard = (id: string) => {
-        const card = rewardCards.find(item => item.id === id);
-        if (!card || card.status === 'active' || card.status === 'converted') return false;
-        setRewardCards(current => current.filter(item => item.id !== id));
+        const card = cardsRef.current.find(item => item.id === id);
+        if (!card || !['inactive', 'paused'].includes(card.status)) return false;
+        saveCards(cardsRef.current.filter(item => item.id !== id));
         setPendingConversionNotice(current => current?.cardId === id ? null : current);
         return true;
     };
 
     const completeRewardCardConversion = (id: string) => {
-        const card = rewardCards.find(item => item.id === id);
-        if (!card || card.status !== 'active') return null;
+        const card = cardsRef.current.find(item => item.id === id);
+        if (!card || card.status !== 'active' || isRewardCardExpired(card)) return null;
 
         const conversion = calculateRewardCardConversion(card.currentBalance, card.conversionLimit);
         if (conversion.convertedAmount <= 0) return null;
 
-        const isGold = card.currency === 'activity-gold';
-        const sourceLabel = isGold ? '活動金幣' : '活動銀幣';
-        const destinationLabel = isGold ? '儲值金幣' : '儲值銀幣';
-        const destinationCurrency = isGold ? 'gold' : 'silver';
+        const sourceLabel = '活動銀幣';
+        const destinationLabel = '儲值銀幣';
+        const destinationCurrency = 'silver';
         const createdAt = formatTimestamp();
         const walletBalanceBefore = user?.balance[destinationCurrency] ?? 0;
         const didConvert = addWalletReward(
@@ -120,7 +126,7 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
         );
         if (!didConvert) return null;
 
-        setRewardCards(current => current.map(item => item.id === id ? {
+        saveCards(cardsRef.current.map(item => item.id === id ? {
             ...item,
             totalTurnover: item.turnoverTarget,
             currentBalance: 0,
@@ -150,25 +156,25 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
         setPendingConversionNotice(current => current ? { ...current, read: true } : null);
     };
 
-    const activityGoldBalance = useMemo(() => rewardCards
-        .filter(card => card.currency === 'activity-gold' && ['active', 'paused'].includes(card.status))
-        .reduce((total, card) => total + card.currentBalance, 0), [rewardCards]);
+    const mergeRewardCards = (ids: string[]) => {
+        const merged = createMergedRewardCard(cardsRef.current, ids, `merged-${crypto.randomUUID()}`);
+        if (!merged) return null;
+        saveCards([merged, ...cardsRef.current.map(card => ids.includes(card.id)
+            ? { ...card, status: 'merged' as const, mergedIntoId: merged.id } : card)]);
+        return merged;
+    };
+
     const activitySilverBalance = useMemo(() => rewardCards
-        .filter(card => card.currency === 'activity-silver' && ['active', 'paused'].includes(card.status))
-        .reduce((total, card) => total + card.currentBalance, 0), [rewardCards]);
-    const availableActivityGoldBalance = useMemo(() => rewardCards
-        .filter(card => card.currency === 'activity-gold' && card.status === 'active')
+        .filter(card => ['active', 'paused'].includes(card.status) && !isRewardCardExpired(card))
         .reduce((total, card) => total + card.currentBalance, 0), [rewardCards]);
     const availableActivitySilverBalance = useMemo(() => rewardCards
-        .filter(card => card.currency === 'activity-silver' && card.status === 'active')
+        .filter(card => card.status === 'active' && !isRewardCardExpired(card))
         .reduce((total, card) => total + card.currentBalance, 0), [rewardCards]);
 
     const value: RewardCardContextType = {
         rewardCards,
         pendingConversionNotice,
-        activityGoldBalance,
         activitySilverBalance,
-        availableActivityGoldBalance,
         availableActivitySilverBalance,
         getDefinitionByMilestone,
         hasClaimedMilestone,
@@ -177,6 +183,7 @@ export const RewardCardProvider = ({ children }: { children: ReactNode }) => {
         activateRewardCard,
         pauseRewardCard,
         deleteRewardCard,
+        mergeRewardCards,
         completeRewardCardConversion,
         markConversionNoticeRead,
     };

@@ -92,11 +92,11 @@ const BASE_GAMES: Array<Omit<Game, 'provider' | 'description' | 'rtp' | 'volatil
 
 const GAME_PROVIDERS = ['JH Gaming', 'PG Soft', 'Evolution'] as const;
 const GAME_WALLET_SUPPORT_ROTATION: GameWalletKey[][] = [
-    ['stored-gold', 'stored-silver', 'activity-gold'],
-    ['stored-gold', 'activity-gold', 'activity-silver', 'bronze'],
+    ['stored-gold', 'stored-silver'],
+    ['stored-gold', 'activity-silver', 'bronze'],
     ['stored-silver', 'activity-silver', 'bronze'],
     ['stored-gold', 'stored-silver', 'bronze'],
-    ['stored-gold', 'stored-silver', 'activity-gold', 'activity-silver', 'bronze'],
+    ['stored-gold', 'stored-silver', 'activity-silver', 'bronze'],
 ];
 const GAME_DESCRIPTIONS: Record<Game['category'], string> = {
     slot: '多線獎勵與特色回合，累積連線可觸發額外加成。',

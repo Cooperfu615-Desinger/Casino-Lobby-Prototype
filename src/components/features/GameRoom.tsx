@@ -16,7 +16,6 @@ interface GameRoomProps {
 const GameRoom = ({ session, onExit }: GameRoomProps) => {
     const { user } = useAuth();
     const {
-        availableActivityGoldBalance,
         availableActivitySilverBalance,
         getActiveCardByCurrency,
         completeRewardCardConversion,
@@ -26,19 +25,15 @@ const GameRoom = ({ session, onExit }: GameRoomProps) => {
 
     const walletOptions = useMemo(() => buildGameWalletOptions({
         stored: user?.balance ?? { gold: 0, silver: 0, bronze: 0 },
-        activityGold: availableActivityGoldBalance,
         activitySilver: availableActivitySilverBalance,
         supportedWallets: session.game.supportedWallets,
     }), [
-        availableActivityGoldBalance,
         availableActivitySilverBalance,
         session.game.supportedWallets,
         user?.balance,
     ]);
     const selectedWallet = walletOptions.find(option => option.key === session.wallet);
-    const rewardCardCurrency: RewardCardCurrency | null = session.wallet === 'activity-gold'
-        ? 'activity-gold'
-        : session.wallet === 'activity-silver'
+    const rewardCardCurrency: RewardCardCurrency | null = session.wallet === 'activity-silver'
             ? 'activity-silver'
             : null;
     const activeRewardCard = rewardCardCurrency

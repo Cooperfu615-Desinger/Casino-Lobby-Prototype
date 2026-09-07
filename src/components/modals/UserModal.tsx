@@ -9,17 +9,19 @@ import PersonalProfilePanel from '../profile/PersonalProfilePanel';
 import AccountBindingPanel from '../profile/AccountBindingPanel';
 import VipLevelPanel from '../profile/VipLevelPanel';
 import GameRecordsPanel from '../profile/GameRecordsPanel';
+import RewardCardsPanel from '../profile/RewardCardsPanel';
 import AvatarSelectModal from './AvatarSelectModal';
 
 interface UserModalProps {
     onClose: () => void;
+    initialTab?: PlayerProfileTab;
 }
 
-type PlayerProfileTab = 'profile' | 'bindings' | 'vip' | 'history';
+type PlayerProfileTab = 'profile' | 'bindings' | 'vip' | 'rewards' | 'history';
 
-const UserModal = ({ onClose }: UserModalProps) => {
+const UserModal = ({ onClose, initialTab = 'profile' }: UserModalProps) => {
     const { user } = useAuth();
-    const [activeTab, setActiveTab] = useState<PlayerProfileTab>('profile');
+    const [activeTab, setActiveTab] = useState<PlayerProfileTab>(initialTab);
     const [showAvatarSelect, setShowAvatarSelect] = useState(false);
 
     if (!user) return null;
@@ -28,6 +30,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
         { id: 'profile' as const, label: '基本資料' },
         { id: 'bindings' as const, label: '帳號綁定' },
         { id: 'vip' as const, label: 'VIP 等級' },
+        { id: 'rewards' as const, label: '獎勵卡' },
         { id: 'history' as const, label: '遊戲紀錄' },
     ];
 
@@ -57,6 +60,7 @@ const UserModal = ({ onClose }: UserModalProps) => {
                         {activeTab === 'profile' && <PersonalProfilePanel />}
                         {activeTab === 'bindings' && <AccountBindingPanel />}
                         {activeTab === 'vip' && <VipLevelPanel />}
+                        {activeTab === 'rewards' && <RewardCardsPanel onClose={onClose} />}
                         {activeTab === 'history' && <GameRecordsPanel />}
                     </div>
                 </main>
