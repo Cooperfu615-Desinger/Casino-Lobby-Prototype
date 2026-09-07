@@ -1,8 +1,9 @@
-import { AtSign, Crown, Hash, Pencil } from 'lucide-react';
+import { AtSign, Copy, Crown, Hash, Pencil } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { User } from '../../context/AuthContext';
 import AvatarDisplay from '../common/AvatarDisplay';
 import WalletBalances from '../common/WalletBalances';
+import { useUI } from '../../context/UIContext';
 
 interface PlayerSummaryPanelProps {
     user: User;
@@ -10,11 +11,22 @@ interface PlayerSummaryPanelProps {
 }
 
 /** Persistent identity summary shared by every player-profile tab. */
-const PlayerSummaryPanel = ({ user, onSelectAvatar }: PlayerSummaryPanelProps) => (
+const PlayerSummaryPanel = ({ user, onSelectAvatar }: PlayerSummaryPanelProps) => {
+    const { showToast } = useUI();
+    const copyInvitationCode = async () => {
+        if (user.authProvider === 'guest' || !user.invitationCode) return;
+        try {
+            await navigator.clipboard.writeText(user.invitationCode);
+            showToast('邀請碼已複製', 'success');
+        } catch {
+            showToast('複製失敗，請長按或選取邀請碼複製', 'error');
+        }
+    };
+    return (
     <aside className="lobby-profile-sidebar flex h-full min-h-0 w-[280px] shrink-0 flex-col border-r border-white/12 p-5">
         <div className="flex flex-col items-center text-center">
             <div className="group relative">
-                <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-white/75 bg-slate-800 p-1 shadow-[0_0_28px_rgba(255,255,255,0.2)]">
+                <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white/75 bg-slate-800 p-1 shadow-[0_0_28px_rgba(255,255,255,0.2)]">
                     <AvatarDisplay avatarId={user.avatarId} size="lg" />
                 </div>
                 <button
@@ -27,19 +39,26 @@ const PlayerSummaryPanel = ({ user, onSelectAvatar }: PlayerSummaryPanelProps) =
                 </button>
             </div>
 
-            <h3 className="mt-3 max-w-full truncate text-lg font-black text-white">{user.name}</h3>
+            <h3 className="mt-2 max-w-full truncate text-lg font-black text-white">{user.name}</h3>
             <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/22 bg-white/12 px-3 py-1 text-[10px] font-black text-white">
                 <Crown size={12} />
                 VIP {user.vipLevel}
             </div>
         </div>
 
-        <div className="mt-5 space-y-2">
+        <div className="mt-3 space-y-2">
             <SummaryIdentityRow icon={<AtSign size={14} />} label="帳號" value={user.account} />
             <SummaryIdentityRow icon={<Hash size={14} />} label="ID" value={user.id} />
+            <div className="flex items-center gap-2 rounded-xl border border-white/12 bg-white/8 px-3 py-2" aria-label="邀請碼">
+                <span className="shrink-0 text-[10px] font-black text-white/52">邀請碼</span>
+                {user.authProvider === 'guest' ? <span className="ml-auto text-[10px] text-white/70">完成註冊後取得</span> : <>
+                    <strong className="min-w-0 flex-1 select-text text-right font-mono text-[12px] tracking-wide text-white">{user.invitationCode}</strong>
+                    <button type="button" aria-label="複製邀請碼" title="複製邀請碼" onClick={copyInvitationCode} className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"><Copy size={14} /></button>
+                </>}
+            </div>
         </div>
 
-        <section className="mt-4 rounded-2xl border border-white/15 bg-[#263990]/24 p-3">
+        <section className="mt-3 rounded-2xl border border-white/15 bg-[#263990]/24 p-3">
             <div className="mb-2 flex items-center justify-between">
                 <span className="text-[11px] font-black text-white">錢包餘額</span>
                 <span className="text-[9px] font-bold text-white/52">金・銀・銅</span>
@@ -47,11 +66,12 @@ const PlayerSummaryPanel = ({ user, onSelectAvatar }: PlayerSummaryPanelProps) =
             <WalletBalances balance={user.balance} variant="cards" />
         </section>
 
-        <p className="mt-auto pt-4 text-center text-[9px] leading-4 text-white/45">
+        <p className="mt-auto pt-2 text-center text-[9px] leading-3 text-white/45">
             個人與綁定資料會隨登入狀態保存；金融 Mock 重新整理後重置。
         </p>
     </aside>
-);
+    );
+};
 
 const SummaryIdentityRow = ({ icon, label, value }: { icon: ReactNode; label: string; value: string }) => (
     <div className="flex items-center gap-2 rounded-xl border border-white/12 bg-white/8 px-3 py-2.5">

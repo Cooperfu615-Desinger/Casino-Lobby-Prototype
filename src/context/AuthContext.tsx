@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { TRANSACTION_HISTORY, VIP_LEVEL_RULES } from '../data/mockData';
 import { applyVipRewardClaim } from '../utils/vipRewardClaim';
+import { resolveInvitationCode } from '../utils/invitationCode';
 import type { Transaction } from '../types/transaction';
 import type { CurrencyBalance, CurrencyType } from '../types/user';
 import {
@@ -28,6 +29,7 @@ export interface User {
     balance: CurrencyBalance;
     vault_gold: number; // New: Gold in the vault
     id: string;
+    invitationCode: string;
     birthday: string;
     email: string;
     phoneNumber: string;
@@ -73,10 +75,10 @@ const AUTH_STORAGE_KEY = 'jh_app_auth_user';
 
 type StoredAuthUser = Pick<
     User,
-    'name' | 'account' | 'authProvider' | 'avatarId' | 'id' | 'birthday' | 'email' | 'phoneNumber' | 'bio' | 'bindings'
+    'name' | 'account' | 'authProvider' | 'avatarId' | 'id' | 'invitationCode' | 'birthday' | 'email' | 'phoneNumber' | 'bio' | 'bindings'
 >;
 type MockUserSeed = Pick<StoredAuthUser, 'name' | 'account' | 'authProvider' | 'avatarId' | 'id'>
-    & Partial<Pick<StoredAuthUser, 'birthday' | 'email' | 'phoneNumber' | 'bio' | 'bindings'>>;
+    & Partial<Pick<StoredAuthUser, 'invitationCode' | 'birthday' | 'email' | 'phoneNumber' | 'bio' | 'bindings'>>;
 
 const createMockUser = ({
     name,
@@ -84,6 +86,7 @@ const createMockUser = ({
     authProvider,
     avatarId = 1,
     id,
+    invitationCode,
     birthday = '',
     email = '',
     phoneNumber,
@@ -120,6 +123,7 @@ const createMockUser = ({
         },
         vault_gold: 0,
         id,
+        invitationCode: resolveInvitationCode(isGuest, invitationCode),
         birthday,
         email,
         phoneNumber: resolvedPhoneNumber,
@@ -152,6 +156,7 @@ const loadStoredUser = (): User | null => {
             authProvider: parsedUser.authProvider as AuthProviderType,
             avatarId: typeof parsedUser.avatarId === 'number' ? parsedUser.avatarId : 1,
             id: parsedUser.id,
+            invitationCode: parsedUser.invitationCode,
             birthday: typeof parsedUser.birthday === 'string' ? parsedUser.birthday : '',
             email: typeof parsedUser.email === 'string' ? parsedUser.email : '',
             phoneNumber: typeof parsedUser.phoneNumber === 'string' ? parsedUser.phoneNumber : undefined,
@@ -196,6 +201,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 authProvider: user.authProvider,
                 avatarId: user.avatarId,
                 id: user.id,
+                invitationCode: user.invitationCode,
                 birthday: user.birthday,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
