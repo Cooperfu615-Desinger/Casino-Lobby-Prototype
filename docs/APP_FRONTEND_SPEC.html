@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="0198646821ac1a0f731471fadaf96137e24b2b99e1fe2d20fd0311d7fa62b888"><title>巨亨ONLINE 前台介面與使用流程規格書</title><style>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="242280c84e4e773ee99c16c099b32671490fae6c37f7e23b7ee4fc0a432a536c"><title>巨亨ONLINE 前台介面與使用流程規格書</title><style>
 :root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
 @media(min-width:1600px){main{margin-right:auto}}
@@ -17,7 +17,7 @@
 <tbody>
 <tr>
 <td>文件版本</td>
-<td>v0.4 — 個人資訊、獎勵卡與玩家情境初稿</td>
+<td>v0.5 — 任務、銀行、資產與遊戲流程初稿</td>
 </tr>
 <tr>
 <td>建立日期</td>
@@ -37,7 +37,7 @@
 </tr>
 <tr>
 <td>完成範圍</td>
-<td>第 01～02、06～07 章初稿；第 15 章已補本批相關情境，第 14 章記錄覆蓋；其餘功能章節、完整故事及操作驗收待補</td>
+<td>第 01～02、05～10 章初稿；FLOW-02～08、10 個故事共 57 個情境及 71 項驗收條件已撰寫；其餘章節、故事補充及操作驗收待完成</td>
 </tr>
 <tr>
 <td>文件性質</td>
@@ -97,7 +97,7 @@
 <td>05</td>
 <td><a href="#ch-05">遊戲進入與離開</a></td>
 <td>遊戲選擇、錢包及可選條件、載入、遊戲中資訊、活動銀幣使用與轉換結果、離開與返回。</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>06</td>
@@ -115,19 +115,19 @@
 <td>08</td>
 <td><a href="#ch-08">銀行、儲值與優惠碼</a></td>
 <td>儲值方案、支付確認、優惠碼預覽與領取、獎勵去向、金融紀錄篩選；促銷購買如何接入支付。</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>09</td>
 <td><a href="#ch-09">保險箱、贈禮與兌換</a></td>
 <td>錢包與保險箱、存入／取出、接收者、贈禮金額、手續費與實收、金銀幣兌換與金融紀錄。</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>10</td>
 <td><a href="#ch-10">每日任務、活動與排行榜</a></td>
 <td>簽到、補簽、累積進度、里程碑、活動分類／詳情／報名／結果、倍數／贏分／富豪榜。</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>11</td>
@@ -145,25 +145,25 @@
 <td>13</td>
 <td><a href="#ch-13">跨介面使用流程</a></td>
 <td>以流程節點串接各功能，描述傳入資訊、跨頁更新、返回位置與交接；規則引用功能章節。</td>
-<td>待撰寫</td>
+<td>FLOW-02～08 已撰寫</td>
 </tr>
 <tr>
 <td>14</td>
 <td><a href="#ch-14">整體驗收與交付對照</a></td>
 <td>整體情境覆蓋、跨頁一致性、規格／介面／故事／驗收對照，以及實際驗證結果與證據。</td>
-<td>已登記第 2 批覆蓋，未執行驗收</td>
+<td>已登記第 2～3 批覆蓋，未執行驗收</td>
 </tr>
 <tr>
 <td>15</td>
 <td><a href="#ch-15">玩家 User Story 與情境流程</a></td>
 <td>從玩家目標出發，設定數種初始狀態，描述主流程、分支、取消／返回與完成結果，供設計、開發、測試共同參考。</td>
-<td>本批 5 個故事已有情境，部分待後續擴寫</td>
+<td>10 個故事已有情境，部分待後續擴寫</td>
 </tr>
 <tr>
 <td>附錄</td>
 <td><a href="#change-log">版本與變更紀錄</a></td>
 <td>文件變更、調整原因、影響章節與關聯工作單</td>
-<td>已記錄至 v0.4</td>
+<td>已記錄至 v0.5</td>
 </tr>
 </tbody>
 </table></div>
@@ -763,24 +763,219 @@
 <p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
 <p><a id="ch-05"></a></p>
 <h2 id="05">05. 遊戲進入與離開</h2>
-<p><strong>本章範圍：</strong>遊戲選擇、錢包及可選條件、載入、遊戲中資訊、活動銀幣使用與轉換結果、離開與返回。</p>
-<p><strong>狀態：</strong>章節骨架已建立，正文待撰寫。</p>
+<p><strong>狀態：</strong>第 3 批初稿，依目前遊戲卡、幣別選擇、遊戲室與返回流程整理。原型遊戲畫面為示意，不代表已串接遊戲供應商或正式結算。</p>
 <h3 id="051">05.1 功能目的與範圍</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>玩家從大廳選擇遊戲，確認可用幣別後進入，並能離開返回大廳。活動銀幣使用與轉換銜接第 07 章；大廳分類與收藏的完整操作於第 04 章補寫。</p>
+<p>進入不先扣一筆入場費，也不把錢包搬移至另一個遊戲帳戶。不同遊戲目前共用示意遊戲畫面，顯示所選遊戲的名稱、供應商與幣別；未提供實際下注、輸贏結算或逐局紀錄。</p>
 <h3 id="052">05.2 入口、預設畫面與返回</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>帶入與預設</th>
+<th>返回／交接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>點大廳遊戲卡</td>
+<td>開該遊戲啟動視窗，帶入遊戲及目前大廳幣別篩選</td>
+<td>右上關閉或點背景取消，留原大廳及篩選</td>
+</tr>
+<tr>
+<td>大廳未指定幣別（全部）</td>
+<td>初選遊戲第一種支援幣別；若不可用，改選清單中第一個可用幣別</td>
+<td>全部不可用時進入按鈕停用</td>
+</tr>
+<tr>
+<td>大廳指定幣別且遊戲支援</td>
+<td>保留該幣別為選中，即使餘額不足也不自動換成別種</td>
+<td>玩家可手動改選其他可用幣別；原選項不可用時不能進入</td>
+</tr>
+<tr>
+<td>確認進入</td>
+<td>保存這次遊戲及選中幣別，先顯示品牌載入，再顯示遊戲室</td>
+<td>載入畫面尚無獨立取消或失敗重試入口</td>
+</tr>
+<tr>
+<td>遊戲室離開</td>
+<td>直接結束本次原型遊戲畫面，不另彈離開確認</td>
+<td>回大廳；不自動停用卡、不額外轉換或退款</td>
+</tr>
+<tr>
+<td>轉換結果「查看紀錄」</td>
+<td>標記結果已讀、離開遊戲並開銀行紀錄</td>
+<td>金融紀錄篩選規則見 08.4.4</td>
+</tr>
+</tbody>
+</table></div>
+<p>點遊戲卡時就寫入本機最近點選紀錄，因此取消啟動也已留下點選資料；目前沒有供玩家瀏覽的最近遊玩清單。遊戲室與大廳互相切換時大廳會重建，分類／供應商／幣別篩選及側欄開啟狀態回初始值，收藏偏好仍保存；不要把取消啟動與離開遊戲的返回結果混為一談。</p>
 <h3 id="053">05.3 畫面區塊與內容</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>啟動視窗標頭</td>
+<td>遊戲名稱、圖示、供應商及 RTP 展示值；RTP 不作本文件的數學保證</td>
+</tr>
+<tr>
+<td>幣別選擇</td>
+<td>金幣、銀幣、活動銀幣、銅幣四選項，各列餘額、選中狀態及可用／不支援提示</td>
+</tr>
+<tr>
+<td>可用數量</td>
+<td>分別顯示可用選項數及遊戲支援種類數，兩者可能不同</td>
+</tr>
+<tr>
+<td>啟動操作</td>
+<td>進入遊戲按鈕；選項不可用時停用</td>
+</tr>
+<tr>
+<td>遊戲室標頭</td>
+<td>遊戲名稱與供應商、選定幣別及餘額、離開按鈕</td>
+</tr>
+<tr>
+<td>遊戲內容</td>
+<td>示意圖；活動銀幣模式另顯示卡片名稱與「模擬完成流水」</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="054">05.4 欄位與顯示規則</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>幣別可選必須同時符合「遊戲支援」與「該錢包可用額度大於 0」。金銀銅使用一般錢包，活動銀幣使用有效且使用中的卡片餘額；保險箱、未啟用卡片總額及活動金不納入可用選項。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>狀態</th>
+<th>顯示與操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遊戲不支援</td>
+<td>選項停用，說明此遊戲不支援此幣別；不是餘額不足</td>
+</tr>
+<tr>
+<td>支援但一般錢包為 0</td>
+<td>選項停用，提示目前不可用／餘額不足</td>
+</tr>
+<tr>
+<td>支援但無可用活動銀</td>
+<td>選項停用，提示需先啟用銀幣獎勵卡；已過期卡不構成可用卡</td>
+</tr>
+<tr>
+<td>選定幣別有效</td>
+<td>可按進入；入場後保留該幣別，遊戲室無切換錢包入口</td>
+</tr>
+<tr>
+<td>活動銀卡已完成或失效</td>
+<td>遊戲室卡片區顯示「本次獎勵卡已完成或失效」，Mock 流水按鈕停用，不自動退回大廳</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="055">05.5 操作與使用流程</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<ol>
+<li>在大廳選遊戲，於啟動視窗確認帶入幣別及可用額度。</li>
+<li>若目前不可用，可改選其他可用幣別；或取消，回銀行取得一般錢包餘額／至獎勵卡啟用卡片後再進入。沒有自動跳儲值的額外步驟。</li>
+<li>按進入，等待載入，核對遊戲室名稱及幣別。此時一般錢包與卡片不因入場而扣減。</li>
+<li>活動銀模式可使用 Mock 完成流水，轉換計算與卡片更新完整引用 07.5.4；其他幣別不顯示這項操作。</li>
+<li>按離開直接回大廳；若在轉換結果選查看紀錄，則改開銀行紀錄。單純確認／關閉結果留在遊戲室。</li>
+</ol>
 <h3 id="056">05.6 狀態、限制與例外</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>載入為原型展示，尚無逾時、供應商維護、斷線重連、進出遊戲帳務交接或正式失敗畫面。遊戲期間重新整理不恢復本次遊戲，保留的身份使玩家回到大廳；金融及卡片狀態依 02.7 重置。已取得的帳號、好友或卡片資料並不因此證明正式遊戲有持久化能力。</p>
+<p>入場時只帶遊戲與幣別，活動銀卡由當下有效使用中卡取得；原型未固定一個正式的遊戲局與卡片結算關係。跨到期時刻及遊戲外狀態變動仍需獨立驗證，不以一般成功流程取代。</p>
 <h3 id="057">05.7 資料需求與跨介面影響</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>資料／事件</th>
+<th>所需內容與影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>啟動</td>
+<td>遊戲識別、名稱、供應商、支援幣別與四種額度；接收大廳可選的預設幣別</td>
+</tr>
+<tr>
+<td>進入與離開</td>
+<td>保留本次遊戲及幣別；離開清除本次遊戲；不以入場／離場自動新增金融紀錄</td>
+</tr>
+<tr>
+<td>活動銀轉換</td>
+<td>卡片、錢包、紀錄與通知依第 07 章同步；一般遊戲示意不產生真實遊戲紀錄</td>
+</tr>
+<tr>
+<td>返回大廳</td>
+<td>分開處理可保存收藏與會重建的篩選；轉換查看紀錄的導航目標不可丟失</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="058">05.8 驗收條件</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>AC 編號</th>
+<th>前置狀態／操作</th>
+<th>可觀察結果</th>
+<th>關聯故事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-05-001</td>
+<td>在全部幣別篩選點遊戲</td>
+<td>帶入正確遊戲，預選支援幣別；不可用時選第一個可用項</td>
+<td>US-02</td>
+</tr>
+<tr>
+<td>AC-05-002</td>
+<td>指定幣別篩選，該幣別無餘額但其他有餘額</td>
+<td>保留帶入選中，不自動換；手動選其他可用項才可進入</td>
+<td>US-02</td>
+</tr>
+<tr>
+<td>AC-05-003</td>
+<td>遊戲不支援／餘額零／活動銀未啟用</td>
+<td>各自不可選且原因有區別；沒有活動金或保險箱選項</td>
+<td>US-02、US-05</td>
+</tr>
+<tr>
+<td>AC-05-004</td>
+<td>先取消啟動，再重新進入</td>
+<td>取消留大廳篩選；進入經載入後顯示正確名稱、幣別及餘額，不扣入場費</td>
+<td>US-02</td>
+</tr>
+<tr>
+<td>AC-05-005</td>
+<td>以一般幣別／活動銀幣各進一次</td>
+<td>前者無卡片流水操作；後者引用有效使用中卡，完成後依第 07 章轉換</td>
+<td>US-02、US-05</td>
+</tr>
+<tr>
+<td>AC-05-006</td>
+<td>遊戲中按離開</td>
+<td>無額外確認，回重建大廳；不自動停卡、不變更餘額或新增紀錄，收藏保留</td>
+<td>US-02</td>
+</tr>
+<tr>
+<td>AC-05-007</td>
+<td>活動銀轉換後確認／查看紀錄</td>
+<td>確認留遊戲且不可重複轉換；查看紀錄則離開遊戲到銀行</td>
+<td>US-05</td>
+</tr>
+<tr>
+<td>AC-05-008</td>
+<td>遊戲期間重新整理</td>
+<td>本次遊戲不恢復，依保存身份回大廳；金融與卡片按原型生命週期處理</td>
+<td>US-02</td>
+</tr>
+</tbody>
+</table></div>
 <p><a id="ch-06"></a></p>
 <h2 id="06">06. 個人資訊與會員功能</h2>
 <p><strong>本章範圍：</strong>自己的玩家摘要、邀請碼、基本資料、帳號綁定、頭像、VIP 權益與領獎，以及遊戲紀錄。獎勵卡管理統一引用<a href="#ch-07">第 07 章</a>；查看其他玩家的資訊卡屬第 11 章。</p>
@@ -2004,64 +2199,1074 @@
 </table></div>
 <p><a id="ch-08"></a></p>
 <h2 id="08">08. 銀行、儲值與優惠碼</h2>
-<p><strong>本章範圍：</strong>儲值方案、支付確認、優惠碼預覽與領取、獎勵去向、金融紀錄篩選；促銷購買如何接入支付。</p>
-<p><strong>狀態：</strong>章節骨架已建立，正文待撰寫。</p>
+<p><strong>狀態：</strong>第 3 批初稿，優惠碼沿用既有<a href="PROMO_CODE_SPEC.md">銀行優惠碼確認版</a>，儲值及紀錄依現行入口與資料更新整理。付款是 Mock，不會呼叫商店收款。</p>
 <h3 id="081">08.1 功能目的與範圍</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>銀行提供「儲值」「優惠」「紀錄」三頁籤。玩家可選購金幣方案、輸入優惠碼確認領取，以及檢視金融操作紀錄。大廳促銷購買也使用同一支付視窗，但促銷購買與銀行優惠碼不是同一流程；保險箱與金銀幣兌換另見第 09 章。</p>
 <h3 id="082">08.2 入口、預設畫面與返回</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>預設及帶入內容</th>
+<th>關閉／完成結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部銀行</td>
+<td>銀行中心預設儲值</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>頂部 BUY／錢包</td>
+<td>使用導航保留的銀行初始頁籤，最初為儲值</td>
+<td>不是每次強制儲值；銀行內切頁不等於改導航初值</td>
+</tr>
+<tr>
+<td>卡片轉換結果查看紀錄</td>
+<td>結束遊戲，直接開銀行紀錄</td>
+<td>初始篩選全部類別、全部狀態，不只限該卡</td>
+</tr>
+<tr>
+<td>儲值方案／促銷立即購買</td>
+<td>疊加 APP 商店儲值，帶入方案，初選 App Store</td>
+<td>確認前關閉不入帳；成功按完成回底層銀行或促銷</td>
+</tr>
+<tr>
+<td>優惠頁輸入碼 → 兌換</td>
+<td>成功後開確認優惠碼兌換</td>
+<td>取消／關閉返回表單、保留輸入；沒有入帳或紀錄</td>
+</tr>
+<tr>
+<td>優惠碼確認領取</td>
+<td>再驗證並立即領取</td>
+<td>成功關確認層、清空輸入、留優惠頁呈現結果；失敗留確認層顯示原因</td>
+</tr>
+</tbody>
+</table></div>
+<p>銀行主視窗、付款及優惠碼確認不以背景點擊關閉。促銷輪播可以背景關閉；付款處理中關閉停用。銀行內切換頁籤時紀錄篩選保留，但優惠碼輸入、錯誤及成功區會隨該頁重新進入而初始化，領取資格仍保留。</p>
 <h3 id="083">08.3 畫面區塊與內容</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>資訊與操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>儲值列表</td>
+<td>六個方案，顯示金幣數、售價、可選的 BONUS 與最佳方案標記；整張方案可點</td>
+</tr>
+<tr>
+<td>促銷輪播</td>
+<td>名稱、介紹、標記、金幣、原價、售價及可選的期限文字；上下張及直接選頁點</td>
+</tr>
+<tr>
+<td>支付確認</td>
+<td>方案名稱、入帳金幣、玩家識別、付款金額、App Store／Google Play、確認付款</td>
+</tr>
+<tr>
+<td>支付處理／成功</td>
+<td>處理中指示與通路文字；成功顯示入帳數量及完成按鈕</td>
+</tr>
+<tr>
+<td>優惠碼</td>
+<td>輸入欄、兌換、錯誤、會員提示、成功內容與可展開的原型測試碼</td>
+</tr>
+<tr>
+<td>優惠碼預覽</td>
+<td>商品、幣別／數量、代碼、可兌換期間及商品使用期限；活動銀另列流水目標與轉換上限</td>
+</tr>
+<tr>
+<td>紀錄</td>
+<td>類別切換、狀態下拉、操作來源、時間、識別碼、金額與狀態；無符合結果提示</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="084">08.4 欄位與顯示規則</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<h4 id="0841">08.4.1 儲值方案與促銷</h4>
+<p>下表為目前原型方案，售價保留畫面 <code>$</code> 文字，未指定正式計價幣別；不推定稅額或匯率。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入帳金幣</th>
+<th>畫面售價</th>
+<th>BONUS 文案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100,000</td>
+<td>$4.99</td>
+<td>無</td>
+</tr>
+<tr>
+<td>500,000</td>
+<td>$19.99</td>
+<td>+10%</td>
+</tr>
+<tr>
+<td>1,200,000</td>
+<td>$49.99</td>
+<td>+20%</td>
+</tr>
+<tr>
+<td>3,000,000</td>
+<td>$99.99</td>
+<td>+50%，最佳方案</td>
+</tr>
+<tr>
+<td>7,500,000</td>
+<td>$199.99</td>
+<td>+80%</td>
+</tr>
+<tr>
+<td>20,000,000</td>
+<td>$499.99</td>
+<td>+100%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>入帳以方案列出的金幣數為準，BONUS 不再加算一次。</strong> 例如 500,000、+10% 方案目前入帳仍為 500,000；文案是否表示已含加碼，原型沒有另行定義，後續調整時應同時對齊方案及確認畫面。</p>
+<p>促銷目前呈現「新春紅包禮」「週末狂歡包」「首充雙倍送」「月卡尊享」四項。SALE 由第一項開啟，其他大廳促銷圖示可帶入不同起始項；左右切換不循環，首末相應按鈕停用。原資料中的 VIP 專屬及幸運轉盤方案目前不在此輪播。</p>
+<p>促銷的首充、週末、期限與每日自動領取文案仍為示範；購買沒有另外檢查首次儲值／星期／到期，也沒有月卡每日派發。確認付款只按該方案金幣一次入帳；不由文案推算第二份獎勵。</p>
+<h4 id="0842">08.4.2 付款欄位與結果</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方案</td>
+<td>銀行方案顯示金幣方案；促銷帶入自身名稱；金幣數與售價不讓玩家編輯</td>
+</tr>
+<tr>
+<td>玩家識別</td>
+<td>畫面欄名為「玩家帳號」，目前實際顯示會員 ID；不應把它當登入帳號</td>
+</tr>
+<tr>
+<td>通路</td>
+<td>App Store 預設，可單選 Google Play；僅確認階段可切換</td>
+</tr>
+<tr>
+<td>處理中</td>
+<td>點確認付款後進處理中，關閉停用，確認表單不再顯示</td>
+</tr>
+<tr>
+<td>成功</td>
+<td>一般金幣增加方案值、一筆成功儲值紀錄、餘額動畫及 Toast；按完成才退出</td>
+</tr>
+<tr>
+<td>失敗</td>
+<td>Mock 入帳條件不成立時回確認，提示「目前無法完成儲值，請重新登入後再試」；不顯示成功</td>
+</tr>
+</tbody>
+</table></div>
+<p>原型只要求有登入身份及正的金幣數，未另設訪客不可儲值的限制。儲值成功目前不更新 VIP 歷史／本月儲值指標，也沒有真實訂單、收據驗證、取消付款回呼、退款或支付防重複憑證。正常一次操作應只產生一筆入帳；重開購買是新的 Mock 操作，不代表同一正式訂單可重複付款。</p>
+<h4 id="0843">08.4.3 優惠碼格式、資格與獎勵去向</h4>
+<p>優惠碼固定 8 碼英數字，忽略前後空白及大小寫；中間空白、其他字元或錯誤長度不接受。欄位輸入轉大寫，未限制只能先輸入 8 碼；非空時可送出檢核。訪客可瀏覽，但兌換按鈕停用，需一般會員身份。</p>
+<p>預覽依序檢查一般會員、格式、代碼存在、已領狀態、開始與結束時間；確認領取再檢查一次。時間含開始與結束端點；超過結束才算過期。商品由代碼決定，玩家不能自行選商品或改數量。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>商品類別</th>
+<th>成功後位置</th>
+<th>不應連動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>儲值銀幣</td>
+<td>一般銀幣錢包、頂部與個人資訊同步</td>
+<td>不增加付費儲值及 VIP 儲值指標</td>
+</tr>
+<tr>
+<td>銅幣</td>
+<td>一般銅幣錢包</td>
+<td>不影響其他幣別</td>
+</tr>
+<tr>
+<td>活動銀幣卡</td>
+<td>新增未啟用卡，摘要／卡片總額增加，目前可用不因領取自動增加</td>
+<td>不占每日任務節點，不立即入一般銀幣</td>
+</tr>
+<tr>
+<td>活動金幣</td>
+<td>活動金額增加，摘要與卡片概覽同步</td>
+<td>不發卡、不開遊戲使用、不做流水或到期回收</td>
+</tr>
+</tbody>
+</table></div>
+<p>每次成功新增一筆銀行獎勵紀錄，內容帶優惠碼、商品、幣別與數量。確認領取沒有等待期；先預覽或取消不消耗資格。同一登入來源＋帳號的同碼限一次；同步防止連點重複發放。發放未成功時不消耗該碼資格，仍留原因提示；刪除或合併已取得的卡不恢復資格。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>情況</th>
+<th>提示與返回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>訪客／未登入</td>
+<td>請先註冊或登入一般會員後再兌換</td>
+</tr>
+<tr>
+<td>格式錯誤</td>
+<td>請輸入 8 碼英文字母或數字</td>
+</tr>
+<tr>
+<td>不存在</td>
+<td>找不到此優惠碼，請確認後再試</td>
+</tr>
+<tr>
+<td>已領取</td>
+<td>您已兌換過此優惠碼</td>
+</tr>
+<tr>
+<td>未開始／過期</td>
+<td>此優惠碼尚未生效／已過期</td>
+</tr>
+<tr>
+<td>無法發放</td>
+<td>目前無法領取，請重新確認優惠碼或獎勵期限</td>
+</tr>
+</tbody>
+</table></div>
+<p>預覽失敗留表單；確認階段失敗留確認層，可取消回表單。重新輸入會清除錯誤及前次成功區。可兌換期間以台北時間展示；活動銀商品顯示卡片使用期限，實際到期計算引用 02.7／07.4 的本地日界現況。一般銀／銅原型入帳後無使用期限；活動金明示使用及到期規則未定義。</p>
+<p>可展開測試區提供以下示範碼，不代表正式對外發放：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>測試碼</th>
+<th>商品／結果</th>
+<th>測試條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G6Y2A8U4</td>
+<td>活動金 1,000</td>
+<td>2026 年可兌換，會員未領</td>
+</tr>
+<tr>
+<td>K7M2X9P4</td>
+<td>銀幣 2,000</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>B8R3N6T2</td>
+<td>銅幣 3,000</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>S5H9C2V7</td>
+<td>活動銀卡 5,000，流水 50,000，上限 5,000</td>
+<td>2026 年可兌換，卡片至 2027/01/31</td>
+</tr>
+<tr>
+<td>E4Q8W2R6</td>
+<td>過期錯誤</td>
+<td>2020 年已結束</td>
+</tr>
+<tr>
+<td>F9D3J7L2</td>
+<td>尚未生效</td>
+<td>2099 年才開始</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="0844">08.4.4 金融紀錄查閱</h4>
+<p>紀錄初始顯示全部類別、全部狀態；類別與狀態同時生效，選取後立即更新，不需按查詢。<strong>目前無日期篩選、分頁或紀錄詳情入口</strong>，不能把個人資訊遊戲紀錄的日期查詢套用到此。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>類別</th>
+<th>收錄內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全部</td>
+<td>所有本機紀錄</td>
+</tr>
+<tr>
+<td>儲值</td>
+<td>儲值及既有提領種子紀錄；不代表本版另有提領操作入口</td>
+</tr>
+<tr>
+<td>保險箱</td>
+<td>存入、取出及既有保險箱相關種子紀錄</td>
+</tr>
+<tr>
+<td>贈禮</td>
+<td>玩家贈禮及既有禮包種子紀錄</td>
+</tr>
+<tr>
+<td>兌換</td>
+<td>金銀幣兌換</td>
+</tr>
+<tr>
+<td>獎勵</td>
+<td>VIP、優惠碼、獎勵卡轉換及既有返水種子紀錄；不代表新增返水功能</td>
+</tr>
+</tbody>
+</table></div>
+<p>狀態可選全部、成功、處理中、失敗；新完成的 Mock 操作直接新增成功紀錄，付款處理中不會先新增一筆處理中紀錄。歷史種子可包含其他狀態，不能推定都有對應重試流程。</p>
+<p>列表保留資料順序，新操作加在最上方，並非依日期重新排序全部舊資料。每筆列來源／方式、日期、識別碼、金額與狀態。存入／贈禮以支出呈現，取出不加支出符號；兌換顯示來源 → 目標數量。無結果顯示「目前沒有符合條件的紀錄」。</p>
 <h3 id="085">08.5 操作與使用流程</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>玩家動作</th>
+<th>系統結果與完成位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>儲值</td>
+<td>選方案 → 核對 → 選通路 → 確認付款 → 完成</td>
+<td>處理成功後加金幣及一筆紀錄，返回底層銀行／促銷</td>
+</tr>
+<tr>
+<td>促銷</td>
+<td>SALE／促銷圖示 → 切換方案 → 立即購買</td>
+<td>帶選中方案進同一付款流程；取消付款不關閉底層促銷</td>
+</tr>
+<tr>
+<td>優惠碼</td>
+<td>輸入 → 兌換預覽 → 確認領取</td>
+<td>再檢核後即時發至對應位置；留優惠頁顯示領取成功及去向</td>
+</tr>
+<tr>
+<td>查紀錄</td>
+<td>銀行紀錄 → 選類別與狀態</td>
+<td>即時篩選，共用紀錄不因切頁刪除；主關閉重開篩選重置</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="086">08.6 狀態、限制與例外</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>價格、促銷文字及測試碼皆屬本版展示配置。優惠碼已領狀態及活動金在同頁生命週期按身份保留，關閉銀行不重置；刷新重置。其他錢包、卡片及金融紀錄有不同生命週期，不能把優惠碼的身份區分推及整套帳務。</p>
+<p>付款、儲值入帳與優惠碼領取是不同流程，不互相代替。補簽扣款、信箱附件等目前不是每筆都建立銀行紀錄；查紀錄時不得推論「沒紀錄就一定沒改餘額」。正式資料一致性或錯誤補償應以相關工作單另列結果。</p>
 <h3 id="087">08.7 資料需求與跨介面影響</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>內容</th>
+<th>所需資料與更新</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方案／付款</td>
+<td>名稱、金幣、售價、通路、操作身份與成功／失敗結果；成功同步一般金幣與單筆紀錄</td>
+</tr>
+<tr>
+<td>優惠碼</td>
+<td>商品、資格、領取狀態、可兌換／使用期限；確認後回傳獎勵位置與結果，失敗不消耗資格</td>
+</tr>
+<tr>
+<td>金融紀錄</td>
+<td>類別、來源、時間、識別、幣別／數量與狀態；跨頁操作共用同一列表</td>
+</tr>
+<tr>
+<td>保存</td>
+<td>取得及更新所屬資料；各自生命週期依 02.7，不新增跨裝置保證</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="088">08.8 驗收條件</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>AC 編號</th>
+<th>前置狀態／操作</th>
+<th>可觀察結果</th>
+<th>關聯故事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-08-001</td>
+<td>底部銀行／頂部 BUY／轉換結果進紀錄</td>
+<td>預設頁籤依入口正確，銀行主關閉回大廳</td>
+<td>US-08、US-13</td>
+</tr>
+<tr>
+<td>AC-08-002</td>
+<td>選有 BONUS 的金幣方案並進支付</td>
+<td>金幣與售價一致，BONUS 不另加；預設 App Store，可改 Google Play</td>
+<td>US-08</td>
+</tr>
+<tr>
+<td>AC-08-003</td>
+<td>付款確認前關閉；另一次完成正常支付</td>
+<td>前者無入帳，後者一次加方案金幣及一筆紀錄；成功手動完成回底層</td>
+<td>US-08</td>
+</tr>
+<tr>
+<td>AC-08-004</td>
+<td>支付處理中及模擬入帳失敗</td>
+<td>處理中不能關閉；失敗回確認並提示，不顯示成功；正式外部失敗另驗</td>
+<td>US-08</td>
+</tr>
+<tr>
+<td>AC-08-005</td>
+<td>促銷切首末項、購買及取消付款</td>
+<td>四項輪播不循環，傳入正確方案；取消返回原促銷</td>
+<td>US-08</td>
+</tr>
+<tr>
+<td>AC-08-006</td>
+<td>訪客、空輸入、錯長度、特殊字元、不存在碼</td>
+<td>訪客／空輸入停用，其餘送出顯示原因，不入帳；前後空白與大小寫可正規化</td>
+<td>US-07</td>
+</tr>
+<tr>
+<td>AC-08-007</td>
+<td>有效碼預覽後取消／關閉</td>
+<td>商品、數量、兩種期限正確；不耗資格、不入帳、不新增紀錄，輸入保留</td>
+<td>US-07</td>
+</tr>
+<tr>
+<td>AC-08-008</td>
+<td>四類正常碼各確認領取</td>
+<td>各入正確位置且有一筆獎勵紀錄；銀／銅不加 VIP 指標，活動銀卡未啟用，活動金不發卡</td>
+<td>US-07</td>
+</tr>
+<tr>
+<td>AC-08-009</td>
+<td>同碼連點、關銀行重開，或刪除／合併所得卡再領</td>
+<td>同身份同碼只成功一次；卡片變動不重開資格</td>
+<td>US-07</td>
+</tr>
+<tr>
+<td>AC-08-010</td>
+<td>未開始／過期碼，或預覽後期限／發放條件失效</td>
+<td>失敗無入帳；提交失敗留確認層及原因，不消耗未成功領取資格</td>
+<td>US-07</td>
+</tr>
+<tr>
+<td>AC-08-011</td>
+<td>類別與狀態交叉篩選、無結果、切頁再回</td>
+<td>即時篩選且兩條件同時成立；空結果提示，切頁保留篩選，重開重置；無日期／分頁</td>
+<td>US-13</td>
+</tr>
+<tr>
+<td>AC-08-012</td>
+<td>新增儲值／VIP／優惠碼／卡片轉換／保險箱／兌換紀錄</td>
+<td>新操作在頂部，來源、幣別及狀態正確；刷新回金融種子，不把種子當新交易</td>
+<td>US-08、US-13</td>
+</tr>
+</tbody>
+</table></div>
 <p><a id="ch-09"></a></p>
 <h2 id="09">09. 保險箱、贈禮與兌換</h2>
-<p><strong>本章範圍：</strong>錢包與保險箱、存入／取出、接收者、贈禮金額、手續費與實收、金銀幣兌換與金融紀錄。</p>
-<p><strong>狀態：</strong>章節骨架已建立，正文待撰寫。</p>
+<p><strong>狀態：</strong>第 3 批初稿，依目前資產表單及共用餘額更新整理。贈禮只模擬送方扣款與紀錄，對方實收是預覽／提示，尚未向真實接收者入帳。</p>
 <h3 id="091">09.1 功能目的與範圍</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>保險箱包含「保險箱」「贈禮／轉點」「兌換」三頁籤。玩家可以在錢包與保險箱間移動金幣、以保險箱金幣贈禮，或交換一般金銀幣。活動金、活動銀、獎勵卡及銅幣不參與本章操作。</p>
+<p>保險箱不是另一種幣別；存取是同一身份的金幣位置改變，贈禮與金銀幣兌換則有不同的來源、計算與結果，不共用一套扣款說明。</p>
 <h3 id="092">09.2 入口、預設畫面與返回</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>預設及帶入</th>
+<th>完成／返回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部保險箱</td>
+<td>保險箱頁、存入模式，金額空白</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>玩家資訊卡贈禮</td>
+<td>先關玩家卡，帶接收者 ID 進贈禮頁</td>
+<td>完成留贈禮頁；主關閉回大廳，不自動回玩家卡</td>
+</tr>
+<tr>
+<td>同一視窗切頁籤</td>
+<td>保留本視窗各表單狀態</td>
+<td>主關閉再開重建表單與預設模式</td>
+</tr>
+<tr>
+<td>存入／取出切換</td>
+<td>換來源餘額，清空該金額</td>
+<td>留保險箱頁</td>
+</tr>
+<tr>
+<td>兌換方向切換</td>
+<td>換一般金／銀來源，清空兌換金額</td>
+<td>留兌換頁</td>
+</tr>
+<tr>
+<td>送出有效操作</td>
+<td>顯示共用處理中遮罩後執行 Mock</td>
+<td>成功留原頁並清空本次輸入；失敗保留輸入及提示</td>
+</tr>
+</tbody>
+</table></div>
+<p>主關閉不支援背景點擊。存取、贈禮、兌換都在表單確認按鈕直接送出，沒有第二個確認彈窗。未送出時可切頁、改模式或主關閉；處理中沒有另設取消操作。</p>
 <h3 id="093">09.3 畫面區塊與內容</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
-<h3 id="094">09.4 欄位與顯示規則</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁籤</th>
+<th>餘額／說明</th>
+<th>輸入與結果摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>保險箱</td>
+<td>錢包金幣、保險箱金幣、用途</td>
+<td>存入／取出、金額、滑桿、25%／50%／75%／MAX、操作前與後的來源可用額</td>
+</tr>
+<tr>
+<td>贈禮／轉點</td>
+<td>可贈禮餘額、VIP、固定 5% Mock 手續費、次數／上限展示</td>
+<td>接收者 ID、贈禮金額、送方扣除、手續費、對方實收、確認贈禮</td>
+</tr>
+<tr>
+<td>兌換</td>
+<td>一般金銀餘額、1 金＝100 銀、免手續費說明</td>
+<td>方向、來源金額、快捷比例、扣除／手續費／實收、確認兌換</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="094">09.4 欄位與計算規則</h3>
+<h4 id="0941">09.4.1 共用金額輸入</h4>
+<p>金額欄只留下數字，並截到當前來源餘額上限；空字串表示未輸入。原型是移除非數字字元而非解析小數，例如輸入 <code>1.5</code> 會成 <code>15</code>，不能把小數輸入當作可接受的金額格式。介面只供非負整數使用，零不能提交。</p>
+<p>保險箱提供滑桿與快捷比例，按比例向下取整；MAX 為全額來源。贈禮金額最多為目前保險箱金幣，沒有快捷比例。兌換快捷比例另依銀換金單位調整，見 09.4.4。</p>
+<h4 id="0942">09.4.2 存入與取出</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>來源／目的地</th>
+<th>成功計算與紀錄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存入 X 金幣</td>
+<td>一般錢包 → 保險箱</td>
+<td>錢包金減 X、保險箱金加 X；一筆「錢包存入保險箱」紀錄</td>
+</tr>
+<tr>
+<td>取出 X 金幣</td>
+<td>保險箱 → 一般錢包</td>
+<td>保險箱金減 X、錢包金加 X；一筆「保險箱取出至錢包」紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<p>金額需大於 0 且不超過來源，無手續費。表單「操作後可用」指來源餘額減本次金額，不是目的地餘額。成功清空金額；來源不足時顯示錢包金幣不足／保險箱餘額不足，沒有成功紀錄。</p>
+<h4 id="0943">09.4.3 玩家贈禮</h4>
+<p>接收者 ID 可由玩家卡帶入，也可手動輸入；去除前後空白後非空即可送出。原型未檢查接收者是否存在、是否自己、是否被封鎖或是否具接收資格，不能以成功提示證明已送達。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算／現況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>送方扣除</td>
+<td>等於輸入 X 金幣，從保險箱扣除，錢包金幣不直接扣</td>
+</tr>
+<tr>
+<td>手續費</td>
+<td>X × 5%，向下取整</td>
+</tr>
+<tr>
+<td>對方實收預覽</td>
+<td>X − 手續費，最低 0；費用包含在送方輸入內，不另加扣 5%</td>
+</tr>
+<tr>
+<td>成功紀錄</td>
+<td>贈禮類別一筆，來源「贈送給 {接收者 ID}」，金額為送方扣除 X</td>
+</tr>
+<tr>
+<td>今日剩餘／單次上限</td>
+<td>畫面固定顯示 5／10 次及 1,000,000 點；未隨操作遞減，也未依此上限拒絕提交</td>
+</tr>
+<tr>
+<td>VIP</td>
+<td>顯示目前等級，但此表單固定使用 5% 計算，尚未按級別動態取費率</td>
+</tr>
+</tbody>
+</table></div>
+<p>例如送出 1,001 金幣，手續費為 50、對方實收預覽 951，送方保險箱只扣 1,001。銀行紀錄未另外拆列費用／對方入帳，對方錢包沒有實際更新。正式接收者驗證、次數／限額及收方帳務如需補齊，應在調整工作單明列，不當作現有能力。</p>
+<p>成功後清空接收者與金額，留贈禮頁；餘額不足時提示先存入金幣。一般會員與訪客進此表單目前沒有獨立的身份限制，不自加 VIP 門檻。</p>
+<h4 id="0944">09.4.4 一般金銀幣兌換</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>方向</th>
+<th>可送出金額</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>金 → 銀</td>
+<td>正整數、不超過一般金幣餘額</td>
+<td>扣 X 金、加 X × 100 銀</td>
+</tr>
+<tr>
+<td>銀 → 金</td>
+<td>正整數且為 100 的倍數、不超過一般銀幣餘額</td>
+<td>扣 X 銀、加 X ÷ 100 金</td>
+</tr>
+</tbody>
+</table></div>
+<p>兩方向均無手續費。銀換金若輸入非 100 倍數，摘要可能顯示向下取整的預覽，但確認按鈕仍停用，不應把預覽視為已允許尾數丟棄。快捷 25%／50%／75%／MAX 在銀換金時再向下取到 100 倍數，例如餘額 1,050、MAX 帶 1,000，完成後留 50 銀幣。</p>
+<p>成功清空金額、金銀餘額同步，新增一筆來源幣別與目的幣別的兌換紀錄。兌換不算付費儲值，不影響 VIP 指標、銅幣、活動額度、卡片或保險箱。</p>
 <h3 id="095">09.5 操作與使用流程</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>玩家動作</th>
+<th>完成結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存取</td>
+<td>保險箱 → 選方向 → 輸入／滑桿／快捷 → 看來源餘額 → 確認</td>
+<td>處理後雙位置同步，金額清空，可切銀行紀錄核對</td>
+</tr>
+<tr>
+<td>贈禮</td>
+<td>贈禮頁 → 填或檢查 ID → 輸入金額 → 看扣除、費用及實收 → 確認</td>
+<td>處理後只更新送方保險箱與紀錄，提示預覽實收，清空表單</td>
+</tr>
+<tr>
+<td>兌換</td>
+<td>兌換頁 → 選方向 → 輸入有效單位 → 核對 → 確認</td>
+<td>處理後一般金銀互換、紀錄新增、金額清空</td>
+</tr>
+<tr>
+<td>查看紀錄</td>
+<td>主關閉 → 底部銀行 → 紀錄 → 對應類別</td>
+<td>不從本表單自動跳轉；日期篩選不是銀行現有功能</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="096">09.6 狀態、限制與例外</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>送出前以正金額、來源餘額及必要欄位控制確認按鈕，處理時使用遮罩減少重複操作；不將它當成正式扣款的防重複或併發保證。延遲期間如果餘額／身份變動，仍需專門的競態驗證；原型沒有正式交易鎖、接收者服務或回滾契約。</p>
+<p>單次存取及兌換是前台 Mock，若因條件不足失敗，留原表單顯示原因。處理中刷新、斷線或跨裝置操作沒有續做或查詢訂單機制。刷新後金銀、保險箱及新增紀錄重置；關閉功能則保留共用餘額與紀錄。</p>
 <h3 id="097">09.7 資料需求與跨介面影響</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>內容</th>
+<th>取得／送出／同步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存取</td>
+<td>身份、來源與目的地金幣、方向與金額；成功雙餘額及一筆紀錄一致</td>
+</tr>
+<tr>
+<td>贈禮</td>
+<td>接收者 ID、送方可用保險箱、送出數量、費用及預覽實收；實際收方結果原型未提供</td>
+</tr>
+<tr>
+<td>兌換</td>
+<td>方向、來源餘額、比率、可提交單位、計算結果；金銀及紀錄同步</td>
+</tr>
+<tr>
+<td>其他介面</td>
+<td>頂部、個人摘要、遊戲啟動的可用一般錢包同步；卡片與活動額度不受影響</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="098">09.8 驗收條件</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>AC 編號</th>
+<th>前置狀態／操作</th>
+<th>可觀察結果</th>
+<th>關聯故事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-09-001</td>
+<td>底部保險箱／玩家卡贈禮進入</td>
+<td>前者存入空表單，後者贈禮並帶 ID；主關閉回大廳</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-002</td>
+<td>存取輸入、滑桿、快捷比例、切方向</td>
+<td>全部依來源同步；超過來源截到上限，零停用；切方向清空</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-003</td>
+<td>一般金幣足夠，存入 X 後取出 X</td>
+<td>兩位置相反增減且總金不變，各一筆保險箱紀錄，金額清空</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-004</td>
+<td>來源為零／提交條件不成立</td>
+<td>不可送出或顯示不足，無成功扣款與紀錄；保留失敗表單</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-005</td>
+<td>贈禮空 ID、零額度，再填有效非空 ID 與 1,001</td>
+<td>前者停用；後者費 50、預覽實收 951，扣保險箱 1,001、一筆紀錄</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-006</td>
+<td>完成贈禮後核對錢包與頁面</td>
+<td>送方金錢包不變，表單清空；次數／上限仍為展示，未證實收方入帳</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-007</td>
+<td>金換銀、銀換金，以足額 2 金／200 銀測試</td>
+<td>分別轉 200 銀／2 金、免手續費，單筆紀錄雙幣一致，其他資產不變</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-008</td>
+<td>銀換金輸入 150，另以餘額 1,050 按 MAX</td>
+<td>150 不可確認；MAX 為 1,000，成功得 10 金、留下 50 銀</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-009</td>
+<td>修改輸入後切頁／主關閉／處理完成</td>
+<td>同視窗保留各草稿，重開重建；成功清本次輸入，失敗保留；處理中不提供取消</td>
+<td>US-09</td>
+</tr>
+<tr>
+<td>AC-09-010</td>
+<td>完成存取／贈禮／兌換再開銀行並刷新</td>
+<td>類別與金額正確，關閉不清紀錄；刷新金融 Mock 重置</td>
+<td>US-09、US-13</td>
+</tr>
+</tbody>
+</table></div>
 <p><a id="ch-10"></a></p>
 <h2 id="10">10. 每日任務、活動與排行榜</h2>
-<p><strong>本章範圍：</strong>簽到、補簽、累積進度、里程碑、活動分類／詳情／報名／結果、倍數／贏分／富豪榜。</p>
-<p><strong>狀態：</strong>章節骨架已建立，正文待撰寫。</p>
+<p><strong>狀態：</strong>第 3 批初稿。簽到與領卡、活動報名及榜單以現行原型為依據；活動日期、獎勵與名次為示範資料，不作正式發獎或即時排行承諾。</p>
 <h3 id="101">10.1 功能目的與範圍</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>玩家可完成當日簽到、補回本月漏簽、領取已達成節點的獎勵，並瀏覽活動與三種排行榜。簽到／補簽更新進度，領卡是另一個需點擊的操作；卡片啟用與轉換引用第 07 章。</p>
 <h3 id="102">10.2 入口、預設畫面與返回</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>預設內容</th>
+<th>返回／保存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部每日任務／獎勵卡空清單前往任務</td>
+<td>每日任務頁籤</td>
+<td>主關閉回大廳；已簽、已領與卡片在本頁生命週期保留</td>
+</tr>
+<tr>
+<td>底部活動</td>
+<td>活動頁籤，預設進行中</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>三個主頁籤</td>
+<td>每日任務、活動、排行榜；標題依頁籤改為每日任務／活動中心／排行榜</td>
+<td>切頁保留共用進度與報名；活動分類重進時回進行中</td>
+</tr>
+<tr>
+<td>排行榜</td>
+<td>初次選倍數榜，可改贏分榜／富豪榜</td>
+<td>同一活動視窗內記住選榜；主關閉重開回初值</td>
+</tr>
+<tr>
+<td>補簽／活動詳情</td>
+<td>疊加對應子視窗</td>
+<td>取消、關閉或背景點擊只關該層，回原頁；報名成功留在詳情</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="103">10.3 畫面區塊與內容</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>顯示及用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任務摘要</td>
+<td>本月累積天數、今日簽到狀態及簽到按鈕</td>
+</tr>
+<tr>
+<td>里程碑進度</td>
+<td>第 5、7、10、15、20、25、30 天節點，區分未達、可領與已領</td>
+</tr>
+<tr>
+<td>本月簽到</td>
+<td>當月日期格，顯示今日、已簽、可補簽及未來日期；漏簽數與每次補簽成本</td>
+</tr>
+<tr>
+<td>補簽確認</td>
+<td>目標日期、100 銀幣成本、僅補進度不另發每日獎勵的說明、取消／確認</td>
+</tr>
+<tr>
+<td>活動分類與卡片</td>
+<td>進行中、即將開始、已結束的數量；卡片含狀態、標題、簡介、結束時間、獎勵及已報名標記</td>
+</tr>
+<tr>
+<td>活動詳情</td>
+<td>狀態、名稱、說明、起訖、獎勵、完整介紹及參與按鈕</td>
+</tr>
+<tr>
+<td>已結束頁</td>
+<td>另顯示固定示範獲獎名單；不依玩家報名結果或所選活動計算</td>
+</tr>
+<tr>
+<td>排行榜</td>
+<td>前 10 名；前三名頒獎台依左二／中一／右三排列，4～10 名列表；玩家名稱、遊戲／資產類別與成績</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="104">10.4 欄位與顯示規則</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<h4 id="1041">10.4.1 簽到、補簽與節點</h4>
+<p>日曆以瀏覽器本地日期及當月天數建立，沒有切換其他月份的入口。今天未簽可操作，已簽與未來日期停用，僅本月今天之前的漏簽日可補。每日任務按鈕與今天日期格都能完成當日簽到。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>本版規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>今日簽到</td>
+<td>增加一日累積進度、日期改已簽，不扣幣、不直接發一般錢包或卡片</td>
+</tr>
+<tr>
+<td>補簽</td>
+<td>每個漏簽日支付 100 一般銀幣，成功補一日進度；活動銀、保險箱或其他幣別不能代付</td>
+</tr>
+<tr>
+<td>進度初值</td>
+<td>原型預設累積 20 天，與日曆初始已簽日數獨立；每新增簽／補一日，累積加一</td>
+</tr>
+<tr>
+<td>獎勵節點</td>
+<td>第 10、15、20 天手動領活動銀卡；金額、流水及期限引用 07.4</td>
+</tr>
+<tr>
+<td>無額度節點</td>
+<td>第 5、7、25、30 天只標記里程碑完成，不增加餘額或卡片；前兩項原型初始已完成</td>
+</tr>
+<tr>
+<td>領取資格</td>
+<td>已達節點且未領才可操作；未達停用，成功後已領停用；刪卡／合併不恢復資格</td>
+</tr>
+</tbody>
+</table></div>
+<p>補簽不足 100 銀幣時顯示「銀幣不足，無法補簽」，確認層仍在，日期與餘額不變；可取消後取得銀幣再返回。成功顯示扣款提示並關閉確認層。補簽目前只改銀幣與任務進度，沒有新增銀行金融紀錄。</p>
+<h4 id="1042">10.4.2 活動與報名</h4>
+<p>進行中分類同時包含「進行中」及「即將結束」的活動。分類與可報名狀態依示範資料的狀態欄位決定，未根據畫面日期自動切換；原型日期文字與真實今天不一致時，不應推論正式活動仍有效。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>活動狀態</th>
+<th>按鈕及結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>進行中／即將結束、未報名</td>
+<td>可按「立即參與」，成功提示完成 Mock 報名，卡片與詳情更新已報名</td>
+</tr>
+<tr>
+<td>已報名</td>
+<td>顯示「已完成 Mock 報名」且停用；沒有取消報名入口</td>
+</tr>
+<tr>
+<td>即將開始</td>
+<td>「尚未開始」停用，可閱讀詳情</td>
+</tr>
+<tr>
+<td>已結束</td>
+<td>「活動已結束」停用，可閱讀介紹與固定示範獲獎名單</td>
+</tr>
+</tbody>
+</table></div>
+<p>報名只保存活動識別，不扣費、不自動發獎、不驗證 VIP／儲值／遊戲參與條件，也不開啟遊戲。活動介紹中的營運條件若要正式執行，應由後續工作單補檢核與結果，不因文案存在宣稱已完成。</p>
+<h4 id="1043">10.4.3 排行榜</h4>
+<p>倍數榜以倍數、贏分榜以分數、富豪榜以金幣展示數值；不將三者合算。每榜固定前 10 名，不提供分頁、個人排名查詢或點玩家開資訊卡。顯示「幾秒／分鐘前更新」的數字隨停留時間增加，但列表是靜態 Mock，不會因此重新取得成績；本機操作不改名次，也不發排名獎勵。</p>
 <h3 id="105">10.5 操作與使用流程</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>玩家操作</th>
+<th>完成結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>當日簽到</td>
+<td>每日任務 → 今日簽到／今日日期格</td>
+<td>日期已簽、累積加一，留任務頁；達到節點後仍需手動領取</td>
+</tr>
+<tr>
+<td>補簽</td>
+<td>選漏簽日 → 檢查 100 銀幣費用 → 確認</td>
+<td>扣銀幣、補進度、關子層；取消不扣；不足保留錯誤與確認層</td>
+</tr>
+<tr>
+<td>領里程碑</td>
+<td>點已達未領節點</td>
+<td>卡片節點新增未啟用卡；無額度節點只標記完成</td>
+</tr>
+<tr>
+<td>使用獎勵</td>
+<td>領卡後從底部獎勵卡前往查看</td>
+<td>不自動跳頁；啟用及遊戲使用接第 07、05 章</td>
+</tr>
+<tr>
+<td>報名活動</td>
+<td>活動分類 → 卡片詳情 → 立即參與</td>
+<td>改已報名並提示，留詳情；關閉返回列表仍已報名</td>
+</tr>
+<tr>
+<td>查看榜單</td>
+<td>排行榜 → 倍數／贏分／富豪</td>
+<td>換同一排行介面的展示內容，不改資產</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="106">10.6 狀態、限制與例外</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<p>已簽、已領、已報名按鈕會停用，獎勵卡另有同步資格檢查，避免同一節點重複發卡。簽到／補簽／報名本身仍是前台共用狀態，快速重複提交及跨裝置併發未提供正式交易保證，不能只憑停用樣式當作後端防重複完成。</p>
+<p>本月日曆與累積值為展示資料，未實作月份切換排程、跨午夜自動重建、正式累積／重置週期、活動空資料或服務失敗頁。記憶體中的進度與報名在關閉功能後保留，刷新重置，也未依登入帳號完整隔離。</p>
 <h3 id="107">10.7 資料需求與跨介面影響</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>內容</th>
+<th>取得／送出／更新</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任務</td>
+<td>當月日期、已簽集合、累積數、節點與已領集合；送出簽到日或補簽日</td>
+</tr>
+<tr>
+<td>補簽</td>
+<td>一般銀幣可用餘額、成本與扣款結果；成功須與日期和累積同步，目前不產生金融紀錄</td>
+</tr>
+<tr>
+<td>領獎</td>
+<td>節點資格與卡片配置；成功卡片、摘要活動額度與節點狀態同步</td>
+</tr>
+<tr>
+<td>活動</td>
+<td>活動識別、分類狀態、起訖、文案與獎勵、已報名狀態；原型不提供真實報名審核</td>
+</tr>
+<tr>
+<td>排行</td>
+<td>榜別、名次、玩家顯示名、成績及對應遊戲；靜態更新時間不代替真實資料更新時間</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="108">10.8 驗收條件</h3>
-<p>待補。依<a href="spec-templates/FEATURE_TEMPLATE.html">功能模板</a>填寫。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>AC 編號</th>
+<th>前置狀態／操作</th>
+<th>可觀察結果</th>
+<th>關聯故事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-10-001</td>
+<td>從底部每日任務／活動與卡片空頁前往</td>
+<td>預設頁籤正確；主關閉回大廳，已完成進度保留</td>
+<td>US-05、US-12</td>
+</tr>
+<tr>
+<td>AC-10-002</td>
+<td>今日未簽，從按鈕或今日格簽到</td>
+<td>日期已簽、累積加一，不直接發獎；已簽與未來日期不能再操作</td>
+<td>US-05</td>
+</tr>
+<tr>
+<td>AC-10-003</td>
+<td>漏簽日、銀幣足夠，先取消再確認補簽</td>
+<td>取消不變；確認扣 100 銀幣並加一日，不新增金融紀錄或額外日獎</td>
+<td>US-05</td>
+</tr>
+<tr>
+<td>AC-10-004</td>
+<td>銀幣少於 100，確認補簽</td>
+<td>顯示不足，日期／餘額不變且子層保留，可取消</td>
+<td>US-05</td>
+</tr>
+<tr>
+<td>AC-10-005</td>
+<td>未達／可領／已領的節點及無額度里程碑</td>
+<td>資格控制正確；卡片節點入卡不入一般錢包，其他節點不發卡</td>
+<td>US-05</td>
+</tr>
+<tr>
+<td>AC-10-006</td>
+<td>切三種活動狀態分類並開詳情</td>
+<td>進行中含即將結束；標題、獎勵、期間一致；子層關閉／背景返回分類</td>
+<td>US-12</td>
+</tr>
+<tr>
+<td>AC-10-007</td>
+<td>可報名活動按立即參與並重開詳情</td>
+<td>留詳情顯示已報名，列表同步且按鈕停用；不扣費／發獎／跳遊戲</td>
+<td>US-12</td>
+</tr>
+<tr>
+<td>AC-10-008</td>
+<td>即將開始或已結束活動</td>
+<td>參與停用；已結束名單僅展示，不因查看產生獎勵</td>
+<td>US-12</td>
+</tr>
+<tr>
+<td>AC-10-009</td>
+<td>切倍數、贏分及富豪榜</td>
+<td>每榜前 10 名、前三台與 4～10 列表、單位正確；無玩家卡跳轉，計時不改成績</td>
+<td>US-12</td>
+</tr>
+<tr>
+<td>AC-10-010</td>
+<td>簽到、領卡或報名後切頁／主關閉／刷新</td>
+<td>前兩者保留共用狀態，刷新回示範值；日曆與累積進度不混算</td>
+<td>US-05、US-12</td>
+</tr>
+</tbody>
+</table></div>
 <p><a id="ch-11"></a></p>
 <h2 id="11">11. 聊天、玩家互動與客服</h2>
 <p><strong>本章範圍：</strong>公頻、私訊、好友與玩家列表、玩家資訊卡、好友關係、封鎖、贈禮入口、檢舉、客服與自動傳送設定邊界。</p>
@@ -2106,9 +3311,9 @@
 <p><a id="ch-13"></a></p>
 <h2 id="13">13. 跨介面使用流程</h2>
 <p><strong>本章範圍：</strong>以流程節點串接各功能，描述傳入資訊、跨頁更新、返回位置與交接；規則引用功能章節。</p>
-<p><strong>狀態：</strong>章節骨架已建立，正文待撰寫。</p>
+<p><strong>狀態：</strong>第 3 批已補 FLOW-02～08；其餘流程及完整驗收待後續批次。</p>
 <h3 id="131">13.1 流程索引</h3>
-<p>以下為預計收錄的流程主題，詳細節點與規則引用待補。</p>
+<p>本批已展開的流程見 13.3～13.9；未撰寫者保留狀態，已完成章節可直接引用。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
 <tr>
@@ -2129,43 +3334,43 @@
 <td>FLOW-02</td>
 <td>選擇與進入遊戲</td>
 <td>04、05</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-03</td>
 <td>任務取得與使用獎勵</td>
 <td>10、07、05、08</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-04</td>
 <td>多張獎勵卡合併</td>
 <td>07、05、08</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-05</td>
 <td>優惠碼領取</td>
 <td>08、06、07</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-06</td>
 <td>儲值與促銷購買</td>
 <td>04、08</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-07</td>
 <td>VIP 領獎</td>
 <td>06、08</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-08</td>
 <td>玩家贈禮</td>
 <td>11、09、08</td>
-<td>待撰寫</td>
+<td>初稿已撰寫</td>
 </tr>
 <tr>
 <td>FLOW-09</td>
@@ -2181,36 +3386,320 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="132">13.2 每條流程的填寫格式</h3>
-<p>流程目的、入口與前提、完成條件：待補。</p>
+<h3 id="132">13.2 流程閱讀方式</h3>
+<p>以下流程記錄已找到的入口、帶入資料、操作結果與返回位置；細節與數值引用功能章節。流程初稿不代表操作驗收通過，尤其 Mock 發獎、付款與贈禮不等於正式服務成功。</p>
+<p><a id="flow-02"></a></p>
+<h3 id="133-flow-02">13.3 FLOW-02｜選擇與進入遊戲</h3>
+<p>目的：選定遊戲與可用幣別後進入，結束時能回大廳。起點是已登入大廳；尋找遊戲的完整篩選細節待第 04 章，本批完成啟動與返回。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
 <tr>
 <th>節點</th>
-<th>當前介面</th>
-<th>玩家動作</th>
-<th>傳入／產生資訊</th>
-<th>下一節點／失敗返回</th>
-<th>更新位置</th>
-<th>功能規則／US 引用</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>待補</td>
-<td>待補</td>
-<td>待補</td>
-<td>待補</td>
-<td>待補</td>
-<td>待補</td>
-<td>待補</td>
+<td>1</td>
+<td>大廳點遊戲卡</td>
+<td>遊戲、幣別篩選；寫入最近點選資料</td>
+<td>開啟動視窗，不直接開始遊戲</td>
+<td>05.2、US-02</td>
+</tr>
+<tr>
+<td>2</td>
+<td>選可用幣別</td>
+<td>遊戲支援與目前可用額度共同決定</td>
+<td>取消回原篩選；不可用可改選或回去處理資產</td>
+<td>05.4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認進入</td>
+<td>本次遊戲＋幣別，不扣入場費</td>
+<td>載入後進遊戲室</td>
+<td>05.5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>離開遊戲</td>
+<td>清本次遊戲，資產不因離開自動改變</td>
+<td>回重建大廳；活動銀轉換另接 FLOW-03</td>
+<td>05.2、05.6</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-03"></a></p>
+<h3 id="134-flow-03">13.4 FLOW-03｜任務取得與使用獎勵</h3>
+<p>目的：完成任務、取得活動銀卡，啟用使用後查看轉換結果。完成條件是卡片、額度、銀幣及紀錄一致。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>每日任務簽到／補簽</td>
+<td>日期及累積進度；補簽另扣一般銀幣</td>
+<td>不直接發卡；不足／取消留任務且不扣</td>
+<td>10.4.1、US-05</td>
+</tr>
+<tr>
+<td>2</td>
+<td>點已達未領的卡片節點</td>
+<td>節點已領、新增未啟用卡、活動銀總額增加</td>
+<td>留任務；自行點底部獎勵卡查看</td>
+<td>07.5.1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>獎勵卡啟用</td>
+<td>一張使用中、可用額度更新，其他使用中卡停用</td>
+<td>關閉回大廳，依 FLOW-02 進支援遊戲</td>
+<td>07.5.1、05.4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>遊戲室 Mock 完成流水</td>
+<td>卡片轉換、銀幣與一筆金融紀錄更新</td>
+<td>結果確認留原畫面；失敗不成功入帳</td>
+<td>07.5.4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>結果查看紀錄</td>
+<td>標已讀並結束遊戲，銀行初始頁為紀錄</td>
+<td>在銀行核對；主關閉回大廳</td>
+<td>08.2、08.4.4</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-04"></a></p>
+<h3 id="135-flow-04">13.5 FLOW-04｜多張獎勵卡合併</h3>
+<p>目的：以至少兩張合格卡建立一張新卡，保留正確數值與來源。選取及預覽階段不能改原卡或一般錢包。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>獎勵卡整理狀態並進合併</td>
+<td>使用中先停用；選合格卡集合</td>
+<td>不足兩張合格卡入口停用</td>
+<td>07.5.2、US-06</td>
+</tr>
+<tr>
+<td>2</td>
+<td>檢查預覽</td>
+<td>五項數值直接加總、最早期限</td>
+<td>取消不改卡；失效預覽不可確認</td>
+<td>07.5.3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認合併</td>
+<td>再驗證、來源失效、新卡未啟用置頂</td>
+<td>成功留列表；失敗清選取並提示，原卡不變</td>
+<td>07.5.2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>啟用新卡並使用</td>
+<td>更新可用額度；需要轉換時接 FLOW-03 第 4～5 節點</td>
+<td>合併不產生銀行入帳，轉換才入銀幣</td>
+<td>07.5.4</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-05"></a></p>
+<h3 id="136-flow-05">13.6 FLOW-05｜優惠碼領取</h3>
+<p>目的：一般會員先看商品再確認領取。完成條件是資格、商品去向及銀行獎勵紀錄一致。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行優惠輸入碼並兌換</td>
+<td>正規化代碼、檢查身份／存在／已領／期限</td>
+<td>失敗留輸入；成功開預覽</td>
+<td>08.4.3、US-07</td>
+</tr>
+<tr>
+<td>2</td>
+<td>查看商品與期限</td>
+<td>尚不入帳、不消耗資格</td>
+<td>取消關子層、輸入保留；確認再驗證</td>
+<td>08.2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認領取</td>
+<td>即時入銀／銅錢包、活動金，或新增未啟用活動銀卡；一筆獎勵紀錄</td>
+<td>成功留優惠頁、清輸入；失敗留子層及原因</td>
+<td>08.4.3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>自行查看摘要／卡片／銀行紀錄</td>
+<td>顯示同一筆領取結果，不再發一次</td>
+<td>活動銀啟用使用接第 07 章；活動金無後續使用流程</td>
+<td>06.3、07.5.1</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-06"></a></p>
+<h3 id="137-flow-06">13.7 FLOW-06｜儲值與促銷購買</h3>
+<p>目的：確認選購內容與通路，完成原型金幣入帳後回原入口。取消不得當作成功交易。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行選方案／促銷選項後購買</td>
+<td>方案名稱、金幣、售價，預設 App Store</td>
+<td>開支付；底層銀行或促銷保留</td>
+<td>08.4.1、US-08</td>
+</tr>
+<tr>
+<td>2</td>
+<td>核對並選通路</td>
+<td>修改支付通路，不改方案數量</td>
+<td>關閉回底層且不入帳；確認進處理</td>
+<td>08.4.2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Mock 處理</td>
+<td>成功加一般金幣、一筆成功儲值紀錄，VIP 指標不變</td>
+<td>失敗回確認並提示；處理中不可關閉</td>
+<td>08.4.2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>成功按完成，再自行查看紀錄</td>
+<td>只關支付，返回原銀行或促銷</td>
+<td>透過銀行紀錄查結果，重開購買是另一個 Mock 操作</td>
+<td>08.4.4</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-07"></a></p>
+<h3 id="138-flow-07vip">13.8 FLOW-07｜VIP 領獎</h3>
+<p>目的：只領目前生效級一次，並在一般錢包及銀行核對結果。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>個人資訊 VIP 查看本級</td>
+<td>目前級、獎勵、已領集合</td>
+<td>無獎勵／已領停用，無跨級補領</td>
+<td>06.4.4、US-04</td>
+</tr>
+<tr>
+<td>2</td>
+<td>點可領取</td>
+<td>對應幣別加獎勵、標已領、一筆免費獎勵紀錄</td>
+<td>直接已領取並留 VIP，不跳銀行</td>
+<td>06.5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>關個人資訊，銀行紀錄選獎勵</td>
+<td>同一紀錄及餘額，不重複入帳</td>
+<td>關銀行回大廳；刷新按 Mock 重置</td>
+<td>08.4.4、06.7</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-08"></a></p>
+<h3 id="139-flow-08">13.9 FLOW-08｜玩家贈禮</h3>
+<p>目的：將玩家卡對象帶入贈禮，或直接手填 ID；核對送方扣除、費用與實收預覽。前置需有保險箱金幣，真實收方入帳不在原型能力內。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>玩家卡贈禮／底部保險箱切贈禮</td>
+<td>前者關玩家卡、帶接收者 ID；後者手填</td>
+<td>開贈禮頁；玩家卡互動細節待第 11 章</td>
+<td>09.2、US-09</td>
+</tr>
+<tr>
+<td>2</td>
+<td>餘額不足時先切保險箱存入</td>
+<td>錢包與保險箱金幣互移、一筆紀錄</td>
+<td>同視窗可返回贈禮草稿</td>
+<td>09.4.2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>核對 ID、金額與費用後確認</td>
+<td>送方保險箱扣款、一筆贈禮紀錄；實收僅預覽</td>
+<td>成功清 ID／金額留本頁；失敗保留，沒有額外確認層</td>
+<td>09.4.3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>關保險箱，銀行紀錄選贈禮</td>
+<td>顯示送方操作與金額，不證明收方入帳</td>
+<td>關銀行回大廳，不自動回玩家卡</td>
+<td>08.4.4</td>
 </tr>
 </tbody>
 </table></div>
 <p><a id="ch-14"></a></p>
 <h2 id="14">14. 整體驗收與交付對照</h2>
 <p><strong>本章範圍：</strong>整體情境覆蓋、跨頁一致性、規格／介面／故事／驗收對照，以及實際驗證結果與證據。</p>
-<p><strong>狀態：</strong>已記錄第 2 批規格與情境覆蓋；實際操作驗收未執行。</p>
+<p><strong>狀態：</strong>已記錄第 2～3 批規格與情境覆蓋；實際操作驗收未執行。</p>
 <h3 id="141">14.1 覆蓋與交付對照</h3>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
@@ -2226,6 +3715,15 @@
 </thead>
 <tbody>
 <tr>
+<td>遊戲進入與離開</td>
+<td>05.2～05.8</td>
+<td>FLOW-02、03</td>
+<td>US-02、05</td>
+<td>AC-05-001～008</td>
+<td>選幣、載入、遊戲室及返回</td>
+<td>尋找與收藏待第 04 章；真實遊戲串接待驗證</td>
+</tr>
+<tr>
 <td>個人資料、綁定與頭像</td>
 <td>06.2～06.7</td>
 <td>本功能內流程</td>
@@ -2237,7 +3735,7 @@
 <tr>
 <td>VIP</td>
 <td>06.4.4～06.7</td>
-<td>FLOW-07（待展開）</td>
+<td>FLOW-07</td>
 <td>US-04／SC-04-01～05</td>
 <td>AC-06-009～013、016</td>
 <td>VIP 區塊與機制說明</td>
@@ -2246,20 +3744,47 @@
 <tr>
 <td>獎勵卡</td>
 <td>07.2～07.7</td>
-<td>FLOW-03、04（待展開）</td>
-<td>US-05、06／對應情境</td>
+<td>FLOW-03、04</td>
+<td>US-05、06</td>
 <td>AC-07-001～015</td>
 <td>07.3、07.6</td>
-<td>任務細節、時間邊界及正式帳務待補／驗證</td>
+<td>時間邊界及正式帳務待驗證</td>
 </tr>
 <tr>
-<td>遊戲紀錄</td>
-<td>06.4.5</td>
-<td>本功能內流程</td>
-<td>US-13／SC-13-01～03</td>
-<td>AC-06-014～015</td>
-<td>查詢、列表與空結果</td>
-<td>金融紀錄情境待第 08 章</td>
+<td>儲值、促銷與優惠碼</td>
+<td>08.2～08.8</td>
+<td>FLOW-05、06</td>
+<td>US-07、08</td>
+<td>AC-08-001～010、012</td>
+<td>方案、確認、結果與獎勵去向</td>
+<td>商店付款、正式資格與重複提交待驗證</td>
+</tr>
+<tr>
+<td>遊戲與金融紀錄</td>
+<td>06.4.5、08.4.4</td>
+<td>FLOW-03、06～08</td>
+<td>US-13／SC-13-01～06</td>
+<td>AC-06-014～015、AC-08-011～012</td>
+<td>兩種查詢方式、列表與空結果</td>
+<td>金融狀態更新及正式帳務一致性待驗證</td>
+</tr>
+<tr>
+<td>保險箱、贈禮與兌換</td>
+<td>09.2～09.8</td>
+<td>FLOW-08</td>
+<td>US-09／SC-09-01～06</td>
+<td>AC-09-001～010</td>
+<td>來源額度、輸入、費用與結果</td>
+<td>收方入帳、實際限額及競態待確認／驗證</td>
+</tr>
+<tr>
+<td>每日任務、活動與排行榜</td>
+<td>10.2～10.8</td>
+<td>FLOW-03</td>
+<td>US-05、12</td>
+<td>AC-10-001～010</td>
+<td>日曆、里程碑、活動狀態及榜單</td>
+<td>日期邊界需測試資料；正式報名、發獎與排行待驗證</td>
 </tr>
 </tbody>
 </table></div>
@@ -2278,7 +3803,7 @@
 </thead>
 <tbody>
 <tr>
-<td>AC-06-001～016、AC-07-001～015／本批 SC</td>
+<td>第 05～10 章共 71 項 AC；第 15 章共 57 個 SC</td>
 <td>本版原型；驗收環境尚未執行</td>
 <td>情境初始狀態見第 15 章</td>
 <td>未執行</td>
@@ -2292,7 +3817,7 @@
 <p><a id="ch-15"></a></p>
 <h2 id="15-user-story">15. 玩家 User Story 與情境流程</h2>
 <p><strong>本章範圍：</strong>從玩家目標出發，設定數種初始狀態，描述主流程、分支、取消／返回與完成結果，供設計、開發、測試共同參考。</p>
-<p><strong>狀態：</strong>第 2 批已補 US-03、04、05、06、13 的相關情境；未執行驗收，其餘故事及跨章補充待後續批次。</p>
+<p><strong>狀態：</strong>第 2～3 批已補 US-02～09、12～13，共 10 個故事、57 個情境；未執行驗收。US-02 的尋找與收藏，以及其餘故事待後續批次。</p>
 <h3 id="151">15.1 本章用途</h3>
 <p>從玩家對整個 APP 的目標出發：玩家現在是誰、擁有哪些資料與資產、遇到什麼狀態、應如何完成流程、如何確認結果。讓美術依情境準備狀態稿，開發依步驟串接行為，測試依初始狀態與 AC 重現。</p>
 <h3 id="152">15.2 狀態維度</h3>
@@ -2339,7 +3864,7 @@
 </table></div>
 <p>以上是故事選材維度，並非所有組合都成立或都已實作。</p>
 <h3 id="153">15.3 玩家故事索引</h3>
-<p>以下依功能章節逐批補寫；已展開故事見 15.6～15.10，尚未完成的分支依狀態欄追蹤。故事數量不受章號 15 限制。</p>
+<p>以下依功能章節逐批補寫；已展開故事見 15.6～15.15，尚未完成的分支依狀態欄追蹤。故事數量不受章號 15 限制。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
 <tr>
@@ -2366,7 +3891,7 @@
 <td>有收藏／無收藏；有可用餘額／不可用</td>
 <td>04、05</td>
 <td>FLOW-02</td>
-<td>待撰寫</td>
+<td>進入流程初稿；尋找與收藏待第 04 章</td>
 </tr>
 <tr>
 <td>US-03</td>
@@ -2390,7 +3915,7 @@
 <td>未達成／可領／已領；卡片未啟用／使用中</td>
 <td>10、07、05、08</td>
 <td>FLOW-03</td>
-<td>卡片流程初稿；任務細節待補</td>
+<td>情境初稿已撰寫</td>
 </tr>
 <tr>
 <td>US-06</td>
@@ -2406,7 +3931,7 @@
 <td>訪客／一般會員；有效／未開始／過期／已領；預覽取消</td>
 <td>08、06、07</td>
 <td>FLOW-05</td>
-<td>待撰寫</td>
+<td>情境初稿已撰寫</td>
 </tr>
 <tr>
 <td>US-08</td>
@@ -2414,7 +3939,7 @@
 <td>方案選擇／支付確認／取消；服務失敗分支待定義</td>
 <td>04、08</td>
 <td>FLOW-06</td>
-<td>待撰寫</td>
+<td>情境初稿已撰寫</td>
 </tr>
 <tr>
 <td>US-09</td>
@@ -2422,7 +3947,7 @@
 <td>來源餘額足夠／不足；接收者與金額輸入狀態</td>
 <td>09、08、11</td>
 <td>FLOW-08</td>
-<td>待撰寫</td>
+<td>情境初稿已撰寫</td>
 </tr>
 <tr>
 <td>US-10</td>
@@ -2446,7 +3971,7 @@
 <td>進行中／未開始／已結束；未報名／已報名</td>
 <td>10</td>
 <td>待補</td>
-<td>待撰寫</td>
+<td>情境初稿已撰寫</td>
 </tr>
 <tr>
 <td>US-13</td>
@@ -2454,7 +3979,7 @@
 <td>尚未查詢／有結果／無結果；篩選與分頁</td>
 <td>06、08</td>
 <td>待補</td>
-<td>遊戲查詢初稿；金融紀錄待補</td>
+<td>情境初稿已撰寫</td>
 </tr>
 <tr>
 <td>US-14</td>
@@ -2478,7 +4003,7 @@
 <li>AC 引用、驗證狀態及未決事項。</li>
 </ol>
 <h3 id="155">15.5 情境與驗收連結</h3>
-<p>本批先補與個人資訊及獎勵卡相關的故事。以下所有情境均為已撰寫、未執行；「原型可操作」表示已找到相應入口與邏輯，不是本輪瀏覽器通過紀錄。日期、額度、VIP 等測試值只用於建立情境。</p>
+<p>目前涵蓋個人資訊、VIP、任務與獎勵卡、遊戲進入、銀行與資產、活動及紀錄查詢。以下所有情境均為已撰寫、未執行；「原型可操作」表示已找到相應入口與邏輯，不是本輪瀏覽器通過紀錄。日期、額度、VIP 等測試值只用於建立情境。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
 <tr>
@@ -2509,9 +4034,9 @@
 </tr>
 <tr>
 <td>US-05</td>
-<td>SC-05-01～05：領卡、啟停、遊戲條件、轉換與重置</td>
+<td>SC-05-01～07：領卡、啟停、遊戲條件、轉換、重置及簽到補簽</td>
 <td><a href="#us-05">取得並使用卡片</a></td>
-<td>AC-07-001～004、012～015</td>
+<td>AC-05-004～008、AC-07-001～004、012～015、AC-10-001～005、010</td>
 <td>預設三節點可操作；未達節點、特殊餘額或到期需另備資料</td>
 <td>14.2，未執行</td>
 </tr>
@@ -2525,14 +4050,19 @@
 </tr>
 <tr>
 <td>US-13</td>
-<td>SC-13-01～03：遊戲紀錄查詢、錯誤與返回</td>
+<td>SC-13-01～06：遊戲查詢、金融篩選、空結果與保存</td>
 <td><a href="#us-13">查詢紀錄</a></td>
-<td>AC-06-014～015</td>
-<td>有結果可操作；查無資料須準備無資料日期，金融部分待第 08 章</td>
+<td>AC-06-014～015、AC-08-011～012</td>
+<td>遊戲查無資料須準備日期；金融空結果可用類別與狀態組合</td>
 <td>14.2，未執行</td>
 </tr>
 </tbody>
 </table></div>
+<p>| US-02 | SC-02-01～05：選幣、停用、取消、返回及活動銀 | <a href="#us-02">進入遊戲</a> | AC-05-001～008 | 零餘額與無可用卡需準備狀態；收藏另待第 04 章 | 14.2，未執行 |
+| US-07 | SC-07-01～06：資格、預覽、領取、重複與取消 | <a href="#us-07">優惠碼領獎</a> | AC-08-006～010、012 | 測試碼、時間與未領身份見 08.4；失敗競態需控制環境 | 14.2，未執行 |
+| US-08 | SC-08-01～04：購買、取消、促銷與處理失敗 | <a href="#us-08">購買方案</a> | AC-08-001～005、012 | 使用原型方案；正式付款失敗需服務環境 | 14.2，未執行 |
+| US-09 | SC-09-01～06：存取、贈禮、費用、兌換及保存 | <a href="#us-09">管理資產</a> | AC-09-001～010 | 準備來源餘額及指定金額；收方入帳不在 Mock 驗證範圍 | 14.2，未執行 |
+| US-12 | SC-12-01～05：活動分類、報名、返回及榜單 | <a href="#us-12">參與活動</a> | AC-10-005～010 | 狀態以示範資料為準；不以日期推定活動會自動切換 | 14.2，未執行 |</p>
 <p><a id="us-03"></a></p>
 <h3 id="156-us-03">15.6 US-03｜完善個人資料並保存身份資訊</h3>
 <p><strong>玩家目標：</strong>身為已登入玩家，我想整理個人資料、綁定資訊與頭像，讓之後開啟 APP 時能辨識自己的身份與設定。</p>
@@ -2739,7 +4269,7 @@
 <p><a id="us-05"></a></p>
 <h3 id="158-us-05">15.8 US-05｜完成每日任務並使用獎勵卡</h3>
 <p><strong>玩家目標：</strong>身為玩家，我想領到任務卡、啟用活動銀幣並理解完成流水後取得的銀幣。</p>
-<p><strong>完成定義：</strong>從領卡到轉換的卡片、額度、遊戲選擇及金融紀錄一致；領卡與銀幣入帳的時機可區分。本批先完成卡片相關流程，簽到／補簽細節隨第 10 章補寫。</p>
+<p><strong>完成定義：</strong>從領卡到轉換的卡片、額度、遊戲選擇及金融紀錄一致；領卡與銀幣入帳的時機可區分。簽到／補簽及卡片交接已補，詳見第 10、07、05 章。</p>
 <p><strong>初始狀態：</strong>已登入、卡片空清單；原型預設累積 20 天，10／15／20 天均未領。測試時間在 2026/12/31 到期前，沒有操作其他發獎功能，記錄各錢包起始值。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
@@ -2832,8 +4362,22 @@
 <td>SC-05-05</td>
 <td>已領卡／轉換後刷新；另備未達領獎節點狀態</td>
 <td>刷新觀察重置；未達者先完成達標所需任務</td>
-<td>刷新恢復 Mock 卡片與資格初始值；未達節點不可先領，達標細節待第 10 章</td>
-<td>AC-07-015；任務 AC 待第 10 章</td>
+<td>刷新恢復 Mock 卡片與資格初始值；未達節點不可先領；簽到／補簽增加累積後才可領取</td>
+<td>AC-07-015、AC-10-005、010</td>
+</tr>
+<tr>
+<td>SC-05-06</td>
+<td>今日未簽，另有本月漏簽日且銀幣足夠</td>
+<td>先簽今日，再選漏簽日、取消一次後確認補簽</td>
+<td>簽到不扣不發；補簽才扣 100 銀幣、進度各加一，沒有額外日獎／金融紀錄</td>
+<td>AC-10-002～003</td>
+</tr>
+<tr>
+<td>SC-05-07</td>
+<td>本月漏簽日，銀幣少於 100</td>
+<td>確認補簽讀不足提示，取消後取得銀幣再回來</td>
+<td>失敗不改日期與餘額、確認層保留；已簽／未來日不能操作</td>
+<td>AC-10-002、004</td>
 </tr>
 </tbody>
 </table></div>
@@ -2944,9 +4488,9 @@
 <p><strong>完成後一致性：</strong>合併來源退出清單且不重複計額；總額在來源均有效時保持原加總，可用須等新卡啟用才增加。一般金銀銅、銀行紀錄、VIP 指標及活動金不變。刪除合併卡沒有拆卡或恢復來源資格的效果。</p>
 <p><strong>使用方式：</strong>設計對照選取不足、合格／不合格原因、預覽及新卡；開發對照 07.5.2～07.5.3；測試需另備時間邊界及非零流水資料，不以一般三卡成功取代邊界驗收。</p>
 <p><a id="us-13"></a></p>
-<h3 id="1510-us-13">15.10 US-13｜查詢遊戲與金融紀錄（本批先補遊戲紀錄）</h3>
-<p><strong>玩家目標：</strong>身為玩家，我想按日期找到遊戲紀錄，以核對當時的投注、贏分與紀錄餘額。</p>
-<p><strong>完成定義：</strong>能區分未查詢、查無結果與有效列表，依正確區間翻頁，不把紀錄餘額當作即時錢包。金融紀錄部分隨第 08 章補寫，本故事尚未全數完成。</p>
+<h3 id="1510-us-13">15.10 US-13｜查詢遊戲與金融紀錄</h3>
+<p><strong>玩家目標：</strong>身為玩家，我想按日期查遊戲紀錄，並按類別與狀態查金融紀錄，以核對投注及資產操作。</p>
+<p><strong>完成定義：</strong>能區分未查詢、查無結果與有效列表，依正確區間翻頁，不把紀錄餘額當作即時錢包。金融紀錄另用類別及狀態即時篩選，沒有日期或分頁；查閱不改資產。</p>
 <p><strong>初始狀態：</strong>已登入，在個人資訊開遊戲紀錄；預設日期為今天往前 30 天至今天，尚未查詢。測試時記錄實際日期，不固定預期每一天都必有資料。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
@@ -3010,9 +4554,463 @@
 <td>回查詢初始狀態，不保存上一結果；錢包及任何領取資格不變</td>
 <td>AC-06-014</td>
 </tr>
+<tr>
+<td>SC-13-04</td>
+<td>已有本次儲值／VIP／優惠碼／兌換等操作紀錄</td>
+<td>開銀行紀錄，依次選類別與成功狀態</td>
+<td>條件同時成立，新紀錄在上方，來源及金額正確；不套用遊戲的日期查詢</td>
+<td>AC-08-001、011～012</td>
+</tr>
+<tr>
+<td>SC-13-05</td>
+<td>篩選無符合資料，或查看種子處理中／失敗紀錄</td>
+<td>改類別／狀態；觀察空結果，再改回全部</td>
+<td>無結果顯示提示，種子狀態不代表目前交易正在處理；沒有重試／退款按鈕</td>
+<td>AC-08-011</td>
+</tr>
+<tr>
+<td>SC-13-06</td>
+<td>銀行已設定篩選後切頁、主關閉再開或刷新</td>
+<td>逐一確認篩選及紀錄生命週期</td>
+<td>同視窗切頁保留篩選，重開篩選重置但共用紀錄保留，刷新回金融種子</td>
+<td>AC-08-011～012</td>
+</tr>
 </tbody>
 </table></div>
-<p><strong>使用方式：</strong>設計區分查詢前、空結果、列表與分頁；開發依 06.4.5 的查詢時機；測試需另備空結果日期。正式紀錄來源、幣別與載入失敗情境不從 Mock 補推。</p>
+<p><strong>金融紀錄主流程：</strong>先完成一筆可辨識的 Mock 操作並記錄數量 → 開銀行紀錄 → 選對應類別及成功狀態 → 核對來源、時間、識別碼、幣別及金額 → 切回全部或主關閉。來源包括 08.4.4 的類別；操作前先記下列表，避免將舊種子算成本次新增。若補簽扣銀幣，依第 10 章現況不預期新增銀行紀錄。</p>
+<p><strong>使用方式：</strong>設計區分遊戲查詢前、空結果、列表與分頁，以及金融的即時篩選；開發依 06.4.5 的查詢時機；測試需另備空結果日期。正式紀錄來源、幣別與載入失敗情境不從 Mock 補推。</p>
+<p><a id="us-02"></a></p>
+<h3 id="1511-us-02">15.11 US-02｜找到想玩的遊戲並進入</h3>
+<p><strong>玩家目標：</strong>身為已登入玩家，我想確認想玩的遊戲能使用哪種餘額，選定後進入，離開時回到大廳。</p>
+<p><strong>初始狀態：</strong>在大廳、有至少一個一般錢包正餘額；依情境另備全部餘額為零、活動銀卡未啟用或已啟用。尚未進遊戲；遊戲識別與支援幣別需從實際列表選取。本批完成進出情境，分類／收藏尋找的完整步驟待第 04 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>大廳選遊戲卡</td>
+<td>開啟動視窗，帶入遊戲與幣別篩選</td>
+</tr>
+<tr>
+<td>2</td>
+<td>核對各幣別可用餘額，選可用項</td>
+<td>選中與可用狀態分開；不合條件可改選或取消</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認進入並等待載入</td>
+<td>遊戲室顯示同一遊戲、供應商及幣別；入場不扣額</td>
+</tr>
+<tr>
+<td>4</td>
+<td>按離開</td>
+<td>回大廳，收藏保留，原篩選重建；不新增結算紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-02-01</td>
+<td>全部幣別篩選，至少一種可用</td>
+<td>依主流程，核對初選與實際入場</td>
+<td>首項不可用時選第一個可用項；遊戲及幣別正確，不扣入場費</td>
+<td>AC-05-001、004</td>
+</tr>
+<tr>
+<td>SC-02-02</td>
+<td>指定幣別無餘額，其他幣別有</td>
+<td>查看停用的初選，再手動改可用項</td>
+<td>不自動替玩家換幣別；手動選後才可進入</td>
+<td>AC-05-002</td>
+</tr>
+<tr>
+<td>SC-02-03</td>
+<td>不支援／零餘額／未啟用活動銀</td>
+<td>查看原因，取消取得所需額度或啟用卡後重進</td>
+<td>不可用時不能進入；活動金、保險箱不代替；活動銀使用接 US-05</td>
+<td>AC-05-003、005</td>
+</tr>
+<tr>
+<td>SC-02-04</td>
+<td>開啟動視窗但尚未進入</td>
+<td>關閉或點背景；另一次進入後再離開</td>
+<td>取消保留原篩選；真正離開遊戲回重建大廳；不自動停卡或轉換</td>
+<td>AC-05-004、006</td>
+</tr>
+<tr>
+<td>SC-02-05</td>
+<td>已在遊戲中重新整理</td>
+<td>等啟動完成並查看主內容</td>
+<td>不續接遊戲，依保存身份回大廳；金融及卡片依 Mock 重置</td>
+<td>AC-05-008</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>遊戲名稱、選中幣別與餘額一路一致。設計對照可用／不支援／停用及載入畫面；開發引用 05.2～05.7；測試不能把示意圖視為實際遊戲或結算驗收。相關流程為 <a href="#flow-02">FLOW-02</a>。</p>
+<p><a id="us-07"></a></p>
+<h3 id="1512-us-07">15.12 US-07｜使用優惠碼取得獎勵</h3>
+<p><strong>玩家目標：</strong>身為一般會員，我想先確認優惠碼提供的商品，再決定是否領取，並知道獎勵會到哪裡。</p>
+<p><strong>初始狀態：</strong>一般會員登入，本次尚未領取目標碼；以 2026 年有效測試碼建立情境，記錄操作前各錢包、卡片、活動額度與金融紀錄數。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行 → 優惠 → 輸入碼 → 兌換</td>
+<td>檢核後開預覽；此時未領取</td>
+</tr>
+<tr>
+<td>2</td>
+<td>核對商品、數量、可兌換期間及使用期限</td>
+<td>可以取消且不耗資格；活動銀另看流水與上限</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認領取</td>
+<td>再驗證後立即發放；關預覽、清輸入並顯示成功與去向</td>
+</tr>
+<tr>
+<td>4</td>
+<td>自行查看銀行獎勵紀錄及摘要／獎勵卡</td>
+<td>商品進正確位置，只一筆紀錄；活動銀卡仍需啟用</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-07-01</td>
+<td>訪客或空白輸入；另試格式錯／不存在</td>
+<td>訪客換一般會員；格式錯留表單修正</td>
+<td>訪客／空值停用，其餘錯誤有原因，不產生獎勵</td>
+<td>AC-08-006</td>
+</tr>
+<tr>
+<td>SC-07-02</td>
+<td>有效碼包含前後空白或小寫</td>
+<td>正規化後預覽，先取消再重新預覽</td>
+<td>商品一致；取消保留輸入且未領、無紀錄</td>
+<td>AC-08-006～007</td>
+</tr>
+<tr>
+<td>SC-07-03</td>
+<td>四類正常碼分別未領</td>
+<td>各自依主流程確認</td>
+<td>銀加 2,000、銅加 3,000、活動金加 1,000、活動銀新增 5,000 未啟用卡；各自不改其他資產或付費指標</td>
+<td>AC-08-008</td>
+</tr>
+<tr>
+<td>SC-07-04</td>
+<td>同碼已領，包含所得卡已刪／合併</td>
+<td>關銀行重開再輸入，或快速重複確認</td>
+<td>仍不可重領，同身份只一份獎勵與紀錄</td>
+<td>AC-08-009</td>
+</tr>
+<tr>
+<td>SC-07-05</td>
+<td>過期／未開始，或預覽後剛好跨有效期限</td>
+<td>讀取錯誤，取消或修正代碼再試</td>
+<td>預覽錯留表單；確認錯留子層；不入帳，未成功發放不耗資格</td>
+<td>AC-08-010</td>
+</tr>
+<tr>
+<td>SC-07-06</td>
+<td>已領成功後切頁／關銀行／刷新</td>
+<td>各自查看成功區與資格</td>
+<td>切頁可清局部成功區但資格保留；刷新按 Mock 重置，不能當正式可重領規則</td>
+<td>AC-08-009、012</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>預覽與發放分開，商品去向、資格、紀錄一致。設計對照錯誤、預覽及四種成功去向；開發引用 08.4.3；測試碼是示範，不代表正式營運發放。需要期限競態的情境另備可控時間。相關流程為 <a href="#flow-05">FLOW-05</a>。</p>
+<p><a id="us-08"></a></p>
+<h3 id="1513-us-08">15.13 US-08｜購買方案並確認餘額</h3>
+<p><strong>玩家目標：</strong>身為已登入玩家，我想確認金幣數、價格與支付通路，完成購買後能核對餘額及紀錄。</p>
+<p><strong>初始狀態：</strong>已登入大廳，記錄金幣及紀錄數。使用銀行 100,000／$4.99 方案作正常範例；不會進行真實付款。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行選方案，或促銷選項後立即購買</td>
+<td>帶方案到 APP 商店儲值，預設 App Store</td>
+</tr>
+<tr>
+<td>2</td>
+<td>檢查數量／價格並選通路</td>
+<td>確認前可關閉；通路選擇不改方案數量</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認付款</td>
+<td>處理中不可關閉，成功加方案金幣並顯示結果</td>
+</tr>
+<tr>
+<td>4</td>
+<td>按完成，再到銀行紀錄看儲值</td>
+<td>回原銀行／促銷，查到單筆成功紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-08-01</td>
+<td>一般方案、App Store 或 Google Play</td>
+<td>分別依主流程</td>
+<td>100,000 金入帳、對應通路紀錄一次，VIP 儲值指標及其他幣別不變</td>
+<td>AC-08-001～003、012</td>
+</tr>
+<tr>
+<td>SC-08-02</td>
+<td>有 BONUS 或促銷文案的方案</td>
+<td>核對金幣數後購買</td>
+<td>只入列出數量，不再加百分比、不建立月卡每日派發</td>
+<td>AC-08-002、005</td>
+</tr>
+<tr>
+<td>SC-08-03</td>
+<td>不想付款</td>
+<td>在確認階段關閉，促銷可再切其他方案</td>
+<td>無入帳、無紀錄；底層方案保留，促銷首末不循環</td>
+<td>AC-08-003、005</td>
+</tr>
+<tr>
+<td>SC-08-04</td>
+<td>處理中／Mock 入帳條件失敗</td>
+<td>處理中等待；失敗讀提示並回確認</td>
+<td>處理中關閉停用，失敗不顯示成功；外部取消、退款與逾時另需服務情境</td>
+<td>AC-08-004</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>方案、確認金額、入帳與紀錄一致。設計對照確認／處理／成功及返回；開發引用 08.4.1～08.4.2；測試不把 Mock 通路選擇當商店串接通過。相關流程為 <a href="#flow-06">FLOW-06</a>。</p>
+<p><a id="us-09"></a></p>
+<h3 id="1514-us-09">15.14 US-09｜管理保險箱、兌換並贈禮</h3>
+<p><strong>玩家目標：</strong>身為玩家，我想知道金幣放在哪裡，存取或兌換後數量如何改變，並在贈禮前確認扣除與實收預覽。</p>
+<p><strong>初始狀態：</strong>已登入、有足夠錢包金幣；一般情境可先存入 2,000 金至保險箱，再測 1,001 金贈禮。金銀兌換、低餘額與非 100 倍數用獨立情境，避免同一故事前步耗掉後步資產。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>保險箱存入 2,000 金</td>
+<td>錢包 −2,000、保險箱 +2,000，一筆存入紀錄</td>
+</tr>
+<tr>
+<td>2</td>
+<td>贈禮頁核對帶入或手填 ID，輸入 1,001</td>
+<td>扣除 1,001、費 50、實收預覽 951</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認贈禮</td>
+<td>送方保險箱減 1,001，一筆贈禮紀錄，ID／金額清空；不證明收方已入帳</td>
+</tr>
+<tr>
+<td>4</td>
+<td>另以兌換頁試 2 金換 200 銀</td>
+<td>一般金銀相反更新，無費用；新增兌換紀錄</td>
+</tr>
+<tr>
+<td>5</td>
+<td>銀行紀錄切保險箱、贈禮及兌換</td>
+<td>各筆來源、數量及狀態可核對，不互相混用</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-09-01</td>
+<td>有錢包金，保險箱可存取</td>
+<td>存入後取出同額，試滑桿／快捷及切模式</td>
+<td>兩位置總金不變，各一筆紀錄；切模式清金額，零不可送</td>
+<td>AC-09-002～003</td>
+</tr>
+<tr>
+<td>SC-09-02</td>
+<td>來源不足／零，或送出後條件失效</td>
+<td>調整額度或取得來源資產再試</td>
+<td>超額輸入截上限、零停用；實際失敗留原表單並提示，不當成功</td>
+<td>AC-09-004</td>
+</tr>
+<tr>
+<td>SC-09-03</td>
+<td>玩家卡帶 ID 或自行填 ID</td>
+<td>檢查對象、填 1,001、確認</td>
+<td>送方保險箱扣 1,001，預覽 951；無 ID／零額不可送，成功清表單；主關閉不回玩家卡</td>
+<td>AC-09-001、005～006</td>
+</tr>
+<tr>
+<td>SC-09-04</td>
+<td>想金銀互換</td>
+<td>試 2 金換 200 銀，另試反向</td>
+<td>免費、兩幣及一筆紀錄一致，活動額度／卡片／保險箱不變</td>
+<td>AC-09-007</td>
+</tr>
+<tr>
+<td>SC-09-05</td>
+<td>銀換金輸入 150，另備銀餘額 1,050</td>
+<td>看停用，按 MAX 改有效單位再送出</td>
+<td>150 不可送，MAX 帶 1,000，得 10 金並留 50 銀</td>
+<td>AC-09-008</td>
+</tr>
+<tr>
+<td>SC-09-06</td>
+<td>輸入後切頁／取消主視窗／完成後刷新</td>
+<td>分別確認草稿及共用餘額生命週期</td>
+<td>同視窗草稿保留，重開重建；成功清欄位，刷新金融 Mock 重置</td>
+<td>AC-09-009～010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>存取、贈禮與兌換各有正確來源及單筆紀錄。設計呈現來源與目的地而非只顯示總額；開發引用 09.4；測試需把固定次數／限額展示與實際防重複、收方結果分開。贈禮跨頁見 <a href="#flow-08">FLOW-08</a>。</p>
+<p><a id="us-12"></a></p>
+<h3 id="1515-us-12">15.15 US-12｜參與活動並查看結果</h3>
+<p><strong>玩家目標：</strong>身為玩家，我想區分哪些活動可參與，查看內容後報名，並瀏覽已結束活動的名單與排行榜。</p>
+<p><strong>初始狀態：</strong>已登入、尚未報名目標活動；以原型固定的進行中、即將開始及已結束活動各建一例，不以系統今天反推資料狀態。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>底部活動 → 選分類 → 點活動卡</td>
+<td>顯示對應詳情，尚未報名</td>
+</tr>
+<tr>
+<td>2</td>
+<td>閱讀期間、獎勵及介紹，若可參與則點立即參與</td>
+<td>Mock 報名成功，留詳情並停用按鈕</td>
+</tr>
+<tr>
+<td>3</td>
+<td>關詳情，再重開或改已結束分類</td>
+<td>已報名狀態保留；已結束只讀示範名單</td>
+</tr>
+<tr>
+<td>4</td>
+<td>切排行榜並選倍數／贏分／富豪</td>
+<td>顯示各榜前 10 名，查看不改資產</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-12-01</td>
+<td>進行中或即將結束，未報名</td>
+<td>依主流程參與</td>
+<td>顯示已完成 Mock 報名，卡片同步，不扣費、不跳遊戲、不發獎</td>
+<td>AC-10-001、006～007</td>
+</tr>
+<tr>
+<td>SC-12-02</td>
+<td>只想閱讀／已報名</td>
+<td>先關詳情不參與，另情境在已報名重開</td>
+<td>關閉回分類不改資料；已報名按鈕停用且無取消報名</td>
+<td>AC-10-006～007</td>
+</tr>
+<tr>
+<td>SC-12-03</td>
+<td>即將開始或已結束</td>
+<td>開詳情讀狀態，查看已結束名單</td>
+<td>分別尚未開始／活動已結束停用；名單不是個人可領獎勵</td>
+<td>AC-10-008</td>
+</tr>
+<tr>
+<td>SC-12-04</td>
+<td>查看三種榜</td>
+<td>切榜、停留後再看成績</td>
+<td>每榜 10 名、單位與前三台正確，更新計時增加但成績不變，不能開玩家卡</td>
+<td>AC-10-009</td>
+</tr>
+<tr>
+<td>SC-12-05</td>
+<td>已報名後切頁、主關閉及刷新</td>
+<td>分別重開活動</td>
+<td>前兩者保留報名，刷新清空；不將原型狀態當正式報名憑證</td>
+<td>AC-10-010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>活動分類、報名按鈕與卡片標記一致；榜單與活動名單僅展示。設計對照四種活動狀態與各榜；開發引用 10.4.2～10.4.3；測試須另備正式活動資料與空／失敗情境後才可驗收服務能力。</p>
 <p><a id="change-log"></a></p>
 <h2 id="_4">附錄：版本與變更紀錄</h2>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
@@ -3048,6 +5046,12 @@
 <td>2026-09-08</td>
 <td>補寫個人資訊、綁定、頭像、VIP、遊戲紀錄及獎勵卡規則；建立相關玩家情境與驗收條件</td>
 <td>第 06～07 章、31 項 AC、5 個相關故事共 26 個 SC；第 14 章登記覆蓋，HTML 同步；未改功能程式或執行操作驗收</td>
+</tr>
+<tr>
+<td>v0.5</td>
+<td>2026-09-08</td>
+<td>補寫任務與活動、銀行與優惠碼、保險箱與贈禮兌換、遊戲進出；串接跨頁流程並擴充故事</td>
+<td>第 05、08～10 章新增 40 項 AC；FLOW-02～08；累計 71 項 AC、10 個故事共 57 個 SC；HTML 同步，未改功能程式或執行操作驗收</td>
 </tr>
 </tbody>
 </table></div>
@@ -3101,7 +5105,7 @@
 <td>3</td>
 <td>第 10、08、09、05 章</td>
 <td>任務、優惠碼、資產與遊戲；補相關流程／US</td>
-<td>待開始</td>
+<td>初稿完成，HTML 已同步；操作驗收未執行</td>
 </tr>
 <tr>
 <td>4</td>
