@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="bb80ea4fab5fc5965187f2605ffdd819b86bee14e68b0dd4ff032db1980bbdf0"><title>玩家 User Story 與情境流程模板</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">玩家 User Story 與情境流程模板</div><nav aria-label="章節導覽"><a href="#1">1. 玩家目標</a><a href="#2">2. 情境與初始狀態</a><a href="#3">3. 主流程</a><a href="#4">4. 狀態分支與恢復流程</a><a href="#5-app">5. 完成後的全 APP 一致性</a><a href="#6">6. 設計、開發、測試使用對照</a><a href="#7">7. 驗收與待確認</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="user-story">玩家 User Story 與情境流程模板</h1>
+<p>適用於主規格第 15 章。從玩家的動機、初始處境與操作結果出發，引用既有功能規則；不以撰寫情境為由新增未確認能力。</p>
+<p>狀態：模板。US 代表玩家目標；同一 US 可有多個 SC 情境，不等於只能寫一條成功路徑。</p>
+<h2 id="1">1. 玩家目標</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User Story 編號／名稱</td>
+<td>US-xx／待補</td>
+</tr>
+<tr>
+<td>一句話故事</td>
+<td>身為【玩家身份】，我想【達成的事】，以便【玩家獲得的價值】。</td>
+</tr>
+<tr>
+<td>起點與完成定義</td>
+<td>待補；以玩家可確認的結果描述</td>
+</tr>
+<tr>
+<td>關聯章節與流程</td>
+<td>第 xx 章、FLOW-xx；待補</td>
+</tr>
+<tr>
+<td>依據與狀態</td>
+<td>決策／規格／原型來源，草稿或已確認；待補</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2">2. 情境與初始狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>SC-xx-01 主情境</th>
+<th>SC-xx-02 分支情境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>情境名稱</td>
+<td>待補</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>登入與身份</td>
+<td>未登入／訪客／一般會員，擇適用者</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>所在畫面與入口</td>
+<td>待補</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>個人資料／綁定／VIP</td>
+<td>僅填影響流程的條件</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>錢包與活動額度</td>
+<td>指定幣別及來源，區分總額與可用額度</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>任務／卡片／碼／信件狀態</td>
+<td>僅填本故事需要的狀態</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>好友／封鎖狀態</td>
+<td>不適用時明示</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>時間與有效期限</td>
+<td>日期、時區、邊界，或不適用</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>如何建立此情境</td>
+<td>UI 操作／Mock 測試資料／尚無可重現方式</td>
+<td>待補</td>
+</tr>
+<tr>
+<td>示例數值性質</td>
+<td>測試資料，或有來源的正式規則</td>
+<td>待補</td>
+</tr>
+</tbody>
+</table></div>
+<p>狀態維度依故事選取，不排列所有可能組合。測試資料不得直接寫成所有玩家的初始值；不得將原型固定進度當成正式帳號狀態。</p>
+<h2 id="3">3. 主流程</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>操作前畫面／狀態</th>
+<th>玩家操作</th>
+<th>畫面回應與可見資訊</th>
+<th>資料／資格變化</th>
+<th>下一步或結束</th>
+<th>規則／AC 引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4">4. 狀態分支與恢復流程</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC 編號</th>
+<th>從主流程哪一步分岔</th>
+<th>觸發狀態或操作</th>
+<th>玩家看到什麼</th>
+<th>如何繼續／重試／返回</th>
+<th>保留／不變資料</th>
+<th>結束條件與 AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-xx-02</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+</tr>
+</tbody>
+</table></div>
+<p>按需要涵蓋取消、返回、資格不足、餘額不足、空資料、重複操作、已領取、到期等分支。未實作的服務失敗情境標示「待定義／待驗證」，不假裝原型可重現。</p>
+<h2 id="5-app">5. 完成後的全 APP 一致性</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>確認位置</th>
+<th>操作前</th>
+<th>操作後</th>
+<th>不應改變的資訊</th>
+<th>關閉重開／刷新／重新登入要求</th>
+<th>依據</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+<td>待補</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="6">6. 設計、開發、測試使用對照</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>使用者</th>
+<th>如何使用此故事</th>
+<th>對應產出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>美術設計</td>
+<td>按 SC 與步驟檢查所需畫面、資訊層級、按鈕、提示與狀態差異</td>
+<td>對應功能章節的介面／狀態說明</td>
+</tr>
+<tr>
+<td>前端與後端</td>
+<td>共同檢查條件、資料帶入、狀態變化、保存與跨頁結果</td>
+<td>功能章節規則及資料需求</td>
+</tr>
+<tr>
+<td>測試</td>
+<td>建立初始狀態，逐步執行主流程及分支，對照 AC</td>
+<td>第 14 章測試結果與證據</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="7">7. 驗收與待確認</h2>
+<ul>
+<li>適用 AC：待補；引用功能章節，故事特有驗收使用 AC-15-xxx。</li>
+<li>已涵蓋的 SC：待補。</li>
+<li>未涵蓋／無法重現的情境與原因：待補。</li>
+<li>影響本情境的現況或尚未定義內容：就地簡述，並引用相關功能段落。</li>
+<li>後續調整的工作單可引用 US／SC 與適用 AC，描述需改變的步驟及預期結果。</li>
+<li>驗證狀態：未執行。填寫完整故事不代表測試通過。</li>
+</ul><p class="foot">正文來源：<a href="PLAYER_STORY_TEMPLATE.md">PLAYER_STORY_TEMPLATE.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>
