@@ -493,4 +493,3 @@
 | [05.6](05-game-session.md#legacy-05-6) | 第 6 節例外 |
 | [05.7](05-game-session.md#legacy-05-7) | 第 14 節 |
 | [05.8](05-game-session.md#legacy-05-8) | 第 13 節 |
-

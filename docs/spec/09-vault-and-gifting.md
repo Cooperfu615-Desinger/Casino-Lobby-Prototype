@@ -528,4 +528,3 @@
 | [09.6](09-vault-and-gifting.md#legacy-09-6) | 第 6 節例外 |
 | [09.7](09-vault-and-gifting.md#legacy-09-7) | 第 14 節 |
 | [09.8](09-vault-and-gifting.md#legacy-09-8) | 第 13 節 |
-

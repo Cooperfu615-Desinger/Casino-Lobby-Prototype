@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="501145b74e671c993af2eae60f75867529b129b9f76bac240f67ade02fbe6426"><title>12. 信箱與設定</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">12. 信箱與設定</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="12">12. 信箱與設定</h1>
+<p>巨亨ONLINE APP｜v0.12 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-12">返回總綱</a> · <a href="02-shared-rules.html">共用規則</a> · <a href="../APP_FRONTEND_SPEC.html#ch-15">完整玩家旅程</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格，文件重整完成，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接原總規格第 12 章正文；總綱保留入口，本文件為該章維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱、後續修正與工作單引用</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>信箱與設定</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>正式外部服務、後台與未接入能力；見第 2 節</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>原總規格正文、APP 分冊規則與已確認需求；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>狀態：</strong>第 4 批初稿。信箱附件與推播開關為示範，音訊、日夜及語言偏好依各自保存範圍整理。</p>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節次</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-12-1"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p>信箱供閱讀營運公告、系統通知及領取附件；設定供調整本機體驗、查閱規章、解除封鎖與登出。兩項功能共列本章，但入口、資料及生命週期各自獨立。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>獎勵卡管理與 VIP 儲值</td>
+<td>第 06、07 章</td>
+</tr>
+<tr>
+<td>完整翻譯、推播訂閱與正式遊戲音訊</td>
+<td>後續對應服務</td>
+</tr>
+<tr>
+<td>信箱核銷、還原與到期處理</td>
+<td>正式信箱服務，本版未完成</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>選中／已讀</td>
+<td>自動選第一封可顯示詳情，但需主動點信才標已讀。</td>
+</tr>
+<tr>
+<td>附件已領／正式核銷</td>
+<td>同視窗已領停用；重開恢復種子是原型缺口，不能作正式領取規則。</td>
+</tr>
+<tr>
+<td>語言偏好／翻譯</td>
+<td>保存 English 不代表正文已翻譯。</td>
+</tr>
+<tr>
+<td>推播開關／系統訂閱</td>
+<td>原型只改選單狀態，不請求通知權限。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-12-3"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>子功能</th>
+<th>顯示內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信件列表</td>
+<td>營運公告／系統通知、各類總數與未讀數、日期、標題、摘要、附件與未讀標示、刪除</td>
+</tr>
+<tr>
+<td>信件詳情</td>
+<td>標題、日期、內文、適用附件及領取狀態；無信可選時提示</td>
+</tr>
+<tr>
+<td>設定選單</td>
+<td>背景音樂、遊戲音效、推播通知、日夜；語言、使用者規章、黑名單管理及數量、登出</td>
+</tr>
+<tr>
+<td>語言</td>
+<td>繁中、English、日本語可選，其餘顯示 Coming Soon 並停用；標記當前選擇</td>
+</tr>
+<tr>
+<td>黑名單</td>
+<td>名稱／頭像、玩家 ID、封鎖時間、解除按鈕、總數與空列表</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-05"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>信箱欄位</th>
+<th>呈現規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分類／總數／未讀數</td>
+<td>依營運與系統分開，點選與刪除後同步。</td>
+</tr>
+<tr>
+<td>標題／日期／摘要／正文</td>
+<td>列表與詳情對應同一信件。</td>
+</tr>
+<tr>
+<td>附件與領取</td>
+<td>有附件才有領取入口；固定金幣示範見第 8 節。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_2">無資料時顯示</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>呈現與界線</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信件列表／選中項</td>
+<td>分類無信時清空選取並顯示無信可選提示。</td>
+</tr>
+<tr>
+<td>附件</td>
+<td>沒有附件不顯示領取；目前有附件一律加 50,000 金。</td>
+</tr>
+<tr>
+<td>黑名單</td>
+<td>清空後顯示空列表，數量同步。</td>
+</tr>
+<tr>
+<td>偏好與信件必備欄位</td>
+<td>合法預設值依本機設定；遠端缺資料或失敗呈現見 Q-12-001。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<p><a id="legacy-12-6"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>狀態群組</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信件未讀／已讀</td>
+<td>自動選中與已讀分開；主動點選才更新。</td>
+</tr>
+<tr>
+<td>附件可領／處理／已領</td>
+<td>約一秒處理，同視窗不重領；主關閉重開缺口仍在。</td>
+</tr>
+<tr>
+<td>語言可用／即將開放</td>
+<td>繁中、English、日本語可選，其餘停用。</td>
+</tr>
+<tr>
+<td>黑名單有資料／空</td>
+<td>解除直接生效，清單與數量同步。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">原型限制與例外</h3>
+<p>信件內容及獎勵都是示範，未提供真實收信、附件核銷或服務錯誤頁。推播未接系統通知；語言只存偏好；規章是展示文本，正式版本與同意保存另定。黑名單解除只恢復原型可達操作，未證明服務端封鎖解除。這些限制須隨相關修正工作單一起核對。</p>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<p>信箱按營運公告／系統通知分類，切分類自動選第一封但不標已讀。沒有關鍵字、日期查詢、排序切換或分頁；黑名單同樣無查詢分頁。</p>
+<p><a id="section-08"></a></p>
+<p><a id="legacy-12-2"></a></p>
+<p><a id="legacy-12-4"></a></p>
+<p><a id="legacy-12-5"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<h3 id="_4">入口與返回</h3>
+<p>底部信箱預設營運公告並選取第一封，左列表右詳情；主關閉回大廳。頂部設定開選單，點背景或設定鈕收合；切語言、規章或黑名單時先關選單再開對應視窗，關視窗回大廳。登出直接回登入首頁，沒有確認對話框。</p>
+<h3 id="_5">帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資訊</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>讀信／刪信／領附件</td>
+<td>信件識別、分類與附件狀態。</td>
+</tr>
+<tr>
+<td>偏好</td>
+<td>音樂、音效、語言、日夜或當次推播值。</td>
+</tr>
+<tr>
+<td>解除封鎖</td>
+<td>目標玩家識別，共用黑名單同步。</td>
+</tr>
+<tr>
+<td>登出</td>
+<td>清除當前身份，沒有整體資料清空承諾。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_6">信箱操作與狀態</h3>
+<p>選營運／系統分類 → 自動選第一封詳情 → 主動點信件才標已讀。<strong>初始選中、切分類或刪除後自動選中下一封，不會自動標已讀</strong>；詳情可見與已讀狀態不能混為一談。</p>
+<p>附件：在有附件的信件按領取 → 約 1 秒處理 → 同視窗標已領、更新金幣及餘額動畫。所有附件目前固定加 50,000 一般金幣，沒有按信件內容解析不同獎品，也不新增金融紀錄。處理期間其他附件不能同時領取；正式重複請求、離頁及餘額競態尚無保證。</p>
+<p>刪除：列表垃圾桶直接刪除並提示，不二次確認；即使附件未領也可刪。刪除選中信件時改選同類第一封，沒有則清空；分類數量與未讀數同步。沒有全部已讀、批次領取、刪除還原或正式到期處理。</p>
+<p><strong>保存限制：</strong>分類、信件、已讀、刪除與已領集合都是信箱局部狀態。主關閉再開即回種子信件且附件可再次領取，但已加的金幣仍在當次錢包；這是原型缺口，不是正式可重領規則。領取中的關閉／刪除未完整封鎖，延遲操作仍可能更新錢包，需於正式流程補驗證。</p>
+<h3 id="_7">設定操作與狀態</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>結果與保存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>背景音樂</td>
+<td>即時開關循環播放；瀏覽器自動播放限制可能需一次互動，開關值不等於已出聲</td>
+</tr>
+<tr>
+<td>遊戲音效</td>
+<td>控制既有音效播放入口，不代表所有正式遊戲音訊均接入</td>
+</tr>
+<tr>
+<td>日夜</td>
+<td>即時更新大廳與相關共用外觀；沒有依時段自動切換</td>
+</tr>
+<tr>
+<td>推播通知</td>
+<td>只改選單當次開關；收合再開回預設開啟，不請求系統權限或訂閱服務</td>
+</tr>
+<tr>
+<td>語言</td>
+<td>選可用語言即保存並關閉；選相同語言只關閉。原型文字仍繁中；停用語言不可選</td>
+</tr>
+<tr>
+<td>使用者規章</td>
+<td>唯讀文件總覽，可切文件並關閉／我知道了；不是重新簽署註冊同意</td>
+</tr>
+<tr>
+<td>黑名單解除</td>
+<td>按解除立即移除並提示，數量同步；無二次確認；清空後顯示空列表，私聊限制同步解除</td>
+</tr>
+<tr>
+<td>登出</td>
+<td>清當前身份及其本機保存，返回登入；不概括清除所有功能共用狀態或本機偏好</td>
+</tr>
+</tbody>
+</table></div>
+<p>音樂、音效、語言與日夜存本機，收合、刷新及登出可保留，未依帳號分區。黑名單是社交記憶體，刷新重建；不能從登出推定其他共用狀態均已清理，詳見 <a href="02-shared-rules.html#legacy-02-7">02.7</a>。</p>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>呈現／未決範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>附件有處理階段，信件資料不是遠端載入。</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>信箱無信清選取；黑名單空清單。</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>信件與正式核銷無服務錯誤頁，見 Q-12-001。</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>信件可讀但附件或偏好服務失敗的呈現待定。</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>推播未請求系統權限；不可將偏好開關當成授權成功。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-001 開信箱、切分類，再主動點信</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 信箱有未讀信。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開信箱、切分類，再主動點信。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前兩者選首封但不自動已讀；點選才更新未讀數。</td>
+</tr>
+<tr>
+<td>依據：AC-12-001；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-002 領取附件並同視窗再次嘗試</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有附件及無附件信件。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 領取附件並同視窗再次嘗試。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 無附件不提供領取；成功固定加 50,000 金，已領不能再領，無金融紀錄。</td>
+</tr>
+<tr>
+<td>依據：AC-12-002；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-003 直接刪除並刪至最後一封</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有一般及未領附件信件。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 直接刪除並刪至最後一封。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 直接刪除，數量與選中狀態同步，空列表正確。</td>
+</tr>
+<tr>
+<td>依據：AC-12-003；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-004 主關閉再開</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已領附件或刪信。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 主關閉再開。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 信件與領取回種子，當次錢包保留；可重領屬原型缺口。</td>
+</tr>
+<tr>
+<td>依據：AC-12-004；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-005 調音樂、音效與日夜，再收合及刷新</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 設定選單可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 調音樂、音效與日夜，再收合及刷新。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 偏好保存、外觀同步；音訊效果另需實際播放驗證。</td>
+</tr>
+<tr>
+<td>依據：AC-12-005；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-006 關閉後收合再開</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 推播預設開啟。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 關閉後收合再開。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 回預設開，沒有權限請求／訂閱動作。</td>
+</tr>
+<tr>
+<td>依據：AC-12-006；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-007 選新語言、相同語言及停用語言</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 語言視窗可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 選新語言、相同語言及停用語言。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 分別保存提示並關閉／只關閉／不能選；正文仍繁中。</td>
+</tr>
+<tr>
+<td>依據：AC-12-007；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-008 閱讀後返回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 設定可開規章。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 閱讀後返回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 文件可讀，不改註冊狀態，關閉回大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-12-008；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-009 解除最後一位並查看私聊</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 黑名單有一位玩家，另備空清單。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 解除最後一位並查看私聊。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 清單、數量、空狀態與私聊限制同步。</td>
+</tr>
+<tr>
+<td>依據：AC-12-009；完整旅程：US-10、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-12-010 登出、刷新再登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已修改本機偏好。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 登出、刷新再登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 身份退出、偏好保留；其他資料按各自範圍，不宣稱完整帳號隔離。</td>
+</tr>
+<tr>
+<td>依據：AC-12-010；完整旅程：US-14、US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-001 開信箱、切分類，再主動點信</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 信箱有未讀信。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開信箱、切分類，再主動點信。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前兩者選首封但不自動已讀；點選才更新未讀數。</td>
+</tr>
+<tr>
+<td>依據：AC-12-001；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-002 領取附件並同視窗再次嘗試</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有附件及無附件信件。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 領取附件並同視窗再次嘗試。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 無附件不提供領取；成功固定加 50,000 金，已領不能再領，無金融紀錄。</td>
+</tr>
+<tr>
+<td>依據：AC-12-002；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-003 直接刪除並刪至最後一封</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有一般及未領附件信件。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 直接刪除並刪至最後一封。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 直接刪除，數量與選中狀態同步，空列表正確。</td>
+</tr>
+<tr>
+<td>依據：AC-12-003；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-004 主關閉再開</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已領附件或刪信。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 主關閉再開。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 信件與領取回種子，當次錢包保留；可重領屬原型缺口。</td>
+</tr>
+<tr>
+<td>依據：AC-12-004；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-005 調音樂、音效與日夜，再收合及刷新</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 設定選單可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 調音樂、音效與日夜，再收合及刷新。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 偏好保存、外觀同步；音訊效果另需實際播放驗證。</td>
+</tr>
+<tr>
+<td>依據：AC-12-005；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-006 關閉後收合再開</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 推播預設開啟。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 關閉後收合再開。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 回預設開，沒有權限請求／訂閱動作。</td>
+</tr>
+<tr>
+<td>依據：AC-12-006；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-007 選新語言、相同語言及停用語言</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 語言視窗可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 選新語言、相同語言及停用語言。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 分別保存提示並關閉／只關閉／不能選；正文仍繁中。</td>
+</tr>
+<tr>
+<td>依據：AC-12-007；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-008 閱讀後返回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 設定可開規章。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 閱讀後返回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 文件可讀，不改註冊狀態，關閉回大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-12-008；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-009 解除最後一位並查看私聊</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 黑名單有一位玩家，另備空清單。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 解除最後一位並查看私聊。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 清單、數量、空狀態與私聊限制同步。</td>
+</tr>
+<tr>
+<td>依據：AC-12-009；完整旅程：US-10、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-12-010 登出、刷新再登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已修改本機偏好。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 登出、刷新再登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 身份退出、偏好保留；其他資料按各自範圍，不宣稱完整帳號隔離。</td>
+</tr>
+<tr>
+<td>依據：AC-12-010；完整旅程：US-14、US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-001 開信箱、切分類，再主動點信</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 信箱有未讀信。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開信箱、切分類，再主動點信。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前兩者選首封但不自動已讀；點選才更新未讀數。</td>
+</tr>
+<tr>
+<td>依據：AC-12-001；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-002 領取附件並同視窗再次嘗試</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有附件及無附件信件。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 領取附件並同視窗再次嘗試。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 無附件不提供領取；成功固定加 50,000 金，已領不能再領，無金融紀錄。</td>
+</tr>
+<tr>
+<td>依據：AC-12-002；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-003 直接刪除並刪至最後一封</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有一般及未領附件信件。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 直接刪除並刪至最後一封。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 直接刪除，數量與選中狀態同步，空列表正確。</td>
+</tr>
+<tr>
+<td>依據：AC-12-003；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-004 主關閉再開</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已領附件或刪信。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 主關閉再開。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 信件與領取回種子，當次錢包保留；可重領屬原型缺口。</td>
+</tr>
+<tr>
+<td>依據：AC-12-004；完整旅程：US-11。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-005 調音樂、音效與日夜，再收合及刷新</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 設定選單可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 調音樂、音效與日夜，再收合及刷新。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 偏好保存、外觀同步；音訊效果另需實際播放驗證。</td>
+</tr>
+<tr>
+<td>依據：AC-12-005；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-006 關閉後收合再開</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 推播預設開啟。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 關閉後收合再開。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 回預設開，沒有權限請求／訂閱動作。</td>
+</tr>
+<tr>
+<td>依據：AC-12-006；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-007 選新語言、相同語言及停用語言</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 語言視窗可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 選新語言、相同語言及停用語言。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 分別保存提示並關閉／只關閉／不能選；正文仍繁中。</td>
+</tr>
+<tr>
+<td>依據：AC-12-007；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-008 閱讀後返回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 設定可開規章。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 閱讀後返回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 文件可讀，不改註冊狀態，關閉回大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-12-008；完整旅程：US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-009 解除最後一位並查看私聊</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 黑名單有一位玩家，另備空清單。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 解除最後一位並查看私聊。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 清單、數量、空狀態與私聊限制同步。</td>
+</tr>
+<tr>
+<td>依據：AC-12-009；完整旅程：US-10、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-12-010 登出、刷新再登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已修改本機偏好。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 登出、刷新再登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 身份退出、偏好保留；其他資料按各自範圍，不宣稱完整帳號隔離。</td>
+</tr>
+<tr>
+<td>依據：AC-12-010；完整旅程：US-14、US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<p><a id="legacy-12-8"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p>原 AC 編號與預期結果保留。此處為驗收要求，<a href="../APP_FRONTEND_SPEC.html#ch-14">執行證據</a>仍未執行。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-12-001</td>
+<td>US-11</td>
+<td>Given：信箱有未讀信；When：開信箱、切分類，再主動點信；Then：前兩者選首封但不自動已讀；點選才更新未讀數。</td>
+</tr>
+<tr>
+<td>AC-12-002</td>
+<td>US-11</td>
+<td>Given：有附件及無附件信件；When：領取附件並同視窗再次嘗試；Then：無附件不提供領取；成功固定加 50,000 金，已領不能再領，無金融紀錄。</td>
+</tr>
+<tr>
+<td>AC-12-003</td>
+<td>US-11</td>
+<td>Given：有一般及未領附件信件；When：直接刪除並刪至最後一封；Then：直接刪除，數量與選中狀態同步，空列表正確。</td>
+</tr>
+<tr>
+<td>AC-12-004</td>
+<td>US-11</td>
+<td>Given：已領附件或刪信；When：主關閉再開；Then：信件與領取回種子，當次錢包保留；可重領屬原型缺口。</td>
+</tr>
+<tr>
+<td>AC-12-005</td>
+<td>US-14</td>
+<td>Given：設定選單可用；When：調音樂、音效與日夜，再收合及刷新；Then：偏好保存、外觀同步；音訊效果另需實際播放驗證。</td>
+</tr>
+<tr>
+<td>AC-12-006</td>
+<td>US-14</td>
+<td>Given：推播預設開啟；When：關閉後收合再開；Then：回預設開，沒有權限請求／訂閱動作。</td>
+</tr>
+<tr>
+<td>AC-12-007</td>
+<td>US-14</td>
+<td>Given：語言視窗可用；When：選新語言、相同語言及停用語言；Then：分別保存提示並關閉／只關閉／不能選；正文仍繁中。</td>
+</tr>
+<tr>
+<td>AC-12-008</td>
+<td>US-14</td>
+<td>Given：設定可開規章；When：閱讀後返回；Then：文件可讀，不改註冊狀態，關閉回大廳。</td>
+</tr>
+<tr>
+<td>AC-12-009</td>
+<td>US-10、US-14</td>
+<td>Given：黑名單有一位玩家，另備空清單；When：解除最後一位並查看私聊；Then：清單、數量、空狀態與私聊限制同步。</td>
+</tr>
+<tr>
+<td>AC-12-010</td>
+<td>US-14、US-01</td>
+<td>Given：已修改本機偏好；When：登出、刷新再登入；Then：身份退出、偏好保留；其他資料按各自範圍，不宣稱完整帳號隔離。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<p><a id="legacy-12-7"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信箱</td>
+<td>信件識別、分類、已讀、附件</td>
+<td>顯示、刪除或領取結果</td>
+<td>原型重開重領是缺口。</td>
+</tr>
+<tr>
+<td>偏好</td>
+<td>選定設定值</td>
+<td>本機保存結果</td>
+<td>推播、音訊與語言能力各自分開。</td>
+</tr>
+<tr>
+<td>黑名單／登出</td>
+<td>玩家識別或當前身份</td>
+<td>解除關係或退出身份</td>
+<td>不清所有共用狀態。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_8">跨介面影響與保存</h3>
+<p>信件需要識別、類型、日期、標題、正文、已讀、附件及領取結果；正式領取須使資格、獎勵與帳務一致，目前不具備該服務。設定需要偏好值及保存結果；黑名單共用玩家識別與關係。信箱獎勵更新一般金錢包與摘要，不產生獎勵卡或 VIP 儲值指標。</p>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="_9">待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-12-001</td>
+<td>信件缺值、服務失敗與局部失敗如何呈現？</td>
+<td>信件、附件、偏好。</td>
+<td>未決</td>
+</tr>
+<tr>
+<td>Q-12-002</td>
+<td>領取中關閉／刪除與重開領取的正式處置流程？</td>
+<td>原型可重領及延遲入帳缺口。</td>
+<td>未決</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_10">待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-12-003</td>
+<td>附件核銷、推播、翻譯、正式規章及同意保存如何提供？</td>
+<td>後端、內容及通知服務。</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 12 章，歷史記錄保留於總綱</td>
+</tr>
+<tr>
+<td>v0.12</td>
+<td>2026-09-09</td>
+<td>獨立為 17 節，保留原規則與 AC；補三視角故事，待閱讀確認</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>來源</td>
+<td>原小節全部正文及 AC 結果有承接位置</td>
+<td>逐段比對</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>17 節與三視角故事編號齊備</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>來源、表格、錨點與跨檔連結一致</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>產品驗收</td>
+<td>有操作與服務執行證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原小節</th>
+<th>本文件位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-1">12.1</a></td>
+<td>第 1 節</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-2">12.2</a></td>
+<td>第 8 節入口</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-3">12.3</a></td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
+<td>第 8 節信箱</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-5">12.5</a></td>
+<td>第 8 節設定</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-6">12.6</a></td>
+<td>第 6 節</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-7">12.7</a></td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td><a href="12-inbox-and-settings.html#legacy-12-8">12.8</a></td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="12-inbox-and-settings.md">12-inbox-and-settings.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

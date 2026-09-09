@@ -524,4 +524,3 @@
 | [10.6](10-activities.md#legacy-10-6) | 第 6 節例外 |
 | [10.7](10-activities.md#legacy-10-7) | 第 14 節 |
 | [10.8](10-activities.md#legacy-10-8) | 第 13 節 |
-

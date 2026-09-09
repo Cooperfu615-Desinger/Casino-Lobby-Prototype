@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="685af2e792b06e19783f52905695c160c60c0b319b209a46814f16cfc97f266f"><title>11. 聊天、玩家互動與客服</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">11. 聊天、玩家互動與客服</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="11">11. 聊天、玩家互動與客服</h1>
+<p>巨亨ONLINE APP｜v0.12 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-11">返回總綱</a> · <a href="02-shared-rules.html">共用規則</a> · <a href="../APP_FRONTEND_SPEC.html#ch-15">完整玩家旅程</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格，文件重整完成，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接原總規格第 11 章正文；總綱保留入口，本文件為該章維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱、後續修正與工作單引用</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>聊天、玩家互動與客服</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>正式外部服務、後台與未接入能力；見第 2 節</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>原總規格正文、APP 分冊規則與已確認需求；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>狀態：</strong>第 4 批初稿。訊息、好友及客服皆為 Mock；送出提示不代表對方收到或客服案件成立。</p>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節次</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-11-1"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p>玩家在公共頻道、私人對話與客服輸入訊息，透過玩家卡管理好友、封鎖、贈禮與檢舉。玩家卡顯示其他玩家的示範資料，與第 06 章自己的個人資訊分開。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自己會員資料與 VIP</td>
+<td>第 06 章</td>
+</tr>
+<tr>
+<td>贈禮扣款與計算</td>
+<td>第 09 章</td>
+</tr>
+<tr>
+<td>正式送達、客服案件與自動發送排程</td>
+<td>後續訊息及客服服務</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>玩家卡／個人資訊</td>
+<td>前者查看他人，後者修改自己；不能互用入口與權限。</td>
+</tr>
+<tr>
+<td>對話歸屬／私聊草稿</td>
+<td>訊息按對象區分，草稿為私聊共用，不是每個對象各存一份。</td>
+</tr>
+<tr>
+<td>好友／封鎖</td>
+<td>封鎖不刪好友或舊訊息；解除由設定共用清單承接。</td>
+</tr>
+<tr>
+<td>自動發送設定／排程</td>
+<td>保存設定與顯示啟用，不代表已開始發訊息。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-11-3"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<p>聊天中心包含三個頻道、對話或好友／玩家目錄、訊息區與輸入列。訊息顯示內容、自身／對方位置及適用的頭像與時間；私聊可開表情選擇與加號選單。客服顯示歡迎訊息，檢舉入口另顯示目標提示。</p>
+<p>玩家卡包括帳號、暱稱、VIP、簡述、最近遊玩展示與社交操作；最近遊玩卡片沒有啟動遊戲事件。黑名單列表與解除見 <a href="12-inbox-and-settings.html#legacy-12-5">12.5</a>。</p>
+<p><a id="section-05"></a></p>
+<p><a id="legacy-11-4"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>行為與限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一般訊息</td>
+<td>公頻、私聊、客服各有輸入；送出前去前後空白，空內容不送；按鈕或 Enter 可送，中文組字中的 Enter 不送</td>
+</tr>
+<tr>
+<td>私聊對象</td>
+<td>以玩家識別分開對話；切對象會換訊息，但私聊輸入是共用草稿，不是各對象獨立草稿</td>
+</tr>
+<tr>
+<td>表情</td>
+<td>私聊三種分類，點圖案加入輸入文字，仍需送出；不是即時發送的實體禮物</td>
+</tr>
+<tr>
+<td>目錄</td>
+<td>按玩家列表／好友列表才進 Mock 載入；提供載入、失敗重試與空列表。種子請求正常會成功，失敗需另備情境</td>
+</tr>
+<tr>
+<td>好友</td>
+<td>可直接加入／取消，按玩家識別去重；無邀請等待或對方同意步驟</td>
+</tr>
+<tr>
+<td>封鎖</td>
+<td>玩家卡確認後加入黑名單並關卡；取消不變。不自動刪好友或清聊天紀錄</td>
+</tr>
+<tr>
+<td>檢舉</td>
+<td>帶目標標題後由玩家輸入；送出把標題與內容加入客服訊息並清掉檢舉提示，不生成正式案件號</td>
+</tr>
+<tr>
+<td>自動發送</td>
+<td>非訪客可見入口；公頻與私聊分開保存開關、最多 100 字內容、可選貼圖與頻率。公頻單位分鐘、私聊單位天；輸入標示 1～999，但保存未完整阻擋越界值</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_2">無資料時顯示</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>呈現與界線</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>訊息輸入</td>
+<td>空白或僅空白不送出。</td>
+</tr>
+<tr>
+<td>目錄</td>
+<td>支援空列表狀態；與載入錯誤分開，失敗可重試。</td>
+</tr>
+<tr>
+<td>玩家身份、頭像、訊息時間</td>
+<td>目前由展示資料提供；正式缺值呈現見 Q-11-001。</td>
+</tr>
+<tr>
+<td>檢舉目標</td>
+<td>一般客服無檢舉目標；帶入檢舉後仍需玩家輸入，不自動送出。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<p><a id="legacy-11-6"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>狀態群組</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目錄 idle</td>
+<td>尚未請求目錄。</td>
+</tr>
+<tr>
+<td>目錄 loading</td>
+<td>顯示載入，舊請求不可覆蓋新選擇。</td>
+</tr>
+<tr>
+<td>目錄 loaded</td>
+<td>顯示列表或空列表。</td>
+</tr>
+<tr>
+<td>目錄 error</td>
+<td>顯示失敗與重試。</td>
+</tr>
+<tr>
+<td>好友／非好友</td>
+<td>可直接加入取消；非好友也能進示範私聊。</td>
+</tr>
+<tr>
+<td>封鎖／未封鎖</td>
+<td>封鎖停用該對象私聊與查看資料；舊訊息保留。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">原型限制與例外</h3>
+<p>私聊「遊戲點數」可接第 09 章；「贈送禮物」僅提示開發中。訊息沒有實際收件、送達／已讀、同步、附件上傳、重試或客服回覆服務。好友及黑名單為共用記憶體，關聊天保留、刷新重建；未完整依帳號隔離。</p>
+<p>聊天訊息、輸入、已載入目錄及自動發送設定屬聊天視窗，主關閉再開會重建；切三個頻道時可保留當次局部狀態。與贈禮跨頁切換也會卸載聊天，不能承諾草稿與新訊息仍在。</p>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<p>按玩家／好友列表才發起 Mock 載入，非進入頁面即載入。已載入目錄為快照，可重新載入。未提供關鍵字、使用者排序或分頁；切頻道／私聊對象是對話切換。</p>
+<p><a id="section-08"></a></p>
+<p><a id="legacy-11-2"></a></p>
+<p><a id="legacy-11-5"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<h3 id="_4">入口與返回</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口</th>
+<th>傳入／預設</th>
+<th>返回與交接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部聊天</td>
+<td>私聊頁與預設好友對話</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>底部客服</td>
+<td>線上客服</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>聊天頭像／列表玩家</td>
+<td>玩家卡資料、好友狀態</td>
+<td>關玩家卡回底層聊天</td>
+</tr>
+<tr>
+<td>玩家卡聊天</td>
+<td>指定玩家識別、名稱及頭像</td>
+<td>關玩家卡，切私聊，非好友亦可對話</td>
+</tr>
+<tr>
+<td>玩家卡贈禮／轉點；私聊加號遊戲點數</td>
+<td>接收者玩家 ID</td>
+<td>切保險箱贈禮，沿用第 09 章；不自動返回原對話</td>
+</tr>
+<tr>
+<td>玩家卡檢舉</td>
+<td>檢舉標題及目標玩家</td>
+<td>關玩家卡，切客服並顯示待填檢舉；不自動送出</td>
+</tr>
+<tr>
+<td>自動發送</td>
+<td>公頻／私聊各一份設定</td>
+<td>保存仍留設定層，關閉回聊天</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_5">帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資訊</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>私聊／玩家卡</td>
+<td>玩家識別、名稱與頭像。</td>
+</tr>
+<tr>
+<td>贈禮</td>
+<td>玩家 ID 帶至保險箱。</td>
+</tr>
+<tr>
+<td>檢舉</td>
+<td>目標玩家及標題，玩家補內容才送出。</td>
+</tr>
+<tr>
+<td>訊息與自動發送設定</td>
+<td>頻道、對象、文字或設定草稿；保存不啟動排程。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_6">操作流程</h3>
+<p>私聊：開好友／玩家目錄 → 選對話或開玩家卡再按聊天 → 確認對象 → 輸入 → 送出 → 本機訊息追加且輸入清空。非好友入口建立示範直接對話，不要求先加好友。列表加好友立即更新共用關係；已載入的好友目錄是請求快照，重新載入再核對，不保證所有快照即時同步。</p>
+<p>封鎖：玩家卡黑名單 → 確認 → 卡片關閉 → 該對象私聊輸入、表情、附加選單及送出停用。再點該玩家頭像會提示不可查看資料；既有訊息仍顯示，公共訊息未因封鎖被全面過濾。解除後可恢復這些本機入口。</p>
+<p>客服：直接輸入問題，或由玩家卡帶檢舉目標 → 玩家補內容 → 按送出 → 追加客服訊息與提示，清輸入及本次檢舉標題。主關閉回大廳會清除導航帶入的檢舉草稿；同視窗切頻道可保留尚未送出的內容。</p>
+<p>自動發送：開指定頻道設定 → 修改草稿 → 保存後更新該頻道設定並顯示已保存；取消／未保存關閉不提交修改。啟用圖示不會開始排程，也未執行公頻洗頻限制、每日上線或向所有聯絡人發送。</p>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>呈現／未決範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>好友／玩家目錄顯示載入。</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>目錄有空列表，與請求失敗分開。</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>目錄支援錯誤及重試；正式訊息發送錯誤尚未定義。</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>目錄與訊息不同服務部分失敗的整合呈現見 Q-11-001。</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>訪客無自動發送入口；封鎖限制該對象操作，不是禁止整頁聊天。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-001 由聊天、客服及指定玩家入口進入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 聊天關閉或玩家卡可操作。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由聊天、客服及指定玩家入口進入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 頻道與對象正確，關閉位置符合 <a href="11-social-and-support.html#legacy-11-2">11.2</a>。</td>
+</tr>
+<tr>
+<td>依據：AC-11-001；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-002 分別送空白、一般文字、Enter 與組字 Enter</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 三頻道輸入列可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別送空白、一般文字、Enter 與組字 Enter。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 空白不送；合法內容追加、清輸入；組字 Enter 不誤送。</td>
+</tr>
+<tr>
+<td>依據：AC-11-002；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-003 切對象並送訊息</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 兩個可私聊對象。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切對象並送訊息。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 訊息分屬對象；草稿共用，沒有送達保證。</td>
+</tr>
+<tr>
+<td>依據：AC-11-003；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-004 開目錄、快速換目錄並重試</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 目錄可請求，另備空資料與失敗回應。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開目錄、快速換目錄並重試。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 載入與結果正確，舊請求不覆蓋新選擇；失敗可重試。</td>
+</tr>
+<tr>
+<td>依據：AC-11-004；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-005 加入、重複加入及取消好友</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 目標尚非好友。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 加入、重複加入及取消好友。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 共用關係正確且不重複；無審核步驟，目錄快照可重載。</td>
+</tr>
+<tr>
+<td>依據：AC-11-005；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-006 封鎖先取消再確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 對象未封鎖且有舊訊息。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 封鎖先取消再確認。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消不變，確認後不能私訊／開資料；好友與舊訊息未刪。</td>
+</tr>
+<tr>
+<td>依據：AC-11-006；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-007 先帶入後關閉，另一次補文字送出</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 玩家卡有檢舉入口。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 先帶入後關閉，另一次補文字送出。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前者不送；後者帶目標追加客服訊息，不生成正式案件。</td>
+</tr>
+<tr>
+<td>依據：AC-11-007；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-008 點遊戲點數、贈禮／轉點及贈送禮物</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有私聊及玩家卡。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 點遊戲點數、贈禮／轉點及贈送禮物。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前三者帶 ID 至贈禮；最後僅開發中提示。</td>
+</tr>
+<tr>
+<td>依據：AC-11-008；完整旅程：US-09、US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-009 選表情、保存或取消自動發送設定並啟用</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 非訪客在私聊。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 選表情、保存或取消自動發送設定並啟用。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 表情需另送出；設定分頻道保存，不實際排程。</td>
+</tr>
+<tr>
+<td>依據：AC-11-009；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-11-010 切頻道、跨頁及刷新</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已新增訊息並改好友或封鎖關係。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切頻道、跨頁及刷新。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 局部與共用狀態依 <a href="11-social-and-support.html#legacy-11-6">11.6</a> 分別保留或重置。</td>
+</tr>
+<tr>
+<td>依據：AC-11-010；完整旅程：US-10、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-001 由聊天、客服及指定玩家入口進入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 聊天關閉或玩家卡可操作。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由聊天、客服及指定玩家入口進入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 頻道與對象正確，關閉位置符合 <a href="11-social-and-support.html#legacy-11-2">11.2</a>。</td>
+</tr>
+<tr>
+<td>依據：AC-11-001；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-002 分別送空白、一般文字、Enter 與組字 Enter</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 三頻道輸入列可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別送空白、一般文字、Enter 與組字 Enter。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 空白不送；合法內容追加、清輸入；組字 Enter 不誤送。</td>
+</tr>
+<tr>
+<td>依據：AC-11-002；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-003 切對象並送訊息</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 兩個可私聊對象。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切對象並送訊息。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 訊息分屬對象；草稿共用，沒有送達保證。</td>
+</tr>
+<tr>
+<td>依據：AC-11-003；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-004 開目錄、快速換目錄並重試</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 目錄可請求，另備空資料與失敗回應。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開目錄、快速換目錄並重試。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 載入與結果正確，舊請求不覆蓋新選擇；失敗可重試。</td>
+</tr>
+<tr>
+<td>依據：AC-11-004；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-005 加入、重複加入及取消好友</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 目標尚非好友。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 加入、重複加入及取消好友。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 共用關係正確且不重複；無審核步驟，目錄快照可重載。</td>
+</tr>
+<tr>
+<td>依據：AC-11-005；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-006 封鎖先取消再確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 對象未封鎖且有舊訊息。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 封鎖先取消再確認。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消不變，確認後不能私訊／開資料；好友與舊訊息未刪。</td>
+</tr>
+<tr>
+<td>依據：AC-11-006；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-007 先帶入後關閉，另一次補文字送出</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 玩家卡有檢舉入口。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 先帶入後關閉，另一次補文字送出。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前者不送；後者帶目標追加客服訊息，不生成正式案件。</td>
+</tr>
+<tr>
+<td>依據：AC-11-007；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-008 點遊戲點數、贈禮／轉點及贈送禮物</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有私聊及玩家卡。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 點遊戲點數、贈禮／轉點及贈送禮物。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前三者帶 ID 至贈禮；最後僅開發中提示。</td>
+</tr>
+<tr>
+<td>依據：AC-11-008；完整旅程：US-09、US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-009 選表情、保存或取消自動發送設定並啟用</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 非訪客在私聊。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 選表情、保存或取消自動發送設定並啟用。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 表情需另送出；設定分頻道保存，不實際排程。</td>
+</tr>
+<tr>
+<td>依據：AC-11-009；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-11-010 切頻道、跨頁及刷新</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已新增訊息並改好友或封鎖關係。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切頻道、跨頁及刷新。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 局部與共用狀態依 <a href="11-social-and-support.html#legacy-11-6">11.6</a> 分別保留或重置。</td>
+</tr>
+<tr>
+<td>依據：AC-11-010；完整旅程：US-10、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-001 由聊天、客服及指定玩家入口進入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 聊天關閉或玩家卡可操作。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由聊天、客服及指定玩家入口進入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 頻道與對象正確，關閉位置符合 <a href="11-social-and-support.html#legacy-11-2">11.2</a>。</td>
+</tr>
+<tr>
+<td>依據：AC-11-001；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-002 分別送空白、一般文字、Enter 與組字 Enter</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 三頻道輸入列可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別送空白、一般文字、Enter 與組字 Enter。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 空白不送；合法內容追加、清輸入；組字 Enter 不誤送。</td>
+</tr>
+<tr>
+<td>依據：AC-11-002；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-003 切對象並送訊息</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 兩個可私聊對象。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切對象並送訊息。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 訊息分屬對象；草稿共用，沒有送達保證。</td>
+</tr>
+<tr>
+<td>依據：AC-11-003；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-004 開目錄、快速換目錄並重試</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 目錄可請求，另備空資料與失敗回應。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開目錄、快速換目錄並重試。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 載入與結果正確，舊請求不覆蓋新選擇；失敗可重試。</td>
+</tr>
+<tr>
+<td>依據：AC-11-004；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-005 加入、重複加入及取消好友</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 目標尚非好友。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 加入、重複加入及取消好友。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 共用關係正確且不重複；無審核步驟，目錄快照可重載。</td>
+</tr>
+<tr>
+<td>依據：AC-11-005；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-006 封鎖先取消再確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 對象未封鎖且有舊訊息。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 封鎖先取消再確認。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消不變，確認後不能私訊／開資料；好友與舊訊息未刪。</td>
+</tr>
+<tr>
+<td>依據：AC-11-006；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-007 先帶入後關閉，另一次補文字送出</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 玩家卡有檢舉入口。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 先帶入後關閉，另一次補文字送出。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前者不送；後者帶目標追加客服訊息，不生成正式案件。</td>
+</tr>
+<tr>
+<td>依據：AC-11-007；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-008 點遊戲點數、贈禮／轉點及贈送禮物</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有私聊及玩家卡。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 點遊戲點數、贈禮／轉點及贈送禮物。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前三者帶 ID 至贈禮；最後僅開發中提示。</td>
+</tr>
+<tr>
+<td>依據：AC-11-008；完整旅程：US-09、US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-009 選表情、保存或取消自動發送設定並啟用</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 非訪客在私聊。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 選表情、保存或取消自動發送設定並啟用。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 表情需另送出；設定分頻道保存，不實際排程。</td>
+</tr>
+<tr>
+<td>依據：AC-11-009；完整旅程：US-10。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-11-010 切頻道、跨頁及刷新</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已新增訊息並改好友或封鎖關係。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切頻道、跨頁及刷新。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 局部與共用狀態依 <a href="11-social-and-support.html#legacy-11-6">11.6</a> 分別保留或重置。</td>
+</tr>
+<tr>
+<td>依據：AC-11-010；完整旅程：US-10、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<p><a id="legacy-11-8"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p>原 AC 編號與預期結果保留。此處為驗收要求，<a href="../APP_FRONTEND_SPEC.html#ch-14">執行證據</a>仍未執行。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-11-001</td>
+<td>US-10</td>
+<td>Given：聊天關閉或玩家卡可操作；When：由聊天、客服及指定玩家入口進入；Then：頻道與對象正確，關閉位置符合 <a href="11-social-and-support.html#legacy-11-2">11.2</a>。</td>
+</tr>
+<tr>
+<td>AC-11-002</td>
+<td>US-10</td>
+<td>Given：三頻道輸入列可用；When：分別送空白、一般文字、Enter 與組字 Enter；Then：空白不送；合法內容追加、清輸入；組字 Enter 不誤送。</td>
+</tr>
+<tr>
+<td>AC-11-003</td>
+<td>US-10</td>
+<td>Given：兩個可私聊對象；When：切對象並送訊息；Then：訊息分屬對象；草稿共用，沒有送達保證。</td>
+</tr>
+<tr>
+<td>AC-11-004</td>
+<td>US-10</td>
+<td>Given：目錄可請求，另備空資料與失敗回應；When：開目錄、快速換目錄並重試；Then：載入與結果正確，舊請求不覆蓋新選擇；失敗可重試。</td>
+</tr>
+<tr>
+<td>AC-11-005</td>
+<td>US-10</td>
+<td>Given：目標尚非好友；When：加入、重複加入及取消好友；Then：共用關係正確且不重複；無審核步驟，目錄快照可重載。</td>
+</tr>
+<tr>
+<td>AC-11-006</td>
+<td>US-10</td>
+<td>Given：對象未封鎖且有舊訊息；When：封鎖先取消再確認；Then：取消不變，確認後不能私訊／開資料；好友與舊訊息未刪。</td>
+</tr>
+<tr>
+<td>AC-11-007</td>
+<td>US-10</td>
+<td>Given：玩家卡有檢舉入口；When：先帶入後關閉，另一次補文字送出；Then：前者不送；後者帶目標追加客服訊息，不生成正式案件。</td>
+</tr>
+<tr>
+<td>AC-11-008</td>
+<td>US-09、US-10</td>
+<td>Given：有私聊及玩家卡；When：點遊戲點數、贈禮／轉點及贈送禮物；Then：前三者帶 ID 至贈禮；最後僅開發中提示。</td>
+</tr>
+<tr>
+<td>AC-11-009</td>
+<td>US-10</td>
+<td>Given：非訪客在私聊；When：選表情、保存或取消自動發送設定並啟用；Then：表情需另送出；設定分頻道保存，不實際排程。</td>
+</tr>
+<tr>
+<td>AC-11-010</td>
+<td>US-10、US-14</td>
+<td>Given：已新增訊息並改好友或封鎖關係；When：切頻道、跨頁及刷新；Then：局部與共用狀態依 <a href="11-social-and-support.html#legacy-11-6">11.6</a> 分別保留或重置。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<p><a id="legacy-11-7"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目錄與關係</td>
+<td>玩家識別、好友／黑名單</td>
+<td>目錄快照與關係</td>
+<td>可重載，不宣稱快照全面即時同步。</td>
+</tr>
+<tr>
+<td>訊息／檢舉</td>
+<td>頻道、對象、內容、檢舉標題</td>
+<td>本機追加訊息</td>
+<td>不產生送達或正式案件。</td>
+</tr>
+<tr>
+<td>設定</td>
+<td>頻道、開關、頻率、文字與貼圖</td>
+<td>已保存設定</td>
+<td>不啟動排程。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_7">跨介面影響與保存</h3>
+<p>需要玩家識別、帳號／暱稱／頭像、好友與封鎖關係、對話歸屬、訊息內容與時間、目錄狀態、檢舉對象與內容。贈禮傳玩家 ID，金融處理只由第 09 章定義；封鎖與設定黑名單共用同一清單。正式收送訊息、好友確認、客服案件及服務層封鎖效果仍需另定，不將本機操作補寫成保證。</p>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="_8">待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-11-001</td>
+<td>正式訊息失敗、缺欄位與局部失敗如何呈現？</td>
+<td>不從目錄重試外推訊息重送。</td>
+<td>未決</td>
+</tr>
+<tr>
+<td>Q-11-002</td>
+<td>自動發送頻率越界與正式排程規則如何限制？</td>
+<td>原型 1～999 標示未完整阻擋越界。</td>
+<td>未決</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_9">待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-11-003</td>
+<td>正式收送、好友確認、客服案件、封鎖與排程契約？</td>
+<td>訊息、客服及後端服務。</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 11 章，歷史記錄保留於總綱</td>
+</tr>
+<tr>
+<td>v0.12</td>
+<td>2026-09-09</td>
+<td>獨立為 17 節，保留原規則與 AC；補三視角故事，待閱讀確認</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>來源</td>
+<td>原小節全部正文及 AC 結果有承接位置</td>
+<td>逐段比對</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>17 節與三視角故事編號齊備</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>來源、表格、錨點與跨檔連結一致</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>產品驗收</td>
+<td>有操作與服務執行證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原小節</th>
+<th>本文件位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-1">11.1</a></td>
+<td>第 1 節</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-2">11.2</a></td>
+<td>第 8 節入口</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-3">11.3</a></td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-4">11.4</a></td>
+<td>第 5 節</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-5">11.5</a></td>
+<td>第 8 節流程</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-6">11.6</a></td>
+<td>第 6 節</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-7">11.7</a></td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td><a href="11-social-and-support.html#legacy-11-8">11.8</a></td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="11-social-and-support.md">11-social-and-support.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

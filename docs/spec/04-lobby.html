@@ -1,0 +1,1203 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="2a75a3ec70d8c7db04d3691f4929887531d81d9bcb6b00a62aa2fd09906ce68f"><title>04. 遊戲大廳</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">04. 遊戲大廳</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="04">04. 遊戲大廳</h1>
+<p>巨亨ONLINE APP｜v0.12 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-04">返回總綱</a> · <a href="02-shared-rules.html">共用規則</a> · <a href="../APP_FRONTEND_SPEC.html#ch-15">完整玩家旅程</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格，文件重整完成，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接原總規格第 04 章正文；總綱保留入口，本文件為該章維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱、後續修正與工作單引用</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>遊戲大廳</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>正式外部服務、後台與未接入能力；見第 2 節</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>原總規格正文、APP 分冊規則與已確認需求；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>狀態：</strong>第 4 批初稿，依目前大廳入口、篩選與遊戲列表整理。畫布規則見第 02 章，實際遊戲進入見第 05 章。</p>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節次</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-04-1"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p>玩家查看身份與資產、找到遊戲，並進入會員、資產、活動及社交功能。大廳沒有關鍵字搜尋；遊戲卡依既有資料順序排列，左右箭頭為提示，不是翻頁按鈕。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遊戲可用餘額與進入結算</td>
+<td>第 05、07 章</td>
+</tr>
+<tr>
+<td>付款與各功能內部操作</td>
+<td>第 06～12 章</td>
+</tr>
+<tr>
+<td>關鍵字搜尋與獨立最近遊玩清單</td>
+<td>本版未提供，不因記錄最近點擊而新增</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>獨立計數／交集數</td>
+<td>每個選項數量來自完整資料；底部 N 是多條件交集。</td>
+</tr>
+<tr>
+<td>支援幣別／可用餘額</td>
+<td>餘額為 0 不隱藏支援遊戲；啟動時再檢查可用性。</td>
+</tr>
+<tr>
+<td>篩選重設／收藏刪除</td>
+<td>全部重設清四項條件，不清收藏集合。</td>
+</tr>
+<tr>
+<td>最近點擊／投注紀錄</td>
+<td>取消啟動也保留最近點擊，不代表完成下注。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-04-3"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>內容與入口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂部摘要</td>
+<td>頭像／名稱／VIP 開個人資訊；金銀銅錢包與銀行入口；不顯示保險箱為遊戲錢包</td>
+</tr>
+<tr>
+<td>BUY／SALE</td>
+<td>BUY 開銀行；SALE 開促銷第一項，交易細節見 08</td>
+</tr>
+<tr>
+<td>公告／JP 提示</td>
+<td>公告文字與示範得獎訊息，非個人獲獎通知或可領獎入口</td>
+</tr>
+<tr>
+<td>左側篩選</td>
+<td>我的最愛、遊戲類別、幣別、遊戲商；子面板、結果總數、全部重設及查看結果</td>
+</tr>
+<tr>
+<td>遊戲列表</td>
+<td>遊戲圖與標示、收藏愛心；兩列橫向捲動，大卡跨列；點卡開選幣</td>
+</tr>
+<tr>
+<td>底部導航</td>
+<td>聊天、每日任務、活動、銀行、保險箱、信箱、獎勵卡、客服；各預設分頁沿用 <a href="02-shared-rules.html#legacy-02-2">02.2</a></td>
+</tr>
+<tr>
+<td>底部促銷圖示</td>
+<td>豬幫出動／首儲好禮分別開促銷第二／第三項；不是兩套獨立活動帳務</td>
+</tr>
+<tr>
+<td>設定</td>
+<td>開關選單及語言、規章、黑名單、登出，詳見 12</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-05"></a></p>
+<p><a id="legacy-04-4"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<p>四個篩選維度同時成立才顯示遊戲，維度內單選；選取立即生效，「查看 N 款遊戲」只收合抽屜。各類別／幣別／供應商旁數量取全遊戲資料的獨立計數，底部 N 才是多條件交集，不要求二者一致。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>維度</th>
+<th>可選內容與限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>收藏</td>
+<td>全部或只看我的最愛，愛心可加入／移除；按愛心不觸發遊戲啟動</td>
+</tr>
+<tr>
+<td>類別</td>
+<td>全部、活動、老虎機、棋牌、電子、真人、Crash、魚機、樂透；無資料的非全部類別標 P2 並停用。活動名單為固定示範集合，不等於報名狀態</td>
+</tr>
+<tr>
+<td>幣別</td>
+<td>全部、金幣、銀幣、活動銀幣、銅幣；依遊戲支援篩選，不依玩家餘額隱藏遊戲</td>
+</tr>
+<tr>
+<td>遊戲商</td>
+<td>全部或資料中各供應商；與其他條件交集</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_2">無資料時顯示</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>呈現與界線</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遊戲名稱、圖像、供應商、支援幣別</td>
+<td>本機資料提供；正式缺值呈現見 Q-04-001。</td>
+</tr>
+<tr>
+<td>收藏集合</td>
+<td>無收藏且只看最愛時顯示「尚無我的最愛」。</td>
+</tr>
+<tr>
+<td>結果與計數</td>
+<td>合法交集為零顯示「找不到符合條件的遊戲」；非全部空類別標 P2 並停用。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<p><a id="legacy-04-6"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>狀態群組</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>篩選抽屜與子面板</td>
+<td>收合保留條件；全部重設清條件。</td>
+</tr>
+<tr>
+<td>收藏</td>
+<td>已收藏／未收藏獨立於遊戲啟動。</td>
+</tr>
+<tr>
+<td>無收藏／無交集</td>
+<td>兩種空結果文字不同。</td>
+</tr>
+<tr>
+<td>非全部且無資料的類別</td>
+<td>P2 停用，不新增功能入口。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">原型限制與例外</h3>
+<p>未收藏時只看最愛顯示「尚無我的最愛」；有收藏但交集為零，或一般篩選無結果，顯示「找不到符合條件的遊戲」，回抽屜調整／全部重設。遊戲資料為本機列表，無遠端載入錯誤、關鍵字、排序或分頁流程。俱樂部與未可達導覽不在本版大廳開放範圍。</p>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<p>四個篩選維度立即交集，詳細選項見第 5 節。維度內單選；查看 N 款只收合。資料順序不重排、沒有關鍵字搜尋或分頁；列表橫向捲動，左右箭頭沒有翻頁事件。</p>
+<p><a id="section-08"></a></p>
+<p><a id="legacy-04-2"></a></p>
+<p><a id="legacy-04-5"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<h3 id="_4">入口與返回</h3>
+<p>登入後或離開遊戲返回大廳。新建大廳初始顯示全部遊戲、全部供應商、全部幣別且不限收藏；篩選抽屜及設定收合。關閉一般功能回大廳會保留當次大廳篩選；進入遊戲後返回因大廳重建，篩選恢復預設，收藏仍依本機資料載入。</p>
+<h3 id="_5">帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資訊</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂部與底部入口</td>
+<td>依共用規則帶入預設頁籤；促銷圖示帶起始項。</td>
+</tr>
+<tr>
+<td>點遊戲卡</td>
+<td>遊戲識別與指定幣別篩選；收藏愛心不帶入啟動。</td>
+</tr>
+<tr>
+<td>切篩選／重設</td>
+<td>四維條件，重設不刪收藏。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_6">操作流程</h3>
+<p>展開篩選 → 選維度與條件 → 立即核對符合數 → 查看結果收合 → 橫向捲動選卡 → 第 05 章選幣進入。收合選項只關子面板，收合抽屜或點背景保留條件；全部重設同時清除四項篩選，並不刪除收藏。</p>
+<p>收藏流程為點愛心 → 樣式及本機清單更新 → 開只看我的最愛。若在收藏篩選中取消收藏，該卡立即退出結果。點遊戲卡即記錄最近遊戲，即使稍後取消啟動仍保留；這不是已完成投注紀錄。</p>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>呈現／未決範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>使用本機遊戲列表，無遠端列表載入畫面。</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>分無收藏與條件交集為零，提供調整／重設。</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>尚無遠端錯誤畫面，見 Q-04-001。</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>遊戲列表與摘要部分取得失敗待定，見 Q-04-001。</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>未登入由啟動流程分流；停用 P2 類別不是權限錯誤。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-001 展開與收合篩選</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 新登入或重新建立大廳。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 展開與收合篩選。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 預設全選；收合保留條件，重建大廳恢復預設。</td>
+</tr>
+<tr>
+<td>依據：AC-04-001；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-002 合併四種條件</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 具有收藏與不同類別、幣別、供應商的遊戲。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 合併四種條件。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 結果為交集、即時更新；獨立計數與交集數分清。</td>
+</tr>
+<tr>
+<td>依據：AC-04-002；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-003 點愛心、只看收藏、再移除</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有可收藏遊戲。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 點愛心、只看收藏、再移除。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 不開遊戲；收藏樣式、清單及結果同步，刷新可讀回。</td>
+</tr>
+<tr>
+<td>依據：AC-04-003；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-004 切條件並重設</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 無收藏，另備零交集及無資料類別。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切條件並重設。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 兩種空結果文案正確；P2 類別停用，可重設恢復。</td>
+</tr>
+<tr>
+<td>依據：AC-04-004；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-005 按該幣別篩選並點支援遊戲</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 玩家某幣別餘額零。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 按該幣別篩選並點支援遊戲。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 支援的遊戲仍出現，啟動層另檢查可用額度。</td>
+</tr>
+<tr>
+<td>依據：AC-04-005；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-006 捲動並點卡後取消</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 大廳有橫向列表。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 捲動並點卡後取消。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 可橫向捲動；箭頭無翻頁事件；最近點擊保留但不新增投注。</td>
+</tr>
+<tr>
+<td>依據：AC-04-006；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-007 依序開啟並關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 大廳可見各功能入口。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 依序開啟並關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前往正確功能／分頁與促銷項目，主關閉回大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-04-007；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-04-008 重設、關閉功能、進出遊戲與重新登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已選篩選且有收藏。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 重設、關閉功能、進出遊戲與重新登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 四項篩選與本機收藏依 <a href="04-lobby.html#legacy-04-2">04.2</a>、<a href="04-lobby.html#legacy-04-7">04.7</a> 各自保存，不混成同一生命週期。</td>
+</tr>
+<tr>
+<td>依據：AC-04-008；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-001 展開與收合篩選</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 新登入或重新建立大廳。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 展開與收合篩選。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 預設全選；收合保留條件，重建大廳恢復預設。</td>
+</tr>
+<tr>
+<td>依據：AC-04-001；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-002 合併四種條件</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 具有收藏與不同類別、幣別、供應商的遊戲。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 合併四種條件。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 結果為交集、即時更新；獨立計數與交集數分清。</td>
+</tr>
+<tr>
+<td>依據：AC-04-002；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-003 點愛心、只看收藏、再移除</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有可收藏遊戲。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 點愛心、只看收藏、再移除。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 不開遊戲；收藏樣式、清單及結果同步，刷新可讀回。</td>
+</tr>
+<tr>
+<td>依據：AC-04-003；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-004 切條件並重設</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 無收藏，另備零交集及無資料類別。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切條件並重設。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 兩種空結果文案正確；P2 類別停用，可重設恢復。</td>
+</tr>
+<tr>
+<td>依據：AC-04-004；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-005 按該幣別篩選並點支援遊戲</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 玩家某幣別餘額零。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 按該幣別篩選並點支援遊戲。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 支援的遊戲仍出現，啟動層另檢查可用額度。</td>
+</tr>
+<tr>
+<td>依據：AC-04-005；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-006 捲動並點卡後取消</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 大廳有橫向列表。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 捲動並點卡後取消。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 可橫向捲動；箭頭無翻頁事件；最近點擊保留但不新增投注。</td>
+</tr>
+<tr>
+<td>依據：AC-04-006；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-007 依序開啟並關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 大廳可見各功能入口。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 依序開啟並關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前往正確功能／分頁與促銷項目，主關閉回大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-04-007；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-04-008 重設、關閉功能、進出遊戲與重新登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已選篩選且有收藏。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 重設、關閉功能、進出遊戲與重新登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 四項篩選與本機收藏依 <a href="04-lobby.html#legacy-04-2">04.2</a>、<a href="04-lobby.html#legacy-04-7">04.7</a> 各自保存，不混成同一生命週期。</td>
+</tr>
+<tr>
+<td>依據：AC-04-008；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-001 展開與收合篩選</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 新登入或重新建立大廳。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 展開與收合篩選。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 預設全選；收合保留條件，重建大廳恢復預設。</td>
+</tr>
+<tr>
+<td>依據：AC-04-001；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-002 合併四種條件</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 具有收藏與不同類別、幣別、供應商的遊戲。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 合併四種條件。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 結果為交集、即時更新；獨立計數與交集數分清。</td>
+</tr>
+<tr>
+<td>依據：AC-04-002；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-003 點愛心、只看收藏、再移除</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 有可收藏遊戲。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 點愛心、只看收藏、再移除。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 不開遊戲；收藏樣式、清單及結果同步，刷新可讀回。</td>
+</tr>
+<tr>
+<td>依據：AC-04-003；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-004 切條件並重設</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 無收藏，另備零交集及無資料類別。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切條件並重設。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 兩種空結果文案正確；P2 類別停用，可重設恢復。</td>
+</tr>
+<tr>
+<td>依據：AC-04-004；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-005 按該幣別篩選並點支援遊戲</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 玩家某幣別餘額零。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 按該幣別篩選並點支援遊戲。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 支援的遊戲仍出現，啟動層另檢查可用額度。</td>
+</tr>
+<tr>
+<td>依據：AC-04-005；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-006 捲動並點卡後取消</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 大廳有橫向列表。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 捲動並點卡後取消。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 可橫向捲動；箭頭無翻頁事件；最近點擊保留但不新增投注。</td>
+</tr>
+<tr>
+<td>依據：AC-04-006；完整旅程：US-02。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-007 依序開啟並關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 大廳可見各功能入口。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 依序開啟並關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前往正確功能／分頁與促銷項目，主關閉回大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-04-007；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-04-008 重設、關閉功能、進出遊戲與重新登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 已選篩選且有收藏。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 重設、關閉功能、進出遊戲與重新登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 四項篩選與本機收藏依 <a href="04-lobby.html#legacy-04-2">04.2</a>、<a href="04-lobby.html#legacy-04-7">04.7</a> 各自保存，不混成同一生命週期。</td>
+</tr>
+<tr>
+<td>依據：AC-04-008；完整旅程：US-02、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<p><a id="legacy-04-8"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p>原 AC 編號與預期結果保留。此處為驗收要求，<a href="../APP_FRONTEND_SPEC.html#ch-14">執行證據</a>仍未執行。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-04-001</td>
+<td>US-02、US-14</td>
+<td>Given：新登入或重新建立大廳；When：展開與收合篩選；Then：預設全選；收合保留條件，重建大廳恢復預設。</td>
+</tr>
+<tr>
+<td>AC-04-002</td>
+<td>US-02</td>
+<td>Given：具有收藏與不同類別、幣別、供應商的遊戲；When：合併四種條件；Then：結果為交集、即時更新；獨立計數與交集數分清。</td>
+</tr>
+<tr>
+<td>AC-04-003</td>
+<td>US-02</td>
+<td>Given：有可收藏遊戲；When：點愛心、只看收藏、再移除；Then：不開遊戲；收藏樣式、清單及結果同步，刷新可讀回。</td>
+</tr>
+<tr>
+<td>AC-04-004</td>
+<td>US-02</td>
+<td>Given：無收藏，另備零交集及無資料類別；When：切條件並重設；Then：兩種空結果文案正確；P2 類別停用，可重設恢復。</td>
+</tr>
+<tr>
+<td>AC-04-005</td>
+<td>US-02</td>
+<td>Given：玩家某幣別餘額零；When：按該幣別篩選並點支援遊戲；Then：支援的遊戲仍出現，啟動層另檢查可用額度。</td>
+</tr>
+<tr>
+<td>AC-04-006</td>
+<td>US-02</td>
+<td>Given：大廳有橫向列表；When：捲動並點卡後取消；Then：可橫向捲動；箭頭無翻頁事件；最近點擊保留但不新增投注。</td>
+</tr>
+<tr>
+<td>AC-04-007</td>
+<td>US-02、US-14</td>
+<td>Given：大廳可見各功能入口；When：依序開啟並關閉；Then：前往正確功能／分頁與促銷項目，主關閉回大廳。</td>
+</tr>
+<tr>
+<td>AC-04-008</td>
+<td>US-02、US-14</td>
+<td>Given：已選篩選且有收藏；When：重設、關閉功能、進出遊戲與重新登入；Then：四項篩選與本機收藏依 <a href="04-lobby.html#legacy-04-2">04.2</a>、<a href="04-lobby.html#legacy-04-7">04.7</a> 各自保存，不混成同一生命週期。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<p><a id="legacy-04-7"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遊戲列表</td>
+<td>遊戲資料、收藏、四項條件</td>
+<td>交集列表與計數</td>
+<td>幣別支援不等於餘額可用。</td>
+</tr>
+<tr>
+<td>收藏與最近點擊</td>
+<td>遊戲識別及操作</td>
+<td>本機集合</td>
+<td>最近最多八筆；不按帳號分區。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_7">跨介面影響與保存</h3>
+<p>需要遊戲識別、名稱、圖像、供應商、類別、支援幣別、卡片標示、收藏集合及篩選條件。收藏與最近遊戲保存在本機、未依登入帳號分區；最近清單最多 8 個不重複識別，最近點擊置前。特定幣別篩選傳入遊戲啟動作初選，但餘額資格須另依第 05 章核對。</p>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="_8">待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-04-001</td>
+<td>遠端列表、摘要缺值與局部失敗如何呈現？</td>
+<td>畫面與狀態。</td>
+<td>未決</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_9">待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-04-002</td>
+<td>正式遊戲供應來源與收藏按帳號隔離如何提供？</td>
+<td>遊戲資料與會員服務。</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 04 章，歷史記錄保留於總綱</td>
+</tr>
+<tr>
+<td>v0.12</td>
+<td>2026-09-09</td>
+<td>獨立為 17 節，保留原規則與 AC；補三視角故事，待閱讀確認</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>來源</td>
+<td>原小節全部正文及 AC 結果有承接位置</td>
+<td>逐段比對</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>17 節與三視角故事編號齊備</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>來源、表格、錨點與跨檔連結一致</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>產品驗收</td>
+<td>有操作與服務執行證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原小節</th>
+<th>本文件位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="04-lobby.html#legacy-04-1">04.1</a></td>
+<td>第 1 節</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-2">04.2</a></td>
+<td>第 8 節入口</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-3">04.3</a></td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-4">04.4</a></td>
+<td>第 5 節</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-5">04.5</a></td>
+<td>第 8 節流程</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-6">04.6</a></td>
+<td>第 6 節</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-7">04.7</a></td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td><a href="04-lobby.html#legacy-04-8">04.8</a></td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="04-lobby.md">04-lobby.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

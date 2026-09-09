@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="0475582173b76200f88c2d07f05ffd35c8f04540a5431b283954ea8658eb18b9"><title>巨亨ONLINE 前台介面與使用流程規格書 — 總綱與索引</title><style>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="293764a7dfe9fd5a3dfbe8f75431d10856803586cba0b81ade26390c1f77427d"><title>巨亨ONLINE 前台介面與使用流程規格書 — 總綱與索引</title><style>
 :root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
 @media(min-width:1600px){main{margin-right:auto}}
@@ -17,7 +17,7 @@
 <tbody>
 <tr>
 <td>文件版本</td>
-<td>v0.11 — 資產與遊戲流程分冊整理</td>
+<td>v0.12 — 登入與日常操作分冊整理</td>
 </tr>
 <tr>
 <td>建立日期</td>
@@ -33,11 +33,11 @@
 </tr>
 <tr>
 <td>本次確認</td>
-<td>新增第 00 章產品簡述，保留 01～15 編號；獎勵卡內容及分冊規則已獲使用者確認，本批完成第 10、08、09、05 章分冊；其餘待遷移</td>
+<td>新增第 00 章產品簡述，保留 01～15 編號；獎勵卡內容及分冊規則已獲使用者確認，本批完成第 03、04、11、12 章分冊；第 13～15 章待遷移</td>
 </tr>
 <tr>
 <td>完成範圍</td>
-<td>原 v0.7 正文與第五批文件檢查已完成；第 01、02 章已分冊，第 05～10 章已改為新格式；10 條流程、14 個故事共 89 個情境、109 項驗收條件均有情境引用；操作與正式服務驗收未執行</td>
+<td>原 v0.7 正文與第五批文件檢查已完成；第 01、02 章已分冊，第 03～12 章已改為新格式；10 條流程、14 個故事共 89 個情境、109 項驗收條件均有情境引用；操作與正式服務驗收未執行</td>
 </tr>
 <tr>
 <td>文件性質</td>
@@ -49,7 +49,7 @@
 <p>本文已完成五批整理，可供跨團隊閱讀及後續工作單引用。文件檢查完成不代表所有原型行為已獲產品確認或操作驗收通過；各章明列的 Mock 限制與未決事項仍保留。既有確認規格依適用範圍引用，不取代 VIP 後台與排程文件。</p>
 </blockquote>
 <h2 id="_1">分冊閱讀與遷移進度</h2>
-<p>目前採逐批遷移：第 00 章保留總綱內、內容待補；第 01、02、05～10 章已獨立，其中第 07 章內容已確認，其餘章節暫留本頁，避免正文遺失或連結失效。分冊整理完成後，本頁保留產品簡述正文、總綱、索引及跨文件變更摘要。</p>
+<p>目前採逐批遷移：第 00 章保留總綱內、內容待補；第 01～12 章已獨立，其中第 07 章內容已確認，其餘章節暫留本頁，避免正文遺失或連結失效。分冊整理完成後，本頁保留產品簡述正文、總綱、索引及跨文件變更摘要。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
 <thead>
 <tr>
@@ -100,6 +100,26 @@
 <td>本批已整理，待閱讀確認</td>
 </tr>
 <tr>
+<td><a href="spec/03-authentication.html">啟動、登入與註冊</a></td>
+<td>第 03 章 17 節獨立規格</td>
+<td>本批已整理，待閱讀確認</td>
+</tr>
+<tr>
+<td><a href="spec/04-lobby.html">遊戲大廳</a></td>
+<td>第 04 章 17 節獨立規格</td>
+<td>本批已整理，待閱讀確認</td>
+</tr>
+<tr>
+<td><a href="spec/11-social-and-support.html">聊天、玩家互動與客服</a></td>
+<td>第 11 章 17 節獨立規格</td>
+<td>本批已整理，待閱讀確認</td>
+</tr>
+<tr>
+<td><a href="spec/12-inbox-and-settings.html">信箱與設定</a></td>
+<td>第 12 章 17 節獨立規格</td>
+<td>本批已整理，待閱讀確認</td>
+</tr>
+<tr>
 <td><a href="spec/07-reward-cards.html">獎勵卡獨立規格</a></td>
 <td>畫面、狀態、合併、三視角故事、資料及驗收</td>
 <td>內容已確認；操作驗收未執行</td>
@@ -120,7 +140,7 @@
 <p>後續開立工作單時，引用功能章節及適用的 FLOW／US／SC／AC，寫明目前行為、調整目標、影響畫面與驗收條件。完成調整後同步規格正文及變更紀錄，讓文件維持最新狀態。</p>
 <ul>
 <li>依功能填寫正文，區分已確認需求、原型現況／限制與待確認事項。</li>
-<li>第 03～12 章逐批依新版<a href="spec-templates/FEATURE_TEMPLATE.html">功能章節模板</a>重整；目前第 05～10 章完成新格式，其餘仍保留 v0.7 結構。</li>
+<li>第 03～12 章逐批依新版<a href="spec-templates/FEATURE_TEMPLATE.html">功能章節模板</a>重整；第 03～12 章皆已完成新格式。</li>
 <li>第 15 章使用<a href="spec-templates/PLAYER_STORY_TEMPLATE.html">玩家故事模板</a>。情境以玩家目標及必要狀態組合為單位，不推測尚未確認的服務能力。</li>
 <li>第 13 章描述跨介面交接；第 15 章描述「某種狀態的玩家如何完成目標」；第 14 章集中追蹤驗收覆蓋與執行證據。</li>
 <li>現有來源：<a href="PLAYER_PROFILE_SPEC_v1.md">個人資訊規格</a>、<a href="PROMO_CODE_SPEC.md">銀行優惠碼規格</a>、<a href="art-design-checklist.md">美術清單</a>。細節合併時逐項核對版本與決策，不直接整份複製。</li>
@@ -159,13 +179,13 @@
 <td>03</td>
 <td><a href="#ch-03">啟動、登入與註冊</a></td>
 <td>品牌載入、帳號／手機／第三方／訪客登入、建立帳號、忘記密碼、條款與登入後去向。</td>
-<td>初稿已撰寫</td>
+<td>已分冊整理，待閱讀確認</td>
 </tr>
 <tr>
 <td>04</td>
 <td><a href="#ch-04">遊戲大廳</a></td>
 <td>玩家摘要、餘額、分類／供應商／幣別篩選、我的最愛、遊戲列表、底部入口、通知與促銷入口。</td>
-<td>初稿已撰寫</td>
+<td>已分冊整理，待閱讀確認</td>
 </tr>
 <tr>
 <td>05</td>
@@ -207,13 +227,13 @@
 <td>11</td>
 <td><a href="#ch-11">聊天、玩家互動與客服</a></td>
 <td>公頻、私訊、好友與玩家列表、玩家資訊卡、好友關係、封鎖、贈禮入口、檢舉、客服與自動傳送設定邊界。</td>
-<td>初稿已撰寫</td>
+<td>已分冊整理，待閱讀確認</td>
 </tr>
 <tr>
 <td>12</td>
 <td><a href="#ch-12">信箱與設定</a></td>
 <td>信箱分類、閱讀、附件與刪除；設定另設子功能，含音樂、音效、日夜、語言、推播、黑名單、規章及登出。</td>
-<td>初稿已撰寫</td>
+<td>已分冊整理，待閱讀確認</td>
 </tr>
 <tr>
 <td>13</td>
@@ -237,7 +257,7 @@
 <td>附錄</td>
 <td><a href="#change-log">版本與變更紀錄</a></td>
 <td>文件變更、調整原因、影響章節與關聯工作單</td>
-<td>已記錄至 v0.11</td>
+<td>已記錄至 v0.12</td>
 </tr>
 </tbody>
 </table></div>
@@ -271,369 +291,10 @@
 <p><a href="spec/02-shared-rules.html">開啟 整體介面架構與共用規則獨立文件</a>。本章正文已移出，原有規則與編號保留；本文件提供全 APP 共用入口、名詞與保存規則。</p>
 <p><a id="ch-03"></a></p>
 <h2 id="03">03. 啟動、登入與註冊</h2>
-<p><strong>狀態：</strong>第 4 批初稿，依目前登入入口、表單檢核與身份更新整理。所有登入與找回流程均為本機 Mock，未串接身份服務、簡訊或第三方授權。</p>
-<h3 id="031">03.1 功能目的與範圍</h3>
-<p>讓未登入玩家選擇登入方式、建立身份或找回帳號的使用入口。已保存身份的玩家可在品牌載入後返回大廳；身份保存不等於金融資料保存，詳見 <a href="spec/02-shared-rules.html#legacy-02-7">02.7</a> 及 <a href="spec/06-member-profile.html#legacy-06-7">06.7</a>。</p>
-<h3 id="032">03.2 入口、預設畫面與返回</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>入口</th>
-<th>初始畫面與操作</th>
-<th>返回／完成</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>開啟 APP</td>
-<td>品牌載入；檢查本機身份</td>
-<td>有可讀身份進大廳，無身份進登入首頁</td>
-</tr>
-<tr>
-<td>帳號</td>
-<td>空密碼表單，可切建立帳號／忘記密碼</td>
-<td>表單關閉回首頁；登入成功進大廳</td>
-</tr>
-<tr>
-<td>建立帳號</td>
-<td>從帳號登入開啟註冊表單</td>
-<td>關閉回帳號登入並清密碼；成功直接進大廳</td>
-</tr>
-<tr>
-<td>遊客</td>
-<td>直接顯示處理及成功階段</td>
-<td>建立隨機訪客身份進大廳，不經註冊表單</td>
-</tr>
-<tr>
-<td>手機</td>
-<td>手機號碼 → 驗證碼</td>
-<td>表單階段可關閉；驗證頁可返回修改手機</td>
-</tr>
-<tr>
-<td>Facebook／LINE／Apple／Google</td>
-<td>連線示意 → 授權確認</td>
-<td>確認階段取消回首頁；允許後登入示範身份</td>
-</tr>
-<tr>
-<td>首頁三種文件</td>
-<td>使用者規章／隱私權政策／服務條款</td>
-<td>閱讀後關閉回登入首頁</td>
-</tr>
-<tr>
-<td>忘記密碼</td>
-<td>帶入已填帳號</td>
-<td>返回會員登入會帶回帳號並清空密碼；關閉回首頁</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="033">03.3 畫面區塊與內容</h3>
-<p>首頁包括品牌、版本展示、七種登入入口與三種文件入口。帳號表單提供欄位錯誤、建立帳號及忘記密碼。註冊表單含身份欄位、選填推廣碼與文件閱讀狀態。各登入方式提供處理／成功畫面；處理階段不可概括為可隨時取消。</p>
-<h3 id="034">03.4 欄位與顯示規則</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>欄位</th>
-<th>原型限制與回饋</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>帳號</td>
-<td>中英文及數字；不得空白或特殊符號，前後空白也不接受；半形長度 4～20，英數各算 1、中文字各算 2</td>
-</tr>
-<tr>
-<td>帳號登入密碼</td>
-<td>必填；一般 Mock 帳號不驗證真實密碼。若符合本機最近重設的帳號，須輸入該次新密碼</td>
-</tr>
-<tr>
-<td>註冊暱稱</td>
-<td>去除前後空白後 2～12 字元；輸入截至 12 字元</td>
-</tr>
-<tr>
-<td>註冊／重設密碼</td>
-<td>至少 6 字元，兩次一致；不新增複雜度或到期規則</td>
-</tr>
-<tr>
-<td>註冊推廣碼</td>
-<td>選填；輸入轉大寫、移除非英數並截至 8 碼；非空須為 6 或 8 碼。只檢查格式，未送出綁定或發獎；與優惠碼及邀請碼區分見 <a href="spec/02-shared-rules.html#legacy-02-5">02.5</a></td>
-</tr>
-<tr>
-<td>註冊文件閱讀</td>
-<td>必須開啟並按「我已閱讀並了解」才滿足註冊資格；「稍後再看」不完成閱讀。沒有滾到底才能按的條件</td>
-</tr>
-<tr>
-<td>手機</td>
-<td>09 開頭共 10 碼；輸入保留數字至 10 碼</td>
-</tr>
-<tr>
-<td>驗證碼</td>
-<td>6 碼數字，測試值為 123456；發送後 60 秒倒數才可重發。此為重發等待，未實作正式驗證碼有效期</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="035">03.5 操作與使用流程</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>流程</th>
-<th>玩家步驟與更新</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>帳號登入</td>
-<td>填帳號密碼 → 送出 → 格式／本機重設密碼檢查 → 處理 → 成功 → 大廳。錯誤留表單供修正</td>
-</tr>
-<tr>
-<td>建立帳號</td>
-<td>填欄位 → 閱讀並確認文件 → 符合條件後註冊 → 處理與成功 → 以帳號和暱稱登入大廳；無帳號重複查詢或正式帳號建立</td>
-</tr>
-<tr>
-<td>手機登入</td>
-<td>合法手機發送 → 輸入測試碼 → 驗證 → 成功進大廳；錯碼留驗證頁；重發清空驗證碼並重啟倒數</td>
-</tr>
-<tr>
-<td>第三方登入</td>
-<td>選提供者 → 等待確認頁 → 取消或允許 → 成功登入固定示範身份；沒有真實帳號挑選或權限授權</td>
-</tr>
-<tr>
-<td>一般帳號找回</td>
-<td>輸入帳號 → 展示遮罩手機 → 發送 → 驗證 123456 → 新密碼與確認 → 重設成功 → 返回帳號登入。成功不自動登入</td>
-</tr>
-<tr>
-<td>社群帳號找回</td>
-<td>測試帳號 line888 進 LINE 引導 → 連線 → 允許 → 登入；確認取消退回社群引導</td>
-</tr>
-<tr>
-<td>未綁手機找回</td>
-<td>測試帳號 unbound888 → 未綁定說明 → 客服協助展示 → 返回登入；沒有建立客服案件</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="036">03.6 狀態、限制與例外</h3>
-<p>登入、註冊與第三方處理／成功階段不提供一般表單關閉；手機在號碼／驗證階段才可關閉。找回流程在查詢、重設或社群連線處理時限制關閉。背景點擊與 ESC 不是本章共用關閉能力。</p>
-<p>一般找回流程展示固定遮罩手機，並未真正查詢帳號是否存在或已綁定。只有 line888 與 unbound888 分流，不能據此推定其他帳號均符合正式找回資格。本機只保存最近一次重設的帳密供示範；註冊密碼不形成正式憑證庫。正式錯誤密碼、簡訊失敗、第三方拒絕／逾時及帳號凍結等仍需服務規則。</p>
-<h3 id="037">03.7 資料需求與跨介面影響</h3>
-<p>需要登入方式、帳號／手機、註冊暱稱、身份結果及必要錯誤；找回需帳號可用途徑、遮罩聯絡資料、驗證結果與重設結果。原型成功建立個人摘要及 Mock 資產；一般會員共用示範玩家 ID，不能當正式多帳號隔離證據。註冊暱稱為 2～12 字元，登入後基本資料編輯則為非空、最多 20 字元；兩個入口目前限制不同，後續調整須一起核對。刷新恢復已保存個人資訊，但錢包與 VIP 指標重建；登出後重新登入會重新建立示範身份資料，不等於載入完整會員檔案。</p>
-<h3 id="038">03.8 驗收條件</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>AC 編號</th>
-<th>前置狀態／操作</th>
-<th>可觀察結果</th>
-<th>關聯故事</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AC-03-001</td>
-<td>無／有已保存身份開啟 APP</td>
-<td>品牌載入後分別進首頁／大廳；不把金融重建當保存</td>
-<td>US-01、US-14</td>
-</tr>
-<tr>
-<td>AC-03-002</td>
-<td>帳號含空白、符號、長度邊界，或密碼空白</td>
-<td>不進大廳，顯示對應原因；中文字按雙長度計</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-003</td>
-<td>一般合法帳號與非空密碼登入；另測遊客</td>
-<td>完成處理與成功流程，摘要身份及可用資格對應方式</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-004</td>
-<td>註冊欄位錯誤／文件未確認／完整合法</td>
-<td>前兩者不能完成；閱讀確認且格式正確才進大廳</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-005</td>
-<td>選填推廣碼輸入 6／7／8 碼及小寫</td>
-<td>正規化後 6／8 碼可用、7 碼不符；無推廣獎勵入帳</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-006</td>
-<td>手機格式錯誤、錯碼、正確碼及重發</td>
-<td>對應錯誤或成功；倒數限制重發，返回可修改號碼</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-007</td>
-<td>四種第三方登入確認時取消或允許</td>
-<td>取消回首頁無身份；允許後固定示範身份登入</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-008</td>
-<td>一般帳號找回並重設，返回登入</td>
-<td>帶回帳號且密碼空白；舊密碼不符提示，新密碼可登入</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-009</td>
-<td>line888／unbound888 找回</td>
-<td>分別社群登入／客服展示，不當作手機重設或真實案件</td>
-<td>US-01</td>
-</tr>
-<tr>
-<td>AC-03-010</td>
-<td>表單返回、關閉及處理階段</td>
-<td>返回位置與關閉可用性符合 03.2、03.6；未送出不建立身份</td>
-<td>US-01</td>
-</tr>
-</tbody>
-</table></div>
+<p><a href="spec/03-authentication.html">開啟 啟動、登入與註冊獨立規格</a>。本章已按 17 節整理；原規則及 AC 保留，承接對照見文件第 17 節。</p>
 <p><a id="ch-04"></a></p>
 <h2 id="04">04. 遊戲大廳</h2>
-<p><strong>狀態：</strong>第 4 批初稿，依目前大廳入口、篩選與遊戲列表整理。畫布規則見第 02 章，實際遊戲進入見第 05 章。</p>
-<h3 id="041">04.1 功能目的與範圍</h3>
-<p>玩家查看身份與資產、找到遊戲，並進入會員、資產、活動及社交功能。大廳沒有關鍵字搜尋；遊戲卡依既有資料順序排列，左右箭頭為提示，不是翻頁按鈕。</p>
-<h3 id="042">04.2 入口、預設畫面與返回</h3>
-<p>登入後或離開遊戲返回大廳。新建大廳初始顯示全部遊戲、全部供應商、全部幣別且不限收藏；篩選抽屜及設定收合。關閉一般功能回大廳會保留當次大廳篩選；進入遊戲後返回因大廳重建，篩選恢復預設，收藏仍依本機資料載入。</p>
-<h3 id="043">04.3 畫面區塊與內容</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>區塊</th>
-<th>內容與入口</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>頂部摘要</td>
-<td>頭像／名稱／VIP 開個人資訊；金銀銅錢包與銀行入口；不顯示保險箱為遊戲錢包</td>
-</tr>
-<tr>
-<td>BUY／SALE</td>
-<td>BUY 開銀行；SALE 開促銷第一項，交易細節見 08</td>
-</tr>
-<tr>
-<td>公告／JP 提示</td>
-<td>公告文字與示範得獎訊息，非個人獲獎通知或可領獎入口</td>
-</tr>
-<tr>
-<td>左側篩選</td>
-<td>我的最愛、遊戲類別、幣別、遊戲商；子面板、結果總數、全部重設及查看結果</td>
-</tr>
-<tr>
-<td>遊戲列表</td>
-<td>遊戲圖與標示、收藏愛心；兩列橫向捲動，大卡跨列；點卡開選幣</td>
-</tr>
-<tr>
-<td>底部導航</td>
-<td>聊天、每日任務、活動、銀行、保險箱、信箱、獎勵卡、客服；各預設分頁沿用 <a href="spec/02-shared-rules.html#legacy-02-2">02.2</a></td>
-</tr>
-<tr>
-<td>底部促銷圖示</td>
-<td>豬幫出動／首儲好禮分別開促銷第二／第三項；不是兩套獨立活動帳務</td>
-</tr>
-<tr>
-<td>設定</td>
-<td>開關選單及語言、規章、黑名單、登出，詳見 12</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="044">04.4 欄位與顯示規則</h3>
-<p>四個篩選維度同時成立才顯示遊戲，維度內單選；選取立即生效，「查看 N 款遊戲」只收合抽屜。各類別／幣別／供應商旁數量取全遊戲資料的獨立計數，底部 N 才是多條件交集，不要求二者一致。</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>維度</th>
-<th>可選內容與限制</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>收藏</td>
-<td>全部或只看我的最愛，愛心可加入／移除；按愛心不觸發遊戲啟動</td>
-</tr>
-<tr>
-<td>類別</td>
-<td>全部、活動、老虎機、棋牌、電子、真人、Crash、魚機、樂透；無資料的非全部類別標 P2 並停用。活動名單為固定示範集合，不等於報名狀態</td>
-</tr>
-<tr>
-<td>幣別</td>
-<td>全部、金幣、銀幣、活動銀幣、銅幣；依遊戲支援篩選，不依玩家餘額隱藏遊戲</td>
-</tr>
-<tr>
-<td>遊戲商</td>
-<td>全部或資料中各供應商；與其他條件交集</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="045">04.5 操作與使用流程</h3>
-<p>展開篩選 → 選維度與條件 → 立即核對符合數 → 查看結果收合 → 橫向捲動選卡 → 第 05 章選幣進入。收合選項只關子面板，收合抽屜或點背景保留條件；全部重設同時清除四項篩選，並不刪除收藏。</p>
-<p>收藏流程為點愛心 → 樣式及本機清單更新 → 開只看我的最愛。若在收藏篩選中取消收藏，該卡立即退出結果。點遊戲卡即記錄最近遊戲，即使稍後取消啟動仍保留；這不是已完成投注紀錄。</p>
-<h3 id="046">04.6 狀態、限制與例外</h3>
-<p>未收藏時只看最愛顯示「尚無我的最愛」；有收藏但交集為零，或一般篩選無結果，顯示「找不到符合條件的遊戲」，回抽屜調整／全部重設。遊戲資料為本機列表，無遠端載入錯誤、關鍵字、排序或分頁流程。俱樂部與未可達導覽不在本版大廳開放範圍。</p>
-<h3 id="047">04.7 資料需求與跨介面影響</h3>
-<p>需要遊戲識別、名稱、圖像、供應商、類別、支援幣別、卡片標示、收藏集合及篩選條件。收藏與最近遊戲保存在本機、未依登入帳號分區；最近清單最多 8 個不重複識別，最近點擊置前。特定幣別篩選傳入遊戲啟動作初選，但餘額資格須另依第 05 章核對。</p>
-<h3 id="048">04.8 驗收條件</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>AC 編號</th>
-<th>前置狀態／操作</th>
-<th>可觀察結果</th>
-<th>關聯故事</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AC-04-001</td>
-<td>登入、新開大廳、展開與收合篩選</td>
-<td>預設全選；收合保留條件，重建大廳恢復預設</td>
-<td>US-02、US-14</td>
-</tr>
-<tr>
-<td>AC-04-002</td>
-<td>合併收藏、類別、幣別、遊戲商</td>
-<td>結果為交集、即時更新；獨立計數與交集數分清</td>
-<td>US-02</td>
-</tr>
-<tr>
-<td>AC-04-003</td>
-<td>點收藏愛心、只看收藏再移除</td>
-<td>不開遊戲；收藏樣式、清單及結果同步，刷新可讀回</td>
-<td>US-02</td>
-</tr>
-<tr>
-<td>AC-04-004</td>
-<td>空收藏／交集無結果／無資料類別</td>
-<td>兩種空結果文案正確；P2 類別停用，可重設恢復</td>
-<td>US-02</td>
-</tr>
-<tr>
-<td>AC-04-005</td>
-<td>零餘額玩家按幣別篩選再點卡</td>
-<td>支援的遊戲仍出現，啟動層另檢查可用額度</td>
-<td>US-02</td>
-</tr>
-<tr>
-<td>AC-04-006</td>
-<td>查看列表並點卡後取消</td>
-<td>可橫向捲動；箭頭無翻頁事件；最近點擊保留但不新增投注</td>
-<td>US-02</td>
-</tr>
-<tr>
-<td>AC-04-007</td>
-<td>頂部、底部及促銷入口各開啟後關閉</td>
-<td>前往正確功能／分頁與促銷項目，主關閉回大廳</td>
-<td>US-02、US-14</td>
-</tr>
-<tr>
-<td>AC-04-008</td>
-<td>全部重設、關閉功能、遊戲返回及登出再登入</td>
-<td>四項篩選與本機收藏依 04.2、04.7 各自保存，不混成同一生命週期</td>
-<td>US-02、US-14</td>
-</tr>
-</tbody>
-</table></div>
+<p><a href="spec/04-lobby.html">開啟 遊戲大廳獨立規格</a>。本章已按 17 節整理；原規則及 AC 保留，承接對照見文件第 17 節。</p>
 <p><a id="ch-05"></a></p>
 <h2 id="05">05. 遊戲進入與離開</h2>
 <p><a href="spec/05-game-session.html">開啟 遊戲進入與離開獨立規格</a>。本章已按 17 節重整；原有規則與 AC 保留，舊小節對照見該文件第 17 節。</p>
@@ -654,349 +315,10 @@
 <p><a href="spec/10-activities.html">開啟 每日任務、活動與排行榜獨立規格</a>。本章已按 17 節重整；原有規則與 AC 保留，舊小節對照見該文件第 17 節。</p>
 <p><a id="ch-11"></a></p>
 <h2 id="11">11. 聊天、玩家互動與客服</h2>
-<p><strong>狀態：</strong>第 4 批初稿。訊息、好友及客服皆為 Mock；送出提示不代表對方收到或客服案件成立。</p>
-<h3 id="111">11.1 功能目的與範圍</h3>
-<p>玩家在公共頻道、私人對話與客服輸入訊息，透過玩家卡管理好友、封鎖、贈禮與檢舉。玩家卡顯示其他玩家的示範資料，與第 06 章自己的個人資訊分開。</p>
-<h3 id="112">11.2 入口、預設畫面與返回</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>入口</th>
-<th>傳入／預設</th>
-<th>返回與交接</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>底部聊天</td>
-<td>私聊頁與預設好友對話</td>
-<td>主關閉回大廳</td>
-</tr>
-<tr>
-<td>底部客服</td>
-<td>線上客服</td>
-<td>主關閉回大廳</td>
-</tr>
-<tr>
-<td>聊天頭像／列表玩家</td>
-<td>玩家卡資料、好友狀態</td>
-<td>關玩家卡回底層聊天</td>
-</tr>
-<tr>
-<td>玩家卡聊天</td>
-<td>指定玩家識別、名稱及頭像</td>
-<td>關玩家卡，切私聊，非好友亦可對話</td>
-</tr>
-<tr>
-<td>玩家卡贈禮／轉點；私聊加號遊戲點數</td>
-<td>接收者玩家 ID</td>
-<td>切保險箱贈禮，沿用第 09 章；不自動返回原對話</td>
-</tr>
-<tr>
-<td>玩家卡檢舉</td>
-<td>檢舉標題及目標玩家</td>
-<td>關玩家卡，切客服並顯示待填檢舉；不自動送出</td>
-</tr>
-<tr>
-<td>自動發送</td>
-<td>公頻／私聊各一份設定</td>
-<td>保存仍留設定層，關閉回聊天</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="113">11.3 畫面區塊與內容</h3>
-<p>聊天中心包含三個頻道、對話或好友／玩家目錄、訊息區與輸入列。訊息顯示內容、自身／對方位置及適用的頭像與時間；私聊可開表情選擇與加號選單。客服顯示歡迎訊息，檢舉入口另顯示目標提示。</p>
-<p>玩家卡包括帳號、暱稱、VIP、簡述、最近遊玩展示與社交操作；最近遊玩卡片沒有啟動遊戲事件。黑名單列表與解除見 12.5。</p>
-<h3 id="114">11.4 欄位與顯示規則</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>項目</th>
-<th>行為與限制</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>一般訊息</td>
-<td>公頻、私聊、客服各有輸入；送出前去前後空白，空內容不送；按鈕或 Enter 可送，中文組字中的 Enter 不送</td>
-</tr>
-<tr>
-<td>私聊對象</td>
-<td>以玩家識別分開對話；切對象會換訊息，但私聊輸入是共用草稿，不是各對象獨立草稿</td>
-</tr>
-<tr>
-<td>表情</td>
-<td>私聊三種分類，點圖案加入輸入文字，仍需送出；不是即時發送的實體禮物</td>
-</tr>
-<tr>
-<td>目錄</td>
-<td>按玩家列表／好友列表才進 Mock 載入；提供載入、失敗重試與空列表。種子請求正常會成功，失敗需另備情境</td>
-</tr>
-<tr>
-<td>好友</td>
-<td>可直接加入／取消，按玩家識別去重；無邀請等待或對方同意步驟</td>
-</tr>
-<tr>
-<td>封鎖</td>
-<td>玩家卡確認後加入黑名單並關卡；取消不變。不自動刪好友或清聊天紀錄</td>
-</tr>
-<tr>
-<td>檢舉</td>
-<td>帶目標標題後由玩家輸入；送出把標題與內容加入客服訊息並清掉檢舉提示，不生成正式案件號</td>
-</tr>
-<tr>
-<td>自動發送</td>
-<td>非訪客可見入口；公頻與私聊分開保存開關、最多 100 字內容、可選貼圖與頻率。公頻單位分鐘、私聊單位天；輸入標示 1～999，但保存未完整阻擋越界值</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="115">11.5 操作與使用流程</h3>
-<p>私聊：開好友／玩家目錄 → 選對話或開玩家卡再按聊天 → 確認對象 → 輸入 → 送出 → 本機訊息追加且輸入清空。非好友入口建立示範直接對話，不要求先加好友。列表加好友立即更新共用關係；已載入的好友目錄是請求快照，重新載入再核對，不保證所有快照即時同步。</p>
-<p>封鎖：玩家卡黑名單 → 確認 → 卡片關閉 → 該對象私聊輸入、表情、附加選單及送出停用。再點該玩家頭像會提示不可查看資料；既有訊息仍顯示，公共訊息未因封鎖被全面過濾。解除後可恢復這些本機入口。</p>
-<p>客服：直接輸入問題，或由玩家卡帶檢舉目標 → 玩家補內容 → 按送出 → 追加客服訊息與提示，清輸入及本次檢舉標題。主關閉回大廳會清除導航帶入的檢舉草稿；同視窗切頻道可保留尚未送出的內容。</p>
-<p>自動發送：開指定頻道設定 → 修改草稿 → 保存後更新該頻道設定並顯示已保存；取消／未保存關閉不提交修改。啟用圖示不會開始排程，也未執行公頻洗頻限制、每日上線或向所有聯絡人發送。</p>
-<h3 id="116">11.6 狀態、限制與例外</h3>
-<p>私聊「遊戲點數」可接第 09 章；「贈送禮物」僅提示開發中。訊息沒有實際收件、送達／已讀、同步、附件上傳、重試或客服回覆服務。好友及黑名單為共用記憶體，關聊天保留、刷新重建；未完整依帳號隔離。</p>
-<p>聊天訊息、輸入、已載入目錄及自動發送設定屬聊天視窗，主關閉再開會重建；切三個頻道時可保留當次局部狀態。與贈禮跨頁切換也會卸載聊天，不能承諾草稿與新訊息仍在。</p>
-<h3 id="117">11.7 資料需求與跨介面影響</h3>
-<p>需要玩家識別、帳號／暱稱／頭像、好友與封鎖關係、對話歸屬、訊息內容與時間、目錄狀態、檢舉對象與內容。贈禮傳玩家 ID，金融處理只由第 09 章定義；封鎖與設定黑名單共用同一清單。正式收送訊息、好友確認、客服案件及服務層封鎖效果仍需另定，不將本機操作補寫成保證。</p>
-<h3 id="118">11.8 驗收條件</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>AC 編號</th>
-<th>前置狀態／操作</th>
-<th>可觀察結果</th>
-<th>關聯故事</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AC-11-001</td>
-<td>底部聊天／客服及玩家卡指定私聊</td>
-<td>頻道與對象正確，關閉位置符合 11.2</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-002</td>
-<td>三頻道空白、一般文字、Enter 及組字</td>
-<td>空白不送；合法內容追加、清輸入；組字 Enter 不誤送</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-003</td>
-<td>切私聊對象並送訊息</td>
-<td>訊息分屬對象；草稿共用，沒有送達保證</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-004</td>
-<td>開目錄、快速換目錄、空／失敗資料</td>
-<td>載入與結果正確，舊請求不覆蓋新選擇；失敗可重試</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-005</td>
-<td>列表／玩家卡加入、重複加入及取消好友</td>
-<td>共用關係正確且不重複；無審核步驟，目錄快照可重載</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-006</td>
-<td>封鎖先取消再確認，查看既有對話</td>
-<td>取消不變，確認後不能私訊／開資料；好友與舊訊息未刪</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-007</td>
-<td>玩家卡檢舉後先關閉；另一次填寫並送出</td>
-<td>前者不送；後者帶目標追加客服訊息，不生成正式案件</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-008</td>
-<td>私聊遊戲點數、玩家卡贈禮／轉點及贈送禮物</td>
-<td>前三者帶 ID 至贈禮；最後僅開發中提示</td>
-<td>US-09、US-10</td>
-</tr>
-<tr>
-<td>AC-11-009</td>
-<td>私聊選表情，自動發送保存／取消／啟用</td>
-<td>表情需另送出；設定分頻道保存，不實際排程</td>
-<td>US-10</td>
-</tr>
-<tr>
-<td>AC-11-010</td>
-<td>訊息與關係變更後切頻道／跨頁／刷新</td>
-<td>局部與共用狀態依 11.6 分別保留或重置</td>
-<td>US-10、US-14</td>
-</tr>
-</tbody>
-</table></div>
+<p><a href="spec/11-social-and-support.html">開啟 聊天、玩家互動與客服獨立規格</a>。本章已按 17 節整理；原規則及 AC 保留，承接對照見文件第 17 節。</p>
 <p><a id="ch-12"></a></p>
 <h2 id="12">12. 信箱與設定</h2>
-<p><strong>狀態：</strong>第 4 批初稿。信箱附件與推播開關為示範，音訊、日夜及語言偏好依各自保存範圍整理。</p>
-<h3 id="121">12.1 功能目的與範圍</h3>
-<p>信箱供閱讀營運公告、系統通知及領取附件；設定供調整本機體驗、查閱規章、解除封鎖與登出。兩項功能共列本章，但入口、資料及生命週期各自獨立。</p>
-<h3 id="122">12.2 入口、預設畫面與返回</h3>
-<p>底部信箱預設營運公告並選取第一封，左列表右詳情；主關閉回大廳。頂部設定開選單，點背景或設定鈕收合；切語言、規章或黑名單時先關選單再開對應視窗，關視窗回大廳。登出直接回登入首頁，沒有確認對話框。</p>
-<h3 id="123">12.3 畫面區塊與內容</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>子功能</th>
-<th>顯示內容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>信件列表</td>
-<td>營運公告／系統通知、各類總數與未讀數、日期、標題、摘要、附件與未讀標示、刪除</td>
-</tr>
-<tr>
-<td>信件詳情</td>
-<td>標題、日期、內文、適用附件及領取狀態；無信可選時提示</td>
-</tr>
-<tr>
-<td>設定選單</td>
-<td>背景音樂、遊戲音效、推播通知、日夜；語言、使用者規章、黑名單管理及數量、登出</td>
-</tr>
-<tr>
-<td>語言</td>
-<td>繁中、English、日本語可選，其餘顯示 Coming Soon 並停用；標記當前選擇</td>
-</tr>
-<tr>
-<td>黑名單</td>
-<td>名稱／頭像、玩家 ID、封鎖時間、解除按鈕、總數與空列表</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="124">12.4 信箱操作與狀態</h3>
-<p>選營運／系統分類 → 自動選第一封詳情 → 主動點信件才標已讀。<strong>初始選中、切分類或刪除後自動選中下一封，不會自動標已讀</strong>；詳情可見與已讀狀態不能混為一談。</p>
-<p>附件：在有附件的信件按領取 → 約 1 秒處理 → 同視窗標已領、更新金幣及餘額動畫。所有附件目前固定加 50,000 一般金幣，沒有按信件內容解析不同獎品，也不新增金融紀錄。處理期間其他附件不能同時領取；正式重複請求、離頁及餘額競態尚無保證。</p>
-<p>刪除：列表垃圾桶直接刪除並提示，不二次確認；即使附件未領也可刪。刪除選中信件時改選同類第一封，沒有則清空；分類數量與未讀數同步。沒有全部已讀、批次領取、刪除還原或正式到期處理。</p>
-<p><strong>保存限制：</strong>分類、信件、已讀、刪除與已領集合都是信箱局部狀態。主關閉再開即回種子信件且附件可再次領取，但已加的金幣仍在當次錢包；這是原型缺口，不是正式可重領規則。領取中的關閉／刪除未完整封鎖，延遲操作仍可能更新錢包，需於正式流程補驗證。</p>
-<h3 id="125">12.5 設定操作與狀態</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>操作</th>
-<th>結果與保存</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>背景音樂</td>
-<td>即時開關循環播放；瀏覽器自動播放限制可能需一次互動，開關值不等於已出聲</td>
-</tr>
-<tr>
-<td>遊戲音效</td>
-<td>控制既有音效播放入口，不代表所有正式遊戲音訊均接入</td>
-</tr>
-<tr>
-<td>日夜</td>
-<td>即時更新大廳與相關共用外觀；沒有依時段自動切換</td>
-</tr>
-<tr>
-<td>推播通知</td>
-<td>只改選單當次開關；收合再開回預設開啟，不請求系統權限或訂閱服務</td>
-</tr>
-<tr>
-<td>語言</td>
-<td>選可用語言即保存並關閉；選相同語言只關閉。原型文字仍繁中；停用語言不可選</td>
-</tr>
-<tr>
-<td>使用者規章</td>
-<td>唯讀文件總覽，可切文件並關閉／我知道了；不是重新簽署註冊同意</td>
-</tr>
-<tr>
-<td>黑名單解除</td>
-<td>按解除立即移除並提示，數量同步；無二次確認；清空後顯示空列表，私聊限制同步解除</td>
-</tr>
-<tr>
-<td>登出</td>
-<td>清當前身份及其本機保存，返回登入；不概括清除所有功能共用狀態或本機偏好</td>
-</tr>
-</tbody>
-</table></div>
-<p>音樂、音效、語言與日夜存本機，收合、刷新及登出可保留，未依帳號分區。黑名單是社交記憶體，刷新重建；不能從登出推定其他共用狀態均已清理，詳見 <a href="spec/02-shared-rules.html#legacy-02-7">02.7</a>。</p>
-<h3 id="126">12.6 狀態、限制與例外</h3>
-<p>信件內容及獎勵都是示範，未提供真實收信、附件核銷或服務錯誤頁。推播未接系統通知；語言只存偏好；規章是展示文本，正式版本與同意保存另定。黑名單解除只恢復原型可達操作，未證明服務端封鎖解除。這些限制須隨相關修正工作單一起核對。</p>
-<h3 id="127">12.7 資料需求與跨介面影響</h3>
-<p>信件需要識別、類型、日期、標題、正文、已讀、附件及領取結果；正式領取須使資格、獎勵與帳務一致，目前不具備該服務。設定需要偏好值及保存結果；黑名單共用玩家識別與關係。信箱獎勵更新一般金錢包與摘要，不產生獎勵卡或 VIP 儲值指標。</p>
-<h3 id="128">12.8 驗收條件</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
-<thead>
-<tr>
-<th>AC 編號</th>
-<th>前置狀態／操作</th>
-<th>可觀察結果</th>
-<th>關聯故事</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AC-12-001</td>
-<td>開信箱／切分類／點未讀信</td>
-<td>前兩者選首封但不自動已讀；點選才更新未讀數</td>
-<td>US-11</td>
-</tr>
-<tr>
-<td>AC-12-002</td>
-<td>有／無附件、領取及同視窗再領</td>
-<td>無附件不提供領取；成功固定加 50,000 金，已領不能再領，無金融紀錄</td>
-<td>US-11</td>
-</tr>
-<tr>
-<td>AC-12-003</td>
-<td>刪除一般／未領附件／最後一封</td>
-<td>直接刪除，數量與選中狀態同步，空列表正確</td>
-<td>US-11</td>
-</tr>
-<tr>
-<td>AC-12-004</td>
-<td>領取或刪除後主關閉再開</td>
-<td>信件與領取回種子，當次錢包保留；可重領屬原型缺口</td>
-<td>US-11</td>
-</tr>
-<tr>
-<td>AC-12-005</td>
-<td>調音樂、音效及日夜後收合／刷新</td>
-<td>偏好保存、外觀同步；音訊效果另需實際播放驗證</td>
-<td>US-14</td>
-</tr>
-<tr>
-<td>AC-12-006</td>
-<td>關推播後收合再開</td>
-<td>回預設開，沒有權限請求／訂閱動作</td>
-<td>US-14</td>
-</tr>
-<tr>
-<td>AC-12-007</td>
-<td>選新語言、相同語言及停用語言</td>
-<td>分別保存提示並關閉／只關閉／不能選；正文仍繁中</td>
-<td>US-14</td>
-</tr>
-<tr>
-<td>AC-12-008</td>
-<td>從設定讀規章與返回</td>
-<td>文件可讀，不改註冊狀態，關閉回大廳</td>
-<td>US-14</td>
-</tr>
-<tr>
-<td>AC-12-009</td>
-<td>有／無黑名單並解除最後一位</td>
-<td>清單、數量、空狀態與私聊限制同步</td>
-<td>US-10、US-14</td>
-</tr>
-<tr>
-<td>AC-12-010</td>
-<td>改偏好後登出、刷新、重新登入</td>
-<td>身份退出、偏好保留；其他資料按各自範圍，不宣稱完整帳號隔離</td>
-<td>US-14、US-01</td>
-</tr>
-</tbody>
-</table></div>
+<p><a href="spec/12-inbox-and-settings.html">開啟 信箱與設定獨立規格</a>。本章已按 17 節整理；原規則及 AC 保留，承接對照見文件第 17 節。</p>
 <p><a id="ch-13"></a></p>
 <h2 id="13">13. 跨介面使用流程</h2>
 <p><strong>本章範圍：</strong>以流程節點串接各功能，描述傳入資訊、跨頁更新、返回位置與交接；規則引用功能章節。</p>
@@ -1096,7 +418,7 @@
 <td>大廳篩選、查看結果並點遊戲卡</td>
 <td>篩選結果、遊戲與幣別；寫入最近點選資料</td>
 <td>開啟動視窗，不直接開始遊戲</td>
-<td>04.4～04.5、<a href="spec/05-game-session.html#legacy-05-2">05.2</a>、US-02</td>
+<td><a href="spec/04-lobby.html#legacy-04-4">04.4</a>～<a href="spec/04-lobby.html#legacy-04-5">04.5</a>、<a href="spec/05-game-session.html#legacy-05-2">05.2</a>、US-02</td>
 </tr>
 <tr>
 <td>2</td>
@@ -1401,19 +723,19 @@
 <td>1</td>
 <td>開 APP，品牌載入後判斷本機身份</td>
 <td>無身份進首頁，有身份進大廳</td>
-<td>03.2、03.7</td>
+<td><a href="spec/03-authentication.html#legacy-03-2">03.2</a>、<a href="spec/03-authentication.html#legacy-03-7">03.7</a></td>
 </tr>
 <tr>
 <td>2</td>
 <td>選帳號／註冊／手機／第三方／遊客</td>
 <td>表單及驗證只依所選方式；未完成可按對應關閉返回</td>
-<td>03.4～03.6</td>
+<td><a href="spec/03-authentication.html#legacy-03-4">03.4</a>～<a href="spec/03-authentication.html#legacy-03-6">03.6</a></td>
 </tr>
 <tr>
 <td>3</td>
 <td>完成原型登入</td>
 <td>建立身份摘要與示範資產，進大廳，不代表正式驗證</td>
-<td>03.7</td>
+<td><a href="spec/03-authentication.html#legacy-03-7">03.7</a></td>
 </tr>
 <tr>
 <td>4</td>
@@ -1440,31 +762,31 @@
 <td>1</td>
 <td>聊天頭像／玩家列表開玩家卡</td>
 <td>帶示範玩家識別與關係，關閉回聊天</td>
-<td>11.2～11.3</td>
+<td><a href="spec/11-social-and-support.html#legacy-11-2">11.2</a>～<a href="spec/11-social-and-support.html#legacy-11-3">11.3</a></td>
 </tr>
 <tr>
 <td>2A</td>
 <td>選檢舉</td>
 <td>關卡切客服，帶目標標題；尚未送出</td>
-<td>11.4</td>
+<td><a href="spec/11-social-and-support.html#legacy-11-4">11.4</a></td>
 </tr>
 <tr>
 <td>3A</td>
 <td>填內容並送出</td>
 <td>本機客服訊息追加、提示清除；主關閉回大廳，無正式案件號</td>
-<td>11.5</td>
+<td><a href="spec/11-social-and-support.html#legacy-11-5">11.5</a></td>
 </tr>
 <tr>
 <td>2B</td>
 <td>選黑名單，取消或確認</td>
 <td>取消留卡不變；確認加入共用清單並關卡，私聊受限</td>
-<td>11.5</td>
+<td><a href="spec/11-social-and-support.html#legacy-11-5">11.5</a></td>
 </tr>
 <tr>
 <td>3B</td>
 <td>關聊天 → 設定 → 黑名單 → 解除</td>
 <td>同一玩家移除、數量更新，重新開私聊可用；不重建被刪好友</td>
-<td>12.5</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-5">12.5</a></td>
 </tr>
 </tbody>
 </table></div>
@@ -1484,25 +806,25 @@
 <td>1</td>
 <td>底部信箱 → 營運公告／系統通知 → 點信件</td>
 <td>詳情與已讀更新；自動選中不等於已讀</td>
-<td>12.2、12.4</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-2">12.2</a>、<a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
 </tr>
 <tr>
 <td>2</td>
 <td>有附件時按領取</td>
 <td>處理後固定加 50,000 金，當次標已領；無附件無此操作</td>
-<td>12.4</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
 </tr>
 <tr>
 <td>3</td>
 <td>關信箱查看錢包／個人摘要</td>
 <td>一般金同步，不發卡、不增 VIP 指標、不新增銀行紀錄</td>
-<td>12.7</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-7">12.7</a></td>
 </tr>
 <tr>
 <td>4</td>
 <td>重開信箱</td>
 <td>信件及已領回種子，當次金幣仍保留；須記錄可重領缺口，不能作正式核銷規則</td>
-<td>12.4</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
 </tr>
 </tbody>
 </table></div>
@@ -1598,7 +920,7 @@
 </tr>
 <tr>
 <td>啟動、登入與註冊</td>
-<td>03.2～03.8</td>
+<td><a href="spec/03-authentication.html#legacy-03-2">03.2</a>～<a href="spec/03-authentication.html#legacy-03-8">03.8</a></td>
 <td>FLOW-01</td>
 <td>US-01／SC-01-01～07</td>
 <td>AC-03-001～010</td>
@@ -1607,7 +929,7 @@
 </tr>
 <tr>
 <td>大廳尋找與收藏</td>
-<td>04.2～04.8</td>
+<td><a href="spec/04-lobby.html#legacy-04-2">04.2</a>～<a href="spec/04-lobby.html#legacy-04-8">04.8</a></td>
 <td>FLOW-02</td>
 <td>US-02／SC-02-06～08</td>
 <td>AC-04-001～008</td>
@@ -1616,7 +938,7 @@
 </tr>
 <tr>
 <td>社交與客服</td>
-<td>11.2～11.8</td>
+<td><a href="spec/11-social-and-support.html#legacy-11-2">11.2</a>～<a href="spec/11-social-and-support.html#legacy-11-8">11.8</a></td>
 <td>FLOW-08、09</td>
 <td>US-10／SC-10-01～08</td>
 <td>AC-11-001～010</td>
@@ -1625,7 +947,7 @@
 </tr>
 <tr>
 <td>信箱</td>
-<td>12.2～12.4、12.7</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-2">12.2</a>～<a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a>、<a href="spec/12-inbox-and-settings.html#legacy-12-7">12.7</a></td>
 <td>FLOW-10</td>
 <td>US-11／SC-11-01～05</td>
 <td>AC-12-001～004</td>
@@ -1634,7 +956,7 @@
 </tr>
 <tr>
 <td>設定與登出</td>
-<td>12.5～12.8</td>
+<td><a href="spec/12-inbox-and-settings.html#legacy-12-5">12.5</a>～<a href="spec/12-inbox-and-settings.html#legacy-12-8">12.8</a></td>
 <td>FLOW-01、09</td>
 <td>US-14／SC-14-01～06</td>
 <td>AC-12-005～010</td>
@@ -1683,12 +1005,12 @@
 <tr>
 <td>身份與欄位</td>
 <td>註冊暱稱 2～12 字元，基本資料編輯非空且最多 20 字元，為不同入口的現況；手機綁定不使訪客升級</td>
-<td>03.4、<a href="spec/06-member-profile.html#legacy-06-4">06.4.1</a>～<a href="spec/06-member-profile.html#legacy-06-4">06.4.2</a>；US-01、03</td>
+<td><a href="spec/03-authentication.html#legacy-03-4">03.4</a>、<a href="spec/06-member-profile.html#legacy-06-4">06.4.1</a>～<a href="spec/06-member-profile.html#legacy-06-4">06.4.2</a>；US-01、03</td>
 </tr>
 <tr>
 <td>三種碼</td>
 <td>邀請碼只展示複製、註冊推廣碼只驗格式、優惠碼預覽確認才領獎；不可混用</td>
-<td><a href="spec/02-shared-rules.html#legacy-02-5">02.5</a>、03.4、<a href="spec/06-member-profile.html#legacy-06-4">06.4.1</a>、<a href="spec/08-bank-and-promo.html#legacy-08-4">08.4.3</a>；US-01、03、07</td>
+<td><a href="spec/02-shared-rules.html#legacy-02-5">02.5</a>、<a href="spec/03-authentication.html#legacy-03-4">03.4</a>、<a href="spec/06-member-profile.html#legacy-06-4">06.4.1</a>、<a href="spec/08-bank-and-promo.html#legacy-08-4">08.4.3</a>；US-01、03、07</td>
 </tr>
 <tr>
 <td>資產位置</td>
@@ -1698,7 +1020,7 @@
 <tr>
 <td>發獎與紀錄</td>
 <td>VIP、優惠碼、付款、卡片轉換、存取／贈禮／兌換有金融紀錄；任務領卡、補簽、合併與信件附件不以同樣方式建立紀錄</td>
-<td><a href="spec/06-member-profile.html#legacy-06-5">06.5</a>、07.5、<a href="spec/08-bank-and-promo.html#legacy-08-4-4">08.4.4</a>、<a href="spec/09-vault-and-gifting.html#legacy-09-4">09.4</a>、<a href="spec/10-activities.html#legacy-10-4">10.4</a>、12.4；US-05、07～09、11、13</td>
+<td><a href="spec/06-member-profile.html#legacy-06-5">06.5</a>、07.5、<a href="spec/08-bank-and-promo.html#legacy-08-4-4">08.4.4</a>、<a href="spec/09-vault-and-gifting.html#legacy-09-4">09.4</a>、<a href="spec/10-activities.html#legacy-10-4">10.4</a>、<a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a>；US-05、07～09、11、13</td>
 </tr>
 <tr>
 <td>合併與轉換</td>
@@ -1713,12 +1035,12 @@
 <tr>
 <td>返回與草稿</td>
 <td>普通功能主關閉回大廳；付款關閉回底層；轉換結果只有查看紀錄才離開遊戲；跨功能切換可重建聊天，不承諾草稿保留</td>
-<td><a href="spec/02-shared-rules.html#legacy-02-2">02.2</a>、<a href="spec/05-game-session.html#legacy-05-2">05.2</a>、<a href="spec/08-bank-and-promo.html#legacy-08-2">08.2</a>、11.2、11.6；SC-05-04、SC-08-03、SC-10-07</td>
+<td><a href="spec/02-shared-rules.html#legacy-02-2">02.2</a>、<a href="spec/05-game-session.html#legacy-05-2">05.2</a>、<a href="spec/08-bank-and-promo.html#legacy-08-2">08.2</a>、<a href="spec/11-social-and-support.html#legacy-11-2">11.2</a>、<a href="spec/11-social-and-support.html#legacy-11-6">11.6</a>；SC-05-04、SC-08-03、SC-10-07</td>
 </tr>
 <tr>
 <td>保存與換帳號</td>
 <td>偏好／收藏本機保存、身份登入重建；優惠碼按來源與精確帳號字串分區，卡片／社交／金融紀錄未完整隔離</td>
-<td><a href="spec/02-shared-rules.html#legacy-02-7">02.7</a>、03.7、<a href="spec/08-bank-and-promo.html#legacy-08-6">08.6</a>、11.6、12.5；SC-14-06</td>
+<td><a href="spec/02-shared-rules.html#legacy-02-7">02.7</a>、<a href="spec/03-authentication.html#legacy-03-7">03.7</a>、<a href="spec/08-bank-and-promo.html#legacy-08-6">08.6</a>、<a href="spec/11-social-and-support.html#legacy-11-6">11.6</a>、<a href="spec/12-inbox-and-settings.html#legacy-12-5">12.5</a>；SC-14-06</td>
 </tr>
 <tr>
 <td>查詢方式</td>
@@ -1728,12 +1050,12 @@
 <tr>
 <td>社交交接</td>
 <td>贈禮帶玩家 ID、檢舉帶目標但要另送；封鎖不刪好友或舊訊息，解除共用同一黑名單</td>
-<td><a href="spec/09-vault-and-gifting.html#legacy-09-2">09.2</a>、11.2～11.5、12.5；SC-10-05～07</td>
+<td><a href="spec/09-vault-and-gifting.html#legacy-09-2">09.2</a>、<a href="spec/11-social-and-support.html#legacy-11-2">11.2</a>～<a href="spec/11-social-and-support.html#legacy-11-5">11.5</a>、<a href="spec/12-inbox-and-settings.html#legacy-12-5">12.5</a>；SC-10-05～07</td>
 </tr>
 <tr>
 <td>信箱與設定</td>
 <td>已選中詳情不等於已讀；重開信箱可重領為原型缺口；語言只存選擇、推播只改當次開關、自動發送未排程</td>
-<td>11.5、12.4～12.5；US-10、11、14</td>
+<td><a href="spec/11-social-and-support.html#legacy-11-5">11.5</a>、<a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a>～<a href="spec/12-inbox-and-settings.html#legacy-12-5">12.5</a>；US-10、11、14</td>
 </tr>
 </tbody>
 </table></div>
@@ -1811,7 +1133,7 @@
 </tr>
 </tbody>
 </table></div>
-<p><strong>引用例（尚未開立工作單）：</strong>若要處理信箱重開可重領，可引用「v0.7／12.4／<a href="#flow-10">FLOW-10</a>／<a href="#us-11">US-11</a>／SC-11-04／AC-12-004」，描述當次已領關閉再開後又可領的現況；要跨哪些關閉、刷新或帳號範圍保存領取資格，須在該工作單寫明。同步檢查金幣摘要、附件按鈕與金融紀錄是否需要調整，不直接新增未確認的帳務規則。</p>
+<p><strong>引用例（尚未開立工作單）：</strong>若要處理信箱重開可重領，可引用「v0.7／<a href="spec/12-inbox-and-settings.html#legacy-12-4">12.4</a>／<a href="#flow-10">FLOW-10</a>／<a href="#us-11">US-11</a>／SC-11-04／AC-12-004」，描述當次已領關閉再開後又可領的現況；要跨哪些關閉、刷新或帳號範圍保存領取資格，須在該工作單寫明。同步檢查金幣摘要、附件按鈕與金融紀錄是否需要調整，不直接新增未確認的帳務規則。</p>
 <p>同一 AC 的原意僅補清說明時保留編號；規則改變時在變更紀錄保留調整前後與驗證版本。新增能力配置新編號，已廢止編號保留廢止說明，不重新分配給其他功能。內文縮寫如「AC-07-003、013～014」均沿用最近明示的章號；工作單為避免歧義，列完整編號。</p>
 <h3 id="146">14.6 第五批文件檢查結果</h3>
 <div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
@@ -2023,7 +1345,7 @@
 <td>調整偏好並離開或返回 APP</td>
 <td>偏好變更；關閉重開／刷新／登出再登入</td>
 <td>12、03、04</td>
-<td>FLOW-01、09；設定見 12.5</td>
+<td>FLOW-01、09；設定見 <a href="spec/12-inbox-and-settings.html#legacy-12-5">12.5</a></td>
 <td>初稿已撰寫</td>
 </tr>
 </tbody>
@@ -3417,6 +2739,7 @@
 <p><strong>完成定義與使用對照：</strong>本機偏好與身份生命週期分清，推播與語言示範不被當作正式服務。 美術依分支準備一般、錯誤、停用與完成畫面；開發核對入口及資料更新，測試依 SC 初始狀態搭配 AC 驗證。所有情境目前未執行操作驗收。</p>
 <p><a id="change-log"></a></p>
 <h2 id="_5">附錄：版本與變更紀錄</h2>
+<p>v0.12｜2026-09-09：第 03、04、11、12 章獨立為 17 節，保留 38 項原 AC；新增三視角故事並同步 HTML 與引用。第 01～12 章已分冊，第 13～15 章待遷移。</p>
 <p>v0.11｜2026-09-09：第 10、08、09、05 章各自重整為 17 節；保留 40 項原 AC 與流程關係，補三視角故事、缺值與服務狀態界線，同步 HTML。原型操作與正式服務驗收未執行。</p>
 <p>v0.10｜2026-09-09：第 01、02、06 章獨立；第 06 章採 17 節並新增三視角故事；保留原 AC／SC，更新跨文件引用。第 00 章仍在總綱內，內容待補。</p>
 <p>v0.9｜2026-09-09：新增第 00 章產品簡述架構，依使用者更正直接收錄於總綱正文、不另分冊；使用者確認獎勵卡內容與分冊規則，作為後續整理基準。產品簡述正文待補，操作驗收狀態不變。</p>

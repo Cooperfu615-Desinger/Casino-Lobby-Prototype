@@ -1,0 +1,1428 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="1184c8d037e5218848b7914b61f821970ed9650cf0cc7bf14c3146692788d87f"><title>03. 啟動、登入與註冊</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">03. 啟動、登入與註冊</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="03">03. 啟動、登入與註冊</h1>
+<p>巨亨ONLINE APP｜v0.12 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-03">返回總綱</a> · <a href="02-shared-rules.html">共用規則</a> · <a href="../APP_FRONTEND_SPEC.html#ch-15">完整玩家旅程</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格，文件重整完成，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接原總規格第 03 章正文；總綱保留入口，本文件為該章維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱、後續修正與工作單引用</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>啟動、登入與註冊</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>正式外部服務、後台與未接入能力；見第 2 節</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>原總規格正文、APP 分冊規則與已確認需求；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>狀態：</strong>第 4 批初稿，依目前登入入口、表單檢核與身份更新整理。所有登入與找回流程均為本機 Mock，未串接身份服務、簡訊或第三方授權。</p>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節次</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-03-1"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p>讓未登入玩家選擇登入方式、建立身份或找回帳號的使用入口。已保存身份的玩家可在品牌載入後返回大廳；身份保存不等於金融資料保存，詳見 <a href="02-shared-rules.html#legacy-02-7">02.7</a> 及 <a href="06-member-profile.html#legacy-06-7">06.7</a>。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正式帳號建立、密碼庫與第三方授權</td>
+<td>身份服務與供應商契約</td>
+</tr>
+<tr>
+<td>登入後個人資料修改與綁定</td>
+<td>第 06 章</td>
+</tr>
+<tr>
+<td>推廣關係與回饋入帳</td>
+<td>後續推薦服務，本版只檢核格式</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>註冊／登入</td>
+<td>原型成功均建立展示身份，不代表正式帳號資料庫完成。</td>
+</tr>
+<tr>
+<td>重發等待／有效期</td>
+<td>60 秒是重發限制，不代表驗證碼只有效 60 秒。</td>
+</tr>
+<tr>
+<td>註冊暱稱／個人資料暱稱</td>
+<td>前者 2～12 字元，後者非空且最多 20 字元；不能直接統一。</td>
+</tr>
+<tr>
+<td>註冊推廣碼</td>
+<td>6 或 8 碼格式檢查，與個人邀請碼、銀行優惠碼的用途分開。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-03-3"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<p>首頁包括品牌、版本展示、七種登入入口與三種文件入口。帳號表單提供欄位錯誤、建立帳號及忘記密碼。註冊表單含身份欄位、選填推廣碼與文件閱讀狀態。各登入方式提供處理／成功畫面；處理階段不可概括為可隨時取消。</p>
+<p><a id="section-05"></a></p>
+<p><a id="legacy-03-4"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>原型限制與回饋</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號</td>
+<td>中英文及數字；不得空白或特殊符號，前後空白也不接受；半形長度 4～20，英數各算 1、中文字各算 2</td>
+</tr>
+<tr>
+<td>帳號登入密碼</td>
+<td>必填；一般 Mock 帳號不驗證真實密碼。若符合本機最近重設的帳號，須輸入該次新密碼</td>
+</tr>
+<tr>
+<td>註冊暱稱</td>
+<td>去除前後空白後 2～12 字元；輸入截至 12 字元</td>
+</tr>
+<tr>
+<td>註冊／重設密碼</td>
+<td>至少 6 字元，兩次一致；不新增複雜度或到期規則</td>
+</tr>
+<tr>
+<td>註冊推廣碼</td>
+<td>選填；輸入轉大寫、移除非英數並截至 8 碼；非空須為 6 或 8 碼。只檢查格式，未送出綁定或發獎；與優惠碼及邀請碼區分見 <a href="02-shared-rules.html#legacy-02-5">02.5</a></td>
+</tr>
+<tr>
+<td>註冊文件閱讀</td>
+<td>必須開啟並按「我已閱讀並了解」才滿足註冊資格；「稍後再看」不完成閱讀。沒有滾到底才能按的條件</td>
+</tr>
+<tr>
+<td>手機</td>
+<td>09 開頭共 10 碼；輸入保留數字至 10 碼</td>
+</tr>
+<tr>
+<td>驗證碼</td>
+<td>6 碼數字，測試值為 123456；發送後 60 秒倒數才可重發。此為重發等待，未實作正式驗證碼有效期</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_2">無資料時顯示</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>呈現與界線</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號、密碼、手機與驗證碼</td>
+<td>必填或格式未滿時阻擋；錯誤留原步驟，不以預設帳號代填。</td>
+</tr>
+<tr>
+<td>推廣碼</td>
+<td>空白可註冊，非空才檢查 6／8 碼。</td>
+</tr>
+<tr>
+<td>找回路徑與遮罩手機</td>
+<td>目前是展示分流；正式不存在帳號或缺綁定資料見 Q-03-001。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<p><a id="legacy-03-6"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>狀態群組</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號／註冊</td>
+<td>表單 → 處理 → 成功；處理與成功沒有一般表單關閉。</td>
+</tr>
+<tr>
+<td>手機</td>
+<td>號碼 → 驗證 → 成功；號碼與驗證階段可關閉或返回修改。</td>
+</tr>
+<tr>
+<td>第三方</td>
+<td>連線 → 授權確認 → 允許或取消；不是真實授權。</td>
+</tr>
+<tr>
+<td>找回</td>
+<td>一般手機重設、line888 社群引導、unbound888 客服展示分流。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">原型限制與例外</h3>
+<p>登入、註冊與第三方處理／成功階段不提供一般表單關閉；手機在號碼／驗證階段才可關閉。找回流程在查詢、重設或社群連線處理時限制關閉。背景點擊與 ESC 不是本章共用關閉能力。</p>
+<p>一般找回流程展示固定遮罩手機，並未真正查詢帳號是否存在或已綁定。只有 line888 與 unbound888 分流，不能據此推定其他帳號均符合正式找回資格。本機只保存最近一次重設的帳密供示範；註冊密碼不形成正式憑證庫。正式錯誤密碼、簡訊失敗、第三方拒絕／逾時及帳號凍結等仍需服務規則。</p>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<p>本流程不提供資料列表查詢、排序或分頁。忘記密碼輸入帳號是找回路徑示範，不是可搜尋會員清單。</p>
+<p><a id="section-08"></a></p>
+<p><a id="legacy-03-2"></a></p>
+<p><a id="legacy-03-5"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<h3 id="_4">入口與返回</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口</th>
+<th>初始畫面與操作</th>
+<th>返回／完成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>開啟 APP</td>
+<td>品牌載入；檢查本機身份</td>
+<td>有可讀身份進大廳，無身份進登入首頁</td>
+</tr>
+<tr>
+<td>帳號</td>
+<td>空密碼表單，可切建立帳號／忘記密碼</td>
+<td>表單關閉回首頁；登入成功進大廳</td>
+</tr>
+<tr>
+<td>建立帳號</td>
+<td>從帳號登入開啟註冊表單</td>
+<td>關閉回帳號登入並清密碼；成功直接進大廳</td>
+</tr>
+<tr>
+<td>遊客</td>
+<td>直接顯示處理及成功階段</td>
+<td>建立隨機訪客身份進大廳，不經註冊表單</td>
+</tr>
+<tr>
+<td>手機</td>
+<td>手機號碼 → 驗證碼</td>
+<td>表單階段可關閉；驗證頁可返回修改手機</td>
+</tr>
+<tr>
+<td>Facebook／LINE／Apple／Google</td>
+<td>連線示意 → 授權確認</td>
+<td>確認階段取消回首頁；允許後登入示範身份</td>
+</tr>
+<tr>
+<td>首頁三種文件</td>
+<td>使用者規章／隱私權政策／服務條款</td>
+<td>閱讀後關閉回登入首頁</td>
+</tr>
+<tr>
+<td>忘記密碼</td>
+<td>帶入已填帳號</td>
+<td>返回會員登入會帶回帳號並清空密碼；關閉回首頁</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_5">帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資訊</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號／註冊</td>
+<td>帳號、密碼；註冊另帶暱稱及閱讀確認，推廣碼未建立關係。</td>
+</tr>
+<tr>
+<td>手機</td>
+<td>號碼、驗證碼及驗證結果。</td>
+</tr>
+<tr>
+<td>第三方</td>
+<td>提供者與示範允許／取消結果。</td>
+</tr>
+<tr>
+<td>找回與返回</td>
+<td>帶入帳號，重設後返回帳號登入時密碼清空。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_6">操作流程</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>玩家步驟與更新</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號登入</td>
+<td>填帳號密碼 → 送出 → 格式／本機重設密碼檢查 → 處理 → 成功 → 大廳。錯誤留表單供修正</td>
+</tr>
+<tr>
+<td>建立帳號</td>
+<td>填欄位 → 閱讀並確認文件 → 符合條件後註冊 → 處理與成功 → 以帳號和暱稱登入大廳；無帳號重複查詢或正式帳號建立</td>
+</tr>
+<tr>
+<td>手機登入</td>
+<td>合法手機發送 → 輸入測試碼 → 驗證 → 成功進大廳；錯碼留驗證頁；重發清空驗證碼並重啟倒數</td>
+</tr>
+<tr>
+<td>第三方登入</td>
+<td>選提供者 → 等待確認頁 → 取消或允許 → 成功登入固定示範身份；沒有真實帳號挑選或權限授權</td>
+</tr>
+<tr>
+<td>一般帳號找回</td>
+<td>輸入帳號 → 展示遮罩手機 → 發送 → 驗證 123456 → 新密碼與確認 → 重設成功 → 返回帳號登入。成功不自動登入</td>
+</tr>
+<tr>
+<td>社群帳號找回</td>
+<td>測試帳號 line888 進 LINE 引導 → 連線 → 允許 → 登入；確認取消退回社群引導</td>
+</tr>
+<tr>
+<td>未綁手機找回</td>
+<td>測試帳號 unbound888 → 未綁定說明 → 客服協助展示 → 返回登入；沒有建立客服案件</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>呈現／未決範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>品牌、登入／註冊／驗證／找回各有處理階段。</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>非列表頁不適用；正式帳號不存在的找回結果未定義。</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>已有欄位與測試驗證錯誤，正式簡訊／第三方服務失敗見 Q-03-001。</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>身份成功但資產或其他資料失敗的呈現待定，見 Q-03-001。</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>未登入顯示登入頁；凍結或停權不是現有分流，見 Q-03-001。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-001 開啟 APP</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 無身份與已有保存身份兩組環境。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開啟 APP。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 品牌載入後分別進首頁／大廳；不把金融重建當保存。</td>
+</tr>
+<tr>
+<td>依據：AC-03-001；完整旅程：US-01、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-002 提交登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 帳號有空白、符號或長度邊界，另有空密碼。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 提交登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 不進大廳，顯示對應原因；中文字按雙長度計。</td>
+</tr>
+<tr>
+<td>依據：AC-03-002；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-003 分別帳號登入及遊客登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 一般合法帳號與非空密碼，另備無身份環境。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別帳號登入及遊客登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 完成處理與成功流程，摘要身份及可用資格對應方式。</td>
+</tr>
+<tr>
+<td>依據：AC-03-003；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-004 提交註冊</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 註冊表單分別有錯誤、未確認文件與完整合法值。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 提交註冊。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前兩者不能完成；閱讀確認且格式正確才進大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-03-004；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-005 測推廣碼 6、7、8 碼及小寫</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 註冊其他條件滿足。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測推廣碼 6、7、8 碼及小寫。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 正規化後 6／8 碼可用、7 碼不符；無推廣獎勵入帳。</td>
+</tr>
+<tr>
+<td>依據：AC-03-005；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-006 測錯號碼、錯六碼、123456、重發及返回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 手機登入表單可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測錯號碼、錯六碼、123456、重發及返回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 對應錯誤或成功；倒數限制重發，返回可修改號碼。</td>
+</tr>
+<tr>
+<td>依據：AC-03-006；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-007 分別取消或允許</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 四種第三方授權確認示範頁。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別取消或允許。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消回首頁無身份；允許後固定示範身份登入。</td>
+</tr>
+<tr>
+<td>依據：AC-03-007；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-008 完成重設後返回登入，測舊密碼及新密碼</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 一般測試帳號進入找回。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 完成重設後返回登入，測舊密碼及新密碼。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 帶回帳號且密碼空白；舊密碼不符提示，新密碼可登入。</td>
+</tr>
+<tr>
+<td>依據：AC-03-008；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-009 分別找回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> line888 與 unbound888 測試帳號。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別找回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 分別社群登入／客服展示，不當作手機重設或真實案件。</td>
+</tr>
+<tr>
+<td>依據：AC-03-009；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-03-010 測返回及關閉入口</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要理解並完成此操作。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 表單、處理與成功階段。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測返回及關閉入口。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 返回位置與關閉可用性符合 <a href="03-authentication.html#legacy-03-2">03.2</a>、<a href="03-authentication.html#legacy-03-6">03.6</a>；未送出不建立身份。</td>
+</tr>
+<tr>
+<td>依據：AC-03-010；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-001 開啟 APP</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 無身份與已有保存身份兩組環境。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開啟 APP。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 品牌載入後分別進首頁／大廳；不把金融重建當保存。</td>
+</tr>
+<tr>
+<td>依據：AC-03-001；完整旅程：US-01、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-002 提交登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 帳號有空白、符號或長度邊界，另有空密碼。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 提交登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 不進大廳，顯示對應原因；中文字按雙長度計。</td>
+</tr>
+<tr>
+<td>依據：AC-03-002；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-003 分別帳號登入及遊客登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 一般合法帳號與非空密碼，另備無身份環境。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別帳號登入及遊客登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 完成處理與成功流程，摘要身份及可用資格對應方式。</td>
+</tr>
+<tr>
+<td>依據：AC-03-003；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-004 提交註冊</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 註冊表單分別有錯誤、未確認文件與完整合法值。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 提交註冊。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前兩者不能完成；閱讀確認且格式正確才進大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-03-004；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-005 測推廣碼 6、7、8 碼及小寫</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 註冊其他條件滿足。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測推廣碼 6、7、8 碼及小寫。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 正規化後 6／8 碼可用、7 碼不符；無推廣獎勵入帳。</td>
+</tr>
+<tr>
+<td>依據：AC-03-005；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-006 測錯號碼、錯六碼、123456、重發及返回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 手機登入表單可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測錯號碼、錯六碼、123456、重發及返回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 對應錯誤或成功；倒數限制重發，返回可修改號碼。</td>
+</tr>
+<tr>
+<td>依據：AC-03-006；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-007 分別取消或允許</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 四種第三方授權確認示範頁。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別取消或允許。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消回首頁無身份；允許後固定示範身份登入。</td>
+</tr>
+<tr>
+<td>依據：AC-03-007；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-008 完成重設後返回登入，測舊密碼及新密碼</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 一般測試帳號進入找回。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 完成重設後返回登入，測舊密碼及新密碼。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 帶回帳號且密碼空白；舊密碼不符提示，新密碼可登入。</td>
+</tr>
+<tr>
+<td>依據：AC-03-008；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-009 分別找回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> line888 與 unbound888 測試帳號。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別找回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 分別社群登入／客服展示，不當作手機重設或真實案件。</td>
+</tr>
+<tr>
+<td>依據：AC-03-009；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-03-010 測返回及關閉入口</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要讓操作條件、資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 表單、處理與成功階段。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測返回及關閉入口。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 返回位置與關閉可用性符合 <a href="03-authentication.html#legacy-03-2">03.2</a>、<a href="03-authentication.html#legacy-03-6">03.6</a>；未送出不建立身份。</td>
+</tr>
+<tr>
+<td>依據：AC-03-010；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>以下故事以原型與專用測試資料描述，不代表正式預設身份或服務驗收通過。完整旅程沿用第 15 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-001 開啟 APP</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 無身份與已有保存身份兩組環境。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 開啟 APP。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 品牌載入後分別進首頁／大廳；不把金融重建當保存。</td>
+</tr>
+<tr>
+<td>依據：AC-03-001；完整旅程：US-01、US-14。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-002 提交登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 帳號有空白、符號或長度邊界，另有空密碼。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 提交登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 不進大廳，顯示對應原因；中文字按雙長度計。</td>
+</tr>
+<tr>
+<td>依據：AC-03-002；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-003 分別帳號登入及遊客登入</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 一般合法帳號與非空密碼，另備無身份環境。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別帳號登入及遊客登入。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 完成處理與成功流程，摘要身份及可用資格對應方式。</td>
+</tr>
+<tr>
+<td>依據：AC-03-003；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-004 提交註冊</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 註冊表單分別有錯誤、未確認文件與完整合法值。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 提交註冊。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 前兩者不能完成；閱讀確認且格式正確才進大廳。</td>
+</tr>
+<tr>
+<td>依據：AC-03-004；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-005 測推廣碼 6、7、8 碼及小寫</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 註冊其他條件滿足。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測推廣碼 6、7、8 碼及小寫。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 正規化後 6／8 碼可用、7 碼不符；無推廣獎勵入帳。</td>
+</tr>
+<tr>
+<td>依據：AC-03-005；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-006 測錯號碼、錯六碼、123456、重發及返回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 手機登入表單可用。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測錯號碼、錯六碼、123456、重發及返回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 對應錯誤或成功；倒數限制重發，返回可修改號碼。</td>
+</tr>
+<tr>
+<td>依據：AC-03-006；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-007 分別取消或允許</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 四種第三方授權確認示範頁。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別取消或允許。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消回首頁無身份；允許後固定示範身份登入。</td>
+</tr>
+<tr>
+<td>依據：AC-03-007；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-008 完成重設後返回登入，測舊密碼及新密碼</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 一般測試帳號進入找回。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 完成重設後返回登入，測舊密碼及新密碼。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 帶回帳號且密碼空白；舊密碼不符提示，新密碼可登入。</td>
+</tr>
+<tr>
+<td>依據：AC-03-008；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-009 分別找回</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> line888 與 unbound888 測試帳號。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 分別找回。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 分別社群登入／客服展示，不當作手機重設或真實案件。</td>
+</tr>
+<tr>
+<td>依據：AC-03-009；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-03-010 測返回及關閉入口</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依前提驗證可見結果與資料界線。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 表單、處理與成功階段。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 測返回及關閉入口。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 返回位置與關閉可用性符合 <a href="03-authentication.html#legacy-03-2">03.2</a>、<a href="03-authentication.html#legacy-03-6">03.6</a>；未送出不建立身份。</td>
+</tr>
+<tr>
+<td>依據：AC-03-010；完整旅程：US-01。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<p><a id="legacy-03-8"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p>原 AC 編號與預期結果保留。此處為驗收要求，<a href="../APP_FRONTEND_SPEC.html#ch-14">執行證據</a>仍未執行。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-03-001</td>
+<td>US-01、US-14</td>
+<td>Given：無身份與已有保存身份兩組環境；When：開啟 APP；Then：品牌載入後分別進首頁／大廳；不把金融重建當保存。</td>
+</tr>
+<tr>
+<td>AC-03-002</td>
+<td>US-01</td>
+<td>Given：帳號有空白、符號或長度邊界，另有空密碼；When：提交登入；Then：不進大廳，顯示對應原因；中文字按雙長度計。</td>
+</tr>
+<tr>
+<td>AC-03-003</td>
+<td>US-01</td>
+<td>Given：一般合法帳號與非空密碼，另備無身份環境；When：分別帳號登入及遊客登入；Then：完成處理與成功流程，摘要身份及可用資格對應方式。</td>
+</tr>
+<tr>
+<td>AC-03-004</td>
+<td>US-01</td>
+<td>Given：註冊表單分別有錯誤、未確認文件與完整合法值；When：提交註冊；Then：前兩者不能完成；閱讀確認且格式正確才進大廳。</td>
+</tr>
+<tr>
+<td>AC-03-005</td>
+<td>US-01</td>
+<td>Given：註冊其他條件滿足；When：測推廣碼 6、7、8 碼及小寫；Then：正規化後 6／8 碼可用、7 碼不符；無推廣獎勵入帳。</td>
+</tr>
+<tr>
+<td>AC-03-006</td>
+<td>US-01</td>
+<td>Given：手機登入表單可用；When：測錯號碼、錯六碼、123456、重發及返回；Then：對應錯誤或成功；倒數限制重發，返回可修改號碼。</td>
+</tr>
+<tr>
+<td>AC-03-007</td>
+<td>US-01</td>
+<td>Given：四種第三方授權確認示範頁；When：分別取消或允許；Then：取消回首頁無身份；允許後固定示範身份登入。</td>
+</tr>
+<tr>
+<td>AC-03-008</td>
+<td>US-01</td>
+<td>Given：一般測試帳號進入找回；When：完成重設後返回登入，測舊密碼及新密碼；Then：帶回帳號且密碼空白；舊密碼不符提示，新密碼可登入。</td>
+</tr>
+<tr>
+<td>AC-03-009</td>
+<td>US-01</td>
+<td>Given：line888 與 unbound888 測試帳號；When：分別找回；Then：分別社群登入／客服展示，不當作手機重設或真實案件。</td>
+</tr>
+<tr>
+<td>AC-03-010</td>
+<td>US-01</td>
+<td>Given：表單、處理與成功階段；When：測返回及關閉入口；Then：返回位置與關閉可用性符合 <a href="03-authentication.html#legacy-03-2">03.2</a>、<a href="03-authentication.html#legacy-03-6">03.6</a>；未送出不建立身份。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<p><a id="legacy-03-7"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身份建立</td>
+<td>登入方式、帳號／手機、必要欄位</td>
+<td>身份結果或錯誤</td>
+<td>原型種子不證明多帳號隔離。</td>
+</tr>
+<tr>
+<td>找回</td>
+<td>帳號、可用途徑、驗證及新密碼</td>
+<td>重設結果與返回帳號</td>
+<td>成功不自動登入，除社群示範路徑。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_7">跨介面影響與保存</h3>
+<p>需要登入方式、帳號／手機、註冊暱稱、身份結果及必要錯誤；找回需帳號可用途徑、遮罩聯絡資料、驗證結果與重設結果。原型成功建立個人摘要及 Mock 資產；一般會員共用示範玩家 ID，不能當正式多帳號隔離證據。註冊暱稱為 2～12 字元，登入後基本資料編輯則為非空、最多 20 字元；兩個入口目前限制不同，後續調整須一起核對。刷新恢復已保存個人資訊，但錢包與 VIP 指標重建；登出後重新登入會重新建立示範身份資料，不等於載入完整會員檔案。</p>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="_8">待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-03-001</td>
+<td>正式帳號不存在、凍結、服務失敗與局部失敗如何回饋？</td>
+<td>登入／找回，不以示範路徑推定資格。</td>
+<td>未決</td>
+</tr>
+<tr>
+<td>Q-03-002</td>
+<td>註冊與個人資料暱稱限制是否保留不同？</td>
+<td>現行分別 2～12 與最多 20；本批不自行統一。</td>
+<td>未決</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_9">待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-03-003</td>
+<td>正式憑證、簡訊有效期、第三方授權及推薦關係契約？</td>
+<td>身份與推薦服務團隊。</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 03 章，歷史記錄保留於總綱</td>
+</tr>
+<tr>
+<td>v0.12</td>
+<td>2026-09-09</td>
+<td>獨立為 17 節，保留原規則與 AC；補三視角故事，待閱讀確認</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>來源</td>
+<td>原小節全部正文及 AC 結果有承接位置</td>
+<td>逐段比對</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>17 節與三視角故事編號齊備</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>來源、表格、錨點與跨檔連結一致</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>產品驗收</td>
+<td>有操作與服務執行證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原小節</th>
+<th>本文件位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="03-authentication.html#legacy-03-1">03.1</a></td>
+<td>第 1 節</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-2">03.2</a></td>
+<td>第 8 節入口</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-3">03.3</a></td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-4">03.4</a></td>
+<td>第 5 節</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-5">03.5</a></td>
+<td>第 8 節流程</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-6">03.6</a></td>
+<td>第 6 節</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-7">03.7</a></td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td><a href="03-authentication.html#legacy-03-8">03.8</a></td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="03-authentication.md">03-authentication.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>
