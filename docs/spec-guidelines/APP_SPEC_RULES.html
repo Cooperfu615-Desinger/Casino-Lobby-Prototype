@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="baa5022bbe237b398837d051a71a4b4a00c3da36df4c0f37460d7a93a3b10efb"><title>APP 規格拆分與撰寫規則</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">APP 規格拆分與撰寫規則</div><nav aria-label="章節導覽"><a href="#_1">依據與適用方式</a><a href="#_2">目錄與責任</a><a href="#_3">遷移與驗證順序</a><a href="#_4">規則版本沿革</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="app">APP 規格拆分與撰寫規則</h1>
+<p><a href="../APP_FRONTEND_SPEC.html">返回總綱</a></p>
+<p>版本：v1.1｜2026-09-09｜分冊規則與獎勵卡內容已獲使用者確認；新增第 00 章架構。</p>
+<h2 id="_1">依據與適用方式</h2>
+<p>上游為 <a href="PRD.md">PRD 原始規範</a>，原文完整保留，不納入 HTML 閱讀版。此文件記錄使用者確認的 APP 適用方式；原規範提及的 GAME_LIST_PRD_SAMPLE.md 尚未取得，不宣稱已核對範例。</p>
+<ul>
+<li>總綱新增第 00 章產品簡述，保留 01～15 章編號與功能架構，第 00 章正文直接保留總綱內，並提供導覽、關係與全書變更摘要。</li>
+<li>第 00 章是總綱內的產品介紹，不另分冊；第 01、02 章採基礎文件結構，沿用六列控制表、表格寫法、責任範圍、待確認、版本及交付檢查；不強套功能的 17 節。</li>
+<li>第 03～12 章採固定 17 節。不適用保留節次及理由。多個子功能依各節分組，不混用狀態與欄位。</li>
+<li>第 13～15 章獨立保存跨介面流程、驗收證據與完整玩家旅程；功能內三視角故事引用同一條規則，不取代跨功能旅程。</li>
+<li>共用名詞由第 02 章維護；功能只保留必要摘要與連結。已確認規則、原型現況與未決事項分開。</li>
+<li>狀態代碼只列已查證的原型對照，不等同正式 API。帶入參數使用資料語意；無帶入內容寫「無」。</li>
+<li>五種頁面狀態逐項檢查；未定義不可寫成不適用或自行新增重試、權限流程。</li>
+<li>每章故事數依規則覆蓋決定，不以湊滿 8～12 則新增需求。GIVEN 具體、THEN 可觀察，每則只處理一個重點。</li>
+<li>現有 FLOW／US／SC／AC 不改號。新故事用 US-U-章號-流水號、US-D-章號-流水號、US-Q-章號-流水號；新問題用 Q-章號-流水號。</li>
+<li>驗收表採 ID、主題、驗收敘述三欄，消除上游「四欄」文字與三欄骨架的落差。既有 AC 如需拆細，新項接續最大號，保留舊編號與關係。</li>
+<li>每份文件保留自己的沿革；總綱只寫跨文件改版摘要。待確認決議後保留原編號與問題。</li>
+<li>Markdown 是來源，HTML 逐份生成。文件交付檢查與產品操作驗收分開。</li>
+</ul>
+<h2 id="_2">目錄與責任</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>章</th>
+<th>預定檔名（docs/spec）</th>
+<th>責任</th>
+<th>本批狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td><code>APP_FRONTEND_SPEC.md</code> 內第 00 章（位於 docs 根目錄）</td>
+<td>產品簡述：規模、市場、玩家與特色</td>
+<td>總綱內架構已建立，內容待補；不另分冊</td>
+</tr>
+<tr>
+<td>01</td>
+<td><code>01-product-scope.md</code></td>
+<td>文件說明與產品範圍</td>
+<td>本批已分冊，待閱讀確認</td>
+</tr>
+<tr>
+<td>02</td>
+<td><code>02-shared-rules.md</code></td>
+<td>整體介面架構與共用規則</td>
+<td>本批已分冊，待閱讀確認</td>
+</tr>
+<tr>
+<td>03</td>
+<td><code>03-authentication.md</code></td>
+<td>啟動、登入與註冊</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>04</td>
+<td><code>04-lobby.md</code></td>
+<td>遊戲大廳</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>05</td>
+<td><code>05-game-session.md</code></td>
+<td>遊戲進入與離開</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>06</td>
+<td><code>06-member-profile.md</code></td>
+<td>個人資訊與會員功能</td>
+<td>本批已分冊，待閱讀確認</td>
+</tr>
+<tr>
+<td>07</td>
+<td><code>07-reward-cards.md</code></td>
+<td>獎勵卡</td>
+<td>17 節內容已確認，操作驗收未執行</td>
+</tr>
+<tr>
+<td>08</td>
+<td><code>08-bank-and-promo.md</code></td>
+<td>銀行、儲值與優惠碼</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>09</td>
+<td><code>09-vault-and-gifting.md</code></td>
+<td>保險箱、贈禮與兌換</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>10-activities.md</code></td>
+<td>每日任務、活動與排行榜</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>11-social-and-support.md</code></td>
+<td>聊天、玩家互動與客服</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>12-inbox-and-settings.md</code></td>
+<td>信箱與設定</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>13-cross-feature-flows.md</code></td>
+<td>跨介面使用流程</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>14-acceptance.md</code></td>
+<td>整體驗收與交付對照</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>15-player-journeys.md</code></td>
+<td>玩家 User Story 與情境流程</td>
+<td>待遷移；正文仍在總規格</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_3">遷移與驗證順序</h2>
+<ol>
+<li>本批建立規則、模板與第 07 章試讀，保留其他章節正文。</li>
+<li>第 01、02、06 已分冊，接續依資產／活動／遊戲與其餘功能批次整理。</li>
+<li>移出第 13～15 章，更新所有章節文字引用與跨檔連結，主檔完成精簡。</li>
+<li>核對來源段落、數值、AC、SC 與例外未遺漏；逐份同步 HTML、連結與格式檢查。</li>
+</ol>
+<p>第 01 章預定結構：目的與讀者、原型與依據、產品範圍、排除範圍與責任、需求確認方式、待確認、沿革、交付檢查。</p>
+<p>第 02 章預定結構：入口地圖、導航與返回、身份名詞、幣別與資產、三種碼、回饋、保存與時間、共用驗收、待確認、沿革、交付檢查。</p>
+<p>個人資訊及優惠碼既有獨立規格待相應章節遷移時逐項確認承接範圍；目前不標為廢止。</p>
+<h2 id="_4">規則版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.0</td>
+<td>2026-09-09</td>
+<td>建立拆分與 APP 適用規則</td>
+</tr>
+<tr>
+<td>v1.1</td>
+<td>2026-09-09</td>
+<td>使用者確認規則與獎勵卡內容；新增第 00 章架構；依使用者更正直接置於總綱正文，不另分冊</td>
+</tr>
+</tbody>
+</table></div>
+<p>第二批完成：第 01、02 基礎文件與第 06 章 17 節文件已建立；HTML 與原 AC／SC 引用一併核對。</p><p class="foot">正文來源：<a href="APP_SPEC_RULES.md">APP_SPEC_RULES.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

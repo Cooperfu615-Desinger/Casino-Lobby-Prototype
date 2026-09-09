@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="182f244acb22cc4e6013be2fe868bd8932d48cff67497e18659541689d9e1544"><title>01. 文件說明與產品範圍</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">01. 文件說明與產品範圍</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 文件目的與讀者</a><a href="#2">2. 原型參考與文件適用方式</a><a href="#3">3. 本版收錄範圍</a><a href="#4">4. 未開放與不納入的能力</a><a href="#5">5. 規則來源與確認方式</a><a href="#6">6. 待確認事項</a><a href="#7">7. 版本沿革與交付檢查</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="01">01. 文件說明與產品範圍</h1>
+<p>巨亨ONLINE APP｜v0.10 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-01">返回總綱</a> · <a href="../spec-guidelines/APP_SPEC_RULES.html">撰寫規則</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>基礎說明文件；本批完成文件重整，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接總規格第 01 章；總綱保留索引，本文件為該章正文維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱並保留既有規則、來源與跨章關係</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>文件用途、讀者、原型、產品範圍與依據</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>產品市場定位正文、功能細節</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>總規格既有正文、已確認 APP 分冊規則；原型連結見總綱首頁</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>小節</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">文件目的與讀者</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">原型參考與文件適用方式</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">本版收錄範圍</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">未開放與不納入的能力</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">規則來源與確認方式</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">待確認事項</a></td>
+<td>產品</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">版本沿革與交付檢查</a></td>
+<td>維護者</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-01-1"></a></p>
+<h2 id="1">1. 文件目的與讀者</h2>
+<p>本產品已進入收尾階段，本文件用於補齊巨亨ONLINE 前台 APP 的介面功能與使用流程說明，作為後續調整、修正紀錄及開立工作單的共同依據。讀者應能據此理解玩家從何處進入、看到哪些資訊、可進行哪些操作，以及完成或取消後的去向與資料影響。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>讀者</th>
+<th>使用方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>美術設計</td>
+<td>依功能章節找到畫面、狀態與區塊用途；第 15 章提供玩家情境，後續搭配狀態稿。</td>
+</tr>
+<tr>
+<td>前端</td>
+<td>依入口、預設頁籤、按鈕條件、提示與返回規則串接互動，核對跨頁資訊一致性。</td>
+</tr>
+<tr>
+<td>後端</td>
+<td>依身份、資格、幣別、資料需求及操作結果提供功能能力；正式 API 與保存方案另行設計。</td>
+</tr>
+<tr>
+<td>產品與測試</td>
+<td>依範圍、規則來源、待確認事項、US／SC 與 AC 核對需求及驗收覆蓋。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-02"></a></p>
+<p><a id="legacy-01-2"></a></p>
+<h2 id="2">2. 原型參考與文件適用方式</h2>
+<ul>
+<li>原型連結見文件首頁；閱讀介面及操作說明時，可搭配原型查看。</li>
+<li>畫面定位為 1280 × 720 橫向原型並等比例縮放；不宣稱已完成手機直式或各尺寸的正式版型。</li>
+<li>本批內容依程式行為與既有文件整理，未另做線上原型操作驗證。後續功能調整應同步更新對應章節，並於版本與變更紀錄留下調整原因及關聯工作單。</li>
+<li>舊截圖與 Word 不自動視為本版同步輸出。本批沒有產生新截圖、Word、PDF 或正式服務驗證結果。</li>
+</ul>
+<p><a id="section-03"></a></p>
+<p><a id="legacy-01-3"></a></p>
+<h2 id="3">3. 本版收錄範圍</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>範圍</th>
+<th>本版收錄內容</th>
+<th>詳細章節</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>啟動與身份</td>
+<td>載入、登入、註冊、訪客、找回密碼與條款介面</td>
+<td>03</td>
+</tr>
+<tr>
+<td>大廳與遊戲入口</td>
+<td>資訊列、分類／供應商／幣別／收藏篩選、通知、促銷、選擇錢包、進入與離開遊戲</td>
+<td>04～05</td>
+</tr>
+<tr>
+<td>個人資訊</td>
+<td>玩家摘要、邀請碼、基本資料、綁定、VIP、頭像與遊戲紀錄</td>
+<td>06</td>
+</tr>
+<tr>
+<td>獎勵卡</td>
+<td>個人資訊內的卡片管理、合併、活動銀額度、流水轉換結果</td>
+<td>07</td>
+</tr>
+<tr>
+<td>銀行與資產</td>
+<td>儲值、優惠碼、金融紀錄、保險箱存取、贈禮／轉點與金銀幣兌換</td>
+<td>08～09</td>
+</tr>
+<tr>
+<td>活動</td>
+<td>簽到、補簽、里程碑、活動詳情／報名及排行榜</td>
+<td>10</td>
+</tr>
+<tr>
+<td>社交與客服</td>
+<td>聊天、玩家卡、好友、封鎖、檢舉與客服，自動傳送設定的現有介面</td>
+<td>11</td>
+</tr>
+<tr>
+<td>信箱與偏好</td>
+<td>公告／通知、附件、刪除、音訊／語言／日夜／推播設定、規章與登出</td>
+<td>12</td>
+</tr>
+<tr>
+<td>跨功能對照</td>
+<td>交接流程、驗收覆蓋、玩家故事與狀態分支</td>
+<td>13～15</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-01-4"></a></p>
+<h2 id="4">4. 未開放與不納入的能力</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>本版處理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>俱樂部</td>
+<td>大廳未開放，不列入現行玩家流程。</td>
+</tr>
+<tr>
+<td>年齡提示與新手導覽</td>
+<td>元件未接入目前啟動／大廳流程；不列為登入必經步驟。</td>
+</tr>
+<tr>
+<td>舊交易明細／轉帳彈窗、懸浮小工具</td>
+<td>未找到現行觸發／掛載；只保留對照，不增加產品入口。</td>
+</tr>
+<tr>
+<td>舊獨立獎勵卡視窗</td>
+<td>已由個人資訊獎勵卡頁籤承接。</td>
+</tr>
+<tr>
+<td>活動金的遊戲使用、發卡、合併與流水轉換</td>
+<td>本版只有優惠碼入帳與額度顯示；不據此擴張使用或到期回收規則。</td>
+</tr>
+<tr>
+<td>自動傳送執行、真實推播、完整翻譯</td>
+<td>只描述目前設定或偏好介面，不宣稱背景排程、系統推播或翻譯已完成。</td>
+</tr>
+<tr>
+<td>真實服務與後台</td>
+<td>身份驗證、簡訊、OAuth、支付、訊息傳送、遊戲結算、VIP 排程、推薦關係／優惠碼產碼及跨裝置帳務，不以 Mock 成功視為完成。</td>
+</tr>
+<tr>
+<td>技術與精細設計文件</td>
+<td>API、資料庫、遊戲數學、營運後台操作、完整視覺尺寸／色碼另行承接。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-05"></a></p>
+<p><a id="legacy-01-5"></a></p>
+<h2 id="5">5. 規則來源與確認方式</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>標示</th>
+<th>含義</th>
+<th>本文使用方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已確認需求</td>
+<td>使用者明確決策或既有確認版規格中的適用條款</td>
+<td>保留其範圍與例外，不因重整章節而更改。</td>
+</tr>
+<tr>
+<td>原型現況</td>
+<td>目前程式可追查的入口與行為</td>
+<td>作為本版描述基礎；Mock、固定資料與重置方式另外標示。</td>
+</tr>
+<tr>
+<td>待確認</td>
+<td>正式行為未定義或來源之間不一致</td>
+<td>僅在相關功能段落註明需要釐清的內容，不另設集中清單，也不填推測答案。</td>
+</tr>
+</tbody>
+</table></div>
+<p>本批沒有重新定義各功能的正式金額與權限。第 02 章除明列既有確認事項外，皆屬目前原型的整理。功能細節見第 03～12 章，閱讀時保留以上來源區別。</p>
+<p>現有<a href="../PLAYER_PROFILE_SPEC_v1.md">個人資訊規格</a>及<a href="../PROMO_CODE_SPEC.md">銀行優惠碼規格</a>是既有功能確認依據；本文件不取代 VIP 後台與排程規格。功能名稱或入口調整時，更新所屬章節並留下變更紀錄。</p>
+<p><a id="section-06"></a></p>
+<h2 id="6">6. 待確認事項</h2>
+<p>本次拆分未新增產品範圍決策。第 00 章的市場、規模與特色為待補內容，不作為本章已確認事實。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>類別</th>
+<th>狀態與處理位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>待產品決策</td>
+<td>各功能已記錄的未決規則留在各自文件，避免另建重複清單</td>
+</tr>
+<tr>
+<td>待外部輸入</td>
+<td>正式服務、帳務與第三方能力依各功能的資料需求及待確認項目承接</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 版本沿革與交付檢查</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格既有第 01 章；歷史變更見總綱</td>
+</tr>
+<tr>
+<td>v0.10</td>
+<td>2026-09-09</td>
+<td>獨立整理本章，保留原規則；補充結構與文件連結</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>內容</td>
+<td>原章節全部段落有承接位置</td>
+<td>已逐節移入</td>
+</tr>
+<tr>
+<td>格式與連結</td>
+<td>Markdown／HTML 內容一致、連結及錨點有效</td>
+<td>由文件檢查核對</td>
+</tr>
+<tr>
+<td>驗收</td>
+<td>有瀏覽器與正式服務執行證據</td>
+<td>未執行，不以文件完成替代</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="01-product-scope.md">01-product-scope.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

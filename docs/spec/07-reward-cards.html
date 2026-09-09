@@ -1,0 +1,1682 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="1d5662a4bbcc53e8eed04adaf39bd8bebb00a44ecf7bed8adfb13aad7536dadf"><title>07. 獎勵卡 功能規格書</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">07. 獎勵卡 功能規格書</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="07">07. 獎勵卡 功能規格書</h1>
+<p>巨亨ONLINE APP｜v0.9 內容確認版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-07">返回總綱</a> · <a href="02-shared-rules.html">共用名詞</a> · <a href="../APP_FRONTEND_SPEC.html#flow-04">跨頁流程</a> · <a href="../APP_FRONTEND_SPEC.html#us-06">玩家旅程</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格；17 節格式與內容已獲使用者確認；操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接總規格 v0.7 第 07 章正文與 AC；總規格保留索引。既有功能規則不因本次排版改變</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>將獎勵卡規則獨立成可查閱與開單的文件，補三視角故事及格式缺口</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>列表、額度、來源、啟停、刪除、合併、期限、流水轉換與保存</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>發獎配置、真實遊戲結算、正式後端帳務、活動金幣卡與使用規則</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>APP 撰寫規則、原總規格第 07 章、已確認合併規則；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<p>合併資格與計算沿用已確認規則。測試數值不是正式營運設定；本次文件重整未驗證瀏覽器與正式帳務。</p>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節次</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p>玩家可檢視活動銀幣獎勵卡，選擇使用中的卡片，或整理符合條件的多張卡片。獎勵卡承載活動銀幣額度；領卡、啟用、停用與合併均不直接增加一般銀幣錢包，流水完成轉換後才入帳。</p>
+<p>本版只有活動銀幣卡。頁面雖另顯示活動金幣額度，但活動金幣目前只有優惠碼入帳及顯示，沒有對應卡片、合併、遊戲使用或流水轉換。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責文件／位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>決定任務達成與發卡資格</td>
+<td>總綱第 10 章每日任務</td>
+</tr>
+<tr>
+<td>驗證優惠碼與領取商品</td>
+<td>總綱第 08 章銀行優惠碼</td>
+</tr>
+<tr>
+<td>選擇遊戲、選幣及進出遊戲</td>
+<td>總綱第 05 章遊戲進入與離開</td>
+</tr>
+<tr>
+<td>定義正式逐局結算與帳務介面</td>
+<td>後续遊戲與後端規格；本版未定義</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起始餘額紀錄／目前餘額</td>
+<td>起始值是取得金額，目前值是剩餘額度；例如起始 10,000、目前 8,000，合併分別加總</td>
+</tr>
+<tr>
+<td>總額／目前可用</td>
+<td>總額包含有效但未啟用卡；可用只計有效使用中卡。持有未啟用卡 10,000 時，總額 10,000、可用 0</td>
+</tr>
+<tr>
+<td>卡片狀態／到期條件</td>
+<td>前者是啟停等生命週期，後者依時間判斷；未啟用卡也可能過期</td>
+</tr>
+<tr>
+<td>合併來源／新卡</td>
+<td>來源保留關係但退出可見列表，新卡須重新啟用，不重複計額</td>
+</tr>
+<tr>
+<td>轉換上限</td>
+<td>可轉入一般銀幣的最高數量；餘額 5,000、上限 10,000 時只轉 5,000</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>資訊與操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頁首</td>
+<td>獎勵卡標題、規則說明、合併入口；符合資格的卡片少於兩張時合併入口停用</td>
+</tr>
+<tr>
+<td>額度概覽</td>
+<td>活動金幣、活動銀幣總額、目前可用活動銀幣；與左側玩家摘要的活動額度一致</td>
+</tr>
+<tr>
+<td>卡片清單</td>
+<td>兩張一列，奇數張最後一張靠左，清單內捲動；一般領卡加入尾端，合併新卡放最上方</td>
+</tr>
+<tr>
+<td>單張卡片</td>
+<td>名稱、來源、狀態、目前餘額、起始餘額紀錄、轉換上限、已達成／目標流水、進度與期限</td>
+</tr>
+<tr>
+<td>轉換後卡片</td>
+<td>保留已轉換數量、系統回收數量及轉換時間，供查看結果</td>
+</tr>
+<tr>
+<td>空清單</td>
+<td>「目前沒有獎勵卡」、取得方式及前往每日任務</td>
+</tr>
+<tr>
+<td>合併模式</td>
+<td>合格卡可勾選，不合格卡說明原因；下方固定顯示選取張數、預覽、取消與確認合併</td>
+</tr>
+</tbody>
+</table></div>
+<p>已合併的來源卡退出可見清單，但保留來源關係；已轉換及過期卡仍可顯示，因此「沒有可用卡」不一定等於空清單。合併來源只顯示涵蓋的原始張數，未提供另開來源明細的操作。</p>
+<p><a id="section-05"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>意義與顯示規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名稱／來源</td>
+<td>任務卡顯示任務節點，優惠碼卡顯示來源文字；合併卡名為「活動銀幣合併卡」，來源顯示由幾張原始卡合併</td>
+</tr>
+<tr>
+<td>目前餘額</td>
+<td>目前仍在卡上的活動銀幣，可與起始值不同</td>
+</tr>
+<tr>
+<td>起始餘額紀錄</td>
+<td>初次取得的卡片金額；舊文件稱卡片總金額。合併時加總來源起始值，不以目前餘額覆蓋</td>
+</tr>
+<tr>
+<td>流水量</td>
+<td>已達成流水／目標流水；進度條依兩者比例，最高顯示 100%，目標為 0 時顯示 0%</td>
+</tr>
+<tr>
+<td>轉換上限</td>
+<td>流水完成時最多轉入一般銀幣的數量，不是保證可取得該數量</td>
+</tr>
+<tr>
+<td>有效期限</td>
+<td>顯示到期日期；標示當日有效，瀏覽器當地時區翌日 00:00 起不可啟用、合併或轉換</td>
+</tr>
+<tr>
+<td>轉換結果</td>
+<td>已轉換額度、回收額度、時間；轉換後目前餘額為 0</td>
+</tr>
+<tr>
+<td>額度總額</td>
+<td>活動銀加總有效的未啟用、使用中、已停用卡片目前餘額；排除過期、已轉換與已合併來源</td>
+</tr>
+<tr>
+<td>目前可用</td>
+<td>僅有效使用中卡片的目前餘額；總額大於 0 但未啟用任何卡時，可用仍為 0</td>
+</tr>
+</tbody>
+</table></div>
+<p>一般任務與優惠碼新卡為未啟用，起始及目前餘額依發放內容，流水與期限依該來源配置。本版任務展示資料如下；目前預設累積 20 天，因此三節點都可領，與日曆已簽日期數分開。重新整理恢復此展示狀態，不代表正式玩家固定取得這些資格。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原型來源</th>
+<th>起始／目前餘額</th>
+<th>已達成／目標流水</th>
+<th>轉換上限</th>
+<th>到期日期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每日任務第 10 天</td>
+<td>10,000／10,000 活動銀幣</td>
+<td>0／100,000</td>
+<td>10,000</td>
+<td>2026/12/31</td>
+</tr>
+<tr>
+<td>每日任務第 15 天</td>
+<td>10,000／10,000 活動銀幣</td>
+<td>0／100,000</td>
+<td>10,000</td>
+<td>2026/12/31</td>
+</tr>
+<tr>
+<td>每日任務第 20 天</td>
+<td>5,000／5,000 活動銀幣</td>
+<td>0／100,000</td>
+<td>10,000</td>
+<td>2026/12/31</td>
+</tr>
+</tbody>
+</table></div>
+<p>第 10 天數值沿用既有原型暫借設定，不能直接當作正式營運金額。優惠碼卡依各碼預覽內容，不一律套用此表。第 5、7、25、30 天為無卡片額度的里程碑；完整任務規則見第 10 章。</p>
+<h3 id="_2">無資料時顯示</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>無資料時顯示／限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名稱、來源</td>
+<td>合法卡片需要來源資料；缺欄位時正式呈現尚未定義，見 Q-07-001</td>
+</tr>
+<tr>
+<td>目前餘額、起始餘額紀錄、轉換上限</td>
+<td>有效數值為 0 與資料缺失不同；缺失呈現尚未定義，見 Q-07-001</td>
+</tr>
+<tr>
+<td>流水量、進度</td>
+<td>已達成為 0 顯示 0；目標為 0 時進度 0%；缺值呈現見 Q-07-001</td>
+</tr>
+<tr>
+<td>有效期限</td>
+<td>有效卡片需要期限；缺期限不推測為永久，呈現見 Q-07-001</td>
+</tr>
+<tr>
+<td>轉換結果</td>
+<td>未轉換卡不顯示轉換後結果；已轉換卻缺結果資料見 Q-07-001</td>
+</tr>
+<tr>
+<td>活動銀總額、目前可用</td>
+<td>無有效卡片為 0；有效卡皆未啟用時可用為 0；這不是讀取失敗的替代值</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<p>原型代碼僅供對照，不是正式後端契約。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原型代碼</th>
+<th>顯示文字</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>inactive</td>
+<td>未啟用</td>
+<td>尚未啟用的新卡</td>
+</tr>
+<tr>
+<td>active</td>
+<td>使用中</td>
+<td>目前選用的卡片</td>
+</tr>
+<tr>
+<td>paused</td>
+<td>已停用</td>
+<td>曾啟用後停用，保留流水</td>
+</tr>
+<tr>
+<td>converted</td>
+<td>已轉換</td>
+<td>已處理轉入與回收結果</td>
+</tr>
+<tr>
+<td>merged</td>
+<td>已合併來源</td>
+<td>已由新卡承接，不單獨顯示或使用</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">期限與操作資格</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>狀態</th>
+<th>啟用</th>
+<th>停用</th>
+<th>刪除</th>
+<th>合併／轉換</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未啟用、未過期</td>
+<td>可</td>
+<td>不可</td>
+<td>可，需確認</td>
+<td>超過 72 小時可合併；未啟用不可轉換</td>
+</tr>
+<tr>
+<td>使用中、未過期</td>
+<td>不可重啟本卡</td>
+<td>可</td>
+<td>不可</td>
+<td>先停用才能合併；可由遊戲 Mock 完成轉換</td>
+</tr>
+<tr>
+<td>已停用、未過期</td>
+<td>可</td>
+<td>不可</td>
+<td>可，需確認</td>
+<td>超過 72 小時可合併；不可直接轉換</td>
+</tr>
+<tr>
+<td>剩餘時間 ≤72 小時但未過期</td>
+<td>依未啟用／停用狀態可啟用</td>
+<td>使用中可停用</td>
+<td>依原狀態</td>
+<td>不可合併；使用中仍可轉換</td>
+</tr>
+<tr>
+<td>已過期</td>
+<td>不可</td>
+<td>若原為使用中仍可停用</td>
+<td>原為未啟用／已停用可刪除</td>
+<td>不可合併或轉換，排除活動額度</td>
+</tr>
+<tr>
+<td>已轉換</td>
+<td>不可</td>
+<td>不可</td>
+<td>不可</td>
+<td>保留結果，不重複入帳；到期後仍顯示已轉換</td>
+</tr>
+<tr>
+<td>已合併來源</td>
+<td>不可</td>
+<td>不可</td>
+<td>無獨立操作入口</td>
+<td>不顯示、不計入額度，不可重複參與</td>
+</tr>
+</tbody>
+</table></div>
+<p>過期是依時間推導的顯示，非一種可手動切換的卡片狀態。頁面會更新期限判斷，但本批未驗證背景待機跨越到期時刻的全畫面即時一致性；時間邊界的驗收需另備測試情境。</p>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<p>本頁不提供查詢、欄位排序或分頁。列表使用內部捲動；一般領卡加入尾端，合併新卡放最上方。合併選取不是查詢篩選。</p>
+<p><a id="section-08"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<h3 id="_4">入口、返回與交接</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>預設內容</th>
+<th>返回／交接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部獎勵卡</td>
+<td>個人資訊直接開獎勵卡頁籤，顯示概覽及列表</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>個人資訊切至獎勵卡</td>
+<td>同一列表與共用摘要</td>
+<td>可切其他頁籤；主關閉依個人資訊入口返回</td>
+</tr>
+<tr>
+<td>空清單「前往每日任務」</td>
+<td>關閉個人資訊，開每日任務</td>
+<td>領卡後玩家自行由底部獎勵卡返回查看，不自動跳回</td>
+</tr>
+<tr>
+<td>每日任務／優惠碼領卡</td>
+<td>成功後在共用列表新增未啟用卡，保留來源</td>
+<td>留原領取介面；進獎勵卡即可看到</td>
+</tr>
+<tr>
+<td>規則說明</td>
+<td>本頁子視窗顯示使用、轉換及合併規則</td>
+<td>「我知道了」返回本頁，不改卡片</td>
+</tr>
+<tr>
+<td>刪除確認</td>
+<td>顯示刪除不可恢復、不能恢復原領取資格的提醒</td>
+<td>取消回列表；確認刪除後留列表</td>
+</tr>
+<tr>
+<td>合併</td>
+<td>同頁切換合併模式，顯示選框及固定下方預覽／操作區</td>
+<td>取消／切頁／主關閉清除選取，不改原卡；成功留本頁並捲到新卡</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_5">操作帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>開啟獎勵卡</td>
+<td>預設頁籤：獎勵卡；共用卡片與額度</td>
+</tr>
+<tr>
+<td>前往每日任務</td>
+<td>目的頁籤：每日任務；不帶卡片選取</td>
+</tr>
+<tr>
+<td>領取卡片</td>
+<td>任務節點或優惠碼商品及來源；資格由來源功能判斷</td>
+</tr>
+<tr>
+<td>啟用、停用、刪除</td>
+<td>目標卡片識別；刪除另有確認結果</td>
+</tr>
+<tr>
+<td>合併</td>
+<td>選取卡片識別集合；確認時重新讀取狀態、期限及數值</td>
+</tr>
+<tr>
+<td>規則說明、取消</td>
+<td>無新增業務資料；取消清除本次選取</td>
+</tr>
+<tr>
+<td>轉換結果查看紀錄</td>
+<td>前往銀行紀錄；結束遊戲，不再次入帳</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="81">8.1 領取、啟用、停用與刪除</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>前提／步驟</th>
+<th>結果與跨頁影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任務領卡</td>
+<td>已達節點且未領 → 點該獎勵</td>
+<td>新增未啟用卡、節點變已領；活動銀總額增加，一般金銀銅不變</td>
+</tr>
+<tr>
+<td>優惠碼領卡</td>
+<td>有效的活動銀卡商品 → 預覽 → 確認領取</td>
+<td>新增未啟用卡並標記該碼已領；優惠碼發放紀錄依第 08 章，不視為銀幣轉換入帳</td>
+</tr>
+<tr>
+<td>啟用</td>
+<td>未啟用／已停用且未過期 → 啟用</td>
+<td>本卡變使用中；若已有另一張使用中卡，原卡自動停用；同時最多一張使用中</td>
+</tr>
+<tr>
+<td>停用</td>
+<td>使用中 → 停用</td>
+<td>卡片改已停用，可用額度歸零；仍有效時總額保留，已累積流水不歸零</td>
+</tr>
+<tr>
+<td>刪除</td>
+<td>未啟用／已停用 → 刪除 → 確認</td>
+<td>卡片移出清單，額度隨之更新；一般錢包不變，原任務與優惠碼資格不恢復</td>
+</tr>
+<tr>
+<td>取消刪除</td>
+<td>刪除確認 → 取消</td>
+<td>卡片與所有數值不變，返回列表</td>
+</tr>
+</tbody>
+</table></div>
+<p>啟用及停用直接執行並顯示成功提示，不額外插入確認步驟。若操作時卡片不存在、狀態或期限不允許，顯示「操作失敗，請確認卡片狀態與有效期限」，不更動卡片。</p>
+<h3 id="82">8.2 合併資格與流程</h3>
+<ol>
+<li>至少有兩張合格卡，合併入口才可操作。合格卡須為未啟用或已停用，且每張距離實際到期時間<strong>超過 72 小時</strong>。</li>
+<li>張數至少兩張、無上限；使用中卡須先退出合併模式並停用，再進入選取。剩餘時間小於或等於 72 小時，包括恰好 72 小時，均不可合併；這個限制不阻擋未過期卡片啟用。</li>
+<li>進合併模式後勾選卡片。選取未滿兩張或任何選中卡已不符資格時，不顯示有效結果預覽，確認合併停用。</li>
+<li>預覽列出張數、目前餘額、起始餘額紀錄、轉換上限、流水及最早到期日。確認前不扣卡、不改錢包。</li>
+<li>確認時再次檢查每張卡的狀態與期限，一次將來源卡標為已合併並建立新卡。新卡為未啟用，置於最上方，回到列表頂部並提示「已建立活動銀幣合併卡，請啟用後使用」。</li>
+<li>若確認時資格已變，原卡不變，清除選取並提示「卡片狀態或剩餘期限已變更，請重新選取」。玩家可重選或取消。</li>
+<li>取消只退出模式、清除選取；合併完成後沒有拆回原卡的操作。來源卡不能再次獨立使用，合併卡符合資格時可與其他卡再合併。</li>
+</ol>
+<h3 id="83">8.3 合併計算與範例</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>合併欄位</th>
+<th>計算方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起始餘額紀錄</td>
+<td>所選卡片起始值直接加總</td>
+</tr>
+<tr>
+<td>目前餘額</td>
+<td>所選卡片目前值直接加總</td>
+</tr>
+<tr>
+<td>目標流水</td>
+<td>所選卡片目標直接加總</td>
+</tr>
+<tr>
+<td>已達成流水</td>
+<td>所選卡片已達成值直接加總，不清零</td>
+</tr>
+<tr>
+<td>轉換上限</td>
+<td>所選卡片上限直接加總</td>
+</tr>
+<tr>
+<td>有效期限</td>
+<td>所選卡片中最早的到期日；不展延短期限卡</td>
+</tr>
+<tr>
+<td>來源張數</td>
+<td>累計原始來源張數；合併卡再參與時須包含先前來源</td>
+</tr>
+</tbody>
+</table></div>
+<p>五項原始數值各自直接加總，<strong>不依流水倍數重新換算</strong>。合併後的流水與起始餘額比例可能與單一卡片不同，這是直接加總的結果。合併本身不改一般金銀銅、不增加付費儲值、不產生銀幣入帳或銀行轉換紀錄。</p>
+<p>以下為計算驗收用資料，假設卡 A 未啟用、卡 B 已停用，兩卡都距到期超過 72 小時：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>卡 A</th>
+<th>卡 B</th>
+<th>合併結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起始餘額紀錄</td>
+<td>10,000</td>
+<td>5,000</td>
+<td>15,000</td>
+</tr>
+<tr>
+<td>目前餘額</td>
+<td>8,000</td>
+<td>4,000</td>
+<td>12,000</td>
+</tr>
+<tr>
+<td>已達成流水</td>
+<td>20,000</td>
+<td>30,000</td>
+<td>50,000</td>
+</tr>
+<tr>
+<td>目標流水</td>
+<td>100,000</td>
+<td>100,000</td>
+<td>200,000</td>
+</tr>
+<tr>
+<td>轉換上限</td>
+<td>10,000</td>
+<td>10,000</td>
+<td>20,000</td>
+</tr>
+<tr>
+<td>到期</td>
+<td>2026/12/31</td>
+<td>2026/12/20</td>
+<td>2026/12/20</td>
+</tr>
+<tr>
+<td>狀態</td>
+<td>未啟用</td>
+<td>已停用</td>
+<td>未啟用，顯示由 2 張合併</td>
+</tr>
+</tbody>
+</table></div>
+<p>此例目前餘額為 12,000，而起始紀錄為 15,000，兩者都須保留；進度為 50,000 ÷ 200,000＝25%。具非零流水或變動餘額的測試卡需另行準備，原型目前沒有逐局累積介面可自然建立這組資料。</p>
+<h3 id="84">8.4 遊戲使用與流水轉換</h3>
+<p>玩家先啟用卡，再於支援活動銀幣且有可用餘額的遊戲選擇活動銀幣進入。未啟用時即使總額為正，仍不能以活動銀幣進入；遊戲不支援該幣別時也不可選。</p>
+<p>原型遊戲室提供 Mock 完成流水操作，會一次將已達成流水補到目標並執行轉換；它不是逐局下注、流水累積或正式結算的證據。</p>
+<ul>
+<li>轉換額度＝目前餘額與轉換上限的較小值；系統回收＝目前餘額減轉換額度。原型以非負整數計算，有小數先無條件捨去；不把此數值處理自動當成正式帳務精度決策。</li>
+<li>只接受有效、使用中的卡片，且轉換額度須大於 0。不能轉換未啟用、已停用、過期、已合併或已轉換卡。</li>
+<li>成功時卡片變已轉換、目前餘額歸零、保留轉換／回收／時間；一般銀幣增加轉換額度，新增一筆「獎勵卡流水完成・卡片名稱」紀錄。</li>
+<li>顯示轉換結果視窗：轉換前額度、轉入銀幣、系統回收與銀幣錢包結果。確認／關閉只標記已讀並留在原畫面；「查看紀錄」結束遊戲並進銀行紀錄。</li>
+<li>同一卡片不能重複入帳。查看或關閉結果不再次發獎；合併來源也不能另行轉換。</li>
+</ul>
+<p>例如目前餘額 12,000、上限 10,000，轉入銀幣 10,000、回收 2,000；餘額 5,000、上限 10,000，則轉入 5,000、回收 0。這兩例用來說明公式，非新增發獎配置。</p>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>原型現況／顯示</th>
+<th>處理範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>卡片由本機共用狀態提供，未定義遠端列表載入畫面</td>
+<td>正式非同步載入見 Q-07-001</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>空清單顯示「目前沒有獎勵卡」及前往每日任務</td>
+<td>沒有可用卡不一定是空清單</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>未定義遠端列表失敗畫面</td>
+<td>見 Q-07-001，不假定有重試按鈕</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>未定義部分卡片或額度取得失敗的呈現</td>
+<td>見 Q-07-001</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>本頁未定義正式拒絕存取畫面；來源領取資格另計</td>
+<td>見 Q-07-002，不把無卡當無權限</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>故事引用既有規則。測試資料須另備，填寫故事不代表測試已通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-001 空清單</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解空清單的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 卡片清單為空。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 開啟獎勵卡。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 顯示「目前沒有獎勵卡」與前往每日任務入口。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-001；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-002 啟用切換</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解啟用切換的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> A 使用中、B 未啟用且兩卡均未過期。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 啟用 B。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> B 使用中、A 已停用，總額不因切換改變。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-004；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-003 取消刪除</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解取消刪除的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 一張未啟用卡已開刪除確認。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 點取消。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 返回列表，卡片與餘額保留。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-005；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-004 合併時間邊界</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解合併時間邊界的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> A 未啟用且剩餘恰好 72 小時，B、C 未啟用且各剩餘 96 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 開啟合併模式。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> A 不可選，B、C 可選。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-006；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-005 合併預覽</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解合併預覽的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 本文件 8.3 測試卡 A、B 均未過期且距到期超過 72 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 選取 A、B。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 預覽目前餘額 12,000、目標流水 200,000、進度 25%。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-008；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-006 確認時資格失效</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解確認時資格失效的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已選兩張卡，其中一卡於提交時剩餘期限降至 72 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 確認合併。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 來源卡不變、不建新卡，清除選取並提示重新選取。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-010；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-007 未啟用額度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解未啟用額度的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 僅持有有效未啟用卡 10,000 活動銀幣。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 查看額度並開啟支援活動銀的遊戲選幣。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 總額 10,000、可用 0，不能選活動銀進入。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-012；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-07-008 轉換防重複</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要了解轉換防重複的操作結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 有效使用中卡目前餘額 12,000、轉換上限 10,000。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 在遊戲 Mock 完成流水後再次處理同卡。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 首次轉入一般銀幣 10,000、回收 2,000；同卡不再次入帳。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-013；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>故事引用既有規則。測試資料須另備，填寫故事不代表測試已通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-001 空清單</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓空清單的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 卡片清單為空。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 開啟獎勵卡。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 顯示「目前沒有獎勵卡」與前往每日任務入口。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-001；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-002 啟用切換</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓啟用切換的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> A 使用中、B 未啟用且兩卡均未過期。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 啟用 B。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> B 使用中、A 已停用，總額不因切換改變。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-004；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-003 取消刪除</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓取消刪除的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 一張未啟用卡已開刪除確認。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 點取消。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 返回列表，卡片與餘額保留。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-005；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-004 合併時間邊界</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓合併時間邊界的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> A 未啟用且剩餘恰好 72 小時，B、C 未啟用且各剩餘 96 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 開啟合併模式。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> A 不可選，B、C 可選。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-006；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-005 合併預覽</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓合併預覽的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 本文件 8.3 測試卡 A、B 均未過期且距到期超過 72 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 選取 A、B。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 預覽目前餘額 12,000、目標流水 200,000、進度 25%。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-008；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-006 確認時資格失效</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓確認時資格失效的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已選兩張卡，其中一卡於提交時剩餘期限降至 72 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 確認合併。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 來源卡不變、不建新卡，清除選取並提示重新選取。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-010；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-007 未啟用額度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓未啟用額度的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 僅持有有效未啟用卡 10,000 活動銀幣。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 查看額度並開啟支援活動銀的遊戲選幣。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 總額 10,000、可用 0，不能選活動銀進入。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-012；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-07-008 轉換防重複</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓轉換防重複的資料與畫面結果一致。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 有效使用中卡目前餘額 12,000、轉換上限 10,000。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 在遊戲 Mock 完成流水後再次處理同卡。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 首次轉入一般銀幣 10,000、回收 2,000；同卡不再次入帳。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-013；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>故事引用既有規則。測試資料須另備，填寫故事不代表測試已通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-001 空清單</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證空清單的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 卡片清單為空。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 開啟獎勵卡。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 顯示「目前沒有獎勵卡」與前往每日任務入口。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-001；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-002 啟用切換</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證啟用切換的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> A 使用中、B 未啟用且兩卡均未過期。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 啟用 B。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> B 使用中、A 已停用，總額不因切換改變。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-004；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-003 取消刪除</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證取消刪除的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 一張未啟用卡已開刪除確認。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 點取消。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 返回列表，卡片與餘額保留。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-005；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-004 合併時間邊界</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證合併時間邊界的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> A 未啟用且剩餘恰好 72 小時，B、C 未啟用且各剩餘 96 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 開啟合併模式。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> A 不可選，B、C 可選。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-006；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-005 合併預覽</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證合併預覽的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 本文件 8.3 測試卡 A、B 均未過期且距到期超過 72 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 選取 A、B。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 預覽目前餘額 12,000、目標流水 200,000、進度 25%。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-008；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-006 確認時資格失效</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證確認時資格失效的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已選兩張卡，其中一卡於提交時剩餘期限降至 72 小時。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 確認合併。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 來源卡不變、不建新卡，清除選取並提示重新選取。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-010；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-007 未啟用額度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證未啟用額度的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 僅持有有效未啟用卡 10,000 活動銀幣。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 查看額度並開啟支援活動銀的遊戲選幣。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 總額 10,000、可用 0，不能選活動銀進入。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-012；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-07-008 轉換防重複</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證轉換防重複的可觀察結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 有效使用中卡目前餘額 12,000、轉換上限 10,000。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 在遊戲 Mock 完成流水後再次處理同卡。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 首次轉入一般銀幣 10,000、回收 2,000；同卡不再次入帳。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-07-013；完整玩家旅程見總綱 US-05、US-06。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p>既有 AC 編號保留，原前提與操作完整置於驗收敘述。所需初始資料與分支見<a href="../APP_FRONTEND_SPEC.html#us-06">玩家故事</a>及<a href="../APP_FRONTEND_SPEC.html#ch-14">驗收證據</a>。尚未執行操作驗收。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>關聯主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-07-001</td>
+<td>US-05</td>
+<td>Given：卡片清單為空；When：由底部開啟獎勵卡，再前往每日任務；Then：顯示空清單；跳任務時關閉個人資訊，任務成功後可自行回卡片查看。</td>
+</tr>
+<tr>
+<td>AC-07-002</td>
+<td>US-05</td>
+<td>Given：原型三個任務節點均可領且尚未領取；When：逐一領取，再重複點擊各節點；Then：只得 3 張未啟用卡，活動銀總額 25,000、可用 0，一般錢包不變。</td>
+</tr>
+<tr>
+<td>AC-07-003</td>
+<td>US-05、US-06</td>
+<td>Given：具有有效未啟用、使用中、停用卡及過期、轉換、合併來源卡；When：查看摘要總額與目前可用額度；Then：總額只含前三者中有效者；可用只含有效使用中；摘要與概覽一致。</td>
+</tr>
+<tr>
+<td>AC-07-004</td>
+<td>US-05</td>
+<td>Given：兩張有效未啟用卡；When：先啟用第一張，再啟用第二張，最後停用第二張；Then：同時最多一張使用中；原卡自動停用，總額不因啟停改變；全停後可用為 0。</td>
+</tr>
+<tr>
+<td>AC-07-005</td>
+<td>US-06</td>
+<td>Given：具有未啟用、使用中及已轉換卡；When：對未啟用卡刪除先取消再確認，另檢查使用中及已轉換卡刪除入口；Then：取消不變，確認才刪；原資格不恢復；使用中及已轉換不可刪。</td>
+</tr>
+<tr>
+<td>AC-07-006</td>
+<td>US-06</td>
+<td>Given：具有不同卡片狀態及剩餘時間恰好、少於、大於 72 小時的測試卡；When：開啟合併模式並檢查選取與啟用資格；Then：僅超過 72 小時的未啟用／已停用可合併；不足兩張合格卡時入口停用；未過期仍可啟用。</td>
+</tr>
+<tr>
+<td>AC-07-007</td>
+<td>US-06</td>
+<td>Given：至少三張合格卡；When：分別選一張、兩張、多張，再取消或切頁；Then：未滿 2 張不可確認，無張數上限；取消／切頁清除選取，原卡與錢包不變。</td>
+</tr>
+<tr>
+<td>AC-07-008</td>
+<td>US-06</td>
+<td>Given：本文件 8.3 測試卡 A、B 均符合合併資格；When：選取兩卡並查看合併預覽；Then：五項數值直接加總、期限最早、流水進度 25%；不重新換算倍數。</td>
+</tr>
+<tr>
+<td>AC-07-009</td>
+<td>US-06</td>
+<td>Given：三張未啟用原型任務卡均符合合併資格；When：選取三卡確認合併，再重複確認；Then：只新增一張未啟用卡至頂端；來源退出清單；餘額／起始各 25,000、流水 0／300,000、上限 30,000；一般錢包及銀行紀錄不變。</td>
+</tr>
+<tr>
+<td>AC-07-010</td>
+<td>US-06</td>
+<td>Given：已選取的合格卡有一張在確認前失去資格；When：查看預覽並嘗試確認；Then：無有效預覽時停用；若在提交時失效則不改卡、清選取並提示重新選取。</td>
+</tr>
+<tr>
+<td>AC-07-011</td>
+<td>US-06</td>
+<td>Given：一張合併卡與另一張卡均符合合併資格；When：再次合併並查看新卡來源與數值；Then：累計原始來源張數，最早期限及五項數值正確；原節點仍已領。</td>
+</tr>
+<tr>
+<td>AC-07-012</td>
+<td>US-05</td>
+<td>Given：有活動銀總額但卡未啟用，另備不支援活動銀的遊戲；When：依序檢查不可用情境，再啟用有效卡並選支援遊戲；Then：前兩種不可選活動銀進入；支援且有可用額度時才可進入。</td>
+</tr>
+<tr>
+<td>AC-07-013</td>
+<td>US-05、US-06</td>
+<td>Given：有效使用中卡且目前餘額與上限均為正；When：由遊戲 Mock 完成流水，再嘗試對同卡入帳；Then：依餘額與上限較小值入銀幣，餘額歸零、卡變已轉換；只一筆紀錄，不能重複入帳。</td>
+</tr>
+<tr>
+<td>AC-07-014</td>
+<td>US-05</td>
+<td>Given：已完成卡片轉換且結果視窗可見；When：分別確認、關閉或查看紀錄；Then：前兩者只標記已讀並留原畫面；查看紀錄結束遊戲並開銀行；查看不再發獎。</td>
+</tr>
+<tr>
+<td>AC-07-015</td>
+<td>US-05、US-06</td>
+<td>Given：已有領卡、合併或轉換結果；When：重新整理原型頁面；Then：卡片清空、任務展示資格恢復、金融 Mock 重置；身份資料仍保留。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查閱</td>
+<td>當前身份及卡片集合</td>
+<td>卡片、來源、額度、期限與轉換結果</td>
+<td>原型集合未按會員分區，正式隔離見 Q-07-002</td>
+</tr>
+<tr>
+<td>領卡</td>
+<td>來源商品、領取資格、配置</td>
+<td>未啟用卡與已領狀態</td>
+<td>資格由任務／優惠碼負責；刪除不恢復資格</td>
+</tr>
+<tr>
+<td>啟停與刪除</td>
+<td>目標卡片、操作、刪除確認</td>
+<td>更新後列表與額度或失敗提示</td>
+<td>依第 6、8 節，失敗不更動卡片</td>
+</tr>
+<tr>
+<td>合併</td>
+<td>選取集合、最新狀態、期限與五項數值</td>
+<td>一張新卡與來源承接關係，或失敗提示</td>
+<td>確認時再檢查；不可部分合併</td>
+</tr>
+<tr>
+<td>轉換</td>
+<td>使用中有效卡、已達成流水、餘額與上限</td>
+<td>銀幣、卡片結果、單筆金融紀錄</td>
+<td>入帳一次；其他幣別不變</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>資料／操作</th>
+<th>必須取得或更新的內容</th>
+<th>一致性要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>卡片列表</td>
+<td>識別、來源、狀態、五項數值、期限、轉換結果及合併來源關係</td>
+<td>列表與概覽一致；來源卡不能重複計額</td>
+</tr>
+<tr>
+<td>領卡</td>
+<td>任務節點或優惠碼商品、資格與已領狀態</td>
+<td>成功後卡片與資格同步；刪除、合併不恢復原資格</td>
+</tr>
+<tr>
+<td>啟用／停用</td>
+<td>目標卡片與目前可用卡</td>
+<td>同時最多一張使用中；摘要總額與遊戲可用額度依各自定義更新</td>
+</tr>
+<tr>
+<td>合併</td>
+<td>選取集合、確認時的最新狀態及期限</td>
+<td>整批完成來源失效與新卡建立；失敗不部分合併；一般錢包不變</td>
+</tr>
+<tr>
+<td>轉換</td>
+<td>有效使用中卡、目前餘額、上限、轉入錢包</td>
+<td>卡片、銀幣、單筆金融紀錄與結果通知一致，其他幣別不變</td>
+</tr>
+<tr>
+<td>保存</td>
+<td>卡片、來源關係、任務及碼的領取資格</td>
+<td>本機記憶體保存；重新整理卡片及合併結果清空，任務恢復展示資格，金融 Mock 重置</td>
+</tr>
+</tbody>
+</table></div>
+<p>優惠碼資格有自己的帳號區分方式，獎勵卡共用狀態目前未按會員分區；登出不能直接解讀成卡片已清除或已安全移交另一身份。需要跨裝置保存、換帳號隔離或正式防重複帳務時，須在後續工作單定義服務結果，不能沿用本機行為作為保證。</p>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="151">15.1 待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-07-001</td>
+<td>正式遠端列表的載入、失敗、局部失敗與缺欄位要如何呈現？</td>
+<td>第 5、9 節；不得以 0 代替取得失敗</td>
+<td>待產品決策</td>
+</tr>
+<tr>
+<td>Q-07-002</td>
+<td>換帳號隔離、跨裝置保存及拒絕存取時的玩家流程為何？</td>
+<td>第 9、14 節；原型未按會員分區</td>
+<td>待產品決策</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="152">15.2 待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>等待對象／影響</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-07-003</td>
+<td>正式逐局流水、帳務精度、時間依據與防重複服務如何支援已確認行為？</td>
+<td>遊戲、後端團隊；轉換、期限、保存驗收</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p>上述問題承接原文已有的服務限制，不影響本版已確認的 72 小時及加總規則。取得程式現況不等同正式產品已決議。</p>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<p>使用者已確認本文件內容，作為後續章節格式基準。原文標記的服務缺口仍待處理，確認文件不代表操作驗收通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格完成一致性檢查；先前五批沿革保留於總綱</td>
+</tr>
+<tr>
+<td>v0.9 內容確認</td>
+<td>2026-09-09</td>
+<td>使用者確認內容；未變更功能規則或驗收結果</td>
+</tr>
+<tr>
+<td>v0.8 試讀</td>
+<td>2026-09-09</td>
+<td>第 07 章獨立為 17 節，保留 15 項 AC，補三視角故事、頁面狀態與待確認事項；未改功能</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>確認</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>結構</td>
+<td>六列控制表、讀者目錄與 17 節齊備</td>
+<td>已核對</td>
+</tr>
+<tr>
+<td>來源內容</td>
+<td>原 07.1～07.8 內容有承接位置，AC-07-001～015 保留</td>
+<td>已核對；對照表見下</td>
+</tr>
+<tr>
+<td>故事</td>
+<td>三視角故事都有具體前提、動作及可觀察結果</td>
+<td>已核對</td>
+</tr>
+<tr>
+<td>缺口</td>
+<td>無遠端失敗與缺欄位呈現規則的部分有問題編號</td>
+<td>已標記，尚未決議</td>
+</tr>
+<tr>
+<td>文件同步</td>
+<td>Markdown 與 HTML 表格、來源雜湊、跨檔連結通過檢查</td>
+<td>由文件檢查指令核對</td>
+</tr>
+<tr>
+<td>產品驗收</td>
+<td>瀏覽器操作、邊界時間與正式服務有執行證據</td>
+<td>未執行；不以文件完成代替</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原總規格小節</th>
+<th>本文件承接位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>07.1 目的</td>
+<td>第 1、2 節</td>
+</tr>
+<tr>
+<td>07.2 入口與返回</td>
+<td>第 8 節</td>
+</tr>
+<tr>
+<td>07.3 畫面</td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td>07.4 欄位與範例</td>
+<td>第 5 節</td>
+</tr>
+<tr>
+<td>07.5 操作與計算</td>
+<td>第 8 節</td>
+</tr>
+<tr>
+<td>07.6 狀態</td>
+<td>第 6 節</td>
+</tr>
+<tr>
+<td>07.7 資料</td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td>07.8 AC</td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div>
+<p>原文引用 07.5.2／07.5.3 對應本文件 8.2／8.3。其他章節尚未遷移時可由總綱第 07 章轉入。</p><p class="foot">正文來源：<a href="07-reward-cards.md">07-reward-cards.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

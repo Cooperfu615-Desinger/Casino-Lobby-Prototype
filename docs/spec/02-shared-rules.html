@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="d8e8fb3a39a39cdf62c72dbf25c6fb31f2997ff26a05fceba40fe45c01fc8dc2"><title>02. 整體介面架構與共用規則</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">02. 整體介面架構與共用規則</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 整體入口地圖</a><a href="#2">2. 主入口、預設內容與交接</a><a href="#3">3. 身份與頁面層級名詞</a><a href="#4">4. 幣別與資產位置</a><a href="#5">5. 三種碼的名稱與關係</a><a href="#6">6. 共用回饋與返回語意</a><a href="#7">7. 保存與時間基準</a><a href="#8">8. 可追查依據</a><a href="#9">9. 共用驗收對照</a><a href="#10">10. 待確認事項</a><a href="#11">11. 版本沿革與交付檢查</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="02">02. 整體介面架構與共用規則</h1>
+<p>巨亨ONLINE APP｜v0.10 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-02">返回總綱</a> · <a href="../spec-guidelines/APP_SPEC_RULES.html">撰寫規則</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>基礎說明文件；本批完成文件重整，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接總規格第 02 章；總綱保留索引，本文件為該章正文維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱並保留既有規則、來源與跨章關係</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>入口、身份、幣別、三種碼、回饋、保存與時間</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>各功能完整流程與正式 API 契約</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>總規格既有正文、已確認 APP 分冊規則；原型連結見總綱首頁</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>小節</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">整體入口地圖</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">主入口、預設內容與交接</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">身份與頁面層級名詞</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">幣別與資產位置</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">三種碼的名稱與關係</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">共用回饋與返回語意</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">保存與時間基準</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">可追查依據</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">共用驗收對照</a></td>
+<td>QA、前後端</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">待確認事項</a></td>
+<td>產品、後端</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">版本沿革與交付檢查</a></td>
+<td>維護者</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-02-1"></a></p>
+<h2 id="1">1. 整體入口地圖</h2>
+<div class="flow" role="group" aria-label="介面入口關係"><div class="flow-row"><div class="flow-source">啟動／品牌載入</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target">是否有登入身份</span></div></div><div class="flow-row"><div class="flow-source">是否有登入身份</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target"><span class="flow-label">無</span>登入頁</span><span class="flow-target"><span class="flow-label">有</span>大廳</span></div></div><div class="flow-row"><div class="flow-source">登入頁</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target">登入／註冊／訪客流程</span></div></div><div class="flow-row"><div class="flow-source">登入／註冊／訪客流程</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target">大廳</span></div></div><div class="flow-row"><div class="flow-source">大廳</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target">個人資訊</span><span class="flow-target">遊戲卡與錢包選擇</span><span class="flow-target">聊天／客服</span><span class="flow-target">每日任務／活動／排行榜</span><span class="flow-target">銀行／保險箱／信箱</span><span class="flow-target">設定／促銷</span><span class="flow-target"><span class="flow-label">底部獎勵卡</span>個人資訊：獎勵卡頁籤</span></div></div><div class="flow-row"><div class="flow-source">個人資訊</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target">基本資料／綁定／VIP／獎勵卡／遊戲紀錄</span></div></div><div class="flow-row"><div class="flow-source">遊戲卡與錢包選擇</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target">遊戲室</span></div></div><div class="flow-row"><div class="flow-source">遊戲室</div><span aria-hidden="true">→</span><div class="flow-targets"><span class="flow-target"><span class="flow-label">離開</span>大廳</span></div></div></div>
+
+<p>圖中箭頭表示可追查的功能入口；付款與第三方授權仍是原型流程，不能把此圖解讀成正式服務完成證據。</p>
+<p><a id="section-02"></a></p>
+<p><a id="legacy-02-2"></a></p>
+<h2 id="2">2. 主入口、預設內容與交接</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>來源／操作</th>
+<th>開啟位置</th>
+<th>預設內容／帶入資訊</th>
+<th>關閉或完成後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>啟動載入完成</td>
+<td>登入頁或大廳</td>
+<td>無身份進登入；保存的身份可進大廳</td>
+<td>不額外插入未接入的年齡提示</td>
+</tr>
+<tr>
+<td>大廳玩家頭像／摘要</td>
+<td>個人資訊</td>
+<td>基本資料頁籤，共用摘要持續顯示</td>
+<td>關閉個人資訊；一般大廳入口回大廳，其他底層已開功能依現況保留</td>
+</tr>
+<tr>
+<td>底部獎勵卡</td>
+<td>個人資訊的獎勵卡頁籤</td>
+<td>直接選中獎勵卡頁籤</td>
+<td>關閉後回大廳</td>
+</tr>
+<tr>
+<td>底部聊天／客服</td>
+<td>聊天與客服</td>
+<td>分別開私人聊天／客服</td>
+<td>關閉整個介面回大廳</td>
+</tr>
+<tr>
+<td>底部每日任務／活動</td>
+<td>任務與活動</td>
+<td>分別開每日任務／活動</td>
+<td>關閉整個介面回大廳</td>
+</tr>
+<tr>
+<td>底部銀行</td>
+<td>銀行</td>
+<td>儲值</td>
+<td>關閉回大廳</td>
+</tr>
+<tr>
+<td>頂部 BUY／錢包餘額</td>
+<td>銀行</td>
+<td>使用導航保存的銀行初始頁籤，初值為儲值；不等於一律強制儲值</td>
+<td>關閉回大廳</td>
+</tr>
+<tr>
+<td>底部保險箱</td>
+<td>保險箱</td>
+<td>保險箱頁籤、預設存入模式</td>
+<td>關閉回大廳</td>
+</tr>
+<tr>
+<td>底部信箱</td>
+<td>信箱</td>
+<td>營運公告，預設選擇首筆符合分類的信件</td>
+<td>關閉回大廳</td>
+</tr>
+<tr>
+<td>SALE／大廳促銷圖示</td>
+<td>促銷彈窗</td>
+<td>依入口帶入輪播起始索引</td>
+<td>關閉最上層促銷彈窗</td>
+</tr>
+<tr>
+<td>銀行儲值方案／促銷購買</td>
+<td>支付彈窗</td>
+<td>帶入方案內容、App Store 預設通路</td>
+<td>關閉返回底層銀行或促銷；處理中關閉停用</td>
+</tr>
+<tr>
+<td>銀行優惠</td>
+<td>銀行優惠頁</td>
+<td>優惠碼輸入；不是原優惠購買卡片</td>
+<td>切頁或關閉銀行</td>
+</tr>
+<tr>
+<td>優惠碼預覽成功</td>
+<td>優惠碼確認領取彈窗</td>
+<td>代碼、商品、數量、可兌換與使用期限</td>
+<td>取消不領取；確認後回優惠頁顯示結果</td>
+</tr>
+<tr>
+<td>玩家卡私訊／贈禮／檢舉</td>
+<td>聊天／客服或保險箱贈禮</td>
+<td>帶入聊天對象、贈禮接收者 ID，或客服檢舉對象與標題</td>
+<td>先關閉玩家卡，再開目標功能</td>
+</tr>
+<tr>
+<td>獎勵卡空畫面「前往每日任務」</td>
+<td>每日任務頁</td>
+<td>每日任務</td>
+<td>關閉個人資訊後切換</td>
+</tr>
+<tr>
+<td>活動銀幣 Mock 流水完成</td>
+<td>活動銀幣轉換結果彈窗</td>
+<td>轉換與回收結果、銀幣錢包餘額</td>
+<td>確認／關閉留在原畫面；查看紀錄則離開遊戲並開銀行紀錄</td>
+</tr>
+<tr>
+<td>設定的語言／規章／黑名單</td>
+<td>語言／規章／黑名單</td>
+<td>各自功能；規章預設使用者規章</td>
+<td>先收起設定，關閉彈窗不自動重開設定</td>
+</tr>
+<tr>
+<td>設定登出</td>
+<td>登入頁</td>
+<td>清除目前保存的 Mock 身份</td>
+<td>不宣稱所有共用記憶體資料也已清除，見 <a href="02-shared-rules.html#legacy-02-7">02.7</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<p><a id="legacy-02-3"></a></p>
+<h2 id="3">3. 身份與頁面層級名詞</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>統一名稱</th>
+<th>意義與邊界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未登入</td>
+<td>目前沒有登入身份，主內容顯示登入頁。</td>
+</tr>
+<tr>
+<td>訪客</td>
+<td>以訪客登入建立的 Mock 身份，可進大廳；目前為 VIP0、無個人邀請碼、不可兌換優惠碼，也不顯示自動傳送設定入口。其他功能限制須逐項描述，不能概括成訪客只能瀏覽。</td>
+</tr>
+<tr>
+<td>一般會員</td>
+<td>本版非訪客登入來源的會員身份；目前種子 VIP6 是示範值，不是所有正式會員的初始等級。</td>
+</tr>
+<tr>
+<td>帳號／會員 ID／暱稱</td>
+<td>帳號是登入識別文字，ID 是玩家識別，暱稱是顯示名稱。三者不得互相替代；傳入玩家對象時保留 ID。</td>
+</tr>
+<tr>
+<td>帳號綁定</td>
+<td>與目前身份建立手機或 Google 綁定狀態；綁定不自行把訪客升級成一般會員，也不證明身份合併已完成。</td>
+</tr>
+<tr>
+<td>個人資訊</td>
+<td>查看自己的五頁籤功能；與聊天中查看他人的「玩家資訊卡」分開。</td>
+</tr>
+<tr>
+<td>頁籤</td>
+<td>同一功能內的內容分類；不是新的登入身份或獨立服務。</td>
+</tr>
+<tr>
+<td>功能介面／彈窗</td>
+<td>大廳之上的功能內容或確認／選擇視窗；關閉方式依來源與層級描述。</td>
+</tr>
+<tr>
+<td>金融紀錄／遊戲紀錄</td>
+<td>前者記錄資產相關事件，後者查詢遊戲投注與結果；兩者不是同一列表，也不應假設每個餘額動作目前都會產生金融紀錄。</td>
+</tr>
+<tr>
+<td>目前 VIP／歷史最高 VIP</td>
+<td>生效等級與曾達最高等級分開；歷史最高不得代替目前權益或領獎資格。</td>
+</tr>
+<tr>
+<td>活躍指數／保級活躍天數</td>
+<td>活躍指數目前固定為 0 的預留欄位；與保級天數不同，不互相映射。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-02-4"></a></p>
+<h2 id="4">4. 幣別與資產位置</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>統一名稱</th>
+<th>顯示別名</th>
+<th>資產位置／用途</th>
+<th>本版區別</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>金幣</td>
+<td>部分說明稱儲值金幣</td>
+<td>一般錢包；支援遊戲、保險箱存取與金銀幣兌換</td>
+<td>是幣別名稱，不由「儲值」字樣推斷每筆金幣都來自付費。</td>
+</tr>
+<tr>
+<td>銀幣</td>
+<td>儲值銀幣</td>
+<td>一般錢包；支援遊戲、補簽、兌換與獎勵入帳</td>
+<td>優惠碼或卡片轉換所得銀幣也進此錢包，不因此增加付費儲值指標。</td>
+</tr>
+<tr>
+<td>銅幣</td>
+<td>無</td>
+<td>一般錢包；支援遊戲及指定獎勵</td>
+<td>不等於活動銀，不納入保險箱金幣。</td>
+</tr>
+<tr>
+<td>活動銀幣</td>
+<td>活動銀</td>
+<td>有效獎勵卡的活動額度</td>
+<td>使用前須啟用；轉換後才進銀幣錢包。</td>
+</tr>
+<tr>
+<td>活動金幣</td>
+<td>活動金</td>
+<td>目前優惠碼發放的獨立活動額度</td>
+<td>僅入帳與顯示，不提供遊戲選擇、卡片或流水轉換。</td>
+</tr>
+<tr>
+<td>保險箱金幣</td>
+<td>保險箱餘額</td>
+<td>從錢包存入的金幣，供取出或贈禮</td>
+<td>與錢包金幣分開計算，不是第六種幣別。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>額度名詞</th>
+<th>計算／呈現意義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>錢包餘額</td>
+<td>金、銀、銅分別顯示；不可將三種數字相加作單一可用餘額。</td>
+</tr>
+<tr>
+<td>活動銀幣總額／卡片餘額</td>
+<td>有效的未啟用、使用中及已停用卡片目前餘額加總；不計已合併來源或已轉換卡。</td>
+</tr>
+<tr>
+<td>目前可用活動銀幣</td>
+<td>僅有效的使用中卡片餘額；可能低於卡片總額。</td>
+</tr>
+<tr>
+<td>起始餘額紀錄</td>
+<td>卡片初始金額紀錄，舊規格亦稱卡片總金額；不等於玩家目前可用額度。</td>
+</tr>
+<tr>
+<td>流水／目標流水</td>
+<td>已累積的有效使用量與達成條件；不等於餘額。原型以 Mock 按鈕完成，不證明逐局累積。</td>
+</tr>
+<tr>
+<td>轉換上限／轉換額度／回收額度</td>
+<td>上限是可轉換的最大額度；實際轉換取卡片目前餘額與上限的較小值；超出部分為回收額度。</td>
+</tr>
+</tbody>
+</table></div>
+<p>頂部顯示金銀銅；個人資訊摘要另顯示活動金、活動銀；獎勵卡概覽再顯示目前可用活動銀。遊戲選擇提供金、銀、活動銀、銅四類，且須同時符合遊戲支援與餘額可用條件。金銀幣兌換、費率、各獎勵數值見第 06～10 章，本章不新增數值決策。</p>
+<p><a id="section-05"></a></p>
+<p><a id="legacy-02-5"></a></p>
+<h2 id="5">5. 三種碼的名稱與關係</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>統一名稱</th>
+<th>所在介面／來源</th>
+<th>格式與目前用途</th>
+<th>保存／目前未提供的能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>個人邀請碼</td>
+<td>自己的個人資訊摘要；一般會員 Mock 身份建立時提供</td>
+<td>8 碼大寫英數，排除 I、O、0、1；顯示與複製</td>
+<td>隨身份保存，刷新不變；登出再登入可能重建，不保證正式跨玩家唯一性或永久不變。</td>
+</tr>
+<tr>
+<td>銀行優惠碼</td>
+<td>銀行優惠頁；營運提供的示範碼</td>
+<td>8 碼英數，忽略前後空白及大小寫；預覽後確認領取指定商品</td>
+<td>同來源＋精確帳號字串同碼一次，本機記憶體保存；不提供後台產碼、推薦關係或跨裝置防重複保證。</td>
+</tr>
+<tr>
+<td>註冊推廣碼</td>
+<td>註冊表單選填欄位</td>
+<td>6 或 8 碼大寫英數；畫面提示代理 6 碼／玩家 8 碼</td>
+<td>目前檢查格式，提交登入未傳遞此欄位以建立關係；不可宣稱已驗證邀請人或發放推薦回饋。</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>已確認區別：</strong>優惠碼與個人邀請碼是不同用途，不可因皆為八碼而互相使用。註冊推廣碼目前僅檢查格式，尚未建立推薦關係；後續若調整此流程，於註冊與個人資訊章節同步記錄。</p>
+<p><a id="section-06"></a></p>
+<p><a id="legacy-02-6"></a></p>
+<h2 id="6">6. 共用回饋與返回語意</h2>
+<ul>
+<li>本文件以實際關閉按鈕與操作入口描述返回，不預設手機系統返回鍵或瀏覽器上一頁等同功能返回。</li>
+<li>聊天、活動、銀行、保險箱、信箱的主關閉回大廳。子頁籤切換不等於主視窗關閉；需要帶入對象的跳轉在 <a href="02-shared-rules.html#legacy-02-2">02.2</a> 列明。</li>
+<li>共用大廳彈窗預設不以背景點擊關閉。活動詳情、獎勵轉換結果等有個別背景關閉行為，依各功能章節說明；不可一律套用。</li>
+<li>目前未見全域 ESC 關閉彈窗機制。分類側欄具有 ESC 返回子分類／收合行為，不能外推到其他彈窗。</li>
+<li>支付處理中關閉停用；其他流程的處理中、成功、失敗與可取消時機，由各功能章節逐項列出，不強制所有功能使用相同狀態數。</li>
+<li>Toast 是短暫的成功、錯誤或資訊回饋，不是金融紀錄或正式服務憑證；全域 Toast 與聊天局部提示不視為同一保存資料。</li>
+<li>選取預覽、提交確認與領取成功要分開。優惠碼取消不消耗資格；獎勵卡合併取消不改卡片。已確認的 VIP 領獎按鈕維持其既有狀態，不額外增加等待態。</li>
+<li>查無資料與操作失敗不同：空清單可提供引導，失敗須保留原因；尚無失敗設計的服務列待確認，不自行發明重試或補償規則。</li>
+</ul>
+<p><a id="section-07"></a></p>
+<p><a id="legacy-02-7"></a></p>
+<h2 id="7">7. 保存與時間基準</h2>
+<p>以下描述本機原型，不作為正式後端保存契約。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>資料</th>
+<th>切頁／關閉重開</th>
+<th>重新整理</th>
+<th>登出／換帳號注意事項</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身份、個人資料、綁定與邀請碼</td>
+<td>共用身份保存</td>
+<td>保留本機身份資料</td>
+<td>登出清除身份，重新登入建立 Mock 使用者；不是完整帳號資料庫。</td>
+</tr>
+<tr>
+<td>金銀銅、保險箱、VIP 指標／領獎與金融紀錄</td>
+<td>共用狀態保留</td>
+<td>回到種子值／紀錄</td>
+<td>登入重建使用者，金融紀錄未見相同清除邏輯；不得宣稱所有狀態同步隔離。</td>
+</tr>
+<tr>
+<td>任務進度、卡片、合併來源與轉換通知</td>
+<td>共用狀態保留</td>
+<td>恢復示範預設</td>
+<td>目前未依帳號分區。</td>
+</tr>
+<tr>
+<td>優惠碼資格與活動金</td>
+<td>按登入來源＋帳號保留</td>
+<td>重置</td>
+<td>同頁面生命週期可保留不同身份的領取集合，不等於其餘錢包也如此保存。</td>
+</tr>
+<tr>
+<td>聊天訊息、草稿與自動發送設定</td>
+<td>同視窗切頻道保留；主關閉、跨功能或重新建立指定對話入口時重建</td>
+<td>初始化</td>
+<td>不作為正式聊天歷史或排程；好友關係另列。</td>
+</tr>
+<tr>
+<td>信箱內容、已讀、刪除與已領附件</td>
+<td>同視窗保留；主關閉再開回種子，已加的當次金幣仍保留</td>
+<td>初始化</td>
+<td>原型可重領缺口見 12.4；不作正式附件核銷規則。</td>
+</tr>
+<tr>
+<td>好友與黑名單</td>
+<td>共用狀態保留</td>
+<td>初始化</td>
+<td>未見帳號分區／登出清除；正式隔離要求待補。</td>
+</tr>
+<tr>
+<td>語言、日夜、音樂與音效偏好、我的最愛、最近點擊遊戲</td>
+<td>保存本機偏好／收藏</td>
+<td>可還原本機值</td>
+<td>不是按會員分區；登出不代表偏好清空。</td>
+</tr>
+<tr>
+<td>推播開關</td>
+<td>設定選單存續期間保留</td>
+<td>重置</td>
+<td>重開設定會初始化；沒有真實推播服務。</td>
+</tr>
+</tbody>
+</table></div>
+<p>優惠碼兌換期限以含時區的資料判斷，畫面標示台北時間；卡片到期以卡片標示日期的翌日 00:00（瀏覽器當地時區）判斷；任務日曆使用本機日期。這是目前原型的時間處理方式，尚不代表已確認正式統一時區。卡片剩餘時間必須超過 72 小時才可合併是已有確認規則，不因時區議題重開該門檻決策。</p>
+<p><a id="section-08"></a></p>
+<p><a id="legacy-02-8"></a></p>
+<h2 id="8">8. 可追查依據</h2>
+<p>產品閱讀可略過本節；設計、開發與測試核對時使用以下來源：</p>
+<ul>
+<li>啟動與入口：<a href="../../src/App.tsx">App</a>、<a href="../../src/components/layout/LobbyLayout.tsx">大廳</a>、<a href="../../src/components/layout/BottomNavigation.tsx">底部導航</a>、<a href="../../src/components/layout/Header.tsx">頂部資訊</a>、<a href="../../src/context/NavigationContext.tsx">導航狀態</a>。</li>
+<li>資產與三種碼：<a href="../../src/context/AuthContext.tsx">身份與錢包</a>、<a href="../../src/hooks/useActivityBalances.ts">活動額度</a>、<a href="../../src/utils/gameWallets.ts">遊戲錢包</a>、<a href="../../src/utils/invitationCode.ts">邀請碼</a>、<a href="../../src/data/promoCodes.ts">優惠碼資料</a>、<a href="../../src/context/PromoCodeContext.tsx">優惠碼領取</a>、<a href="../../src/components/modals/SignupModal.tsx">註冊提交</a>。</li>
+<li>保存與回饋：<a href="../../src/context/RewardCardContext.tsx">獎勵卡</a>、<a href="../../src/context/ActivityContext.tsx">活動</a>、<a href="../../src/context/SocialContext.tsx">社交</a>、<a href="../../src/context/UserPreferencesContext.tsx">偏好</a>、<a href="../../src/components/common/LobbyModalShell.tsx">彈窗外框</a>、<a href="../../src/components/ModalContainer.tsx">全域彈窗</a>、<a href="../../src/context/UIContext.tsx">UI 提示</a>。</li>
+</ul>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 共用驗收對照</h2>
+<p>本節引用既有驗收，不另建立重複 AC；結果仍記錄在總綱第 14 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>共用規則</th>
+<th>具體驗證方向</th>
+<th>既有 AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身份與入口</td>
+<td>頂部摘要與底部獎勵卡開啟同一外框、不同頁籤</td>
+<td>AC-06-001</td>
+</tr>
+<tr>
+<td>活動額度</td>
+<td>有總額但未啟用時，不能以活動銀進遊戲</td>
+<td>AC-07-012</td>
+</tr>
+<tr>
+<td>資料保存</td>
+<td>刷新後身份保存與 VIP 領取重置分開判讀</td>
+<td>AC-06-016</td>
+</tr>
+<tr>
+<td>三種碼</td>
+<td>一般會員複製八碼邀請碼；銀行優惠碼仍使用獨立兌換流程</td>
+<td>AC-06-008、AC-08-009</td>
+</tr>
+<tr>
+<td>關閉與返回</td>
+<td>轉換結果確認留遊戲，查看紀錄則進銀行</td>
+<td>AC-05-007</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10">10. 待確認事項</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>類別</th>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>待產品決策</td>
+<td>Q-02-001</td>
+<td>正式系統採用何種統一時間與日期顯示基準？</td>
+<td>任務、卡片、優惠碼；不重開 72 小時合併門檻</td>
+<td>未決</td>
+</tr>
+<tr>
+<td>待外部輸入</td>
+<td>Q-02-002</td>
+<td>正式服務如何提供帳號隔離、持久化與跨裝置一致性？</td>
+<td>後端；各功能已確認的保存需求與服務契約</td>
+<td>待服務設計</td>
+</tr>
+</tbody>
+</table></div>
+<p>本表承接第 7 節現有限制。各功能的特定流程與未決項目仍由其文件負責。</p>
+<p><a id="section-11"></a></p>
+<h2 id="11">11. 版本沿革與交付檢查</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格既有第 02 章；歷史變更見總綱</td>
+</tr>
+<tr>
+<td>v0.10</td>
+<td>2026-09-09</td>
+<td>獨立整理本章，保留原規則；補充結構與文件連結</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>內容</td>
+<td>原章節全部段落有承接位置</td>
+<td>已逐節移入</td>
+</tr>
+<tr>
+<td>格式與連結</td>
+<td>Markdown／HTML 內容一致、連結及錨點有效</td>
+<td>由文件檢查核對</td>
+</tr>
+<tr>
+<td>驗收</td>
+<td>有瀏覽器與正式服務執行證據</td>
+<td>未執行，不以文件完成替代</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="02-shared-rules.md">02-shared-rules.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

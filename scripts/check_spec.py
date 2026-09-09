@@ -147,7 +147,8 @@ def check_coverage(source):
 
 def check_documents(root=ROOT):
     files = [root / 'docs/APP_FRONTEND_SPEC.md',
-             *sorted((root / 'docs/spec-templates').glob('*.md'))]
+             *sorted((root / 'docs/spec-templates').glob('*.md')),
+             *sorted((root / 'docs/spec').glob('*.md')), root / 'docs/spec-guidelines/APP_SPEC_RULES.md']
     parsed_files = {}
     for path in files:
         source = path.read_text(encoding='utf-8')
@@ -170,7 +171,19 @@ def check_documents(root=ROOT):
             if url.fragment and target in parsed_files:
                 require(unquote(url.fragment) in parsed_files[target].ids,
                         f'Missing fragment in {output}: {link}')
-    ac_count, sc_count = check_coverage(files[0].read_text(encoding='utf-8'))
+    for path in sorted((root / 'docs/spec').glob('*.md')):
+        if not 3 <= int(path.name[:2]) <= 12:
+            continue  # Overview, shared rules and journeys have their own structures.
+        source = path.read_text(encoding='utf-8')
+        sections = re.findall(r'^## (\d+)\. ', source, re.M)
+        require(sections == [str(n) for n in range(1, 18)],
+                f'Expected ordered 17 sections: {path}')
+        story_ids = re.findall(r'^\| \*\*(US-[UDQ]-\d{2}-\d{3}) ', source, re.M)
+        require(len(story_ids) == len(set(story_ids)), f'Duplicate role stories: {path}')
+        require(all(any(i.startswith('US-' + role) for i in story_ids) for role in 'UDQ'),
+                f'Missing story perspective: {path}')
+    coverage_source = files[0].read_text(encoding='utf-8') + '\n' + '\n'.join(p.read_text(encoding='utf-8') for p in sorted((root / 'docs/spec').glob('*.md')))
+    ac_count, sc_count = check_coverage(coverage_source)
     print(f'{ac_count} AC, {sc_count} SC; every AC referenced; anchors/local links OK')
     print('Document checks only; no application or service acceptance performed.')
 

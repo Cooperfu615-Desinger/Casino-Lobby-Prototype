@@ -1,0 +1,1880 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="94c58316c53d81963b0b70afc8b052fc8da23761018efbf9a6e2b24cfe02bdd1"><title>06. 個人資訊與會員功能</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">06. 個人資訊與會員功能</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="06">06. 個人資訊與會員功能</h1>
+<p>巨亨ONLINE APP｜v0.10 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-06">返回總綱</a> · <a href="../spec-guidelines/APP_SPEC_RULES.html">撰寫規則</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格；本批完成文件重整，操作驗收未執行</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接總規格第 06 章；總綱保留索引，本文件為該章正文維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱並保留既有規則、來源與跨章關係</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>自己的身份摘要、基本資料、綁定、頭像、VIP 與遊戲紀錄</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>其他玩家資訊、獎勵卡完整管理、正式 VIP 後台與排程</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>總規格既有正文、已確認 APP 分冊規則；原型連結見總綱首頁</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>小節</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p><a id="legacy-06-1"></a>
+玩家在同一個「個人資訊」視窗查看身份、完善資料、確認綁定、理解 VIP 權益並查詢遊戲紀錄。美術、前後端與測試可依本章的小節及驗收編號建立調整工作單；單純編修文件不改變既有功能規則。</p>
+<p>個人資訊有五個頁籤，依序為「基本資料」「帳號綁定」「VIP 等級」「獎勵卡」「遊戲紀錄」。一般會員與訪客均可開啟；未登入時不顯示。訪客綁定手機或 Google 不會自行改變身份，也不因綁定而取得邀請碼。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看其他玩家、私訊及檢舉</td>
+<td>第 11 章聊天與玩家互動</td>
+</tr>
+<tr>
+<td>卡片啟停、合併及轉換</td>
+<td>獎勵卡獨立規格</td>
+</tr>
+<tr>
+<td>儲值、優惠碼與金融紀錄查詢</td>
+<td>第 08 章銀行</td>
+</tr>
+<tr>
+<td>VIP 後台配置、排程與返水</td>
+<td>VIP 後台與排程規格，本文件不取代</td>
+</tr>
+<tr>
+<td>修改已鎖定生日／Email或解除綁定</td>
+<td>本版未提供流程；客服更正申請與帳號安全另行定義</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目前 VIP／歷史最高 VIP</td>
+<td>目前 VIP6、歷史最高 VIP8 時，權益與領取依 VIP6，不能領 VIP8</td>
+</tr>
+<tr>
+<td>歷史投注／本月有效投注</td>
+<td>前者為歷程，後者為升級條件，不能用歷史總額代替本月進度</td>
+</tr>
+<tr>
+<td>活躍指數／活躍天數</td>
+<td>指數為原型固定 0；天數為保級條件，0 指數不代表 0 天</td>
+</tr>
+<tr>
+<td>Google 綁定／Email 設定</td>
+<td>綁定 Google 不自動填 Email，也不等於 Email 驗證</td>
+</tr>
+<tr>
+<td>邀請碼／優惠碼／註冊推廣碼</td>
+<td>各自用途見共用規則第 5 節；複製邀請碼不發獎或建立關係</td>
+</tr>
+<tr>
+<td>紀錄餘額／即時餘額</td>
+<td>紀錄為該筆展示值，不是目前錢包餘額</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<p><a id="legacy-06-3"></a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>顯示資訊及操作用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標頭與頁籤</td>
+<td>個人資訊標題、主關閉，以及五個文字頁籤</td>
+</tr>
+<tr>
+<td>共用玩家摘要</td>
+<td>頭像與更換入口、暱稱、目前 VIP、帳號、會員 ID、邀請碼與複製；一般金銀銅餘額，另列活動金／活動銀</td>
+</tr>
+<tr>
+<td>基本資料</td>
+<td>身份唯讀欄位、可編輯資料、欄位錯誤、一次性資料提示、儲存按鈕</td>
+</tr>
+<tr>
+<td>帳號綁定</td>
+<td>手機號碼與 Google 兩張卡，各自呈現未綁定、操作過程及已綁定結果</td>
+</tr>
+<tr>
+<td>VIP 等級</td>
+<td>目前與歷史最高 VIP、歷史儲值／投注、活躍指數；等級權益、下一級條件、保級狀態及機制說明</td>
+</tr>
+<tr>
+<td>遊戲紀錄</td>
+<td>日期區間、查詢、查詢前／查無資料提示、結果表格、上一頁／下一頁</td>
+</tr>
+</tbody>
+</table></div>
+<p>金銀銅餘額使用緊湊排列，以圖示顏色區分並保留幣名提示；活動金、活動銀在下方同列顯示。所有餘額定義引用 <a href="02-shared-rules.html#legacy-02-4">02.4</a>；卡片總額不可當作目前可用活動銀幣。</p>
+<p><a id="section-05"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<p><a id="legacy-06-4"></a></p>
+<h4 id="0641">06.4.1 身份、邀請碼與基本資料</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>可編輯／必填</th>
+<th>格式及限制</th>
+<th>初始／保存後呈現</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號、會員 ID</td>
+<td>唯讀</td>
+<td>顯示目前身份資料，不在此更改</td>
+<td>摘要及基本資料使用同一身份</td>
+</tr>
+<tr>
+<td>暱稱</td>
+<td>可編輯、必填</td>
+<td>去除前後空白後不可為空；最多 20 個字元</td>
+<td>帶入已保存暱稱；儲存後同步摘要與大廳</td>
+</tr>
+<tr>
+<td>生日</td>
+<td>選填、首次非空保存後鎖定</td>
+<td>日期選擇，1900/01/01 起，最晚為今天往前 18 年；玩家須年滿 18 歲</td>
+<td>未填時可輸入；保存後顯示鎖定，不提供再次編輯</td>
+</tr>
+<tr>
+<td>電子郵件（Email）</td>
+<td>選填、首次非空保存後鎖定</td>
+<td>去除前後空白；非空須符合電子郵件格式</td>
+<td>未填時可輸入；保存後鎖定；沒有寄送驗證信流程</td>
+</tr>
+<tr>
+<td>手機號碼</td>
+<td>基本資料內唯讀</td>
+<td>由帳號綁定頁更新</td>
+<td>尚未有號碼時顯示「尚未綁定」</td>
+</tr>
+<tr>
+<td>個人簡介</td>
+<td>可編輯、選填</td>
+<td>最多 120 個字元，顯示字數；超過限制時不可保存；保存去除前後空白</td>
+<td>帶入已保存內容，可重複修改</td>
+</tr>
+<tr>
+<td>個人邀請碼</td>
+<td>唯讀</td>
+<td>一般會員 8 碼大寫英數，排除 I、O、0、1；不提供更換或重產按鈕</td>
+<td>訪客顯示「完成註冊後取得」，沒有複製鈕</td>
+</tr>
+</tbody>
+</table></div>
+<p>畫面星號代表「可編輯欄位」，不表示所有星號欄位都必填。生日及 Email 尚未填入時可以留空保存其他資料，留空不會將該欄位鎖定。</p>
+<p>生日或 Email 首次保存非空值時，一次性確認層只列出本次新設定的項目。確認前不更新身份；返回修改不鎖定欄位。已鎖定資料需要更正時，原型僅顯示由客服協助的說明，未實作更正申請。</p>
+<p>複製邀請碼只複製畫面上的 8 碼；成功顯示「邀請碼已複製」，失敗顯示「複製失敗，請長按或選取邀請碼複製」。文字可手動選取；複製不建立推薦關係，也不發放獎勵。三種碼的用途引用 <a href="02-shared-rules.html#legacy-02-5">02.5</a>。</p>
+<h4 id="0642-google">06.4.2 手機與 Google 綁定</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>欄位與操作規則</th>
+<th>成功後結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手機輸入</td>
+<td>只收數字、最多 10 碼；須為 09 開頭的 10 碼號碼</td>
+<td>發送後進驗證碼步驟，顯示接收號碼</td>
+</tr>
+<tr>
+<td>驗證碼</td>
+<td>只收數字、最多 6 碼；未滿 6 碼或驗證中時確認綁定停用；原型固定以 <code>123456</code> 驗證</td>
+<td>正確時模擬驗證後更新號碼及已綁定狀態</td>
+</tr>
+<tr>
+<td>重發</td>
+<td>發送後倒數 60 秒，倒數中不可重發；重發清空驗證碼並重新倒數</td>
+<td>留在驗證碼步驟；倒數是重發限制，不代表已實作驗證碼有效期</td>
+</tr>
+<tr>
+<td>修改手機</td>
+<td>驗證步驟可返回修改手機號碼</td>
+<td>尚未成功綁定，不變更已保存身份</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>點擊綁定後呈現連線中；原型以延遲模擬完成</td>
+<td>只改 Google 綁定狀態，不自動填 Email 或手機</td>
+</tr>
+<tr>
+<td>已綁定</td>
+<td>呈現綁定摘要及已綁定狀態</td>
+<td>無解除、更換綁定或重複綁定入口</td>
+</tr>
+</tbody>
+</table></div>
+<p>格式錯誤及驗證碼錯誤留在原步驟顯示原因，可修正後重試。原型不傳送簡訊、不連線 Google OAuth；正式的授權取消、服務錯誤與驗證碼有效期尚未在此流程定義。Google 綁定與 Email 一次設定是兩件事，不能互相替代。</p>
+<h4 id="0643">06.4.3 頭像選擇</h4>
+<p>預設選中目前頭像。「頭像」頁籤顯示 20 個選項，1～10 可選、11～20 固定鎖定；鎖定項目的 VIP 或活動提示為展示，不會依目前 VIP 動態解鎖。選取先改暫存選擇，與目前頭像不同時才可儲存；儲存成功後更新摘要及大廳頭像並關閉子視窗。未儲存直接關閉則維持原頭像。「頭像框」頁籤顯示即將開放，不提供套用功能。</p>
+<h4 id="0644-vip">06.4.4 VIP 資訊、條件與權益</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>顯示與判讀規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目前等級</td>
+<td>顯示 VIP0～VIP15 與等級名稱；權益、下一級及保級以目前生效等級為準</td>
+</tr>
+<tr>
+<td>歷史最高</td>
+<td>僅供歷程顯示，不能代替目前等級或領獎資格</td>
+</tr>
+<tr>
+<td>歷史累積儲值／投注</td>
+<td>分開顯示；升級進度使用歷史儲值與「本月有效投注」，不以歷史投注替代本月投注</td>
+</tr>
+<tr>
+<td>活躍指數</td>
+<td>固定顯示 0，沒有單位與計算；不等於保級使用的活躍天數</td>
+</tr>
+<tr>
+<td>下一級條件</td>
+<td>顯示下一等級、兩項進度、差額及資料要求；已設定條件須全部達成</td>
+</tr>
+<tr>
+<td>VIP2 條件未設定</td>
+<td>目前為 VIP1 時，下一級顯示「條件待設定」，暫不計算進度；不把空值當作零門檻</td>
+</tr>
+<tr>
+<td>最高等級</td>
+<td>VIP15 顯示「已達目前最高等級」，不顯示下一級進度</td>
+</tr>
+<tr>
+<td>保級狀態</td>
+<td>優先顯示「本月升級保護中」；否則依條件顯示「目前已達標」「尚未達標」或「無條件保級」</td>
+</tr>
+<tr>
+<td>保級明細</td>
+<td>保級開啟時分列本月儲值、本月投注、活躍天數；未啟用的條件不當作必須補齊的門檻</td>
+</tr>
+<tr>
+<td>本級獎勵</td>
+<td>有獎勵時只有「可領取」「已領取」；VIP0 顯示停用的「無可領取獎勵」</td>
+</tr>
+</tbody>
+</table></div>
+<p>以下為本版介面配置，與既有個人資訊規格及原型一致，供日後調整時對照。所有等級目前顯示「無額外要求」，贈禮手續費均為 5%；此表不將示範配置提升為已核准的正式營運參數。VIP2 升級門檻仍未設定，費率如有調整需與贈禮功能同步。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>等級</th>
+<th>名稱</th>
+<th>升級條件</th>
+<th>保級條件</th>
+<th>升級獎勵</th>
+<th>贈禮手續費</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VIP0</td>
+<td>鐵牌</td>
+<td>新註冊</td>
+<td>無條件保級</td>
+<td>無</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP1</td>
+<td>銅牌</td>
+<td>歷史儲值 1,000；本月投注 10,000</td>
+<td>無條件保級</td>
+<td>銅幣 1,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP2</td>
+<td>銀牌</td>
+<td>條件待設定</td>
+<td>無條件保級</td>
+<td>銅幣 5,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP3</td>
+<td>金牌</td>
+<td>歷史儲值 5,000；本月投注 50,000</td>
+<td>月儲值 2,500；月投注 25,000；活躍 8 天</td>
+<td>銀幣 100</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP4</td>
+<td>白金</td>
+<td>歷史儲值 10,000；本月投注 100,000</td>
+<td>月儲值 5,000；月投注 50,000；活躍 12 天</td>
+<td>銀幣 250</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP5</td>
+<td>琥珀</td>
+<td>歷史儲值 20,000；本月投注 200,000</td>
+<td>月儲值 10,000；月投注 100,000；活躍 16 天</td>
+<td>銀幣 500</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP6</td>
+<td>翡翠</td>
+<td>歷史儲值 35,000；本月投注 350,000</td>
+<td>月儲值 18,000；月投注 180,000；活躍 16 天</td>
+<td>銀幣 1,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP7</td>
+<td>藍寶石</td>
+<td>歷史儲值 55,000；本月投注 550,000</td>
+<td>月儲值 28,000；月投注 280,000；活躍 20 天</td>
+<td>銀幣 1,800</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP8</td>
+<td>紅寶石</td>
+<td>歷史儲值 80,000；本月投注 800,000</td>
+<td>月儲值 40,000；月投注 400,000；活躍 20 天</td>
+<td>銀幣 2,800</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP9</td>
+<td>鑽石</td>
+<td>歷史儲值 100,000；本月投注 1,000,000</td>
+<td>月儲值 50,000；月投注 500,000；活躍 24 天</td>
+<td>銀幣 4,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP10</td>
+<td>黑耀</td>
+<td>歷史儲值 150,000；本月投注 2,000,000</td>
+<td>月儲值 75,000；月投注 1,000,000；活躍 24 天</td>
+<td>銀幣 6,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP11</td>
+<td>宗師</td>
+<td>歷史儲值 250,000；本月投注 3,500,000</td>
+<td>月儲值 120,000；月投注 1,750,000；活躍 25 天</td>
+<td>銀幣 10,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP12</td>
+<td>王者</td>
+<td>歷史儲值 400,000；本月投注 6,000,000</td>
+<td>月儲值 200,000；月投注 3,000,000；活躍 25 天</td>
+<td>銀幣 18,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP13</td>
+<td>傳奇</td>
+<td>歷史儲值 650,000；本月投注 10,000,000</td>
+<td>月儲值 320,000；月投注 5,000,000；活躍 26 天</td>
+<td>銀幣 30,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP14</td>
+<td>神話</td>
+<td>歷史儲值 1,000,000；本月投注 16,000,000</td>
+<td>月儲值 500,000；月投注 8,000,000；活躍 26 天</td>
+<td>銀幣 50,000</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>VIP15</td>
+<td>至尊</td>
+<td>歷史儲值 1,500,000；本月投注 25,000,000</td>
+<td>月儲值 750,000；月投注 12,500,000；活躍 28 天</td>
+<td>銀幣 88,888</td>
+<td>5%</td>
+</tr>
+</tbody>
+</table></div>
+<p>機制說明呈現既有規則：每日 00:00 審核升級，已設定條件須全達成；同時符合多級時升到最高符合級。每月 1 日結算保級，先判斷升級，未升級才判斷保級；未升級且不符保級時下降一級。本月曾升級則受保護，不因保級不足降級。這些為前台規則說明，原型沒有實際排程引擎，畫面進度達標不會立即改 VIP。前台不提供返水或連續降級次數。</p>
+<p>「VIP機制說明」每次開啟預設等級總覽，依序列等級、升級條件、保級條件、獎勵及手續費；目前等級突出顯示並定位到該列。切到規則說明可閱讀升級、保級、降級、領獎四段內容；切回總覽再定位目前等級。捲動內容時頁籤與關閉仍可操作。</p>
+<h3 id="_2">無資料時顯示與判讀</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位群</th>
+<th>無資料時顯示／限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帳號、ID、暱稱、頭像</td>
+<td>目前由身份提供；正式缺值回退方式見 Q-06-002</td>
+</tr>
+<tr>
+<td>生日／Email</td>
+<td>未填可輸入、可留空；保存非空後鎖定</td>
+</tr>
+<tr>
+<td>手機</td>
+<td>尚未綁定時顯示「尚未綁定」</td>
+</tr>
+<tr>
+<td>個人簡介</td>
+<td>未填為空白可編輯內容</td>
+</tr>
+<tr>
+<td>邀請碼</td>
+<td>訪客顯示「完成註冊後取得」，沒有複製鈕；會員缺碼見 Q-06-002</td>
+</tr>
+<tr>
+<td>VIP 指標與條件</td>
+<td>活躍指數展示 0；VIP2 未設條件顯示待設定，不能轉成零門檻</td>
+</tr>
+<tr>
+<td>金銀銅與活動額度</td>
+<td>真正零額度可顯示 0；服務缺值不推定為 0，見 Q-06-002</td>
+</tr>
+<tr>
+<td>遊戲紀錄欄位</td>
+<td>無符合列顯示查無紀錄；單筆金額或名稱缺值的正式呈現見 Q-06-002</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<p><a id="legacy-06-6"></a>
+各子功能分組描述。以下值為產品語意；原型局部布林與介面步驟不在此鎖定為正式後端代碼。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>身份／欄位狀態</th>
+<th>顯示或規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未登入</td>
+<td>不顯示個人資訊</td>
+</tr>
+<tr>
+<td>訪客</td>
+<td>可開啟；無邀請碼複製，綁定不升級身份</td>
+</tr>
+<tr>
+<td>一般會員</td>
+<td>顯示邀請碼與複製</td>
+</tr>
+<tr>
+<td>生日／Email 未設定</td>
+<td>可留空，首次非空保存需確認</td>
+</tr>
+<tr>
+<td>生日／Email 已設定</td>
+<td>鎖定；其他欄位仍可修改</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>綁定步驟</th>
+<th>顯示或規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手機未綁定</td>
+<td>輸入號碼、格式檢核</td>
+</tr>
+<tr>
+<td>驗證碼步驟</td>
+<td>輸入六碼，倒數限制重發；可返回改號碼</td>
+</tr>
+<tr>
+<td>Google 連線中</td>
+<td>延遲模擬，不代表正式授權成功</td>
+</tr>
+<tr>
+<td>已綁定</td>
+<td>顯示摘要，無解除或更換入口</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>VIP 領獎狀態</th>
+<th>顯示與可操作性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本級有獎勵且未領</td>
+<td>可領取</td>
+</tr>
+<tr>
+<td>本級已領</td>
+<td>已領取，停用</td>
+</tr>
+<tr>
+<td>VIP0 無獎勵</td>
+<td>無可領取獎勵，停用</td>
+</tr>
+</tbody>
+</table></div>
+<p>保級的保護／達標／未達標／無條件與領獎狀態分開；詳見第 5 節 VIP 規則。沒有新增「領取中」狀態。</p>
+<h3 id="_3">既有情境與限制</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>情境</th>
+<th>處理及影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一般會員／訪客</td>
+<td>一般會員初始 VIP6、訪客 VIP0 是 Mock 展示值；不可寫成正式帳號必定從這些等級開始</td>
+</tr>
+<tr>
+<td>已填生日／Email</td>
+<td>保存與重開均顯示鎖定；其他可編輯欄位仍可保存</td>
+</tr>
+<tr>
+<td>未保存草稿離頁</td>
+<td>重進以保存值重建，不新增離頁確認</td>
+</tr>
+<tr>
+<td>VIP 重複領取</td>
+<td>已領按鈕停用；同一原型身份生命週期內快速重複操作不再增加餘額或紀錄</td>
+</tr>
+<tr>
+<td>已達升級條件</td>
+<td>只反映進度，不能把查看或儲存資料當作立即升級事件</td>
+</tr>
+<tr>
+<td>無獎勵／條件待設定</td>
+<td>無獎勵不可領；未設定門檻不顯示誤導性的 100% 達成</td>
+</tr>
+<tr>
+<td>缺正式服務狀態</td>
+<td>保留該功能的現況說明；日後補簡訊、OAuth、VIP 排程或紀錄服務時，由工作單寫清新增狀態及驗收</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-07"></a></p>
+<p><a id="legacy-06-4-5"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日期區間</td>
+<td>預設開始為今天往前 30 天、結束為今天；日期選擇器範圍為這兩日之間，含端點</td>
+</tr>
+<tr>
+<td>查詢時機</td>
+<td>進頁不自動查詢，顯示「請選擇日期區間後查詢」；按查詢才更新結果</td>
+</tr>
+<tr>
+<td>不合法區間</td>
+<td>缺任一日期時查詢停用；開始晚於結束時停用並顯示錯誤</td>
+</tr>
+<tr>
+<td>結果</td>
+<td>編號、遊戲名稱、投注額、贏分、該筆錢包餘額；金額以千分位顯示，正贏分加 +，正負值區分呈現</td>
+</tr>
+<tr>
+<td>排序與分頁</td>
+<td>依紀錄時間由新到舊；每頁 10 筆，編號跨頁連續；超過一頁才顯示分頁，首末頁相應按鈕停用</td>
+</tr>
+<tr>
+<td>改變日期</td>
+<td>不立即替換舊結果；再次按查詢更新並回第 1 頁</td>
+</tr>
+<tr>
+<td>無結果</td>
+<td>查詢後無符合資料時顯示「查無紀錄」，與尚未查詢不同</td>
+</tr>
+<tr>
+<td>切頁與重開</td>
+<td>離開遊戲紀錄頁籤後重進，重新建立查詢初始狀態</td>
+</tr>
+</tbody>
+</table></div>
+<p>目前使用本機產生的 100 筆 Mock 紀錄；時間供篩選及排序，不顯示在結果欄位。紀錄中的錢包餘額不是目前玩家即時餘額，也未標明各筆幣別，不能據此推定屬於特定錢包或遊戲室真實結算。原型未提供紀錄詳情、匯出或服務載入失敗流程。</p>
+<p><a id="section-08"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<p><a id="legacy-06-2"></a></p>
+<p><a id="legacy-06-5"></a></p>
+<h3 id="_4">入口、預設畫面與返回</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>預設內容或帶入資料</th>
+<th>返回／保留方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大廳頂部玩家摘要</td>
+<td>開啟個人資訊，預設基本資料</td>
+<td>主關閉收起個人資訊；下層若已有功能介面，依原入口保留</td>
+</tr>
+<tr>
+<td>底部獎勵卡</td>
+<td>開啟同一個個人資訊視窗，直接選中獎勵卡</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>切換五個頁籤</td>
+<td>左側摘要持續顯示，右側更換內容</td>
+<td>已完成保存／領取的共用資料保留；表單草稿、查詢結果及合併選取不跨頁籤保留</td>
+</tr>
+<tr>
+<td>摘要的更換頭像</td>
+<td>疊加頭像選擇，帶入目前頭像</td>
+<td>儲存或關閉只結束頭像視窗，回原頁籤</td>
+</tr>
+<tr>
+<td>基本資料的一次性資料確認</td>
+<td>列出本次新填的生日及／或 Email</td>
+<td>「返回修改」或關閉確認層保留表單草稿；確認保存後回基本資料</td>
+</tr>
+<tr>
+<td>VIP機制說明</td>
+<td>疊加說明視窗，預設等級總覽</td>
+<td>關閉回 VIP 等級，不關閉個人資訊</td>
+</tr>
+</tbody>
+</table></div>
+<p>主視窗不以背景點擊關閉，亦未提供全域 ESC 關閉規則。未送出表單時切頁／關閉不另跳出捨棄確認；重開依已保存資料初始化。儲存、驗證中的離頁不等於取消已送出的操作，原型尚未提供這些延遲操作的取消流程。</p>
+<h3 id="_5">操作與帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂部摘要／底部獎勵卡</td>
+<td>預設基本資料／獎勵卡頁籤；共用身份</td>
+</tr>
+<tr>
+<td>更換頭像</td>
+<td>目前頭像、暫存選擇</td>
+</tr>
+<tr>
+<td>保存基本資料</td>
+<td>修改內容及本次首次設定的生日／Email；確認結果</td>
+</tr>
+<tr>
+<td>綁定手機</td>
+<td>當前身份、輸入手機及驗證碼</td>
+</tr>
+<tr>
+<td>綁定 Google</td>
+<td>當前身份與綁定結果；不帶入 Email 更新</td>
+</tr>
+<tr>
+<td>複製邀請碼</td>
+<td>畫面上的八碼邀請碼</td>
+</tr>
+<tr>
+<td>VIP 說明／領獎</td>
+<td>目前生效級、對應配置與已領集合</td>
+</tr>
+<tr>
+<td>查詢紀錄</td>
+<td>日期起訖；分頁依已查結果操作</td>
+</tr>
+<tr>
+<td>主關閉</td>
+<td>無新增資料；返回與草稿依上表</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_6">使用流程</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>玩家操作</th>
+<th>系統回饋與資料變化</th>
+<th>完成位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>保存基本資料</td>
+<td>開基本資料 → 修改 → 儲存；新填生日／Email 時再確認</td>
+<td>檢核失敗不保存；確認後顯示儲存中，完成提示「基本資料已更新」並同步共用身份</td>
+<td>基本資料；一次性非空欄位鎖定</td>
+</tr>
+<tr>
+<td>手機綁定</td>
+<td>帳號綁定 → 輸入手機 → 發送 → 輸入碼 → 驗證</td>
+<td>格式／驗證錯誤可修正；成功顯示已綁定，基本資料手機欄同步</td>
+<td>帳號綁定</td>
+</tr>
+<tr>
+<td>Google 綁定</td>
+<td>帳號綁定 → 點 Google 綁定</td>
+<td>連線中後改已綁定，Email 不變</td>
+<td>帳號綁定</td>
+</tr>
+<tr>
+<td>頭像</td>
+<td>摘要更換 → 選可用頭像 → 儲存</td>
+<td>未確認前只改選取；確認後同步頭像並提示</td>
+<td>原個人資訊頁籤</td>
+</tr>
+<tr>
+<td>邀請碼</td>
+<td>摘要 → 複製</td>
+<td>只寫入剪貼簿，成功／失敗各有回饋</td>
+<td>原頁籤</td>
+</tr>
+<tr>
+<td>VIP 領獎</td>
+<td>VIP 等級 → 確認本級商品 → 點可領取</td>
+<td>驗證本級與未領資格，對應錢包增加，產生一筆免費獎勵金融紀錄；Toast 含級別、幣別、數量</td>
+<td>留 VIP，按鈕直接變已領取</td>
+</tr>
+<tr>
+<td>遊戲紀錄</td>
+<td>選起訖日 → 查詢 → 翻頁</td>
+<td>只查詢展示資料，不變更錢包</td>
+<td>遊戲紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<p>VIP 只領目前生效級，每級一次，不提供歷史未領清單或跨級補領；重新升回已領等級也不能重領。原型同步完成領取，不新增「領取中」按鈕狀態。領獎紀錄來源為「VIP {等級} 升級獎勵」，可從銀行紀錄查看；領取本身不自動跳銀行。</p>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>現況與處理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>儲存、手機驗證與 Google 連線有處理中呈現；無統一遠端個人資訊載入畫面</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>遊戲紀錄查詢成功且無資料顯示「查無紀錄」；查詢前顯示請選日期後查詢</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>原型未定義遠端身份或紀錄查詢失敗介面；見 Q-06-002</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>個人資料成功而 VIP 或紀錄失敗的呈現未定義；見 Q-06-002</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>未登入不顯示本視窗；訪客仍可開啟，不能把缺邀請碼當成全頁無權限</td>
+</tr>
+</tbody>
+</table></div>
+<p>欄位格式錯誤屬輸入檢核，不等於遠端載入失敗。正式授權取消與離頁競態見第 15 節。</p>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>以下使用原型或專用測試資料，不代表正式玩家預設值。完整旅程見總綱 US-03、US-04、US-13。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-001 資料同步</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成資料同步並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已登入且暱稱可編輯。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 將暱稱改為「測試玩家」並保存。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 摘要與大廳顯示「測試玩家」。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-002。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-002 一次性確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成一次性確認並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 生日與 Email 都未設定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 填入有效值後在確認層返回修改。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 身份未更新，草稿仍在且欄位未鎖定。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-003。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-003 手機驗證</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成手機驗證並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 手機未綁定且已送出有效號碼。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 輸入原型六碼 123456 並確認。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 綁定頁與基本資料顯示同一手機。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-005。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-004 Google 獨立性</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成Google 獨立性並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 訪客未綁定 Google 且 Email 未填。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 完成原型 Google 綁定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> Google 已綁定，Email 仍未填且身份仍為訪客。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-006。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-005 頭像取消</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成頭像取消並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 目前使用頭像 1。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 選頭像 2 後直接關閉。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 摘要與大廳仍使用頭像 1。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-007。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-006 VIP 目前級</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成VIP 目前級並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 目前 VIP6、歷史最高 VIP8。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 查看權益。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 目前權益依 VIP6，歷史最高顯示 VIP8。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-009。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-007 VIP 防重複</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成VIP 防重複並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> VIP6 本級未領，記下銀幣及金融紀錄數。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 領取後重複操作。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 銀幣只增加 1,000、金融紀錄只增加一筆。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-011。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-U-06-008 紀錄翻頁</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為玩家，我要完成紀錄翻頁並看見結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已查詢超過十筆紀錄且位於第 2 頁。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 改日期並再次查詢。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 新結果回第 1 頁，每頁最多十筆。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-014。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>以下使用原型或專用測試資料，不代表正式玩家預設值。完整旅程見總綱 US-03、US-04、US-13。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-001 資料同步</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要保存後同步共用身份。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已登入且暱稱可編輯。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 將暱稱改為「測試玩家」並保存。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 摘要與大廳顯示「測試玩家」。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-002。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-002 一次性確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要只在確認後保存一次性資料。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 生日與 Email 都未設定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 填入有效值後在確認層返回修改。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 身份未更新，草稿仍在且欄位未鎖定。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-003。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-003 手機驗證</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要將綁定結果同步基本資料。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 手機未綁定且已送出有效號碼。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 輸入原型六碼 123456 並確認。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 綁定頁與基本資料顯示同一手機。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-005。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-004 Google 獨立性</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要分開處理綁定與身份欄位。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 訪客未綁定 Google 且 Email 未填。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 完成原型 Google 綁定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> Google 已綁定，Email 仍未填且身份仍為訪客。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-006。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-005 頭像取消</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要區分暫存選擇與保存結果。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 目前使用頭像 1。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 選頭像 2 後直接關閉。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 摘要與大廳仍使用頭像 1。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-007。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-006 VIP 目前級</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要以生效級決定權益。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 目前 VIP6、歷史最高 VIP8。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 查看權益。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 目前權益依 VIP6，歷史最高顯示 VIP8。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-009。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-007 VIP 防重複</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要讓領獎資格、餘額與紀錄同步。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> VIP6 本級未領，記下銀幣及金融紀錄數。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 領取後重複操作。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 銀幣只增加 1,000、金融紀錄只增加一筆。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-011。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-D-06-008 紀錄翻頁</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為開發人員，我要在重新查詢時重設頁碼。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已查詢超過十筆紀錄且位於第 2 頁。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 改日期並再次查詢。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 新結果回第 1 頁，每頁最多十筆。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-014。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>以下使用原型或專用測試資料，不代表正式玩家預設值。完整旅程見總綱 US-03、US-04、US-13。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-001 資料同步</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要對照兩個顯示位置。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已登入且暱稱可編輯。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 將暱稱改為「測試玩家」並保存。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 摘要與大廳顯示「測試玩家」。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-002。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-002 一次性確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要核對取消前後身份值。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 生日與 Email 都未設定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 填入有效值後在確認層返回修改。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 身份未更新，草稿仍在且欄位未鎖定。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-003。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-003 手機驗證</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要比對兩頁號碼。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 手機未綁定且已送出有效號碼。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 輸入原型六碼 123456 並確認。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 綁定頁與基本資料顯示同一手機。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-005。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-004 Google 獨立性</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要核對無關欄位維持原值。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 訪客未綁定 Google 且 Email 未填。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 完成原型 Google 綁定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> Google 已綁定，Email 仍未填且身份仍為訪客。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-006。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-005 頭像取消</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要檢查關閉沒有提交。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 目前使用頭像 1。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 選頭像 2 後直接關閉。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 摘要與大廳仍使用頭像 1。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-007。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-006 VIP 目前級</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要驗證歷史最高不取代生效級。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 目前 VIP6、歷史最高 VIP8。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 查看權益。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 目前權益依 VIP6，歷史最高顯示 VIP8。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-009。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-007 VIP 防重複</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要比對金額與紀錄增量。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> VIP6 本級未領，記下銀幣及金融紀錄數。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 領取後重複操作。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 銀幣只增加 1,000、金融紀錄只增加一筆。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-011。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>US-Q-06-008 紀錄翻頁</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">身為QA 驗證者，我要核對查詢與頁碼關係。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GIVEN</strong> 已查詢超過十筆紀錄且位於第 2 頁。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WHEN</strong> 改日期並再次查詢。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>THEN</strong> 新結果回第 1 頁，每頁最多十筆。</td>
+</tr>
+<tr>
+<td style="text-align: left;">依據：AC-06-014。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p><a id="legacy-06-8"></a>
+既有編號不變；以下是驗收要求，執行證據見總綱第 14 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-06-001</td>
+<td>US-03、US-05</td>
+<td>Given：已登入，個人資訊關閉；When：分別從頂部摘要及底部獎勵卡開啟；Then：同一個人資訊外框，分別預設基本資料與獎勵卡；五頁籤順序正確。</td>
+</tr>
+<tr>
+<td>AC-06-002</td>
+<td>US-03</td>
+<td>Given：基本資料可編輯；When：修改暱稱及簡介保存並重開，另測空暱稱與超長簡介；Then：成功後摘要及大廳同步；空暱稱、超長簡介不保存且顯示原因。</td>
+</tr>
+<tr>
+<td>AC-06-003</td>
+<td>US-03</td>
+<td>Given：生日與 Email 尚未設定；When：首次填寫後返回修改，再確認保存；另保留空欄位；Then：返回時身份不變且草稿保留；確認才保存及鎖定；留空欄位不鎖定。</td>
+</tr>
+<tr>
+<td>AC-06-004</td>
+<td>US-03</td>
+<td>Given：基本資料可編輯且生日／Email 未鎖定；When：輸入格式錯誤 Email 或超出日期範圍的生日後嘗試保存；Then：顯示欄位錯誤，不進入成功保存；修正後可繼續。</td>
+</tr>
+<tr>
+<td>AC-06-005</td>
+<td>US-03</td>
+<td>Given：手機未綁定；When：依序測錯誤號碼、錯誤六碼與 123456，並在倒數中嘗試重發；Then：錯誤不綁定；正確後綁定頁與基本資料號碼一致；重發倒數 60 秒內停用。</td>
+</tr>
+<tr>
+<td>AC-06-006</td>
+<td>US-03</td>
+<td>Given：Google 未綁定；When：執行 Google 綁定；Then：連線中後已綁定；不修改 Email、手機或訪客身份；不顯示解除入口。</td>
+</tr>
+<tr>
+<td>AC-06-007</td>
+<td>US-03</td>
+<td>Given：目前頭像與另一可用頭像不同；When：先選擇後取消，再選另一可用頭像儲存；Then：取消不變；確認後摘要及大廳同步；11～20 固定不可選，頭像框未開放。</td>
+</tr>
+<tr>
+<td>AC-06-008</td>
+<td>US-03</td>
+<td>Given：一般會員有八碼邀請碼，另備訪客身份及剪貼簿失敗情境；When：複製邀請碼並查看訪客摘要；Then：複製內容恰為畫面 8 碼；失敗有手動複製提示；訪客無複製鈕。</td>
+</tr>
+<tr>
+<td>AC-06-009</td>
+<td>US-04</td>
+<td>Given：目前 VIP6、歷史最高 VIP8；When：查看 VIP 權益；Then：依 VIP6 顯示目前權益與下一級，VIP8 僅在歷史最高；活躍指數固定 0。</td>
+</tr>
+<tr>
+<td>AC-06-010</td>
+<td>US-04</td>
+<td>Given：分別備 VIP1、VIP15 測試身份；When：查看升級區；Then：分別為條件待設定／最高級；不把空門檻當已達標。</td>
+</tr>
+<tr>
+<td>AC-06-011</td>
+<td>US-04</td>
+<td>Given：目前 VIP6 且本級未領；When：領取並重複操作；Then：銀幣僅加 1,000、一筆免費獎勵紀錄、提示及已領取；其他錢包、活動額度、VIP 指標不變。</td>
+</tr>
+<tr>
+<td>AC-06-012</td>
+<td>US-04</td>
+<td>Given：VIP0 或本級已領；When：查看並嘗試領取；Then：對應無可領取獎勵／已領取且停用，不增加餘額與紀錄。</td>
+</tr>
+<tr>
+<td>AC-06-013</td>
+<td>US-04</td>
+<td>Given：有目前等級與各保級狀態的測試身份；When：開啟機制說明、切換頁籤及關閉，查看保級區；Then：總覽定位目前級；關閉只退該層；保護、達標、未達標、無條件呈現符合規則。</td>
+</tr>
+<tr>
+<td>AC-06-014</td>
+<td>US-13</td>
+<td>Given：遊戲紀錄尚未查詢，區間內超過十筆資料；When：查詢、翻頁、改日期再查詢；Then：查詢前不顯示結果；每頁 10 筆、編號連續；重查回第 1 頁，日期修改不立即取代舊結果。</td>
+</tr>
+<tr>
+<td>AC-06-015</td>
+<td>US-13</td>
+<td>Given：缺日期、倒置日期或合法無結果區間；When：檢查查詢按鈕，合法時查詢；Then：不合法時查詢停用；合法且無結果才顯示查無紀錄。</td>
+</tr>
+<tr>
+<td>AC-06-016</td>
+<td>US-03、US-04</td>
+<td>Given：已保存資料、完成綁定並領取 VIP 獎勵；When：重新整理；Then：個人資料及綁定保留，VIP 領取與金融 Mock 重置；未將兩者描述成同一保存契約。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<p><a id="legacy-06-7"></a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>讀取身份</td>
+<td>當前身份</td>
+<td>摘要、資料、綁定及邀請碼</td>
+<td>訪客與會員呈現分開</td>
+</tr>
+<tr>
+<td>保存資料</td>
+<td>可編輯欄位與一次性確認</td>
+<td>保存值、鎖定狀態或錯誤</td>
+<td>取消確認不更新；同步摘要與大廳</td>
+</tr>
+<tr>
+<td>綁定</td>
+<td>手機／驗證碼或授權結果</td>
+<td>綁定狀態、手機或失敗原因</td>
+<td>不更動訪客身份，不自填 Email</td>
+</tr>
+<tr>
+<td>VIP 領獎</td>
+<td>目前級與領取操作</td>
+<td>餘額、已領集合、單筆金融紀錄</td>
+<td>本級每級一次；不增加付費或投注指標</td>
+</tr>
+<tr>
+<td>紀錄查詢</td>
+<td>起訖日期</td>
+<td>符合區間的排序資料與筆數</td>
+<td>不修改錢包，不等於金融紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_7">跨頁影響與保存</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>取得／送出內容</th>
+<th>更新與保存需求</th>
+<th>不應混用的資料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身份、暱稱、頭像、邀請碼與個人資料</td>
+<td>取得已保存值；送出可編輯內容並回傳鎖定狀態；摘要、大廳及基本資料一致</td>
+<td>帳號、ID、暱稱及邀請碼互相獨立</td>
+</tr>
+<tr>
+<td>手機號碼、驗證碼、Google 授權結果</td>
+<td>成功回傳綁定狀態與手機；原型保存已完成的身份與綁定結果</td>
+<td>Google 綁定不等於 Email 設定或訪客升級</td>
+</tr>
+<tr>
+<td>VIP 指標、各級規則、已領等級集合</td>
+<td>顯示目前狀態；領取回傳對應錢包餘額與一筆金融紀錄</td>
+<td>歷史最高不代替目前級；獎勵不增加付費儲值或投注指標</td>
+</tr>
+<tr>
+<td>遊戲紀錄日期及頁碼</td>
+<td>取得符合區間的資料、數量及排序資訊</td>
+<td>遊戲紀錄不取代金融紀錄，也不直接改餘額</td>
+</tr>
+<tr>
+<td>活動額度</td>
+<td>摘要與獎勵卡概覽使用同一計算結果</td>
+<td>活動金、活動銀、金銀銅各自獨立</td>
+</tr>
+</tbody>
+</table></div>
+<p>保存方式引用 <a href="02-shared-rules.html#legacy-02-7">02.7</a>：個人資料、頭像、邀請碼及已完成綁定會隨本機身份保存；重新整理保留。主動登出清除該身份。VIP 領獎狀態、錢包及新增金融紀錄在重新整理後重置；卡片有自己的生命週期，不能由身份保存推論卡片也已持久化。</p>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="151">15.1 待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-06-001</td>
+<td>VIP2 升級條件及活躍指數定義為何？</td>
+<td>目前保留條件待設定及指數 0；不推定正式門檻</td>
+<td>未決，承接既有文件限制</td>
+</tr>
+<tr>
+<td>Q-06-002</td>
+<td>正式身份／VIP／紀錄載入失敗、局部失敗與必備欄位缺值如何呈現？</td>
+<td>第 5、9 節；不以 0 代替缺資料</td>
+<td>未決</td>
+</tr>
+<tr>
+<td>Q-06-003</td>
+<td>儲存／驗證中離頁、授權取消與服務錯誤如何繼續？</td>
+<td>第 8、9 節；本版無延遲操作取消流程</td>
+<td>未決</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="152">15.2 待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>等待對象／影響</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-06-004</td>
+<td>簡訊、驗證碼有效期及 Google 授權結果契約</td>
+<td>身份服務團隊；綁定流程與例外</td>
+<td>待外部輸入</td>
+</tr>
+<tr>
+<td>Q-06-005</td>
+<td>正式 VIP 排程、指標、領獎帳本及帶幣別的遊戲紀錄</td>
+<td>後端／遊戲團隊；保存、防重複及查詢</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p>數值表仍為原型配置，這次不核准新的正式營運參數。已確認的領獎按鈕狀態不因服務缺口而增加。</p>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格既有第 06 章；歷史變更見總綱</td>
+</tr>
+<tr>
+<td>v0.10</td>
+<td>2026-09-09</td>
+<td>獨立整理本章，保留原規則；補充結構與文件連結</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>結構</td>
+<td>六列控制表、目錄與 17 節齊備</td>
+<td>已建立</td>
+</tr>
+<tr>
+<td>既有規則</td>
+<td>生日／Email 鎖定、VIP 表、綁定與紀錄規則保留</td>
+<td>已承接</td>
+</tr>
+<tr>
+<td>故事與驗收</td>
+<td>三視角故事連到原 AC-06-001～016</td>
+<td>已建立，未宣稱執行通過</td>
+</tr>
+<tr>
+<td>HTML 與連結</td>
+<td>表格、來源雜湊、錨點及跨檔引用一致</td>
+<td>由文件檢查核對</td>
+</tr>
+<tr>
+<td>操作驗收</td>
+<td>有正式服務、瀏覽器與特殊身份測試證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>舊小節</th>
+<th>新位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-1">06.1</a></td>
+<td>第 1 節</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-2">06.2</a></td>
+<td>第 8 節入口</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-3">06.3</a></td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-4">06.4.1</a>～<a href="06-member-profile.html#legacy-06-4">06.4.4</a></td>
+<td>第 5 節；VIP 配置與說明完整保留</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-4-5">06.4.5</a></td>
+<td>第 7 節</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-5">06.5</a></td>
+<td>第 8 節使用流程</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-6">06.6</a></td>
+<td>第 6 節</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-7">06.7</a></td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td><a href="06-member-profile.html#legacy-06-8">06.8</a></td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div>
+<p>既有個人資訊規格保留歷史及自身 AC。後續本總規格範圍的維護以本文件為入口，遇到不同來源決策仍核對適用範圍；VIP 後台與排程文件不由本文件取代。</p><p class="foot">正文來源：<a href="06-member-profile.md">06-member-profile.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>
