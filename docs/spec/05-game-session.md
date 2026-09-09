@@ -2,7 +2,7 @@
 
 巨亨ONLINE APP｜v0.11 分冊整理版｜2026-09-09
 
-[返回總綱](../APP_FRONTEND_SPEC.md#ch-05) · [共用規則](02-shared-rules.md) · [獎勵卡](07-reward-cards.md) · [完整流程與驗收](../APP_FRONTEND_SPEC.md#ch-13)
+[返回總綱](../APP_FRONTEND_SPEC.md#ch-05) · [共用規則](02-shared-rules.md) · [獎勵卡](07-reward-cards.md) · [完整流程與驗收](13-cross-feature-flows.md)
 
 | 文件項目 | 內容 |
 |---|---|
@@ -409,7 +409,7 @@
 
 ## 13. 驗收標準
 
-保留原 AC 編號及結果。Given／When 補成可執行的條件與步驟；原型測試資料不是正式營運設定。[執行證據](../APP_FRONTEND_SPEC.md#ch-14)仍標示未執行。
+保留原 AC 編號及結果。Given／When 補成可執行的條件與步驟；原型測試資料不是正式營運設定。[執行證據](14-acceptance.md)仍標示未執行。
 
 | ID | 主題 | 驗收敘述 |
 |---|---|---|

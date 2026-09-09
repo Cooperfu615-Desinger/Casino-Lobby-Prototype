@@ -2,7 +2,7 @@
 
 巨亨ONLINE APP｜v0.12 分冊整理版｜2026-09-09
 
-[返回總綱](../APP_FRONTEND_SPEC.md#ch-11) · [共用規則](02-shared-rules.md) · [完整玩家旅程](../APP_FRONTEND_SPEC.md#ch-15)
+[返回總綱](../APP_FRONTEND_SPEC.md#ch-11) · [共用規則](02-shared-rules.md) · [完整玩家旅程](15-player-journeys.md)
 
 | 文件項目 | 內容 |
 |---|---|
@@ -448,7 +448,7 @@
 
 ## 13. 驗收標準
 
-原 AC 編號與預期結果保留。此處為驗收要求，[執行證據](../APP_FRONTEND_SPEC.md#ch-14)仍未執行。
+原 AC 編號與預期結果保留。此處為驗收要求，[執行證據](14-acceptance.md)仍未執行。
 
 | ID | 主題 | 驗收敘述 |
 |---|---|---|

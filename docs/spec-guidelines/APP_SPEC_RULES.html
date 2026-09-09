@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="86a3f1abe4ddeb8113d95ffafb3de2de392c3f1c58b322b05cbb273962022aea"><title>APP 規格拆分與撰寫規則</title><style>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="c85fa7d10f3dab0c50e6f273f9cd96add37a15e0d66c70986ea9fb18a0ca9fab"><title>APP 規格拆分與撰寫規則</title><style>
 :root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
 @media(min-width:1600px){main{margin-right:auto}}
@@ -8,7 +8,7 @@
 </style></head>
 <body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">APP 規格拆分與撰寫規則</div><nav aria-label="章節導覽"><a href="#_1">依據與適用方式</a><a href="#_2">目錄與責任</a><a href="#_3">遷移與驗證順序</a><a href="#_4">規則版本沿革</a><a href="#_5">後續四階段進度</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="app">APP 規格拆分與撰寫規則</h1>
 <p><a href="../APP_FRONTEND_SPEC.html">返回總綱</a></p>
-<p>版本：v1.3｜2026-09-09｜分冊規則與獎勵卡內容已獲使用者確認；新增第 00 章架構。</p>
+<p>版本：v1.4｜2026-09-09｜分冊規則與獎勵卡內容已獲使用者確認；新增第 00 章架構。</p>
 <h2 id="_1">依據與適用方式</h2>
 <p>上游為 <a href="PRD.md">PRD 原始規範</a>，原文完整保留，不納入 HTML 閱讀版。此文件記錄使用者確認的 APP 適用方式；原規範提及的 GAME_LIST_PRD_SAMPLE.md 尚未取得，不宣稱已核對範例。</p>
 <ul>
@@ -118,19 +118,19 @@
 <td>13</td>
 <td><code>13-cross-feature-flows.md</code></td>
 <td>跨介面使用流程</td>
-<td>待遷移；正文仍在總規格</td>
+<td>已分冊，待閱讀確認</td>
 </tr>
 <tr>
 <td>14</td>
 <td><code>14-acceptance.md</code></td>
 <td>整體驗收與交付對照</td>
-<td>待遷移；正文仍在總規格</td>
+<td>已分冊，待閱讀確認</td>
 </tr>
 <tr>
 <td>15</td>
 <td><code>15-player-journeys.md</code></td>
 <td>玩家 User Story 與情境流程</td>
-<td>待遷移；正文仍在總規格</td>
+<td>已分冊，待閱讀確認</td>
 </tr>
 </tbody>
 </table></div>
@@ -190,7 +190,7 @@
 <tr>
 <td>第三階段</td>
 <td>13、14、15 跨功能流程、驗收及旅程</td>
-<td>待執行</td>
+<td>已分冊，待閱讀確認</td>
 </tr>
 <tr>
 <td>第四階段</td>
@@ -200,5 +200,6 @@
 </tbody>
 </table></div>
 <p>v1.2｜2026-09-09：記錄四階段安排；第一階段四份功能文件完成重整。第 00 章仍保留總綱內，內容待補。</p>
-<p>v1.3｜2026-09-09：第二階段四份文件完成分冊；第 13～15 章與全書整合尚待後續階段。</p><p class="foot">正文來源：<a href="APP_SPEC_RULES.md">APP_SPEC_RULES.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<p>v1.3｜2026-09-09：第二階段四份文件完成分冊；第 13～15 章與全書整合尚待後續階段。</p>
+<p>v1.4｜2026-09-09：第三階段完成，第 01～15 章皆已分冊；第 00 章保留總綱。第四階段全書整合尚待執行。</p><p class="foot">正文來源：<a href="APP_SPEC_RULES.md">APP_SPEC_RULES.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
 <script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

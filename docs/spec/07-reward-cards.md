@@ -2,7 +2,7 @@
 
 巨亨ONLINE APP｜v0.9 內容確認版｜2026-09-09
 
-[返回總綱](../APP_FRONTEND_SPEC.md#ch-07) · [共用名詞](02-shared-rules.md) · [跨頁流程](../APP_FRONTEND_SPEC.md#flow-04) · [玩家旅程](../APP_FRONTEND_SPEC.md#us-06)
+[返回總綱](../APP_FRONTEND_SPEC.md#ch-07) · [共用名詞](02-shared-rules.md) · [跨頁流程](13-cross-feature-flows.md#flow-04) · [玩家旅程](15-player-journeys.md#us-06)
 
 | 文件項目 | 內容 |
 |---|---|
@@ -474,7 +474,7 @@
 
 ## 13. 驗收標準
 
-既有 AC 編號保留，原前提與操作完整置於驗收敘述。所需初始資料與分支見[玩家故事](../APP_FRONTEND_SPEC.md#us-06)及[驗收證據](../APP_FRONTEND_SPEC.md#ch-14)。尚未執行操作驗收。
+既有 AC 編號保留，原前提與操作完整置於驗收敘述。所需初始資料與分支見[玩家故事](15-player-journeys.md#us-06)及[驗收證據](14-acceptance.md)。尚未執行操作驗收。
 
 | ID | 關聯主題 | 驗收敘述 |
 |---|---|---|

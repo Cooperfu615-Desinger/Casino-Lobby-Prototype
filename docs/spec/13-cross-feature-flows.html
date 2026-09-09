@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="b8fee6619fe7325ec0c812999cf4e18517fba570712cee0f40c0d925ee177935"><title>13. 跨介面使用流程</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">13. 跨介面使用流程</div><nav aria-label="章節導覽"><a href="#_1">文件內目錄</a><a href="#_2">與其他文件的責任關係</a><a href="#131">13.1 流程索引</a><a href="#132">13.2 流程閱讀方式</a><a href="#133-flow-02">13.3 FLOW-02｜選擇與進入遊戲</a><a href="#134-flow-03">13.4 FLOW-03｜任務取得與使用獎勵</a><a href="#135-flow-04">13.5 FLOW-04｜多張獎勵卡合併</a><a href="#136-flow-05">13.6 FLOW-05｜優惠碼領取</a><a href="#137-flow-06">13.7 FLOW-06｜儲值與促銷購買</a><a href="#138-flow-07vip">13.8 FLOW-07｜VIP 領獎</a><a href="#139-flow-08">13.9 FLOW-08｜玩家贈禮</a><a href="#1310-flow-01">13.10 FLOW-01｜首次進入與建立身份</a><a href="#1311-flow-09">13.11 FLOW-09｜玩家檢舉與封鎖</a><a href="#1312-flow-10">13.12 FLOW-10｜信箱附件領取</a><a href="#_3">分冊版本與交付檢查</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="13">13. 跨介面使用流程</h1>
+<p>巨亨ONLINE APP｜v0.13 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-13">返回總綱</a> · <a href="14-acceptance.html">整體驗收與交付對照</a> · <a href="15-player-journeys.html">玩家 User Story 與情境流程</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>跨功能參考文件；不套用單一功能的 17 節</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接原總規格第 13 章，保留原 FLOW／US／SC／AC；各功能規則由相應分冊維護</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>提供跨檔查閱、工作單引用與後續驗收依據</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>跨介面使用流程</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>新增功能規則、未確認服務承諾或未執行的驗收結果</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>總規格原正文、各功能分冊及 APP 撰寫規則；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_1">文件內目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>小節</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13.1</td>
+<td><a href="#section-01">流程索引</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.2</td>
+<td><a href="#section-02">流程閱讀方式</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.3</td>
+<td><a href="#section-03">FLOW-02｜選擇與進入遊戲</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.4</td>
+<td><a href="#section-04">FLOW-03｜任務取得與使用獎勵</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.5</td>
+<td><a href="#section-05">FLOW-04｜多張獎勵卡合併</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.6</td>
+<td><a href="#section-06">FLOW-05｜優惠碼領取</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.7</td>
+<td><a href="#section-07">FLOW-06｜儲值與促銷購買</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.8</td>
+<td><a href="#section-08">FLOW-07｜VIP 領獎</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.9</td>
+<td><a href="#section-09">FLOW-08｜玩家贈禮</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.10</td>
+<td><a href="#section-10">FLOW-01｜首次進入與建立身份</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.11</td>
+<td><a href="#section-11">FLOW-09｜玩家檢舉與封鎖</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>13.12</td>
+<td><a href="#section-12">FLOW-10｜信箱附件領取</a></td>
+<td>全體</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_2">與其他文件的責任關係</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>閱讀目的</th>
+<th>維護位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看欄位、條件、狀態、資料與 AC</td>
+<td>第 03～12 章功能分冊</td>
+</tr>
+<tr>
+<td>了解跨頁帶入、完成與返回</td>
+<td>第 13 章流程</td>
+</tr>
+<tr>
+<td>建立玩家身份、資產與分支情境</td>
+<td>第 15 章 US／SC</td>
+</tr>
+<tr>
+<td>記錄執行環境、結果與證據</td>
+<td>第 14 章；目前操作驗收未執行</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>本章範圍：</strong>以流程節點串接各功能，描述傳入資訊、跨頁更新、返回位置與交接；規則引用功能章節。</p>
+<p><strong>狀態：</strong><a href="13-cross-feature-flows.html#flow-01">FLOW-01</a>～10 初稿與第五批交接核對完成，實際操作驗收未執行。</p>
+<p><a id="section-01"></a></p>
+<h2 id="131">13.1 流程索引</h2>
+<p>10 條流程均已展開，見 13.3～13.12；沿用既有章節與 FLOW 編號，依下表尋找，不因撰寫順序重新編號。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>流程主題</th>
+<th>關聯章節</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-01">FLOW-01</a></td>
+<td>首次進入與建立身份</td>
+<td>03、04、06</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-02">FLOW-02</a></td>
+<td>選擇與進入遊戲</td>
+<td>04、05</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-03">FLOW-03</a></td>
+<td>任務取得與使用獎勵</td>
+<td>10、07、05、08</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-04">FLOW-04</a></td>
+<td>多張獎勵卡合併</td>
+<td>07、05、08</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-05">FLOW-05</a></td>
+<td>優惠碼領取</td>
+<td>08、06、07</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-06">FLOW-06</a></td>
+<td>儲值與促銷購買</td>
+<td>04、08</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-07">FLOW-07</a></td>
+<td>VIP 領獎</td>
+<td>06、08</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-08">FLOW-08</a></td>
+<td>玩家贈禮</td>
+<td>11、09、08</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-09">FLOW-09</a></td>
+<td>玩家檢舉與封鎖</td>
+<td>11、12</td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="13-cross-feature-flows.html#flow-10">FLOW-10</a></td>
+<td>信箱附件領取</td>
+<td>12、06、08</td>
+<td>初稿已撰寫</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-02"></a></p>
+<h2 id="132">13.2 流程閱讀方式</h2>
+<p>以下流程記錄已找到的入口、帶入資料、操作結果與返回位置；細節與數值引用功能章節。流程初稿不代表操作驗收通過，尤其 Mock 發獎、付款與贈禮不等於正式服務成功。</p>
+<p><a id="flow-02"></a></p>
+<p><a id="section-03"></a></p>
+<h2 id="133-flow-02">13.3 FLOW-02｜選擇與進入遊戲</h2>
+<p>目的：選定遊戲與可用幣別後進入，結束時能回大廳。起點是已登入大廳；尋找、收藏與多條件篩選依第 04 章，啟動與返回依第 05 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>大廳篩選、查看結果並點遊戲卡</td>
+<td>篩選結果、遊戲與幣別；寫入最近點選資料</td>
+<td>開啟動視窗，不直接開始遊戲</td>
+<td><a href="04-lobby.html#legacy-04-4">04.4</a>～<a href="04-lobby.html#legacy-04-5">04.5</a>、<a href="05-game-session.html#legacy-05-2">05.2</a>、<a href="15-player-journeys.html#us-02">US-02</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>選可用幣別</td>
+<td>遊戲支援與目前可用額度共同決定</td>
+<td>取消回原篩選；不可用可改選或回去處理資產</td>
+<td><a href="05-game-session.html#legacy-05-4">05.4</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認進入</td>
+<td>本次遊戲＋幣別，不扣入場費</td>
+<td>載入後進遊戲室</td>
+<td><a href="05-game-session.html#legacy-05-5">05.5</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>離開遊戲</td>
+<td>清本次遊戲，資產不因離開自動改變</td>
+<td>回重建大廳；活動銀轉換另接 <a href="13-cross-feature-flows.html#flow-03">FLOW-03</a></td>
+<td><a href="05-game-session.html#legacy-05-2">05.2</a>、<a href="05-game-session.html#legacy-05-6">05.6</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-03"></a></p>
+<p><a id="section-04"></a></p>
+<h2 id="134-flow-03">13.4 FLOW-03｜任務取得與使用獎勵</h2>
+<p>目的：完成任務、取得活動銀卡，啟用使用後查看轉換結果。完成條件是卡片、額度、銀幣及紀錄一致。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>每日任務簽到／補簽</td>
+<td>日期及累積進度；補簽另扣一般銀幣</td>
+<td>不直接發卡；不足／取消留任務且不扣</td>
+<td><a href="10-activities.html#legacy-10-4">10.4.1</a>、<a href="15-player-journeys.html#us-05">US-05</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>點已達未領的卡片節點</td>
+<td>節點已領、新增未啟用卡、活動銀總額增加</td>
+<td>留任務；自行點底部獎勵卡查看</td>
+<td><a href="07-reward-cards.html#section-08">07.5.1</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>獎勵卡啟用</td>
+<td>一張使用中、可用額度更新，其他使用中卡停用</td>
+<td>關閉回大廳，依 <a href="13-cross-feature-flows.html#flow-02">FLOW-02</a> 進支援遊戲</td>
+<td><a href="07-reward-cards.html#section-08">07.5.1</a>、<a href="05-game-session.html#legacy-05-4">05.4</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>遊戲室 Mock 完成流水</td>
+<td>卡片轉換、銀幣與一筆金融紀錄更新</td>
+<td>結果確認留原畫面；失敗不成功入帳</td>
+<td><a href="07-reward-cards.html#section-08">07.5.4</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>結果查看紀錄</td>
+<td>標已讀並結束遊戲，銀行初始頁為紀錄</td>
+<td>在銀行核對；主關閉回大廳</td>
+<td><a href="08-bank-and-promo.html#legacy-08-2">08.2</a>、<a href="08-bank-and-promo.html#legacy-08-4-4">08.4.4</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-04"></a></p>
+<p><a id="section-05"></a></p>
+<h2 id="135-flow-04">13.5 FLOW-04｜多張獎勵卡合併</h2>
+<p>目的：以至少兩張合格卡建立一張新卡，保留正確數值與來源。選取及預覽階段不能改原卡或一般錢包。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>獎勵卡整理狀態並進合併</td>
+<td>使用中先停用；選合格卡集合</td>
+<td>不足兩張合格卡入口停用</td>
+<td><a href="07-reward-cards.html#section-08">07.5.2</a>、<a href="15-player-journeys.html#us-06">US-06</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>檢查預覽</td>
+<td>五項數值直接加總、最早期限</td>
+<td>取消不改卡；失效預覽不可確認</td>
+<td><a href="07-reward-cards.html#section-08">07.5.3</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認合併</td>
+<td>再驗證、來源失效、新卡未啟用置頂</td>
+<td>成功留列表；失敗清選取並提示，原卡不變</td>
+<td><a href="07-reward-cards.html#section-08">07.5.2</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>啟用新卡並使用</td>
+<td>更新可用額度；需要轉換時接 <a href="13-cross-feature-flows.html#flow-03">FLOW-03</a> 第 4～5 節點</td>
+<td>合併不產生銀行入帳，轉換才入銀幣</td>
+<td><a href="07-reward-cards.html#section-08">07.5.4</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-05"></a></p>
+<p><a id="section-06"></a></p>
+<h2 id="136-flow-05">13.6 FLOW-05｜優惠碼領取</h2>
+<p>目的：一般會員先看商品再確認領取。完成條件是資格、商品去向及銀行獎勵紀錄一致。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行優惠輸入碼並兌換</td>
+<td>正規化代碼、檢查身份／存在／已領／期限</td>
+<td>失敗留輸入；成功開預覽</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4">08.4.3</a>、<a href="15-player-journeys.html#us-07">US-07</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>查看商品與期限</td>
+<td>尚不入帳、不消耗資格</td>
+<td>取消關子層、輸入保留；確認再驗證</td>
+<td><a href="08-bank-and-promo.html#legacy-08-2">08.2</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認領取</td>
+<td>即時入銀／銅錢包、活動金，或新增未啟用活動銀卡；一筆獎勵紀錄</td>
+<td>成功留優惠頁、清輸入；失敗留子層及原因</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4">08.4.3</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>自行查看摘要／卡片／銀行紀錄</td>
+<td>顯示同一筆領取結果，不再發一次</td>
+<td>活動銀啟用使用接第 07 章；活動金無後續使用流程</td>
+<td><a href="06-member-profile.html#legacy-06-3">06.3</a>、<a href="07-reward-cards.html#section-08">07.5.1</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-06"></a></p>
+<p><a id="section-07"></a></p>
+<h2 id="137-flow-06">13.7 FLOW-06｜儲值與促銷購買</h2>
+<p>目的：確認選購內容與通路，完成原型金幣入帳後回原入口。取消不得當作成功交易。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行選方案／促銷選項後購買</td>
+<td>方案名稱、金幣、售價，預設 App Store</td>
+<td>開支付；底層銀行或促銷保留</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4">08.4.1</a>、<a href="15-player-journeys.html#us-08">US-08</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>核對並選通路</td>
+<td>修改支付通路，不改方案數量</td>
+<td>關閉回底層且不入帳；確認進處理</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4">08.4.2</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Mock 處理</td>
+<td>成功加一般金幣、一筆成功儲值紀錄，VIP 指標不變</td>
+<td>失敗回確認並提示；處理中不可關閉</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4">08.4.2</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>成功按完成，再自行查看紀錄</td>
+<td>只關支付，返回原銀行或促銷</td>
+<td>透過銀行紀錄查結果，重開購買是另一個 Mock 操作</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4-4">08.4.4</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-07"></a></p>
+<p><a id="section-08"></a></p>
+<h2 id="138-flow-07vip">13.8 FLOW-07｜VIP 領獎</h2>
+<p>目的：只領目前生效級一次，並在一般錢包及銀行核對結果。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>個人資訊 VIP 查看本級</td>
+<td>目前級、獎勵、已領集合</td>
+<td>無獎勵／已領停用，無跨級補領</td>
+<td><a href="06-member-profile.html#legacy-06-4">06.4.4</a>、<a href="15-player-journeys.html#us-04">US-04</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>點可領取</td>
+<td>對應幣別加獎勵、標已領、一筆免費獎勵紀錄</td>
+<td>直接已領取並留 VIP，不跳銀行</td>
+<td><a href="06-member-profile.html#legacy-06-5">06.5</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>關個人資訊，銀行紀錄選獎勵</td>
+<td>同一紀錄及餘額，不重複入帳</td>
+<td>關銀行回大廳；刷新按 Mock 重置</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4-4">08.4.4</a>、<a href="06-member-profile.html#legacy-06-7">06.7</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-08"></a></p>
+<p><a id="section-09"></a></p>
+<h2 id="139-flow-08">13.9 FLOW-08｜玩家贈禮</h2>
+<p>目的：將玩家卡對象帶入贈禮，或直接手填 ID；核對送方扣除、費用與實收預覽。前置需有保險箱金幣，真實收方入帳不在原型能力內。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>畫面／玩家操作</th>
+<th>傳入或更新</th>
+<th>下一步／取消及失敗返回</th>
+<th>引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>玩家卡贈禮／底部保險箱切贈禮</td>
+<td>前者關玩家卡、帶接收者 ID；後者手填</td>
+<td>開贈禮頁；玩家卡互動細節見第 11 章</td>
+<td><a href="09-vault-and-gifting.html#legacy-09-2">09.2</a>、<a href="15-player-journeys.html#us-09">US-09</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>餘額不足時先切保險箱存入</td>
+<td>錢包與保險箱金幣互移、一筆紀錄</td>
+<td>同視窗可返回贈禮草稿</td>
+<td><a href="09-vault-and-gifting.html#legacy-09-4">09.4.2</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>核對 ID、金額與費用後確認</td>
+<td>送方保險箱扣款、一筆贈禮紀錄；實收僅預覽</td>
+<td>成功清 ID／金額留本頁；失敗保留，沒有額外確認層</td>
+<td><a href="09-vault-and-gifting.html#legacy-09-4">09.4.3</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>關保險箱，銀行紀錄選贈禮</td>
+<td>顯示送方操作與金額，不證明收方入帳</td>
+<td>關銀行回大廳，不自動回玩家卡</td>
+<td><a href="08-bank-and-promo.html#legacy-08-4-4">08.4.4</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-01"></a></p>
+<p><a id="section-10"></a></p>
+<h2 id="1310-flow-01">13.10 FLOW-01｜首次進入與建立身份</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>玩家操作與交接</th>
+<th>更新與返回</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>開 APP，品牌載入後判斷本機身份</td>
+<td>無身份進首頁，有身份進大廳</td>
+<td><a href="03-authentication.html#legacy-03-2">03.2</a>、<a href="03-authentication.html#legacy-03-7">03.7</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>選帳號／註冊／手機／第三方／遊客</td>
+<td>表單及驗證只依所選方式；未完成可按對應關閉返回</td>
+<td><a href="03-authentication.html#legacy-03-4">03.4</a>～<a href="03-authentication.html#legacy-03-6">03.6</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>完成原型登入</td>
+<td>建立身份摘要與示範資產，進大廳，不代表正式驗證</td>
+<td><a href="03-authentication.html#legacy-03-7">03.7</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>從摘要開個人資訊，或篩選選遊戲</td>
+<td>個人資料接 <a href="15-player-journeys.html#us-03">US-03</a>，遊戲接 <a href="13-cross-feature-flows.html#flow-02">FLOW-02</a></td>
+<td>04、06</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-09"></a></p>
+<p><a id="section-11"></a></p>
+<h2 id="1311-flow-09">13.11 FLOW-09｜玩家檢舉與封鎖</h2>
+<p>檢舉與封鎖是兩個獨立操作，玩家可選其一，不要求先封鎖才能檢舉。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>玩家操作與交接</th>
+<th>更新與返回</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>聊天頭像／玩家列表開玩家卡</td>
+<td>帶示範玩家識別與關係，關閉回聊天</td>
+<td><a href="11-social-and-support.html#legacy-11-2">11.2</a>～<a href="11-social-and-support.html#legacy-11-3">11.3</a></td>
+</tr>
+<tr>
+<td>2A</td>
+<td>選檢舉</td>
+<td>關卡切客服，帶目標標題；尚未送出</td>
+<td><a href="11-social-and-support.html#legacy-11-4">11.4</a></td>
+</tr>
+<tr>
+<td>3A</td>
+<td>填內容並送出</td>
+<td>本機客服訊息追加、提示清除；主關閉回大廳，無正式案件號</td>
+<td><a href="11-social-and-support.html#legacy-11-5">11.5</a></td>
+</tr>
+<tr>
+<td>2B</td>
+<td>選黑名單，取消或確認</td>
+<td>取消留卡不變；確認加入共用清單並關卡，私聊受限</td>
+<td><a href="11-social-and-support.html#legacy-11-5">11.5</a></td>
+</tr>
+<tr>
+<td>3B</td>
+<td>關聊天 → 設定 → 黑名單 → 解除</td>
+<td>同一玩家移除、數量更新，重新開私聊可用；不重建被刪好友</td>
+<td><a href="12-inbox-and-settings.html#legacy-12-5">12.5</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="flow-10"></a></p>
+<p><a id="section-12"></a></p>
+<h2 id="1312-flow-10">13.12 FLOW-10｜信箱附件領取</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節點</th>
+<th>玩家操作與交接</th>
+<th>更新與返回</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>底部信箱 → 營運公告／系統通知 → 點信件</td>
+<td>詳情與已讀更新；自動選中不等於已讀</td>
+<td><a href="12-inbox-and-settings.html#legacy-12-2">12.2</a>、<a href="12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>有附件時按領取</td>
+<td>處理後固定加 50,000 金，當次標已領；無附件無此操作</td>
+<td><a href="12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>關信箱查看錢包／個人摘要</td>
+<td>一般金同步，不發卡、不增 VIP 指標、不新增銀行紀錄</td>
+<td><a href="12-inbox-and-settings.html#legacy-12-7">12.7</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>重開信箱</td>
+<td>信件及已領回種子，當次金幣仍保留；須記錄可重領缺口，不能作正式核銷規則</td>
+<td><a href="12-inbox-and-settings.html#legacy-12-4">12.4</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_3">分冊版本與交付檢查</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 13 章，先前沿革保留在總綱</td>
+</tr>
+<tr>
+<td>v0.13</td>
+<td>2026-09-09</td>
+<td>獨立成冊、建立文件內目錄及跨檔導覽；保留原情境與驗收狀態</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>內容</td>
+<td>原段落、流程與情境全部承接</td>
+<td>逐段核對</td>
+</tr>
+<tr>
+<td>引用</td>
+<td>FLOW／US／SC／AC 關係完整、檔案連結有效</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>操作驗收</td>
+<td>有實際執行環境與證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="13-cross-feature-flows.md">13-cross-feature-flows.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>

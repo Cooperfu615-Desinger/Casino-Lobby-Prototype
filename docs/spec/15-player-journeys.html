@@ -1,0 +1,1810 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="e53c5b9152bfbe0b6e834c0be493c44194451fd90b30e1d584a004d70026463b"><title>15. 玩家 User Story 與情境流程</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">15. 玩家 User Story 與情境流程</div><nav aria-label="章節導覽"><a href="#_1">文件內目錄</a><a href="#_2">與其他文件的責任關係</a><a href="#151">15.1 本章用途</a><a href="#152">15.2 狀態維度</a><a href="#153">15.3 玩家故事索引</a><a href="#154">15.4 每個故事的內部結構</a><a href="#155">15.5 情境與驗收連結</a><a href="#156-us-03">15.6 US-03｜完善個人資料並保存身份資訊</a><a href="#157-us-04-vip">15.7 US-04｜查看 VIP 權益並領取獎勵</a><a href="#158-us-05">15.8 US-05｜完成每日任務並使用獎勵卡</a><a href="#159-us-06">15.9 US-06｜整理並合併多張獎勵卡</a><a href="#1510-us-13">15.10 US-13｜查詢遊戲與金融紀錄</a><a href="#1511-us-02">15.11 US-02｜找到想玩的遊戲並進入</a><a href="#1512-us-07">15.12 US-07｜使用優惠碼取得獎勵</a><a href="#1513-us-08">15.13 US-08｜購買方案並確認餘額</a><a href="#1514-us-09">15.14 US-09｜管理保險箱、兌換並贈禮</a><a href="#1515-us-12">15.15 US-12｜參與活動並查看結果</a><a href="#1516-us-01-app">15.16 US-01｜第一次進入 APP 並建立身份</a><a href="#1517-us-10">15.17 US-10｜與其他玩家互動並尋求協助</a><a href="#1518-us-11">15.18 US-11｜閱讀信件並取得附件</a><a href="#1519-us-14-app">15.19 US-14｜調整偏好並離開或返回 APP</a><a href="#_3">分冊版本與交付檢查</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="15-user-story">15. 玩家 User Story 與情境流程</h1>
+<p>巨亨ONLINE APP｜v0.13 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-15">返回總綱</a> · <a href="13-cross-feature-flows.html">跨介面使用流程</a> · <a href="14-acceptance.html">整體驗收與交付對照</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>跨功能參考文件；不套用單一功能的 17 節</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接原總規格第 15 章，保留原 FLOW／US／SC／AC；各功能規則由相應分冊維護</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>提供跨檔查閱、工作單引用與後續驗收依據</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>玩家 User Story 與情境流程</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>新增功能規則、未確認服務承諾或未執行的驗收結果</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>總規格原正文、各功能分冊及 APP 撰寫規則；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_1">文件內目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>小節</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15.1</td>
+<td><a href="#section-01">本章用途</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.2</td>
+<td><a href="#section-02">狀態維度</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.3</td>
+<td><a href="#section-03">玩家故事索引</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.4</td>
+<td><a href="#section-04">每個故事的內部結構</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.5</td>
+<td><a href="#section-05">情境與驗收連結</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.6</td>
+<td><a href="#section-06">US-03｜完善個人資料並保存身份資訊</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.7</td>
+<td><a href="#section-07">US-04｜查看 VIP 權益並領取獎勵</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.8</td>
+<td><a href="#section-08">US-05｜完成每日任務並使用獎勵卡</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.9</td>
+<td><a href="#section-09">US-06｜整理並合併多張獎勵卡</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.10</td>
+<td><a href="#section-10">US-13｜查詢遊戲與金融紀錄</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.11</td>
+<td><a href="#section-11">US-02｜找到想玩的遊戲並進入</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.12</td>
+<td><a href="#section-12">US-07｜使用優惠碼取得獎勵</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.13</td>
+<td><a href="#section-13">US-08｜購買方案並確認餘額</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.14</td>
+<td><a href="#section-14">US-09｜管理保險箱、兌換並贈禮</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.15</td>
+<td><a href="#section-15">US-12｜參與活動並查看結果</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.16</td>
+<td><a href="#section-16">US-01｜第一次進入 APP 並建立身份</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.17</td>
+<td><a href="#section-17">US-10｜與其他玩家互動並尋求協助</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.18</td>
+<td><a href="#section-18">US-11｜閱讀信件並取得附件</a></td>
+<td>全體</td>
+</tr>
+<tr>
+<td>15.19</td>
+<td><a href="#section-19">US-14｜調整偏好並離開或返回 APP</a></td>
+<td>全體</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_2">與其他文件的責任關係</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>閱讀目的</th>
+<th>維護位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看欄位、條件、狀態、資料與 AC</td>
+<td>第 03～12 章功能分冊</td>
+</tr>
+<tr>
+<td>了解跨頁帶入、完成與返回</td>
+<td>第 13 章流程</td>
+</tr>
+<tr>
+<td>建立玩家身份、資產與分支情境</td>
+<td>第 15 章 US／SC</td>
+</tr>
+<tr>
+<td>記錄執行環境、結果與證據</td>
+<td>第 14 章；目前操作驗收未執行</td>
+</tr>
+</tbody>
+</table></div>
+<p>功能內 US-U／US-D／US-Q 是單一功能的三種閱讀視角；本文件 <a href="15-player-journeys.html#us-01">US-01</a>～14 與 SC 是完整玩家旅程，兩者不重新編號或互相替代。</p>
+<p><strong>本章範圍：</strong>從玩家目標出發，設定數種初始狀態，描述主流程、分支、取消／返回與完成結果，供設計、開發、測試共同參考。</p>
+<p><strong>狀態：</strong><a href="15-player-journeys.html#us-01">US-01</a>～14 共 14 個故事、89 個情境；第五批完成文件覆蓋核對並補邊界情境，未執行操作驗收。</p>
+<p><a id="section-01"></a></p>
+<h2 id="151">15.1 本章用途</h2>
+<p>從玩家對整個 APP 的目標出發：玩家現在是誰、擁有哪些資料與資產、遇到什麼狀態、應如何完成流程、如何確認結果。讓美術依情境準備狀態稿，開發依步驟串接行為，測試依初始狀態與 AC 重現。</p>
+<p><a id="section-02"></a></p>
+<h2 id="152">15.2 狀態維度</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>維度</th>
+<th>候選情境狀態</th>
+<th>撰寫注意事項</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身份與登入</td>
+<td>未登入、訪客、一般會員</td>
+<td>不自行增加訪客升級、資料繼承或身份合併規則</td>
+</tr>
+<tr>
+<td>個人資訊與資格</td>
+<td>未填／已保存鎖定、未綁定／已綁定、不同 VIP 領獎狀態</td>
+<td>僅選擇影響故事的條件</td>
+</tr>
+<tr>
+<td>資產</td>
+<td>餘額足夠／不足、保險箱有／無額度、活動銀總額與可用額度不同</td>
+<td>指定幣別；活動金目前僅入帳與顯示</td>
+</tr>
+<tr>
+<td>獎勵與期限</td>
+<td>未達成／可領／已領、卡片各狀態、合併期限邊界、碼有效／無效</td>
+<td>數值與期限引用功能規格，測試數值另標示</td>
+</tr>
+<tr>
+<td>社交與訊息</td>
+<td>好友／非好友／已封鎖、未讀／已讀、附件可領／已領</td>
+<td>不假設跨帳號或即時服務已完成</td>
+</tr>
+<tr>
+<td>操作與生命週期</td>
+<td>正常完成、取消、返回、重複、切頁、刷新、重新登入</td>
+<td>保存與恢復結果引用明確規則；未知者列待確認</td>
+</tr>
+</tbody>
+</table></div>
+<p>以上是故事選材維度，並非所有組合都成立或都已實作。</p>
+<p><a id="section-03"></a></p>
+<h2 id="153">15.3 玩家故事索引</h2>
+<p>以下依功能章節逐批補寫；已展開故事見 15.6～15.19，尚未完成的分支依狀態欄追蹤。故事數量不受章號 15 限制。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>玩家想完成的事</th>
+<th>候選初始狀態／分支</th>
+<th>關聯章節</th>
+<th>關聯流程</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="15-player-journeys.html#us-01">US-01</a></td>
+<td>第一次進入 APP 並建立身份</td>
+<td>未登入／訪客／一般會員</td>
+<td>03、04、06</td>
+<td><a href="13-cross-feature-flows.html#flow-01">FLOW-01</a></td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-02">US-02</a></td>
+<td>找到想玩的遊戲並進入</td>
+<td>有收藏／無收藏；有可用餘額／不可用</td>
+<td>04、05</td>
+<td><a href="13-cross-feature-flows.html#flow-02">FLOW-02</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-03">US-03</a></td>
+<td>完善個人資料並保存身份資訊</td>
+<td>未填／已鎖定；未綁定／已綁定；邀請碼複製成功／失敗</td>
+<td>06</td>
+<td>功能內流程（<a href="06-member-profile.html#legacy-06-5">06.5</a>）</td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-04">US-04</a></td>
+<td>查看 VIP 權益並領取獎勵</td>
+<td>無獎勵／可領／已領</td>
+<td>06、08</td>
+<td><a href="13-cross-feature-flows.html#flow-07">FLOW-07</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-05">US-05</a></td>
+<td>完成每日任務並使用獎勵卡</td>
+<td>未達成／可領／已領；卡片未啟用／使用中</td>
+<td>10、07、05、08</td>
+<td><a href="13-cross-feature-flows.html#flow-03">FLOW-03</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-06">US-06</a></td>
+<td>整理並合併多張獎勵卡</td>
+<td>符合資格／使用中／剩餘時間不足／已過期</td>
+<td>07、05、08</td>
+<td><a href="13-cross-feature-flows.html#flow-04">FLOW-04</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-07">US-07</a></td>
+<td>使用優惠碼取得獎勵</td>
+<td>訪客／一般會員；有效／未開始／過期／已領；預覽取消</td>
+<td>08、06、07</td>
+<td><a href="13-cross-feature-flows.html#flow-05">FLOW-05</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-08">US-08</a></td>
+<td>購買方案並確認餘額</td>
+<td>方案選擇／支付確認／取消；服務失敗分支待定義</td>
+<td>04、08</td>
+<td><a href="13-cross-feature-flows.html#flow-06">FLOW-06</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-09">US-09</a></td>
+<td>管理保險箱、兌換並贈禮</td>
+<td>來源餘額足夠／不足；接收者與金額輸入狀態</td>
+<td>09、08、11</td>
+<td><a href="13-cross-feature-flows.html#flow-08">FLOW-08</a></td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-10">US-10</a></td>
+<td>與其他玩家互動並尋求協助</td>
+<td>好友／非好友／已封鎖；私訊／檢舉／客服</td>
+<td>11、12</td>
+<td><a href="13-cross-feature-flows.html#flow-09">FLOW-09</a></td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-11">US-11</a></td>
+<td>閱讀信件並取得附件</td>
+<td>未讀／已讀；無附件／可領／已領；刪除</td>
+<td>12、06、08</td>
+<td><a href="13-cross-feature-flows.html#flow-10">FLOW-10</a></td>
+<td>初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-12">US-12</a></td>
+<td>參與活動並查看結果</td>
+<td>進行中／未開始／已結束；未報名／已報名</td>
+<td>10</td>
+<td>功能內流程（<a href="10-activities.html#legacy-10-5">10.5</a>）</td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-13">US-13</a></td>
+<td>查詢遊戲與金融紀錄</td>
+<td>尚未查詢／有結果／無結果；遊戲日期／分頁、金融類別／狀態</td>
+<td>06、08</td>
+<td>查詢流程（<a href="06-member-profile.html#legacy-06-4-5">06.4.5</a>、<a href="08-bank-and-promo.html#legacy-08-4-4">08.4.4</a>）</td>
+<td>情境初稿已撰寫</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-14">US-14</a></td>
+<td>調整偏好並離開或返回 APP</td>
+<td>偏好變更；關閉重開／刷新／登出再登入</td>
+<td>12、03、04</td>
+<td><a href="13-cross-feature-flows.html#flow-01">FLOW-01</a>、09；設定見 <a href="12-inbox-and-settings.html#legacy-12-5">12.5</a></td>
+<td>初稿已撰寫</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<h2 id="154">15.4 每個故事的內部結構</h2>
+<p>使用<a href="../spec-templates/PLAYER_STORY_TEMPLATE.html">玩家故事模板</a>，依序填寫：</p>
+<ol>
+<li>玩家身份、目標與價值，以及完成定義。</li>
+<li>SC 情境與可重現的初始狀態。</li>
+<li>逐步主流程：畫面、操作、回饋、資料變化及下一步。</li>
+<li>狀態分支：條件不足、取消、返回、重複、到期或其他適用例外，以及恢復方式。</li>
+<li>完成後的全 APP 一致性，包含應變與不應變的資訊。</li>
+<li>設計、開發、測試的使用對照。</li>
+<li>AC 引用、驗證狀態及未決事項。</li>
+</ol>
+<p><a id="section-05"></a></p>
+<h2 id="155">15.5 情境與驗收連結</h2>
+<p>目前涵蓋首次登入、大廳、個人資訊、VIP、任務與獎勵卡、遊戲、銀行與資產、活動、社交客服、信箱與設定。以下所有情境均為已撰寫、未執行；「原型可操作」表示已找到相應入口與邏輯，不是本輪瀏覽器通過紀錄。日期、額度、VIP 等測試值只用於建立情境。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>US</th>
+<th>本批情境</th>
+<th>流程位置</th>
+<th>AC</th>
+<th>原型可重現性／準備事項</th>
+<th>驗證結果位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="15-player-journeys.html#us-03">US-03</a></td>
+<td>SC-03-01～07：資料保存、錯誤、鎖定、綁定、頭像、邀請碼</td>
+<td><a href="15-player-journeys.html#us-03">完善個人資料</a></td>
+<td>AC-06-001～008、AC-06-016</td>
+<td>一般流程可操作；剪貼簿拒絕需測試環境；過程中離頁需另測</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-04">US-04</a></td>
+<td>SC-04-01～05：VIP 可領、已領、無獎勵、不同等級及保級</td>
+<td><a href="15-player-journeys.html#us-04">查看 VIP 並領獎</a></td>
+<td>AC-06-009～013、AC-06-016</td>
+<td>VIP6／VIP0 可從會員／訪客入口取得；其他等級、指標需另備測試身份</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-05">US-05</a></td>
+<td>SC-05-01～08：領卡、啟停、轉換上限、重置及簽到補簽</td>
+<td><a href="15-player-journeys.html#us-05">取得並使用卡片</a></td>
+<td>AC-05-007、AC-07-001～004、AC-07-012～015、AC-10-002～005、AC-10-010</td>
+<td>預設三節點可操作；未達節點、特殊餘額或到期需另備資料</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-06">US-06</a></td>
+<td>SC-06-01～07：合併、取消、期限、失效、再合併、刪除與混合來源</td>
+<td><a href="15-player-journeys.html#us-06">整理與合併卡片</a></td>
+<td>AC-07-005～011、AC-07-013、AC-07-015、AC-08-009</td>
+<td>原型三卡可操作；精準 72 小時及提交競態需可控時間／測試資料</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-13">US-13</a></td>
+<td>SC-13-01～06：遊戲查詢、金融篩選、空結果與保存</td>
+<td><a href="15-player-journeys.html#us-13">查詢紀錄</a></td>
+<td>AC-06-014～015、AC-08-001、AC-08-011～012</td>
+<td>遊戲查無資料須準備日期；金融空結果可用類別與狀態組合</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-02">US-02</a></td>
+<td>SC-02-01～08：尋找、收藏、選幣、停用、取消與返回</td>
+<td><a href="15-player-journeys.html#us-02">進入遊戲</a></td>
+<td>AC-04-001～008、AC-05-001～006、AC-05-008</td>
+<td>零餘額與無可用卡需準備狀態；收藏與篩選可依列表重現</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-07">US-07</a></td>
+<td>SC-07-01～07：資格、預覽、領取、重複、取消與期限邊界</td>
+<td><a href="15-player-journeys.html#us-07">優惠碼領獎</a></td>
+<td>AC-08-006～010、AC-08-012</td>
+<td>測試碼、時間與未領身份見 <a href="08-bank-and-promo.html#legacy-08-4">08.4</a>；失敗競態需控制環境</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-08">US-08</a></td>
+<td>SC-08-01～04：購買、取消、促銷與處理失敗</td>
+<td><a href="15-player-journeys.html#us-08">購買方案</a></td>
+<td>AC-08-001～005、AC-08-012</td>
+<td>使用原型方案；正式付款失敗需服務環境</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-09">US-09</a></td>
+<td>SC-09-01～06：存取、贈禮、費用、兌換及保存</td>
+<td><a href="15-player-journeys.html#us-09">管理資產</a></td>
+<td>AC-09-001～010</td>
+<td>準備來源餘額及指定金額；收方入帳不在 Mock 驗證範圍</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-12">US-12</a></td>
+<td>SC-12-01～05：活動分類、報名、返回及榜單</td>
+<td><a href="15-player-journeys.html#us-12">參與活動</a></td>
+<td>AC-10-001、AC-10-006～010</td>
+<td>狀態以示範資料為準；不以日期推定活動會自動切換</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-01">US-01</a></td>
+<td>SC-01-01～07：身份、註冊、手機、第三方與找回</td>
+<td><a href="15-player-journeys.html#us-01">首次建立身份</a></td>
+<td>AC-03-001～010</td>
+<td>新身份與本機重設帳密分開準備；固定碼僅供 Mock</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-10">US-10</a></td>
+<td>SC-10-01～08：對話、目錄、關係、檢舉與設定</td>
+<td><a href="15-player-journeys.html#us-10">玩家互動與客服</a></td>
+<td>AC-11-001～010、AC-12-009</td>
+<td>使用兩位不同玩家；錯誤目錄須控制請求</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-11">US-11</a></td>
+<td>SC-11-01～05：閱讀、領取、刪除、重開與競態</td>
+<td><a href="15-player-journeys.html#us-11">閱讀信件</a></td>
+<td>AC-12-001～004</td>
+<td>記錄錢包起始值，領取中離頁需實測</td>
+<td>14.2，未執行</td>
+</tr>
+<tr>
+<td><a href="15-player-journeys.html#us-14">US-14</a></td>
+<td>SC-14-01～06：偏好、推播、語言、黑名單、登出與換帳號</td>
+<td><a href="15-player-journeys.html#us-14">偏好與返回</a></td>
+<td>AC-03-001、AC-04-008、AC-06-016、AC-08-009、AC-08-012、AC-11-010、AC-12-005～010</td>
+<td>音訊另備播放環境；換帳號保持相同來源及精確帳號字串，最後才刷新</td>
+<td>14.2，未執行</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="us-03"></a></p>
+<p><a id="section-06"></a></p>
+<h2 id="156-us-03">15.6 US-03｜完善個人資料並保存身份資訊</h2>
+<p><strong>玩家目標：</strong>身為已登入玩家，我想整理個人資料、綁定資訊與頭像，讓之後開啟 APP 時能辨識自己的身份與設定。</p>
+<p><strong>完成定義：</strong>玩家確認保存後，個人資訊與大廳顯示一致；生日及 Email 的一次設定限制清楚可見；已完成綁定可重開查看。身份保存範圍依 <a href="06-member-profile.html#legacy-06-7">06.7</a>，不包含金融 Mock。</p>
+<p><strong>初始狀態：</strong>在大廳，以一般會員登入；生日、Email 與綁定未設定，暱稱及頭像已有初始值。不要求任何錢包額度。生日可用 1990/01/01、Email 可用 <code>player@example.com</code> 作測試資料。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與玩家操作</th>
+<th>回饋／資料變化</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>點頂部玩家摘要</td>
+<td>開基本資料，左側顯示同一身份與邀請碼</td>
+<td>編輯</td>
+</tr>
+<tr>
+<td>2</td>
+<td>輸入暱稱、生日、Email 與簡介，按儲存</td>
+<td>檢核通過後列出新填的一次性資料，尚未保存</td>
+<td>閱讀確認內容</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認並儲存</td>
+<td>保存成功；暱稱摘要更新，生日／Email 鎖定</td>
+<td>帳號綁定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>輸入測試手機、發送、填 <code>123456</code> 並驗證</td>
+<td>Mock 綁定成功，基本資料手機同步</td>
+<td>可依需求綁 Google 或更換頭像</td>
+</tr>
+<tr>
+<td>5</td>
+<td>返回大廳、重開個人資訊，最後重新整理</td>
+<td>已完成的個人資料、頭像與綁定保留</td>
+<td>完成核對</td>
+</tr>
+</tbody>
+</table></div>
+<p>各分支獨立建立初始狀態，不要求玩家每次都完成所有綁定或填滿所有選填欄位。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>狀態／分岔</th>
+<th>玩家如何操作與繼續</th>
+<th>應看到的結果／不應改變的內容</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-03-01</td>
+<td>第一次完整保存</td>
+<td>依主流程；一次性確認也可先返回修改再送出</td>
+<td>確認前資料不變，返回保留草稿；成功後鎖定並同步</td>
+<td>AC-06-001～003、016</td>
+</tr>
+<tr>
+<td>SC-03-02</td>
+<td>空暱稱、生日不合範圍、Email 格式錯或簡介超長</td>
+<td>按保存看錯誤，修正再送出</td>
+<td>錯誤不更新身份；修正後沿正常確認流程</td>
+<td>AC-06-002～004</td>
+</tr>
+<tr>
+<td>SC-03-03</td>
+<td>生日／Email 已保存，另有未保存暱稱草稿</td>
+<td>查看鎖定欄位；修改暱稱後直接切頁，再返回</td>
+<td>鎖定資料不能改；未送出的暱稱草稿捨棄，已保存資料保留</td>
+<td>AC-06-003、016</td>
+</tr>
+<tr>
+<td>SC-03-04</td>
+<td>手機未綁、Google 未綁</td>
+<td>試錯碼、修正；倒數結束可重發；另操作 Google 綁定</td>
+<td>錯碼不綁定；成功只更新各自綁定，Google 不改 Email；已綁無解除入口</td>
+<td>AC-06-005～006</td>
+</tr>
+<tr>
+<td>SC-03-05</td>
+<td>想更換頭像</td>
+<td>先選可用頭像後關閉，再重開選另一可用頭像並儲存；查看鎖定及頭像框頁</td>
+<td>首次取消不變，保存才同步；鎖定不可選，頭像框未開放</td>
+<td>AC-06-007</td>
+</tr>
+<tr>
+<td>SC-03-06</td>
+<td>會員邀請碼可見／剪貼簿拒絕</td>
+<td>點複製；成功核對內容，失敗改手動選取文字</td>
+<td>內容只有 8 碼，成功或失敗提示正確，身份與資產不變</td>
+<td>AC-06-008</td>
+</tr>
+<tr>
+<td>SC-03-07</td>
+<td>改以訪客登入</td>
+<td>開摘要，依需要填資料或綁定，再查看邀請碼</td>
+<td>顯示完成註冊後取得，沒有複製鈕；綁定不使訪客成一般會員</td>
+<td>AC-06-006、008</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成後一致性：</strong>摘要、大廳及基本資料引用同一暱稱／頭像；手機與綁定狀態一致。改個人資料不改 VIP、錢包、卡片、金融紀錄或推薦關係。主動登出會清除 Mock 身份，再登入不當作同一永久帳號資料恢復。</p>
+<p><strong>使用方式：</strong>設計對照未填、確認、鎖定、錯誤與已綁畫面；開發對照 <a href="06-member-profile.html#legacy-06-4">06.4</a>～<a href="06-member-profile.html#legacy-06-7">06.7</a> 的保存與跨頁更新；測試依 SC 建立資料並引用 AC。正式簡訊／OAuth 失敗分支需在接入工作單補上。</p>
+<p><a id="us-04"></a></p>
+<p><a id="section-07"></a></p>
+<h2 id="157-us-04-vip">15.7 US-04｜查看 VIP 權益並領取獎勵</h2>
+<p><strong>玩家目標：</strong>身為會員，我想知道目前享有的權益及升級／保級進度，並領取目前等級可取得的獎勵。</p>
+<p><strong>完成定義：</strong>玩家能區分目前級與歷史最高；本級領取成功後只增加對應幣別一次，按鈕及銀行紀錄一致。</p>
+<p><strong>初始狀態：</strong>一般會員 Mock VIP6、本級未領，記錄操作前銀幣餘額與金融紀錄數。無需先儲值或修改 VIP 指標；此會員等級是展示資料。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與玩家操作</th>
+<th>回饋／資料變化</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>個人資訊 → VIP 等級</td>
+<td>顯示目前級、權益、下一級與保級</td>
+<td>查看機制</td>
+</tr>
+<tr>
+<td>2</td>
+<td>開 VIP機制說明，切換總覽／規則後關閉</td>
+<td>總覽定位目前級；關閉回 VIP，不改任何資料</td>
+<td>領獎</td>
+</tr>
+<tr>
+<td>3</td>
+<td>點本級可領取</td>
+<td>VIP6 獎勵銀幣 1,000 入帳，按鈕直接已領取；成功提示含數量與幣別</td>
+<td>核對摘要</td>
+</tr>
+<tr>
+<td>4</td>
+<td>關閉個人資訊，開銀行紀錄</td>
+<td>查到一筆 VIP 6 升級獎勵；再回 VIP 仍為已領取</td>
+<td>完成</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>狀態／分岔</th>
+<th>玩家如何操作與繼續</th>
+<th>結果／不應改變的內容</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-04-01</td>
+<td>VIP6 未領</td>
+<td>依主流程，含快速重複點領取</td>
+<td>只加 1,000 銀幣與一筆紀錄，無領取中狀態，不變更儲值／投注指標</td>
+<td>AC-06-011</td>
+</tr>
+<tr>
+<td>SC-04-02</td>
+<td>本級已領</td>
+<td>切頁或關閉重開，查看按鈕；另以刷新建立重置情境</td>
+<td>同次身份狀態中不可再領；刷新重置金融 Mock，不作正式可重領規則</td>
+<td>AC-06-012、016</td>
+</tr>
+<tr>
+<td>SC-04-03</td>
+<td>訪客 VIP0</td>
+<td>開 VIP 查看權益</td>
+<td>無可領取獎勵且停用，錢包及紀錄不變</td>
+<td>AC-06-012</td>
+</tr>
+<tr>
+<td>SC-04-04</td>
+<td>目前 VIP6／歷史最高 VIP8；另備 VIP1 與 VIP15 身份</td>
+<td>各自查看等級與下一級</td>
+<td>VIP6 用目前權益；VIP1 顯示條件待設定；VIP15 顯示最高級，無錯誤進度</td>
+<td>AC-06-009～010</td>
+</tr>
+<tr>
+<td>SC-04-05</td>
+<td>本月受保護／未受保護且達標／未達標／無條件保級</td>
+<td>各自開保級與機制說明，切總覽再關閉</td>
+<td>對應狀態文字與條件一致，查看不觸發升降級；只關閉說明層</td>
+<td>AC-06-013</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成後一致性：</strong>摘要與大廳銀幣增加相同數量，金幣、銅幣、活動額度、卡片與 VIP 指標不變。金融紀錄新增一次，沒有跨級補領入口。正式排程與獎勵帳本不屬這次 Mock 操作驗證。</p>
+<p><strong>使用方式：</strong>設計對照可領／已領／無獎勵及升保級狀態；開發依 <a href="06-member-profile.html#legacy-06-4">06.4.4</a>、<a href="06-member-profile.html#legacy-06-5">06.5</a> 的規則；測試以 SC-04-04～05 的測試身份覆蓋一般入口無法切換的級別。</p>
+<p><a id="us-05"></a></p>
+<p><a id="section-08"></a></p>
+<h2 id="158-us-05">15.8 US-05｜完成每日任務並使用獎勵卡</h2>
+<p><strong>玩家目標：</strong>身為玩家，我想領到任務卡、啟用活動銀幣並理解完成流水後取得的銀幣。</p>
+<p><strong>完成定義：</strong>從領卡到轉換的卡片、額度、遊戲選擇及金融紀錄一致；領卡與銀幣入帳的時機可區分。簽到／補簽及卡片交接已補，詳見第 10、07、05 章。</p>
+<p><strong>初始狀態：</strong>已登入、卡片空清單；原型預設累積 20 天，10／15／20 天均未領。測試時間在 2026/12/31 到期前，沒有操作其他發獎功能，記錄各錢包起始值。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與玩家操作</th>
+<th>回饋／資料變化</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>底部獎勵卡 → 空清單 → 前往每日任務</td>
+<td>關閉個人資訊，開每日任務</td>
+<td>領取</td>
+</tr>
+<tr>
+<td>2</td>
+<td>領第 10、15、20 天獎勵</td>
+<td>得三張未啟用卡，原節點已領；一般錢包不變</td>
+<td>返回卡片</td>
+</tr>
+<tr>
+<td>3</td>
+<td>底部獎勵卡 → 查看概覽，啟用第 10 天卡</td>
+<td>總額 25,000、可用由 0 變 10,000</td>
+<td>關閉並選遊戲</td>
+</tr>
+<tr>
+<td>4</td>
+<td>選支援活動銀幣的遊戲，以活動銀幣進入</td>
+<td>使用目前有效卡的可用額度</td>
+<td>Mock 完成流水</td>
+</tr>
+<tr>
+<td>5</td>
+<td>點遊戲室 Mock 完成流水</td>
+<td>該卡轉換 10,000 銀幣、回收 0、餘額歸零；活動總額剩 15,000、可用 0</td>
+<td>查看結果</td>
+</tr>
+<tr>
+<td>6</td>
+<td>點查看紀錄，再回獎勵卡</td>
+<td>離開遊戲到銀行，查到一筆轉換紀錄；卡片保留已轉換結果</td>
+<td>完成</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>狀態／分岔</th>
+<th>玩家如何操作與繼續</th>
+<th>結果／不應改變的內容</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-05-01</td>
+<td>三節點可領</td>
+<td>依主流程，領後重複點節點</td>
+<td>僅三卡，已領不可重領；未啟用時可用為 0</td>
+<td>AC-07-001～003</td>
+</tr>
+<tr>
+<td>SC-05-02</td>
+<td>一張使用中，另有未啟用卡</td>
+<td>啟用另一張，再停用新卡</td>
+<td>舊卡自動停用，最多一張使用中；停用後可用 0、有效總額不變</td>
+<td>AC-07-004</td>
+</tr>
+<tr>
+<td>SC-05-03</td>
+<td>有活動總額但全未啟用，或遊戲不支援活動銀</td>
+<td>嘗試選活動銀；返回啟用有效卡並改選支援遊戲</td>
+<td>不符合時不可選，符合後才可進入；不能把活動金拿來使用</td>
+<td>AC-07-012</td>
+</tr>
+<tr>
+<td>SC-05-04</td>
+<td>有效使用中卡完成轉換</td>
+<td>查看結果後確認／關閉；另次情境選查看紀錄；嘗試重複完成</td>
+<td>確認留原畫面、查看紀錄才離開遊戲；只入帳及記錄一次，原卡已轉換</td>
+<td>AC-05-007、AC-07-013～014</td>
+</tr>
+<tr>
+<td>SC-05-05</td>
+<td>已領卡／轉換後刷新；另備未達領獎節點狀態</td>
+<td>刷新觀察重置；未達者先完成達標所需任務</td>
+<td>刷新恢復 Mock 卡片與資格初始值；未達節點不可先領；簽到／補簽增加累積後才可領取</td>
+<td>AC-07-015、AC-10-005、010</td>
+</tr>
+<tr>
+<td>SC-05-06</td>
+<td>今日未簽，另有本月漏簽日且銀幣足夠</td>
+<td>先簽今日，再選漏簽日、取消一次後確認補簽</td>
+<td>簽到不扣不發；補簽才扣 100 銀幣、進度各加一，沒有額外日獎／金融紀錄</td>
+<td>AC-10-002～003</td>
+</tr>
+<tr>
+<td>SC-05-07</td>
+<td>本月漏簽日，銀幣少於 100</td>
+<td>確認補簽讀不足提示，取消後取得銀幣再回來</td>
+<td>失敗不改日期與餘額、確認層保留；已簽／未來日不能操作</td>
+<td>AC-10-002、004</td>
+</tr>
+<tr>
+<td>SC-05-08</td>
+<td>測試卡餘額 12,000、上限 10,000；另一獨立情境餘額 5,000、上限 10,000，均有效使用中</td>
+<td>以活動銀進遊戲，Mock 完成後核對通知、摘要及銀行</td>
+<td>分別入銀 10,000／回收 2,000，及入銀 5,000／回收 0；各只一筆紀錄、卡歸零，其他卡及幣別不變。須另備變動餘額資料</td>
+<td>AC-07-003、013～014、AC-05-007</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成後一致性：</strong>領卡不加一般銀幣，轉換才加。已轉換卡不再計入活動總額及可用；未轉換的其他卡不變。任務卡領取本身不新增銀行銀幣入帳紀錄。</p>
+<p><strong>使用方式：</strong>設計對照空清單、未啟用／使用中／已轉換及通知；開發對照 <a href="07-reward-cards.html#section-08">07.5</a> 的交接；測試確認領卡與轉換兩個時點，勿將 Mock 完成按鈕當作逐局流水驗證。</p>
+<p><a id="us-06"></a></p>
+<p><a id="section-09"></a></p>
+<h2 id="159-us-06">15.9 US-06｜整理並合併多張獎勵卡</h2>
+<p><strong>玩家目標：</strong>身為持有多張卡的玩家，我想把合格卡整理成一張，並在確認前知道合併後額度、流水與期限。</p>
+<p><strong>完成定義：</strong>選取的來源卡失效，產生一張需重新啟用的新卡；數值及最早期限正確，一般錢包與銀行紀錄不因合併變動。</p>
+<p><strong>初始狀態：</strong>已有第 10、15、20 天三張原型卡且未啟用，各卡均距到期超過 72 小時；原節點已領。記錄一般錢包、金融紀錄數及活動銀總額。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與玩家操作</th>
+<th>回饋／資料變化</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>進獎勵卡並點合併</td>
+<td>進選取模式，下方操作區固定</td>
+<td>選卡</td>
+</tr>
+<tr>
+<td>2</td>
+<td>先選一張，再選至三張</td>
+<td>一張不可確認；三張顯示有效預覽</td>
+<td>核對</td>
+</tr>
+<tr>
+<td>3</td>
+<td>查看預覽</td>
+<td>目前／起始各 25,000，流水 0／300,000，上限 30,000，期限 2026/12/31</td>
+<td>確認合併</td>
+</tr>
+<tr>
+<td>4</td>
+<td>確認合併</td>
+<td>三來源退出清單，新卡在頂部且未啟用，來源顯示 3 張</td>
+<td>啟用</td>
+</tr>
+<tr>
+<td>5</td>
+<td>啟用新卡</td>
+<td>目前可用為 25,000，總額仍 25,000</td>
+<td>可接 <a href="15-player-journeys.html#us-05">US-05</a> 的遊戲轉換；本故事合併目標已完成</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>狀態／分岔</th>
+<th>玩家如何操作與繼續</th>
+<th>結果／不應改變的內容</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-06-01</td>
+<td>三張合格卡，或使用 <a href="07-reward-cards.html#section-08">07.5.3</a> 非零流水測試卡</td>
+<td>依主流程，核對五項數值再確認</td>
+<td>直接加總、不重算倍數、最早到期，新卡未啟用；重複確認不產生第二張</td>
+<td>AC-07-007～009</td>
+</tr>
+<tr>
+<td>SC-06-02</td>
+<td>已勾卡但不想合併</td>
+<td>點取消，或切其他頁籤再回來</td>
+<td>清除選取並離開模式，原卡、狀態、額度及紀錄不變</td>
+<td>AC-07-007</td>
+</tr>
+<tr>
+<td>SC-06-03</td>
+<td>有使用中、過期、恰好／少於／大於 72 小時卡</td>
+<td>檢查合格數；使用中先退出模式停用，再進合併</td>
+<td>不符者不可選；合格不足兩張入口停用；未過期的短期限卡仍能啟用</td>
+<td>AC-07-006</td>
+</tr>
+<tr>
+<td>SC-06-04</td>
+<td>選取後跨過 72 小時或卡片狀態變動</td>
+<td>觀察預覽，若提交時才失效則讀取提示、重選或取消</td>
+<td>無效預覽停用；提交再驗證失敗不部分改卡，清選取並提示</td>
+<td>AC-07-010</td>
+</tr>
+<tr>
+<td>SC-06-05</td>
+<td>已合併 A＋B，新卡再與合格 C 合併</td>
+<td>確認第二次合併，啟用後接遊戲 Mock 轉換</td>
+<td>原始來源張數累加，原節點仍已領；轉換只針對最終卡入帳一次</td>
+<td>AC-07-011、013</td>
+</tr>
+<tr>
+<td>SC-06-06</td>
+<td>想刪除卡片／刷新頁面</td>
+<td>刪除先取消再確認；使用中先停用；另以刷新查看生命週期</td>
+<td>刪除取消不變，確認才減卡；不能恢復領取資格；刷新依 Mock 重置處理</td>
+<td>AC-07-005、015</td>
+</tr>
+<tr>
+<td>SC-06-07</td>
+<td>同一會員三張任務卡，加上 S5H9C2V7 優惠碼卡，均未啟用且距到期超過 72 小時</td>
+<td>一次選四張合併，再核對來源、日期及原領取資格</td>
+<td>四張均可選；起始／目前各 30,000、流水 0／350,000、上限 35,000、到期 2026/12/31；新卡未啟用，原任務與優惠碼不能重領</td>
+<td>AC-07-007、009～011、AC-08-009</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成後一致性：</strong>合併來源退出清單且不重複計額；總額在來源均有效時保持原加總，可用須等新卡啟用才增加。一般金銀銅、銀行紀錄、VIP 指標及活動金不變。刪除合併卡沒有拆卡或恢復來源資格的效果。</p>
+<p><strong>使用方式：</strong>設計對照選取不足、合格／不合格原因、預覽及新卡；開發對照 <a href="07-reward-cards.html#section-08">07.5.2</a>～<a href="07-reward-cards.html#section-08">07.5.3</a>；測試需另備時間邊界及非零流水資料，不以一般三卡成功取代邊界驗收。</p>
+<p><a id="us-13"></a></p>
+<p><a id="section-10"></a></p>
+<h2 id="1510-us-13">15.10 US-13｜查詢遊戲與金融紀錄</h2>
+<p><strong>玩家目標：</strong>身為玩家，我想按日期查遊戲紀錄，並按類別與狀態查金融紀錄，以核對投注及資產操作。</p>
+<p><strong>完成定義：</strong>能區分未查詢、查無結果與有效列表，依正確區間翻頁，不把紀錄餘額當作即時錢包。金融紀錄另用類別及狀態即時篩選，沒有日期或分頁；查閱不改資產。</p>
+<p><strong>初始狀態：</strong>已登入，在個人資訊開遊戲紀錄；預設日期為今天往前 30 天至今天，尚未查詢。測試時記錄實際日期，不固定預期每一天都必有資料。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與玩家操作</th>
+<th>回饋／資料變化</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>查看預設日期，按查詢</td>
+<td>原查詢前提示換成符合資料的列表或查無紀錄</td>
+<td>查看結果</td>
+</tr>
+<tr>
+<td>2</td>
+<td>有多頁時點下一頁／上一頁</td>
+<td>每頁最多 10 筆，編號連續，首末頁按鈕有界限</td>
+<td>更換區間</td>
+</tr>
+<tr>
+<td>3</td>
+<td>修改日期，再按查詢</td>
+<td>修改時舊結果仍在；重查才替換並回第 1 頁</td>
+<td>完成或返回其他頁籤</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>狀態／分岔</th>
+<th>玩家如何操作與繼續</th>
+<th>結果／不應改變的內容</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-13-01</td>
+<td>合法區間有多頁結果</td>
+<td>依主流程查詢與翻頁</td>
+<td>排序由新到舊、每頁 10 筆、編號連續；金額正負顯示正確</td>
+<td>AC-06-014</td>
+</tr>
+<tr>
+<td>SC-13-02</td>
+<td>缺日期／起日較晚／合法區間無資料</td>
+<td>修正區間再查詢；查無資料時換日期</td>
+<td>不合法時停用；合法無資料才顯示查無紀錄，沒有虛構成功列表</td>
+<td>AC-06-015</td>
+</tr>
+<tr>
+<td>SC-13-03</td>
+<td>已查詢後切頁或關閉</td>
+<td>重開遊戲紀錄</td>
+<td>回查詢初始狀態，不保存上一結果；錢包及任何領取資格不變</td>
+<td>AC-06-014</td>
+</tr>
+<tr>
+<td>SC-13-04</td>
+<td>已有本次儲值／VIP／優惠碼／兌換等操作紀錄</td>
+<td>開銀行紀錄，依次選類別與成功狀態</td>
+<td>條件同時成立，新紀錄在上方，來源及金額正確；不套用遊戲的日期查詢</td>
+<td>AC-08-001、011～012</td>
+</tr>
+<tr>
+<td>SC-13-05</td>
+<td>篩選無符合資料，或查看種子處理中／失敗紀錄</td>
+<td>改類別／狀態；觀察空結果，再改回全部</td>
+<td>無結果顯示提示，種子狀態不代表目前交易正在處理；沒有重試／退款按鈕</td>
+<td>AC-08-011</td>
+</tr>
+<tr>
+<td>SC-13-06</td>
+<td>銀行已設定篩選後切頁、主關閉再開或刷新</td>
+<td>逐一確認篩選及紀錄生命週期</td>
+<td>同視窗切頁保留篩選，重開篩選重置但共用紀錄保留，刷新回金融種子</td>
+<td>AC-08-011～012</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>金融紀錄主流程：</strong>先完成一筆可辨識的 Mock 操作並記錄數量 → 開銀行紀錄 → 選對應類別及成功狀態 → 核對來源、時間、識別碼、幣別及金額 → 切回全部或主關閉。來源包括 <a href="08-bank-and-promo.html#legacy-08-4-4">08.4.4</a> 的類別；操作前先記下列表，避免將舊種子算成本次新增。若補簽扣銀幣，依第 10 章現況不預期新增銀行紀錄。</p>
+<p><strong>使用方式：</strong>設計區分遊戲查詢前、空結果、列表與分頁，以及金融的即時篩選；開發依 <a href="06-member-profile.html#legacy-06-4-5">06.4.5</a> 的查詢時機；測試需另備空結果日期。正式紀錄來源、幣別與載入失敗情境不從 Mock 補推。</p>
+<p><a id="us-02"></a></p>
+<p><a id="section-11"></a></p>
+<h2 id="1511-us-02">15.11 US-02｜找到想玩的遊戲並進入</h2>
+<p><strong>玩家目標：</strong>身為已登入玩家，我想透過篩選與收藏找到遊戲，確認能使用哪種餘額，選定後進入，離開時回到大廳。</p>
+<p><strong>初始狀態：</strong>在大廳、有至少一個一般錢包正餘額；依情境另備全部餘額為零、活動銀卡未啟用或已啟用。尚未進遊戲；遊戲識別與支援幣別需從實際列表選取。尋找與收藏依第 04 章，選幣與進出依第 05 章。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>展開篩選，選收藏／類別／遊戲商／幣別，查看結果後選遊戲卡</td>
+<td>篩選即時交集；開啟動視窗，帶入遊戲與幣別篩選</td>
+</tr>
+<tr>
+<td>2</td>
+<td>核對各幣別可用餘額，選可用項</td>
+<td>選中與可用狀態分開；不合條件可改選或取消</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認進入並等待載入</td>
+<td>遊戲室顯示同一遊戲、供應商及幣別；入場不扣額</td>
+</tr>
+<tr>
+<td>4</td>
+<td>按離開</td>
+<td>回大廳，收藏保留，原篩選重建；不新增結算紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-02-01</td>
+<td>全部幣別篩選，至少一種可用</td>
+<td>依主流程，核對初選與實際入場</td>
+<td>首項不可用時選第一個可用項；遊戲及幣別正確，不扣入場費</td>
+<td>AC-05-001、004</td>
+</tr>
+<tr>
+<td>SC-02-02</td>
+<td>指定幣別無餘額，其他幣別有</td>
+<td>查看停用的初選，再手動改可用項</td>
+<td>不自動替玩家換幣別；手動選後才可進入</td>
+<td>AC-05-002</td>
+</tr>
+<tr>
+<td>SC-02-03</td>
+<td>不支援／零餘額／未啟用活動銀</td>
+<td>查看原因，取消取得所需額度或啟用卡後重進</td>
+<td>不可用時不能進入；活動金、保險箱不代替；活動銀使用接 <a href="15-player-journeys.html#us-05">US-05</a></td>
+<td>AC-05-003、005</td>
+</tr>
+<tr>
+<td>SC-02-04</td>
+<td>開啟動視窗但尚未進入</td>
+<td>關閉或點背景；另一次進入後再離開</td>
+<td>取消保留原篩選；真正離開遊戲回重建大廳；不自動停卡或轉換</td>
+<td>AC-05-004、006</td>
+</tr>
+<tr>
+<td>SC-02-05</td>
+<td>已在遊戲中重新整理</td>
+<td>等啟動完成並查看主內容</td>
+<td>不續接遊戲，依保存身份回大廳；金融及卡片依 Mock 重置</td>
+<td>AC-05-008</td>
+</tr>
+<tr>
+<td>SC-02-06</td>
+<td>尚無收藏</td>
+<td>只看最愛讀空狀態，改回全部、收藏一張再看</td>
+<td>收藏同步且愛心不啟動遊戲；本機刷新可保留</td>
+<td>AC-04-003～004</td>
+</tr>
+<tr>
+<td>SC-02-07</td>
+<td>已收藏但多條件交集無結果</td>
+<td>調整類別／遊戲商／幣別，或全部重設</td>
+<td>結果即時變更，重設不刪收藏；P2 類別停用</td>
+<td>AC-04-002、004</td>
+</tr>
+<tr>
+<td>SC-02-08</td>
+<td>篩選已有結果、零餘額或點卡後取消</td>
+<td>橫向捲動選卡，取消再開功能後返回</td>
+<td>支援幣別不等於可進入；最近點擊留下，關功能保留篩選，離遊戲重建</td>
+<td>AC-04-001、005～008</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>遊戲名稱、選中幣別與餘額一路一致。設計對照可用／不支援／停用及載入畫面；開發引用 <a href="05-game-session.html#legacy-05-2">05.2</a>～<a href="05-game-session.html#legacy-05-7">05.7</a>；測試不能把示意圖視為實際遊戲或結算驗收。相關流程為 <a href="13-cross-feature-flows.html#flow-02">FLOW-02</a>。</p>
+<p><a id="us-07"></a></p>
+<p><a id="section-12"></a></p>
+<h2 id="1512-us-07">15.12 US-07｜使用優惠碼取得獎勵</h2>
+<p><strong>玩家目標：</strong>身為一般會員，我想先確認優惠碼提供的商品，再決定是否領取，並知道獎勵會到哪裡。</p>
+<p><strong>初始狀態：</strong>一般會員登入，本次尚未領取目標碼；以 2026 年有效測試碼建立情境，記錄操作前各錢包、卡片、活動額度與金融紀錄數。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行 → 優惠 → 輸入碼 → 兌換</td>
+<td>檢核後開預覽；此時未領取</td>
+</tr>
+<tr>
+<td>2</td>
+<td>核對商品、數量、可兌換期間及使用期限</td>
+<td>可以取消且不耗資格；活動銀另看流水與上限</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認領取</td>
+<td>再驗證後立即發放；關預覽、清輸入並顯示成功與去向</td>
+</tr>
+<tr>
+<td>4</td>
+<td>自行查看銀行獎勵紀錄及摘要／獎勵卡</td>
+<td>商品進正確位置，只一筆紀錄；活動銀卡仍需啟用</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-07-01</td>
+<td>訪客或空白輸入；另試格式錯／不存在</td>
+<td>訪客換一般會員；格式錯留表單修正</td>
+<td>訪客／空值停用，其餘錯誤有原因，不產生獎勵</td>
+<td>AC-08-006</td>
+</tr>
+<tr>
+<td>SC-07-02</td>
+<td>有效碼包含前後空白或小寫</td>
+<td>正規化後預覽，先取消再重新預覽</td>
+<td>商品一致；取消保留輸入且未領、無紀錄</td>
+<td>AC-08-006～007</td>
+</tr>
+<tr>
+<td>SC-07-03</td>
+<td>四類正常碼分別未領</td>
+<td>各自依主流程確認</td>
+<td>銀加 2,000、銅加 3,000、活動金加 1,000、活動銀新增 5,000 未啟用卡；各自不改其他資產或付費指標</td>
+<td>AC-08-008</td>
+</tr>
+<tr>
+<td>SC-07-04</td>
+<td>同碼已領，包含所得卡已刪／合併</td>
+<td>關銀行重開再輸入，或快速重複確認</td>
+<td>仍不可重領，同身份只一份獎勵與紀錄</td>
+<td>AC-08-009</td>
+</tr>
+<tr>
+<td>SC-07-05</td>
+<td>過期／未開始，或預覽後剛好跨有效期限</td>
+<td>讀取錯誤，取消或修正代碼再試</td>
+<td>預覽錯留表單；確認錯留子層；不入帳，未成功發放不耗資格</td>
+<td>AC-08-010</td>
+</tr>
+<tr>
+<td>SC-07-06</td>
+<td>已領成功後切頁／關銀行／刷新</td>
+<td>各自查看成功區與資格</td>
+<td>切頁可清局部成功區但資格保留；刷新按 Mock 重置，不能當正式可重領規則</td>
+<td>AC-08-009、012</td>
+</tr>
+<tr>
+<td>SC-07-07</td>
+<td>未領有效碼，以可控時間建立剛到開始／剛到結束／超過結束的三組獨立情境</td>
+<td>在精確時點預覽與提交，再測已領碼跨過期限</td>
+<td>起訖時點本身可用，晚於截止才過期；已領先提示已領。預覽成功不免除提交時再驗，失敗不入帳。一般 UI 需另備可控時鐘</td>
+<td>AC-08-006～007、009～010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>預覽與發放分開，商品去向、資格、紀錄一致。設計對照錯誤、預覽及四種成功去向；開發引用 <a href="08-bank-and-promo.html#legacy-08-4">08.4.3</a>；測試碼是示範，不代表正式營運發放。需要期限競態的情境另備可控時間。相關流程為 <a href="13-cross-feature-flows.html#flow-05">FLOW-05</a>。</p>
+<p><a id="us-08"></a></p>
+<p><a id="section-13"></a></p>
+<h2 id="1513-us-08">15.13 US-08｜購買方案並確認餘額</h2>
+<p><strong>玩家目標：</strong>身為已登入玩家，我想確認金幣數、價格與支付通路，完成購買後能核對餘額及紀錄。</p>
+<p><strong>初始狀態：</strong>已登入大廳，記錄金幣及紀錄數。使用銀行 100,000／$4.99 方案作正常範例；不會進行真實付款。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>銀行選方案，或促銷選項後立即購買</td>
+<td>帶方案到 APP 商店儲值，預設 App Store</td>
+</tr>
+<tr>
+<td>2</td>
+<td>檢查數量／價格並選通路</td>
+<td>確認前可關閉；通路選擇不改方案數量</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認付款</td>
+<td>處理中不可關閉，成功加方案金幣並顯示結果</td>
+</tr>
+<tr>
+<td>4</td>
+<td>按完成，再到銀行紀錄看儲值</td>
+<td>回原銀行／促銷，查到單筆成功紀錄</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-08-01</td>
+<td>一般方案、App Store 或 Google Play</td>
+<td>分別依主流程</td>
+<td>100,000 金入帳、對應通路紀錄一次，VIP 儲值指標及其他幣別不變</td>
+<td>AC-08-001～003、012</td>
+</tr>
+<tr>
+<td>SC-08-02</td>
+<td>有 BONUS 或促銷文案的方案</td>
+<td>核對金幣數後購買</td>
+<td>只入列出數量，不再加百分比、不建立月卡每日派發</td>
+<td>AC-08-002、005</td>
+</tr>
+<tr>
+<td>SC-08-03</td>
+<td>不想付款</td>
+<td>在確認階段關閉，促銷可再切其他方案</td>
+<td>無入帳、無紀錄；底層方案保留，促銷首末不循環</td>
+<td>AC-08-003、005</td>
+</tr>
+<tr>
+<td>SC-08-04</td>
+<td>處理中／Mock 入帳條件失敗</td>
+<td>處理中等待；失敗讀提示並回確認</td>
+<td>處理中關閉停用，失敗不顯示成功；外部取消、退款與逾時另需服務情境</td>
+<td>AC-08-004</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>方案、確認金額、入帳與紀錄一致。設計對照確認／處理／成功及返回；開發引用 <a href="08-bank-and-promo.html#legacy-08-4">08.4.1</a>～<a href="08-bank-and-promo.html#legacy-08-4">08.4.2</a>；測試不把 Mock 通路選擇當商店串接通過。相關流程為 <a href="13-cross-feature-flows.html#flow-06">FLOW-06</a>。</p>
+<p><a id="us-09"></a></p>
+<p><a id="section-14"></a></p>
+<h2 id="1514-us-09">15.14 US-09｜管理保險箱、兌換並贈禮</h2>
+<p><strong>玩家目標：</strong>身為玩家，我想知道金幣放在哪裡，存取或兌換後數量如何改變，並在贈禮前確認扣除與實收預覽。</p>
+<p><strong>初始狀態：</strong>已登入、有足夠錢包金幣；一般情境可先存入 2,000 金至保險箱，再測 1,001 金贈禮。金銀兌換、低餘額與非 100 倍數用獨立情境，避免同一故事前步耗掉後步資產。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>保險箱存入 2,000 金</td>
+<td>錢包 −2,000、保險箱 +2,000，一筆存入紀錄</td>
+</tr>
+<tr>
+<td>2</td>
+<td>贈禮頁核對帶入或手填 ID，輸入 1,001</td>
+<td>扣除 1,001、費 50、實收預覽 951</td>
+</tr>
+<tr>
+<td>3</td>
+<td>確認贈禮</td>
+<td>送方保險箱減 1,001，一筆贈禮紀錄，ID／金額清空；不證明收方已入帳</td>
+</tr>
+<tr>
+<td>4</td>
+<td>另以兌換頁試 2 金換 200 銀</td>
+<td>一般金銀相反更新，無費用；新增兌換紀錄</td>
+</tr>
+<tr>
+<td>5</td>
+<td>銀行紀錄切保險箱、贈禮及兌換</td>
+<td>各筆來源、數量及狀態可核對，不互相混用</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-09-01</td>
+<td>有錢包金，保險箱可存取</td>
+<td>存入後取出同額，試滑桿／快捷及切模式</td>
+<td>兩位置總金不變，各一筆紀錄；切模式清金額，零不可送</td>
+<td>AC-09-002～003</td>
+</tr>
+<tr>
+<td>SC-09-02</td>
+<td>來源不足／零，或送出後條件失效</td>
+<td>調整額度或取得來源資產再試</td>
+<td>超額輸入截上限、零停用；實際失敗留原表單並提示，不當成功</td>
+<td>AC-09-004</td>
+</tr>
+<tr>
+<td>SC-09-03</td>
+<td>玩家卡帶 ID 或自行填 ID</td>
+<td>檢查對象、填 1,001、確認</td>
+<td>送方保險箱扣 1,001，預覽 951；無 ID／零額不可送，成功清表單；主關閉不回玩家卡</td>
+<td>AC-09-001、005～006</td>
+</tr>
+<tr>
+<td>SC-09-04</td>
+<td>想金銀互換</td>
+<td>試 2 金換 200 銀，另試反向</td>
+<td>免費、兩幣及一筆紀錄一致，活動額度／卡片／保險箱不變</td>
+<td>AC-09-007</td>
+</tr>
+<tr>
+<td>SC-09-05</td>
+<td>銀換金輸入 150，另備銀餘額 1,050</td>
+<td>看停用，按 MAX 改有效單位再送出</td>
+<td>150 不可送，MAX 帶 1,000，得 10 金並留 50 銀</td>
+<td>AC-09-008</td>
+</tr>
+<tr>
+<td>SC-09-06</td>
+<td>輸入後切頁／取消主視窗／完成後刷新</td>
+<td>分別確認草稿及共用餘額生命週期</td>
+<td>同視窗草稿保留，重開重建；成功清欄位，刷新金融 Mock 重置</td>
+<td>AC-09-009～010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>存取、贈禮與兌換各有正確來源及單筆紀錄。設計呈現來源與目的地而非只顯示總額；開發引用 <a href="09-vault-and-gifting.html#legacy-09-4">09.4</a>；測試需把固定次數／限額展示與實際防重複、收方結果分開。贈禮跨頁見 <a href="13-cross-feature-flows.html#flow-08">FLOW-08</a>。</p>
+<p><a id="us-12"></a></p>
+<p><a id="section-15"></a></p>
+<h2 id="1515-us-12">15.15 US-12｜參與活動並查看結果</h2>
+<p><strong>玩家目標：</strong>身為玩家，我想區分哪些活動可參與，查看內容後報名，並瀏覽已結束活動的名單與排行榜。</p>
+<p><strong>初始狀態：</strong>已登入、尚未報名目標活動；以原型固定的進行中、即將開始及已結束活動各建一例，不以系統今天反推資料狀態。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>畫面與操作</th>
+<th>回饋與下一步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>底部活動 → 選分類 → 點活動卡</td>
+<td>顯示對應詳情，尚未報名</td>
+</tr>
+<tr>
+<td>2</td>
+<td>閱讀期間、獎勵及介紹，若可參與則點立即參與</td>
+<td>Mock 報名成功，留詳情並停用按鈕</td>
+</tr>
+<tr>
+<td>3</td>
+<td>關詳情，再重開或改已結束分類</td>
+<td>已報名狀態保留；已結束只讀示範名單</td>
+</tr>
+<tr>
+<td>4</td>
+<td>切排行榜並選倍數／贏分／富豪</td>
+<td>顯示各榜前 10 名，查看不改資產</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及不應變動項目</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-12-01</td>
+<td>進行中或即將結束，未報名</td>
+<td>依主流程參與</td>
+<td>顯示已完成 Mock 報名，卡片同步，不扣費、不跳遊戲、不發獎</td>
+<td>AC-10-001、006～007</td>
+</tr>
+<tr>
+<td>SC-12-02</td>
+<td>只想閱讀／已報名</td>
+<td>先關詳情不參與，另情境在已報名重開</td>
+<td>關閉回分類不改資料；已報名按鈕停用且無取消報名</td>
+<td>AC-10-006～007</td>
+</tr>
+<tr>
+<td>SC-12-03</td>
+<td>即將開始或已結束</td>
+<td>開詳情讀狀態，查看已結束名單</td>
+<td>分別尚未開始／活動已結束停用；名單不是個人可領獎勵</td>
+<td>AC-10-008</td>
+</tr>
+<tr>
+<td>SC-12-04</td>
+<td>查看三種榜</td>
+<td>切榜、停留後再看成績</td>
+<td>每榜 10 名、單位與前三台正確，更新計時增加但成績不變，不能開玩家卡</td>
+<td>AC-10-009</td>
+</tr>
+<tr>
+<td>SC-12-05</td>
+<td>已報名後切頁、主關閉及刷新</td>
+<td>分別重開活動</td>
+<td>前兩者保留報名，刷新清空；不將原型狀態當正式報名憑證</td>
+<td>AC-10-010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>活動分類、報名按鈕與卡片標記一致；榜單與活動名單僅展示。設計對照四種活動狀態與各榜；開發引用 <a href="10-activities.html#legacy-10-4">10.4.2</a>～<a href="10-activities.html#legacy-10-4">10.4.3</a>；測試須另備正式活動資料與空／失敗情境後才可驗收服務能力。</p>
+<p><a id="us-01"></a></p>
+<p><a id="section-16"></a></p>
+<h2 id="1516-us-01-app">15.16 US-01｜第一次進入 APP 並建立身份</h2>
+<p><strong>玩家目標：</strong>我想用合適方式進入 APP，必要時建立帳號或找回登入方式。</p>
+<p><strong>初始狀態：</strong>本機無登入身份；準備合法帳號、6 字元以上密碼及測試手機，找回特殊帳號只用於示範分流。</p>
+<p><strong>主流程：</strong>開 APP → 登入首頁 → 選帳號或建立帳號 → 填欄位與閱讀文件 → 完成 → 大廳核對身份；其他方式依情境分流。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及限制</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-01-01</td>
+<td>無身份／已保存身份</td>
+<td>開 APP 等品牌載入</td>
+<td>分別首頁／大廳，保存身份與資產重建分開</td>
+<td>AC-03-001</td>
+</tr>
+<tr>
+<td>SC-01-02</td>
+<td>帳號錯格式、空密碼或正常資料</td>
+<td>送出錯誤後修正再登入</td>
+<td>錯誤留表單；合法 Mock 成功進大廳</td>
+<td>AC-03-002～003</td>
+</tr>
+<tr>
+<td>SC-01-03</td>
+<td>首次註冊，文件未讀或欄位不符</td>
+<td>修正暱稱密碼、試推廣碼，再閱讀確認文件</td>
+<td>所有條件符合才完成，推廣碼不發獎</td>
+<td>AC-03-004～005</td>
+</tr>
+<tr>
+<td>SC-01-04</td>
+<td>手機號碼錯、驗證碼錯或正確</td>
+<td>修正號碼、發送、測 123456 及重發倒數</td>
+<td>錯誤可恢復，成功為 Mock 手機身份</td>
+<td>AC-03-006</td>
+</tr>
+<tr>
+<td>SC-01-05</td>
+<td>四種第三方或遊客入口</td>
+<td>第三方確認先取消再允許；另測遊客</td>
+<td>取消無身份；允許固定示範，遊客為訪客資格</td>
+<td>AC-03-003、007、010</td>
+</tr>
+<tr>
+<td>SC-01-06</td>
+<td>一般帳號需重設密碼</td>
+<td>手機示範驗證後重設，回登入試舊與新密碼</td>
+<td>不自動登入；本機最近重設帳號需新密碼</td>
+<td>AC-03-008</td>
+</tr>
+<tr>
+<td>SC-01-07</td>
+<td>line888／unbound888</td>
+<td>走社群授權／客服展示再返回</td>
+<td>不誤入一般重設，不宣稱客服案件成立</td>
+<td>AC-03-009～010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>身份來源與大廳摘要一致，未完成或取消不建立新身份；正式憑證驗證另測。 美術依分支準備一般、錯誤、停用與完成畫面；開發核對入口及資料更新，測試依 SC 初始狀態搭配 AC 驗證。所有情境目前未執行操作驗收。</p>
+<p><a id="us-10"></a></p>
+<p><a id="section-17"></a></p>
+<h2 id="1517-us-10">15.17 US-10｜與其他玩家互動並尋求協助</h2>
+<p><strong>玩家目標：</strong>我想找到玩家、對話，必要時管理關係或請客服協助。</p>
+<p><strong>初始狀態：</strong>一般會員登入；指定種子好友及非好友，黑名單為空；錯誤／空目錄須另備測試資料。</p>
+<p><strong>主流程：</strong>底部聊天 → 載入好友／玩家列表 → 確認目標 → 對話或玩家卡 → 輸入訊息送出；要檢舉時從玩家卡轉客服再補內容。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及限制</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-10-01</td>
+<td>空訊息／合法訊息／中文組字</td>
+<td>三頻道分別測按鈕與 Enter</td>
+<td>空白不送、合法追加；組字不誤送</td>
+<td>AC-11-001～002</td>
+</tr>
+<tr>
+<td>SC-10-02</td>
+<td>兩個不同私聊對象</td>
+<td>輸入草稿後換對象，核對對象再送</td>
+<td>訊息分開但草稿共用，不假設原對象仍是收件者</td>
+<td>AC-11-003</td>
+</tr>
+<tr>
+<td>SC-10-03</td>
+<td>目錄載入／快速切換／空／錯誤</td>
+<td>載入玩家或好友，失敗再試</td>
+<td>新選擇不被舊請求蓋掉；失敗與空需資料注入</td>
+<td>AC-11-004</td>
+</tr>
+<tr>
+<td>SC-10-04</td>
+<td>非好友／已好友</td>
+<td>列表加入、再開卡取消及重加</td>
+<td>即時本機關係去重，無對方同意；快照重載核對</td>
+<td>AC-11-005</td>
+</tr>
+<tr>
+<td>SC-10-05</td>
+<td>尚未封鎖的對象</td>
+<td>確認前取消，再確認封鎖，最後設定解除</td>
+<td>封鎖私聊與資料受限；舊訊息及好友仍在，解除可恢復</td>
+<td>AC-11-006、AC-12-009</td>
+</tr>
+<tr>
+<td>SC-10-06</td>
+<td>需檢舉玩家或一般客服</td>
+<td>檢舉帶目標後先不送，再填內容送；另試一般問題</td>
+<td>不自動送出；送出清內容，無正式案件或回覆</td>
+<td>AC-11-007</td>
+</tr>
+<tr>
+<td>SC-10-07</td>
+<td>想贈點或送禮</td>
+<td>點遊戲點數／玩家卡贈禮；另試加號贈送禮物</td>
+<td>前者帶 ID 至保險箱，後者提示開發中</td>
+<td>AC-11-008</td>
+</tr>
+<tr>
+<td>SC-10-08</td>
+<td>會員／訪客，自動發送或表情需求</td>
+<td>表情入輸入後送；會員改設定保存／取消</td>
+<td>訪客無自動入口；會員只存設定、不排程，主關閉重置</td>
+<td>AC-11-009～010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>對象與訊息歸屬一致，關係同步到相關入口；本機送出不當作真實收件。 美術依分支準備一般、錯誤、停用與完成畫面；開發核對入口及資料更新，測試依 SC 初始狀態搭配 AC 驗證。所有情境目前未執行操作驗收。</p>
+<p><a id="us-11"></a></p>
+<p><a id="section-18"></a></p>
+<h2 id="1518-us-11">15.18 US-11｜閱讀信件並取得附件</h2>
+<p><strong>玩家目標：</strong>我想閱讀通知，知道哪些附件可領，並清理信件。</p>
+<p><strong>初始狀態：</strong>登入後記下金幣餘額及銀行紀錄數，信箱為種子列表；選有附件與無附件信各一封。</p>
+<p><strong>主流程：</strong>開信箱 → 切分類 → 主動點信件 → 讀內文 → 有附件則領取 → 等成功 → 關閉核對錢包。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及限制</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-11-01</td>
+<td>未讀信自動選中／主動點選</td>
+<td>開信箱、切分類，再點未讀信</td>
+<td>自動選中不改已讀，主動點選才更新</td>
+<td>AC-12-001</td>
+</tr>
+<tr>
+<td>SC-11-02</td>
+<td>有附件／無附件</td>
+<td>有附件按領取，等待並在同視窗再查</td>
+<td>成功固定加 50,000 金且已領，無附件不能領，無銀行紀錄</td>
+<td>AC-12-002</td>
+</tr>
+<tr>
+<td>SC-11-03</td>
+<td>未領附件信／選中信／最後一封</td>
+<td>按刪除</td>
+<td>直接刪除並更新數量，改選同類首封或空狀態</td>
+<td>AC-12-003</td>
+</tr>
+<tr>
+<td>SC-11-04</td>
+<td>已領或已刪後重開信箱</td>
+<td>關閉再開，核對信與餘額</td>
+<td>信件重置、可再領，但當次金保留；不作正式重領規則</td>
+<td>AC-12-004</td>
+</tr>
+<tr>
+<td>SC-11-05</td>
+<td>附件正在領取</td>
+<td>核對其他附件停用；另測處理中離頁／刪除</td>
+<td>同視窗不能並行領；離頁延遲更新列待實測，無原子核銷保證</td>
+<td>AC-12-002～004</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>當次信件狀態與金幣結果可核對；重開重置及可重領明確記錄為原型缺口。 美術依分支準備一般、錯誤、停用與完成畫面；開發核對入口及資料更新，測試依 SC 初始狀態搭配 AC 驗證。所有情境目前未執行操作驗收。</p>
+<p><a id="us-14"></a></p>
+<p><a id="section-19"></a></p>
+<h2 id="1519-us-14-app">15.19 US-14｜調整偏好並離開或返回 APP</h2>
+<p><strong>玩家目標：</strong>我想依需求調整閱讀與音訊體驗，並知道下次回來會保留什麼。</p>
+<p><strong>初始狀態：</strong>一般會員登入，記錄音樂、音效、日夜、語言、收藏與當前身份；需音訊播放環境才能驗證出聲。</p>
+<p><strong>主流程：</strong>頂部設定 → 切換音樂音效與日夜 → 選語言 → 關閉核對 → 再開查看 → 登出返回首頁 → 重新登入或刷新核對保存。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>SC</th>
+<th>初始狀態／分支</th>
+<th>玩家如何繼續</th>
+<th>結果及限制</th>
+<th>AC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-14-01</td>
+<td>音樂／音效／日夜待修改</td>
+<td>切換後收合再開，刷新再看</td>
+<td>偏好保存；日夜同步，音訊需實際播放檢查</td>
+<td>AC-12-005</td>
+</tr>
+<tr>
+<td>SC-14-02</td>
+<td>推播目前開啟</td>
+<td>關閉、收合選單再開</td>
+<td>回預設開啟，無系統權限及訂閱</td>
+<td>AC-12-006</td>
+</tr>
+<tr>
+<td>SC-14-03</td>
+<td>語言目前繁中</td>
+<td>選 English，重開選同項，再試停用項</td>
+<td>保存選擇但正文仍繁中，同項只關閉，停用不可選</td>
+<td>AC-12-007</td>
+</tr>
+<tr>
+<td>SC-14-04</td>
+<td>需要閱讀文件或解除封鎖</td>
+<td>開規章返回，再開黑名單解除最後一位</td>
+<td>唯讀文件不改同意，黑名單數量與限制同步</td>
+<td>AC-12-008～009</td>
+</tr>
+<tr>
+<td>SC-14-05</td>
+<td>已改偏好及收藏，需登出</td>
+<td>按登出，刷新，重新登入</td>
+<td>直接返回首頁，偏好收藏保留，身份／其他資料依章節重建</td>
+<td>AC-12-010、AC-03-001、AC-04-008</td>
+</tr>
+<tr>
+<td>SC-14-06</td>
+<td>一般帳號 A 已改資料、領 VIP／優惠碼、持卡並加好友；與另一合法帳號 B 分開記錄</td>
+<td>同一次開啟中 A 登出 → B 登入 → A 再登入，最後刷新</td>
+<td>同來源＋相同大小寫帳號的優惠碼資格可保留；登入重建身份與錢包，金融紀錄、卡片及社交未完整隔離。刷新保留當前身份與偏好、其餘依 <a href="02-shared-rules.html#legacy-02-7">02.7</a> 重建；不可當正式跨帳號移交</td>
+<td>AC-03-001、AC-06-016、AC-08-009、012、AC-11-010、AC-12-010</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>完成定義與使用對照：</strong>本機偏好與身份生命週期分清，推播與語言示範不被當作正式服務。 美術依分支準備一般、錯誤、停用與完成畫面；開發核對入口及資料更新，測試依 SC 初始狀態搭配 AC 驗證。所有情境目前未執行操作驗收。</p>
+<h2 id="_3">分冊版本與交付檢查</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 15 章，先前沿革保留在總綱</td>
+</tr>
+<tr>
+<td>v0.13</td>
+<td>2026-09-09</td>
+<td>獨立成冊、建立文件內目錄及跨檔導覽；保留原情境與驗收狀態</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>內容</td>
+<td>原段落、流程與情境全部承接</td>
+<td>逐段核對</td>
+</tr>
+<tr>
+<td>引用</td>
+<td>FLOW／US／SC／AC 關係完整、檔案連結有效</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>操作驗收</td>
+<td>有實際執行環境與證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="15-player-journeys.md">15-player-journeys.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>
