@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="source-sha256" content="bfd89765ba976026c18cf0b7d2abd5258376ce75c7f94008cafdb41d71dc0f87"><title>10. 每日任務、活動與排行榜</title><style>
+:root{color-scheme:light;--ink:#233047;--muted:#66758a;--line:#dce3ec;--accent:#175c86;--paper:#fff;--bg:#f2f5f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#a14e16}aside{position:fixed;inset:0 auto 0 0;width:280px;overflow:auto;padding:30px 22px;border-right:1px solid var(--line);background:#eaf0f5}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.side-title{font-size:21px;line-height:1.5;margin:10px 0 22px}nav a{display:block;padding:7px 10px;font-size:13px;line-height:1.5;text-decoration:none;border-radius:5px;margin:3px 0}nav a:hover,nav a.active{background:#d6e5ef;color:#124f76}main{margin-left:280px;padding:38px 42px 90px;max-width:1560px}article{background:var(--paper);padding:44px 48px;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 32px #22334406}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;font-size:13px;color:var(--muted)}button{font:inherit;padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);cursor:pointer}h1{font-size:32px;line-height:1.45;letter-spacing:-.6px;margin:0 0 30px}h2{font-size:24px;line-height:1.5;margin:56px 0 22px;padding-top:24px;border-top:2px solid var(--line)}h3{font-size:19px;margin:32px 0 15px;color:#235779}p{margin:14px 0}li{margin:7px 0}blockquote{margin:24px 0;padding:5px 22px;background:#f0f6fa;border-left:4px solid #5091b4;color:#456176}.table-scroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:7px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;min-width:105px}th{background:#eaf1f6;font-weight:650;color:#244760}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8fafc}td:first-child{font-weight:550}code{font-size:.88em;background:#edf1f5;padding:2px 5px;border-radius:3px;overflow-wrap:anywhere}pre{overflow:auto;padding:18px;background:#edf1f5}pre code{padding:0}.flow{padding:20px;background:#f5f8fb;border:1px solid var(--line);border-radius:8px}.flow-row{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px dashed #ccd9e5}.flow-row:last-child{border:0}.flow-source{flex:0 0 155px;font-weight:650;color:#225677}.flow-targets{display:flex;flex-wrap:wrap;gap:8px}.flow-target{background:white;padding:6px 10px;border:1px solid #ccdae5;border-radius:5px;font-size:14px}.flow-label{color:#697a8e;font-size:12px;display:block}.foot{font-size:12px;color:var(--muted);margin-top:32px}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:white;padding:10px;z-index:10}
+@media(min-width:1600px){main{margin-right:auto}}
+@media(max-width:1000px){aside{position:static;width:auto;border:0;border-bottom:1px solid var(--line);padding:20px}nav{display:flex;overflow:auto;gap:6px}nav a{white-space:nowrap}.side-title{margin:5px 0 10px;font-size:18px}main{margin:0;padding:20px}article{padding:25px}h1{font-size:27px}.flow-row{align-items:flex-start}.flow-source{flex-basis:110px}}
+@media print{aside,.toolbar,.skip{display:none}main{margin:0;padding:0;max-width:none}article{border:0;padding:0;box-shadow:none}body{font-size:11pt;background:white}h2,h3{break-after:avoid}h2{margin-top:25px}.table-scroll{overflow:visible}table{font-size:9pt}th,td{min-width:0;padding:6px}tr{break-inside:avoid}a{color:inherit;text-decoration:none}.flow{break-inside:avoid}}
+</style></head>
+<body><a class="skip" href="#content">跳至正文</a><aside><div class="brand">巨亨ONLINE · 文件閱讀版</div><div class="side-title">10. 每日任務、活動與排行榜</div><nav aria-label="章節導覽"><a href="#_1">目錄</a><a href="#1">1. 這個功能是什麼</a><a href="#2">2. 這個功能不做什麼</a><a href="#3">3. 名詞說明</a><a href="#4">4. 畫面內容</a><a href="#5">5. 欄位說明</a><a href="#6">6. 狀態說明</a><a href="#7">7. 查詢、排序與分頁</a><a href="#8">8. 操作與跳轉</a><a href="#9">9. 頁面狀態</a><a href="#10-user-story">10. User Story — 玩家</a><a href="#11-user-story">11. User Story — 開發人員</a><a href="#12-user-story-qa">12. User Story — QA 驗證者</a><a href="#13">13. 驗收標準</a><a href="#14">14. 這個功能需要的資料</a><a href="#15">15. 待確認事項</a><a href="#16">16. 版本沿革</a><a href="#17">17. 交付檢查表</a></nav></aside><main id="content"><div class="toolbar"><span>由 Markdown 同步產生 · 可使用瀏覽器搜尋文字</span><button onclick="window.print()">列印／另存 PDF</button></div><article><h1 id="10">10. 每日任務、活動與排行榜</h1>
+<p>巨亨ONLINE APP｜v0.11 分冊整理版｜2026-09-09</p>
+<p><a href="../APP_FRONTEND_SPEC.html#ch-10">返回總綱</a> · <a href="02-shared-rules.html">共用規則</a> · <a href="07-reward-cards.html">獎勵卡</a> · <a href="../APP_FRONTEND_SPEC.html#ch-13">完整流程與驗收</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>文件項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件性質</td>
+<td>前台功能規格；本批完成重整，待閱讀確認</td>
+</tr>
+<tr>
+<td>與現有文件關係</td>
+<td>承接總規格第 10 章正文；總綱保留索引，本文件為本章維護來源</td>
+</tr>
+<tr>
+<td>本版目的</td>
+<td>獨立查閱、跨功能對照與工作單引用</td>
+</tr>
+<tr>
+<td>適用範圍</td>
+<td>每日任務、活動與排行榜</td>
+</tr>
+<tr>
+<td>不在本版範圍</td>
+<td>正式外部服務、後台與帳務契約；具體責任見第 2 節</td>
+</tr>
+<tr>
+<td>上游依據</td>
+<td>原總規格既有正文、APP 撰寫規則與已確認需求；原型連結見總綱</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>狀態：</strong>第 3 批初稿。簽到與領卡、活動報名及榜單以現行原型為依據；活動日期、獎勵與名次為示範資料，不作正式發獎或即時排行承諾。</p>
+<p>相關功能：<a href="05-game-session.html">遊戲進入與離開</a> · <a href="08-bank-and-promo.html">銀行、儲值與優惠碼</a> · <a href="09-vault-and-gifting.html">保險箱、贈禮與兌換</a></p>
+<h2 id="_1">目錄</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>節次</th>
+<th>內容</th>
+<th>主要讀者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#section-01">這個功能是什麼</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#section-02">這個功能不做什麼</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#section-03">名詞說明</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#section-04">畫面內容</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#section-05">欄位說明</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#section-06">狀態說明</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#section-07">查詢、排序與分頁</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#section-08">操作與跳轉</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#section-09">頁面狀態</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#section-10">User Story — 玩家</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#section-11">User Story — 開發人員</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#section-12">User Story — QA 驗證者</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#section-13">驗收標準</a></td>
+<td>QA</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#section-14">這個功能需要的資料</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#section-15">待確認事項</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#section-16">版本沿革</a></td>
+<td>美術、前端、後端、產品</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#section-17">交付檢查表</a></td>
+<td>QA</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-01"></a></p>
+<p><a id="legacy-10-1"></a></p>
+<h2 id="1">1. 這個功能是什麼</h2>
+<p>玩家可完成當日簽到、補回本月漏簽、領取已達成節點的獎勵，並瀏覽活動與三種排行榜。簽到／補簽更新進度，領卡是另一個需點擊的操作；卡片啟用與轉換引用第 07 章。</p>
+<p><a id="section-02"></a></p>
+<h2 id="2">2. 這個功能不做什麼</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>不做的事</th>
+<th>負責位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>卡片啟用、合併與轉換</td>
+<td>第 07 章獎勵卡</td>
+</tr>
+<tr>
+<td>遊戲進入與使用</td>
+<td>第 05 章遊戲</td>
+</tr>
+<tr>
+<td>正式報名審核、活動結算及即時排行</td>
+<td>後續活動服務與營運規格</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-03"></a></p>
+<h2 id="3">3. 名詞說明</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>定義與例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簽到／領節點獎勵</td>
+<td>簽到增加一天進度；達到第 10 天後仍要手動領卡，並非簽到立即入帳。</td>
+</tr>
+<tr>
+<td>累積進度／日曆已簽集合</td>
+<td>原型累積 20 天與日期格獨立；不可由已勾日期數推導種子累積。</td>
+</tr>
+<tr>
+<td>活動狀態／報名狀態</td>
+<td>活動可為進行中，而同一玩家已報名；報名不改活動分類。</td>
+</tr>
+<tr>
+<td>更新時間／榜單成績</td>
+<td>更新時間文字增加，不代表靜態榜單重新取得成績。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-04"></a></p>
+<p><a id="legacy-10-3"></a></p>
+<h2 id="4">4. 畫面內容</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>顯示及用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任務摘要</td>
+<td>本月累積天數、今日簽到狀態及簽到按鈕</td>
+</tr>
+<tr>
+<td>里程碑進度</td>
+<td>第 5、7、10、15、20、25、30 天節點，區分未達、可領與已領</td>
+</tr>
+<tr>
+<td>本月簽到</td>
+<td>當月日期格，顯示今日、已簽、可補簽及未來日期；漏簽數與每次補簽成本</td>
+</tr>
+<tr>
+<td>補簽確認</td>
+<td>目標日期、100 銀幣成本、僅補進度不另發每日獎勵的說明、取消／確認</td>
+</tr>
+<tr>
+<td>活動分類與卡片</td>
+<td>進行中、即將開始、已結束的數量；卡片含狀態、標題、簡介、結束時間、獎勵及已報名標記</td>
+</tr>
+<tr>
+<td>活動詳情</td>
+<td>狀態、名稱、說明、起訖、獎勵、完整介紹及參與按鈕</td>
+</tr>
+<tr>
+<td>已結束頁</td>
+<td>另顯示固定示範獲獎名單；不依玩家報名結果或所選活動計算</td>
+</tr>
+<tr>
+<td>排行榜</td>
+<td>前 10 名；前三名頒獎台依左二／中一／右三排列，4～10 名列表；玩家名稱、遊戲／資產類別與成績</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-05"></a></p>
+<p><a id="legacy-10-4"></a></p>
+<h2 id="5">5. 欄位說明</h2>
+<h4 id="1041">10.4.1 簽到、補簽與節點</h4>
+<p>日曆以瀏覽器本地日期及當月天數建立，沒有切換其他月份的入口。今天未簽可操作，已簽與未來日期停用，僅本月今天之前的漏簽日可補。每日任務按鈕與今天日期格都能完成當日簽到。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>本版規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>今日簽到</td>
+<td>增加一日累積進度、日期改已簽，不扣幣、不直接發一般錢包或卡片</td>
+</tr>
+<tr>
+<td>補簽</td>
+<td>每個漏簽日支付 100 一般銀幣，成功補一日進度；活動銀、保險箱或其他幣別不能代付</td>
+</tr>
+<tr>
+<td>進度初值</td>
+<td>原型預設累積 20 天，與日曆初始已簽日數獨立；每新增簽／補一日，累積加一</td>
+</tr>
+<tr>
+<td>獎勵節點</td>
+<td>第 10、15、20 天手動領活動銀卡；金額、流水及期限引用 07.4</td>
+</tr>
+<tr>
+<td>無額度節點</td>
+<td>第 5、7、25、30 天只標記里程碑完成，不增加餘額或卡片；前兩項原型初始已完成</td>
+</tr>
+<tr>
+<td>領取資格</td>
+<td>已達節點且未領才可操作；未達停用，成功後已領停用；刪卡／合併不恢復資格</td>
+</tr>
+</tbody>
+</table></div>
+<p>補簽不足 100 銀幣時顯示「銀幣不足，無法補簽」，確認層仍在，日期與餘額不變；可取消後取得銀幣再返回。成功顯示扣款提示並關閉確認層。補簽目前只改銀幣與任務進度，沒有新增銀行金融紀錄。</p>
+<h4 id="1042">10.4.2 活動與報名</h4>
+<p>進行中分類同時包含「進行中」及「即將結束」的活動。分類與可報名狀態依示範資料的狀態欄位決定，未根據畫面日期自動切換；原型日期文字與真實今天不一致時，不應推論正式活動仍有效。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>活動狀態</th>
+<th>按鈕及結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>進行中／即將結束、未報名</td>
+<td>可按「立即參與」，成功提示完成 Mock 報名，卡片與詳情更新已報名</td>
+</tr>
+<tr>
+<td>已報名</td>
+<td>顯示「已完成 Mock 報名」且停用；沒有取消報名入口</td>
+</tr>
+<tr>
+<td>即將開始</td>
+<td>「尚未開始」停用，可閱讀詳情</td>
+</tr>
+<tr>
+<td>已結束</td>
+<td>「活動已結束」停用，可閱讀介紹與固定示範獲獎名單</td>
+</tr>
+</tbody>
+</table></div>
+<p>報名只保存活動識別，不扣費、不自動發獎、不驗證 VIP／儲值／遊戲參與條件，也不開啟遊戲。活動介紹中的營運條件若要正式執行，應由後續工作單補檢核與結果，不因文案存在宣稱已完成。</p>
+<h4 id="1043">10.4.3 排行榜</h4>
+<p>倍數榜以倍數、贏分榜以分數、富豪榜以金幣展示數值；不將三者合算。每榜固定前 10 名，不提供分頁、個人排名查詢或點玩家開資訊卡。顯示「幾秒／分鐘前更新」的數字隨停留時間增加，但列表是靜態 Mock，不會因此重新取得成績；本機操作不改名次，也不發排名獎勵。</p>
+<h3 id="_2">無資料時顯示</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>欄位／資料</th>
+<th>無資料時顯示與界線</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>累積、已簽日期、節點</td>
+<td>使用原型預設；正式缺值不等於 0，見 Q-10-001。</td>
+</tr>
+<tr>
+<td>活動標題、期間、介紹與獎勵</td>
+<td>目前由示範資料提供；缺欄位與空列表呈現未定義，見 Q-10-001。</td>
+</tr>
+<tr>
+<td>玩家名、名次、成績</td>
+<td>目前每榜固定十筆；缺值不補成 0 分，見 Q-10-001。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-06"></a></p>
+<p><a id="legacy-10-6"></a></p>
+<h2 id="6">6. 狀態說明</h2>
+<p>代碼僅在已有原型列舉時對照，不鎖定正式後端 schema；各群組不可互相推導。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>原型活動代碼</th>
+<th>顯示</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>active</td>
+<td>進行中</td>
+<td>可在未報名時參與</td>
+</tr>
+<tr>
+<td>ending</td>
+<td>即將結束</td>
+<td>納入進行中分類</td>
+</tr>
+<tr>
+<td>upcoming</td>
+<td>即將開始</td>
+<td>參與停用</td>
+</tr>
+<tr>
+<td>ended</td>
+<td>已結束</td>
+<td>參與停用，名單為展示</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>資格群組</th>
+<th>狀態與規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日期</td>
+<td>今日未簽可簽；過去漏簽可補；已簽與未來停用</td>
+</tr>
+<tr>
+<td>節點</td>
+<td>未達不可領、已達未領可領、已領停用；無額度節點只記完成</td>
+</tr>
+<tr>
+<td>報名</td>
+<td>未報名依活動狀態判斷；已報名停用，無取消入口</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_3">原型限制與例外</h3>
+<p>已簽、已領、已報名按鈕會停用，獎勵卡另有同步資格檢查，避免同一節點重複發卡。簽到／補簽／報名本身仍是前台共用狀態，快速重複提交及跨裝置併發未提供正式交易保證，不能只憑停用樣式當作後端防重複完成。</p>
+<p>本月日曆與累積值為展示資料，未實作月份切換排程、跨午夜自動重建、正式累積／重置週期、活動空資料或服務失敗頁。記憶體中的進度與報名在關閉功能後保留，刷新重置，也未依登入帳號完整隔離。</p>
+<p><a id="section-07"></a></p>
+<h2 id="7">7. 查詢、排序與分頁</h2>
+<p>活動分類選取後依資料狀態切換列表；預設進行中，包含即將結束。排行榜可切倍數、贏分、富豪；榜別單位依第 5 節。沒有日期查詢、玩家排名搜尋或分頁，每榜固定前十名。日曆只顯示本月，不提供月份切換。</p>
+<p><a id="section-08"></a></p>
+<p><a id="legacy-10-2"></a></p>
+<p><a id="legacy-10-5"></a></p>
+<h2 id="8">8. 操作與跳轉</h2>
+<h3 id="_4">入口、預設畫面與返回</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>入口／操作</th>
+<th>預設內容</th>
+<th>返回／保存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部每日任務／獎勵卡空清單前往任務</td>
+<td>每日任務頁籤</td>
+<td>主關閉回大廳；已簽、已領與卡片在本頁生命週期保留</td>
+</tr>
+<tr>
+<td>底部活動</td>
+<td>活動頁籤，預設進行中</td>
+<td>主關閉回大廳</td>
+</tr>
+<tr>
+<td>三個主頁籤</td>
+<td>每日任務、活動、排行榜；標題依頁籤改為每日任務／活動中心／排行榜</td>
+<td>切頁保留共用進度與報名；活動分類重進時回進行中</td>
+</tr>
+<tr>
+<td>排行榜</td>
+<td>初次選倍數榜，可改贏分榜／富豪榜</td>
+<td>同一活動視窗內記住選榜；主關閉重開回初值</td>
+</tr>
+<tr>
+<td>補簽／活動詳情</td>
+<td>疊加對應子視窗</td>
+<td>取消、關閉或背景點擊只關該層，回原頁；報名成功留在詳情</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_5">帶入資料</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>帶入資訊</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簽到／補簽</td>
+<td>當地日期；補簽另含一般銀幣成本</td>
+</tr>
+<tr>
+<td>領節點</td>
+<td>節點識別、達成與已領狀態、對應卡片配置</td>
+</tr>
+<tr>
+<td>活動詳情／報名</td>
+<td>活動識別、資料狀態、內容與已報名狀態</td>
+</tr>
+<tr>
+<td>切榜／分類</td>
+<td>所選榜別或活動分類</td>
+</tr>
+<tr>
+<td>取消子層</td>
+<td>無提交資料，不扣費</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_6">操作流程</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>玩家操作</th>
+<th>完成結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>當日簽到</td>
+<td>每日任務 → 今日簽到／今日日期格</td>
+<td>日期已簽、累積加一，留任務頁；達到節點後仍需手動領取</td>
+</tr>
+<tr>
+<td>補簽</td>
+<td>選漏簽日 → 檢查 100 銀幣費用 → 確認</td>
+<td>扣銀幣、補進度、關子層；取消不扣；不足保留錯誤與確認層</td>
+</tr>
+<tr>
+<td>領里程碑</td>
+<td>點已達未領節點</td>
+<td>卡片節點新增未啟用卡；無額度節點只標記完成</td>
+</tr>
+<tr>
+<td>使用獎勵</td>
+<td>領卡後從底部獎勵卡前往查看</td>
+<td>不自動跳頁；啟用及遊戲使用接第 07、05 章</td>
+</tr>
+<tr>
+<td>報名活動</td>
+<td>活動分類 → 卡片詳情 → 立即參與</td>
+<td>改已報名並提示，留詳情；關閉返回列表仍已報名</td>
+</tr>
+<tr>
+<td>查看榜單</td>
+<td>排行榜 → 倍數／贏分／富豪</td>
+<td>換同一排行介面的展示內容，不改資產</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-09"></a></p>
+<h2 id="9">9. 頁面狀態</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>頁面狀態</th>
+<th>目前呈現／待定範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>載入中</td>
+<td>原型沒有統一遠端任務／活動載入畫面。</td>
+</tr>
+<tr>
+<td>查無資料</td>
+<td>原型固定活動與榜單；空資料介面未定義，見 Q-10-001。</td>
+</tr>
+<tr>
+<td>載入失敗</td>
+<td>尚未接入遠端失敗呈現，見 Q-10-001。</td>
+</tr>
+<tr>
+<td>局部失敗</td>
+<td>任務可用但活動／榜單失敗的呈現待定，見 Q-10-001。</td>
+</tr>
+<tr>
+<td>無權限</td>
+<td>未另定義整頁拒絕存取；活動狀態或節點資格不等於身份權限。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-10"></a></p>
+<h2 id="10-user-story">10. User Story — 玩家</h2>
+<p>每則引用同一套已記錄規則。需要特殊身份、期限或失敗資料時，另備測試情境；故事完成不等於驗收通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-001 由底部每日任務、活動及卡片空頁分別進入再關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動視窗關閉。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由底部每日任務、活動及卡片空頁分別進入再關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 預設頁籤正確；主關閉回大廳，已完成進度保留。</td>
+</tr>
+<tr>
+<td>依據：AC-10-001；完整旅程：US-05、US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-002 由按鈕或今日日期格簽到，再檢查已簽及未來日期</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 今日未簽。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由按鈕或今日日期格簽到，再檢查已簽及未來日期。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 日期已簽、累積加一，不直接發獎；已簽與未來日期不能再操作。</td>
+</tr>
+<tr>
+<td>依據：AC-10-002；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-003 補簽先取消，再確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 本月有漏簽日且一般銀幣至少 100。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 補簽先取消，再確認。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消不變；確認扣 100 銀幣並加一日，不新增金融紀錄或額外日獎。</td>
+</tr>
+<tr>
+<td>依據：AC-10-003；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-004 確認補簽</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 本月有漏簽日且一般銀幣 99。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 確認補簽。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 顯示不足，日期／餘額不變且子層保留，可取消。</td>
+</tr>
+<tr>
+<td>依據：AC-10-004；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-005 逐項查看並嘗試領取</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 具有未達、可領、已領及無額度節點。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 逐項查看並嘗試領取。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 資格控制正確；卡片節點入卡不入一般錢包，其他節點不發卡。</td>
+</tr>
+<tr>
+<td>依據：AC-10-005；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-006 切換三種分類並開詳情再關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 各活動分類有示範資料。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切換三種分類並開詳情再關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 進行中含即將結束；標題、獎勵、期間一致；子層關閉／背景返回分類。</td>
+</tr>
+<tr>
+<td>依據：AC-10-006；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-007 立即參與，再重開詳情</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動進行中且尚未報名。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 立即參與，再重開詳情。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 留詳情顯示已報名，列表同步且按鈕停用；不扣費／發獎／跳遊戲。</td>
+</tr>
+<tr>
+<td>依據：AC-10-007；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-U-10-008 查看詳情與參與狀態</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為玩家，我要了解這次操作的結果。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動為即將開始或已結束。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 查看詳情與參與狀態。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 參與停用；已結束名單僅展示，不因查看產生獎勵。</td>
+</tr>
+<tr>
+<td>依據：AC-10-008；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-11"></a></p>
+<h2 id="11-user-story">11. User Story — 開發人員</h2>
+<p>每則引用同一套已記錄規則。需要特殊身份、期限或失敗資料時，另備測試情境；故事完成不等於驗收通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-001 由底部每日任務、活動及卡片空頁分別進入再關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動視窗關閉。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由底部每日任務、活動及卡片空頁分別進入再關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 預設頁籤正確；主關閉回大廳，已完成進度保留。</td>
+</tr>
+<tr>
+<td>依據：AC-10-001；完整旅程：US-05、US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-002 由按鈕或今日日期格簽到，再檢查已簽及未來日期</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 今日未簽。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由按鈕或今日日期格簽到，再檢查已簽及未來日期。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 日期已簽、累積加一，不直接發獎；已簽與未來日期不能再操作。</td>
+</tr>
+<tr>
+<td>依據：AC-10-002；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-003 補簽先取消，再確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 本月有漏簽日且一般銀幣至少 100。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 補簽先取消，再確認。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消不變；確認扣 100 銀幣並加一日，不新增金融紀錄或額外日獎。</td>
+</tr>
+<tr>
+<td>依據：AC-10-003；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-004 確認補簽</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 本月有漏簽日且一般銀幣 99。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 確認補簽。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 顯示不足，日期／餘額不變且子層保留，可取消。</td>
+</tr>
+<tr>
+<td>依據：AC-10-004；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-005 逐項查看並嘗試領取</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 具有未達、可領、已領及無額度節點。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 逐項查看並嘗試領取。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 資格控制正確；卡片節點入卡不入一般錢包，其他節點不發卡。</td>
+</tr>
+<tr>
+<td>依據：AC-10-005；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-006 切換三種分類並開詳情再關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 各活動分類有示範資料。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切換三種分類並開詳情再關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 進行中含即將結束；標題、獎勵、期間一致；子層關閉／背景返回分類。</td>
+</tr>
+<tr>
+<td>依據：AC-10-006；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-007 立即參與，再重開詳情</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動進行中且尚未報名。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 立即參與，再重開詳情。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 留詳情顯示已報名，列表同步且按鈕停用；不扣費／發獎／跳遊戲。</td>
+</tr>
+<tr>
+<td>依據：AC-10-007；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-D-10-008 查看詳情與參與狀態</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為開發人員，我要維持此操作的條件、畫面與資料一致。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動為即將開始或已結束。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 查看詳情與參與狀態。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 參與停用；已結束名單僅展示，不因查看產生獎勵。</td>
+</tr>
+<tr>
+<td>依據：AC-10-008；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-12"></a></p>
+<h2 id="12-user-story-qa">12. User Story — QA 驗證者</h2>
+<p>每則引用同一套已記錄規則。需要特殊身份、期限或失敗資料時，另備測試情境；故事完成不等於驗收通過。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-001 由底部每日任務、活動及卡片空頁分別進入再關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動視窗關閉。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由底部每日任務、活動及卡片空頁分別進入再關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 預設頁籤正確；主關閉回大廳，已完成進度保留。</td>
+</tr>
+<tr>
+<td>依據：AC-10-001；完整旅程：US-05、US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-002 由按鈕或今日日期格簽到，再檢查已簽及未來日期</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 今日未簽。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 由按鈕或今日日期格簽到，再檢查已簽及未來日期。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 日期已簽、累積加一，不直接發獎；已簽與未來日期不能再操作。</td>
+</tr>
+<tr>
+<td>依據：AC-10-002；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-003 補簽先取消，再確認</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 本月有漏簽日且一般銀幣至少 100。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 補簽先取消，再確認。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 取消不變；確認扣 100 銀幣並加一日，不新增金融紀錄或額外日獎。</td>
+</tr>
+<tr>
+<td>依據：AC-10-003；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-004 確認補簽</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 本月有漏簽日且一般銀幣 99。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 確認補簽。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 顯示不足，日期／餘額不變且子層保留，可取消。</td>
+</tr>
+<tr>
+<td>依據：AC-10-004；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-005 逐項查看並嘗試領取</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 具有未達、可領、已領及無額度節點。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 逐項查看並嘗試領取。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 資格控制正確；卡片節點入卡不入一般錢包，其他節點不發卡。</td>
+</tr>
+<tr>
+<td>依據：AC-10-005；完整旅程：US-05。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-006 切換三種分類並開詳情再關閉</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 各活動分類有示範資料。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 切換三種分類並開詳情再關閉。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 進行中含即將結束；標題、獎勵、期間一致；子層關閉／背景返回分類。</td>
+</tr>
+<tr>
+<td>依據：AC-10-006；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-007 立即參與，再重開詳情</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動進行中且尚未報名。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 立即參與，再重開詳情。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 留詳情顯示已報名，列表同步且按鈕停用；不扣費／發獎／跳遊戲。</td>
+</tr>
+<tr>
+<td>依據：AC-10-007；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th><strong>US-Q-10-008 查看詳情與參與狀態</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>身為QA 驗證者，我要依具體前提核對結果與不可發生的變化。</td>
+</tr>
+<tr>
+<td><strong>GIVEN</strong> 活動為即將開始或已結束。</td>
+</tr>
+<tr>
+<td><strong>WHEN</strong> 查看詳情與參與狀態。</td>
+</tr>
+<tr>
+<td><strong>THEN</strong> 參與停用；已結束名單僅展示，不因查看產生獎勵。</td>
+</tr>
+<tr>
+<td>依據：AC-10-008；完整旅程：US-12。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-13"></a></p>
+<p><a id="legacy-10-8"></a></p>
+<h2 id="13">13. 驗收標準</h2>
+<p>保留原 AC 編號及結果。Given／When 補成可執行的條件與步驟；原型測試資料不是正式營運設定。<a href="../APP_FRONTEND_SPEC.html#ch-14">執行證據</a>仍標示未執行。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>主題</th>
+<th>驗收敘述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-10-001</td>
+<td>US-05、US-12</td>
+<td>Given：活動視窗關閉；When：由底部每日任務、活動及卡片空頁分別進入再關閉；Then：預設頁籤正確；主關閉回大廳，已完成進度保留。</td>
+</tr>
+<tr>
+<td>AC-10-002</td>
+<td>US-05</td>
+<td>Given：今日未簽；When：由按鈕或今日日期格簽到，再檢查已簽及未來日期；Then：日期已簽、累積加一，不直接發獎；已簽與未來日期不能再操作。</td>
+</tr>
+<tr>
+<td>AC-10-003</td>
+<td>US-05</td>
+<td>Given：本月有漏簽日且一般銀幣至少 100；When：補簽先取消，再確認；Then：取消不變；確認扣 100 銀幣並加一日，不新增金融紀錄或額外日獎。</td>
+</tr>
+<tr>
+<td>AC-10-004</td>
+<td>US-05</td>
+<td>Given：本月有漏簽日且一般銀幣 99；When：確認補簽；Then：顯示不足，日期／餘額不變且子層保留，可取消。</td>
+</tr>
+<tr>
+<td>AC-10-005</td>
+<td>US-05</td>
+<td>Given：具有未達、可領、已領及無額度節點；When：逐項查看並嘗試領取；Then：資格控制正確；卡片節點入卡不入一般錢包，其他節點不發卡。</td>
+</tr>
+<tr>
+<td>AC-10-006</td>
+<td>US-12</td>
+<td>Given：各活動分類有示範資料；When：切換三種分類並開詳情再關閉；Then：進行中含即將結束；標題、獎勵、期間一致；子層關閉／背景返回分類。</td>
+</tr>
+<tr>
+<td>AC-10-007</td>
+<td>US-12</td>
+<td>Given：活動進行中且尚未報名；When：立即參與，再重開詳情；Then：留詳情顯示已報名，列表同步且按鈕停用；不扣費／發獎／跳遊戲。</td>
+</tr>
+<tr>
+<td>AC-10-008</td>
+<td>US-12</td>
+<td>Given：活動為即將開始或已結束；When：查看詳情與參與狀態；Then：參與停用；已結束名單僅展示，不因查看產生獎勵。</td>
+</tr>
+<tr>
+<td>AC-10-009</td>
+<td>US-12</td>
+<td>Given：排行榜有三榜示範資料；When：切換三種榜單並停留觀察更新文字；Then：每榜前 10 名、前三台與 4～10 列表、單位正確；無玩家卡跳轉，計時不改成績。</td>
+</tr>
+<tr>
+<td>AC-10-010</td>
+<td>US-05、US-12</td>
+<td>Given：已簽到、領卡或報名；When：切頁、主關閉重開，再刷新；Then：前兩者保留共用狀態，刷新回示範值；日曆與累積進度不混算。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-14"></a></p>
+<p><a id="legacy-10-7"></a></p>
+<h2 id="14">14. 這個功能需要的資料</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>輸入</th>
+<th>輸出</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簽到／補簽</td>
+<td>日期、進度；補簽另含銀幣與成本</td>
+<td>更新日期、累積與扣款結果</td>
+<td>補簽不直接發獎，不新增金融紀錄</td>
+</tr>
+<tr>
+<td>節點領取</td>
+<td>節點與資格、卡片配置</td>
+<td>未啟用卡及已領狀態</td>
+<td>不占用其他節點；不直接入一般銀幣</td>
+</tr>
+<tr>
+<td>活動報名</td>
+<td>活動及狀態、已報名集合</td>
+<td>已報名結果</td>
+<td>不扣費、發獎或開遊戲</td>
+</tr>
+<tr>
+<td>排行</td>
+<td>榜別及展示資料</td>
+<td>前十名與相應單位</td>
+<td>靜態榜單，不承諾即時更新</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_7">跨介面影響與保存</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>內容</th>
+<th>取得／送出／更新</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任務</td>
+<td>當月日期、已簽集合、累積數、節點與已領集合；送出簽到日或補簽日</td>
+</tr>
+<tr>
+<td>補簽</td>
+<td>一般銀幣可用餘額、成本與扣款結果；成功須與日期和累積同步，目前不產生金融紀錄</td>
+</tr>
+<tr>
+<td>領獎</td>
+<td>節點資格與卡片配置；成功卡片、摘要活動額度與節點狀態同步</td>
+</tr>
+<tr>
+<td>活動</td>
+<td>活動識別、分類狀態、起訖、文案與獎勵、已報名狀態；原型不提供真實報名審核</td>
+</tr>
+<tr>
+<td>排行</td>
+<td>榜別、名次、玩家顯示名、成績及對應遊戲；靜態更新時間不代替真實資料更新時間</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-15"></a></p>
+<h2 id="15">15. 待確認事項</h2>
+<h3 id="_8">待產品決策</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-10-001</td>
+<td>活動／榜單空資料、失敗、局部失敗與必備欄位缺值如何呈現？</td>
+<td>第 5、9 節</td>
+<td>未決</td>
+</tr>
+<tr>
+<td>Q-10-002</td>
+<td>正式月份重置、跨午夜日曆及活動日期如何驅動狀態？</td>
+<td>任務週期與活動分類；不由種子日期推定</td>
+<td>未決</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_9">待外部輸入</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>編號</th>
+<th>問題</th>
+<th>影響／等待對象</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-10-003</td>
+<td>正式報名條件、排行榜來源與發獎、防重複服務如何提供？</td>
+<td>活動、遊戲及後端團隊</td>
+<td>待外部輸入</td>
+</tr>
+</tbody>
+</table></div>
+<p>以上承接既有原型限制，不更改已確認的資產用途或費率計算。共用時間與帳號隔離問題引用<a href="02-shared-rules.html#section-10">共用規則</a>。</p>
+<p><a id="section-16"></a></p>
+<h2 id="16">16. 版本沿革</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v0.7 來源</td>
+<td>2026-09-09</td>
+<td>原總規格第 10 章，完整歷史保留於總綱</td>
+</tr>
+<tr>
+<td>v0.11</td>
+<td>2026-09-09</td>
+<td>獨立成 17 節，保留原 AC 與規則，補三視角故事及缺口說明；待閱讀確認</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="section-17"></a></p>
+<h2 id="17">17. 交付檢查表</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>檢查面</th>
+<th>完成條件</th>
+<th>確認</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>來源</td>
+<td>原 1～7 小節全部內容有承接位置</td>
+<td>逐段核對</td>
+</tr>
+<tr>
+<td>驗收</td>
+<td>原 AC 編號與 Then 結果保留</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>17 節、三視角故事與跨檔連結有效</td>
+<td>文件檢查核對</td>
+</tr>
+<tr>
+<td>產品操作</td>
+<td>有瀏覽器或正式服務執行證據</td>
+<td>未執行</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可橫向捲動的規格表格"><table>
+<thead>
+<tr>
+<th>舊小節</th>
+<th>本文件位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="10-activities.html#legacy-10-1">10.1</a></td>
+<td>第 1 節</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-2">10.2</a></td>
+<td>第 8 節入口</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-3">10.3</a></td>
+<td>第 4 節</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-4">10.4</a></td>
+<td>第 5 節</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-5">10.5</a></td>
+<td>第 8 節流程</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-6">10.6</a></td>
+<td>第 6 節例外</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-7">10.7</a></td>
+<td>第 14 節</td>
+</tr>
+<tr>
+<td><a href="10-activities.html#legacy-10-8">10.8</a></td>
+<td>第 13 節</td>
+</tr>
+</tbody>
+</table></div><p class="foot">正文來源：<a href="10-activities.md">10-activities.md</a>。修改 Markdown 後，執行 python3 scripts/export_spec_html.py 重新產生閱讀版。</p></article></main>
+<script>const links=[...document.querySelectorAll('nav a')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){for(const link of links)link.classList.toggle('active',decodeURIComponent(link.hash.slice(1))===entry.target.id);}},{rootMargin:'0px 0px -65% 0px'});document.querySelectorAll('h2[id]').forEach(h=>observer.observe(h));</script></body></html>
